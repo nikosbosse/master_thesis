@@ -1,0 +1,54 @@
+# Know your enemy - tracking a pandemic
+
+There are different ways to track the progress of a pandemic. This chapter will look at several of them in detail and outline their strengths and weaknesses as well as strategies to measure different quantities or even convert between them. 
+
+## Estimating cases
+
+issues: 
+- reporting delays
+- weekday effect
+- testing / underreporting
+
+In theory it seems straightforward: just look at the number of infected cases and see how they develop over time. There are, however, quite a lot of complicating factors. 
+
+First, it is not immediately clear what a case is. Should we count only the people who have a confirmed PCR test? Should we also count those who are clinically confirmed cases, i.e. whose who very clearly present all the symptoms associated with Covid-19? What about probable cases, who could also have a different pneumonia? This was mostly an issue at a time when PCR tests were not readily available. E.g.: the large China spike in cases. -- do inconsistent case definitions still pose a problem? --
+
+Secondly, it is not clear, when a case appeared. Cases are not reported immediately, but are subject to different delays and weekday effects. Patients may not be able to see a docotr over the weekend or hospitals do not forward cases to the authorities until the next Monday. The easiest, of course, is to just stick with the day of report. For many practical purposes, however, we need to figure out the date of symptom onset or even the date of infection of a patient. Some countries publish very detailed linelists. These documents contain information about the estimated date of onset or date of infection of a particular person. Oftentimes, however epidemiologists can do very little except estimate delay distributions
+
+Case definitions: 
+- reported cases
+- onset cases
+- cases on the date of infection
+
+
+## Estimating deaths
+pro: 
+- less fluctuation
+- you get almost all cases that die
+
+con: 
+- long delay
+- dying from / with covid --> what is a death? 
+
+
+## Transferring between different quantities
+from reported cases onset cases to infections to deaths 
+
+## Estimating $R$
+One simple metric to track the trajectory of an epidemic is the so called $R$ value. $R$ is the expected number of people that each infected person will infect themselves. If $R$ is consistently below one, then the number of cases will eventually decrease. If it is above one, the epidemic grows exponentially. If the $R$ value is tracked over time we denote it $R_t$. 
+
+Plot? 
+
+### Estimating $R_t$ 
+
+distortions: different parts of the epidemic, changes in reporting
+
+
+### Doubling and halving times
+
+### Estimating $R_t$ from cases
+
+
+
+
+

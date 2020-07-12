@@ -1,0 +1,19 @@
+# Ensembling
+
+The following chapter gives an introduction to the idea of model ensembling and 
+
+## Theoretical idea
+different models make different independent errors which can be avaraged away. 
+
+## Different ensembling strategies
+
+### Equally weighted ensembe
+#### mean = average
+#### mean = equal weights mixture
+The simplest way to do ensembling is to take equal weights
+
+
+### QRA ensembling
+
+
+### CRPS ensembling
