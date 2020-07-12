@@ -1,1 +1,23 @@
-# Test Intro
+# Introduction
+
+## Motivation
+
+To obtain accurate knowledge of the future has always been important for policy makers. The demand for predictions of the future trajectory of a disease has been supercharged with the rise of the novel coronavirus SARS-CoV-2. The virus that emerged in Wuhan in January 2020 has by now infected XXXXX and killed over XXXXX people in XXXXX different countries. 
+
+In order to get a feeling for the future trajectory of the epidemic, researchers have looked at different quantities like the number of cases, the number of deaths, the expected number of people each infected case is going to infect themselves ($R$) and the doubling or halving time of the number of cases. 
+
+## Outline
+
+This master thesis is going to 
+
+- give an overview of the different quantities one can look at
+- detail different strategies to measure them / pros and cons to know them
+- look at forecasting 
+    - what do we want to measure
+    - quantile vs. point vs. distributional forecasts
+- Look at scoring forecasts
+- Look at ensembling
+    - QRA
+    - Stacking
+- present the different models we used to forecast US deaths
+- present results for the different models and the ensemble
