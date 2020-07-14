@@ -17,14 +17,13 @@ Note that we could also in principle state our forecasts in a binary way. We cou
 
 
 ## What is a good forecast? - The forecasting paradigm
-We want our forecasts be as precises and as close to the true value, as possible. But it is not immediately clear how deviations should be taken into account. I.e. be very correct most of the time and very wrong sometimes? Or better to be a bit wrong most of the time? --> depends on the goal of the forecaster. Different metrics focus on different aspects. 
+Ideally, the predictive distribution is equal to the true data-generating distribution, i.e. 
+$$ P_t = F_t $$
+where $P_t$ is the the predictive distribution for a given quantity at time $t$ and $F_t$ is the true, unknown data-generating distribution. It is intuitive that we want our forecasts to be as precises and as close to the true value as possible. But it is not immediately clear how we should deal with deviations from that ideal. I.e. be very correct most of the time and very wrong sometimes? Or better to be a bit wrong most of the time? --> depends on the goal of the forecaster. Different metrics focus on different aspects. 
 
 The general forecastig paradmigm as formulated by Gneiting: We want to maximise sharpness of the predictive distribution subject to calibration. EXPLANATION SHARPNESS AND CALIBRATION. 
 
-Ideally, the predictive distribution == data generating distribution. 
-
 ## Assessing forecasts
-
 In order to be able to improve our forecasts, we need to be able to assess them. There are a few ways to approach assessing forecasts. We can either look assess calibration and sharpness independently in different ways, or make use of proper scoring rules that allow us to represent the quality of a forecast in one numeric value. The following chapter will first detail some approaches that help get a sense of calibration and forecasts. Afterwards, different proper scoring rules will be introduced and discussed. 
 
 
@@ -36,69 +35,111 @@ Calibration is a property that broadly captures consistency between the predicti
 For continuous forecasts, bias can be measured as
 $$B_t (P_t, x_t) = 1 - 2 \cdot (P_t (x_t))$$
 
-where $P_t$ is the empirical cumulative distribution function of the prediction for the true value $x_t$. Computationally, $P_t (x_t)$ is just calculated as the fraction of predictive samples for $x_t$ that are smaller than $x_t$. 
+where $P_t$ is the cumulative distribution function of the predictive distribution for the true value $x_t$. When using predictive samples, $P_t (x_t)$ is simply the fraction of predictive samples for $x_t$ that are smaller than the true observed $x_t$. 
 
 For integer valued forecasts, Bias can be measured as
 
 $$B_t (P_t, x_t) = 1 - (P_t (x_t) + P_t (x_t + 1))$$
 
-to adjust for the integer nature of the forecasts. In both cases, Bias can assume values between -1 and 1 and is 0 ideally.
+to adjust for the integer nature of the forecasts. EXPLANATION. In both cases, Bias can assume values between -1 and 1 and is 0 ideally.
 
 CITATION Seb, CITATION DERIVATION
 
+For quantile forecasts, we need to take a slightly different approach. The simplest idea would be to simply take the proportion of true values above or below the median. However, we can also construct a more elaborate quantile version of bias, namely
+_
+$$ {q | q \in Q_t \land q < x_t}$$
 
+$$ B_t = 2 \cdot (1 - \max \{i | q_{t,i} \in Q_t \land q_{t,i} \leq x_t)\} \mathbb{1}( x_t \leq q_{t, 0.5}) \\
++ 2 \cdot (1 - \min \{i | q_{t,i} \in Q_t \land q_{t,i} \geq x_t)\} \mathbb{1}( x_t \geq q_{t, 0.5}) $$ and 
 
-#### Assessing calibration
+where $Q_t$ is the set of quantiles that form the predictive distribution at time $t$. They represent our belief about what the true value $x_t$ will be (at the time we made the forecast). For consistency, we define $Q_t$ such that it always includes the element $q_{t, 0} = - \infty$ and $q_{t,1} = \infty$. $\mathbb{1}()$ is the indicator function that is $1$ if the condition is satisfied and $0$ otherwise. In clearer terms, $B_t$ is defined as the maximum percentile rank for which the corresponding quantile is still below the true value, if the true value is smaller than the median of the predictive distribution. If the true value is above the median of the predictive distribution, then $B_t$ is the minimum percentile rank for which the corresponding quantile is still larger than the true value. If the true value is exactly the median, both terms cancel out and $B_t$ is zero. A nice property of this metric is that it coincides with the bias metric for continuous forecasts in the limit for increasing number of quantiles. For a large enough number of quantiles, the percentile rank will of course coincide with the proportion of predictive samples below the observed true value. 
+
+#### Metrics for calibration
 
 THINKING: Is there a better way than PIT? 
 
-#### Calibration for integer forecasts
+##### Continuous forecasts
 
-#### Calibration for quantile forecasts
+As explained above, for a model with perfect calibration the CDF of predictice distribution $P_t$ will be identical to the CDF of the true data-generating distribution $G_t$ that generated the observed value $x_t$. To assess whether that is the case, one can inspect the probability integral transform of the predictive distribution at time $t$,
 
+$$u_t = P_t (x_t)$$
+If $F_t = G_t$ at all times $t$, then $u_t, t = 1 \dots T$ will be uniformly distributed. PROOF? One can then plot a histogram of $u_t$ values to look for deviations from uniformity. More formally, an Anderson-Darling test for uniformity can be used to test whether there is evidence against uniformity of the PIT. The results have to be treated with caution though. The test cannot prove uniformity, but only assess whether there is evidence against it. It is also quite sensitive to the number of $u_t$ samples available. 
+As a rule of thumb, there is no evidence to suggest a forecasting model is miscalibrated if the p-value found was greater than a threshold of $p \geq 0.1$, some evidence that it was miscalibrated if $0.01 < p < 0.1$, and good evidence that it was miscalibrated if $p \leq 0.01$. 
+
+CALIBRATION not SUFFICIENT. 
+
+##### Integer forecasts
+
+In the case of discrete outcomes such as incidence counts, the PIT is no longer uniform even when forecasts are ideal. In that case a randomised PIT can be used instead:
+
+$$u_t = P_t(k_t) + v \cdot (P_t(k_t) - P_t(k_t - 1) )$$ 
+where $k_t$ is the observed count, $P_t(x)$ is the predictive cumulative probability of observing incidence $k$ at time $t$,
+$P_t (-1) = 0$ by definition and $v$ is standard uniform and independent of $k$. If $P_t$ is the true cumulative
+probability distribution, then $u_t$ is standard uniform.
+
+
+##### Quantile forecasts
+
+For quantile forecasts, we again need to take a different approach to assess calibration. An intuitive way is to measure the proportion of true observed values that fall into a a certain interval range of the predictive distribution. If the 0.05, 0.25, 0.75, and 0.95 quantiles are given, then 50% of the true values should fall between the 0.25 and 0.75 quantiles and 90% should fall between the 0.05 and 0.95 quantiles. We can then inspect which of the quantiles are maybe too wide or too narrow. 
 
 
 ### Assessing sharpness
 
+Sharpness is a quality of the forecasts only and does not depend on the true data. For this reason, it is important to maximise sharpness subject to calibration. 
+
+#### Sharpness for continuous and integer forecasts
+
+For continuous and integer foracasts, we can measure the ability to produce narrow forecasts as 
+
+
+of predictive samples corresponding to one single true value is measured as the normalised median of the absolute deviation from the median of the predictive samples. 
+
+#### Sharpness for quantile forecasts
+
+For quantile forecasts, a sensible measure for sharpness is a weighted sum of the width of the interval ranges. Let $Q_t$ be a set of predicted quantiles $\{q_\alpha \}$ for a true $x_t$ at time $t$. This set of quantiles is assumed to be symmetric, such that there always exist corresponding elements $q_{t, \alpha}$ and $q_{t, 1-\alpha}$. Sharpness of a quantile forecast at time $t$ can then be measured as
+
+$$\text{sharpness}_t = \sum_{\alpha | \alpha \leq 0.5} \frac{\alpha}{2} (q_{t, \alpha} - q_{t, 1 - \alpha}) $$. 
+
+We only need to sum over all percentile ranks smaller than 0.5 as the set of quantiles is assumed to be symmetric. 
+
+
+### Proper scoring rules
+
+Instead of assessing calibration and sharpness independently, we can also look at so called proper scoring rules. CITATION. These make sure that the forecaster will always try to make predictions that are as close to the true data-generating distribution as possible. In the following, four proper scoring rules will be presented an discussed. 
+
+#### (Continuous) ranked probability score 
+
+The continuous ranked probability score is defined as XXX
+
+#### Dawid-Sebastiani score
+
+#### Log score
+
+#### Interval score
+
+The Interval Score is a proper scoring rule to score quantile predictions, following Gneiting and Raftery (2007). Smaller values are better. For a given pair of predictive quantiles $q_{\alpha}, q_{1-\alpha}$, where $q_{\alpha}$ is the lower bound of the interval ranger and $q_{1-\alpha}$ is the upper bound, the interval score is given as 
+
+$$ \text{interval score}{_\alpha} = (q_{1-\alpha}  - q_{\alpha}) + \\
+\frac{2}{\alpha} \cdot (q_{\alpha} - \text{true_value}) \cdot \mathbb{1}(\text{true_value} < q_{\alpha}) + \\
+\frac{2}{\alpha} \cdot (\text{true_value} - q_{1-\alpha}) \cdot
+1(\text{true_value} > q_{1-\alpha})$$
+
+where $1()$ is again the indicator function. For quantile forecast consisting of a set of quantiles $Q_t$, the quantile score can be obtained as a sum for the score for the individual quantile pairs. Optionally, the sum can be weighted by $\frac{\alpha}{2}$: 
+
+$$\text{interval score} = \sum_{\alpha | \alpha \leq 0.5} \frac{\alpha}{2} \cdot \text{interval score}_{\alpha} \\
+= \sum_{\alpha | \alpha \leq 0.5} \frac{\alpha}{2} \left[ (q_{1-\alpha}  - q_{\alpha}) + \frac{2}{\alpha} \cdot (q_{\alpha} - \text{true_value}) \cdot \mathbb{1}(\text{true_value} < q_{\alpha}) + \frac{2}{\alpha} \cdot (\text{true_value} - q_{1-\alpha}) \cdot 1(\text{true_value} > q_{1-\alpha}) \right]
+ $$
+In case of the weighted sum, the interval score converges towards the CRPS for an increasing number of quantiles.  CITATION and EXPLANATION. 
 
 ### Scoring point forecasts
-Numerous different metrics are available to help evaluate the quality of point forecasts. The package `metrics` lists XXX. Most important: Mean Squared Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE). 
 
---> bottom line: 
-
-### Assessing probabilistic forecasts
-Scoring probabilistic forecasts is more difficult, as the entire predictive distribution has to be taken into account. This can be achieved using so called proper scoring rules CITATION. 
-
-### CRPS
-
-### Log Score
-
-### DSS
-
-### Interval Score
-
-### Assessing Calibration
-
-Other metrics
-
-### Scoring quantile forecasts
-Interval Score
-
-## Interval Score
-The Interval Score is a Proper Scoring Rule to score quantile predictions,
-following Gneiting and Raftery (2007). Smaller values are better.
-
-The score is computed as
-
-
-$$ \text{score} = (\text{upper} - \text{lower}) + \\
-\frac{2}{\alpha} \cdot (\text{lower} - \text{true_value}) \cdot 1(\text{true_values} < \text{lower}) + \\
-\frac{2}{\alpha} \cdot (\text{true_value} - \text{upper}) \cdot
-1(\text{true_value} > \text{upper})$$
-
-where $1()$ is the indicator function and $\alpha$ is the decimal value that indicates how much is outside the prediction interval. No specific distribution is assumed. One can weigh the score by $\frac{\alpha}{2}$ such that 
-the Interval Score converges to the CRPS for increasing number of quantiles. CITATION. 
-
+All forecasts discussed in this thesis are probabilistic forecasts. Nevertheless, it may be interesting to look at some metrics for point forecasts as well (bad sentence). 
+Numerous different metrics are available to help evaluate the quality of point forecasts. The package `metrics` lists XXX. Most 
+important: Mean Squared Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE). 
 
 ## The scoringutils package
-In order to score the predictions made for the purpose of this thesis, a collection of metrics and proper scoring rules were bundled in an `R` package called `scoringutils`. CITATION. In the package included are the above described metrics as well as functionality to automatically score a set of predictions with the appropriate metrics.  
+In order to score the predictions made for the purpose of this thesis and future projects, the above described metrics and proper scoring rules were bundled in an `R` package called `scoringutils`. CITATION. The stable version of the package is available on CRAN, the development version can be found on github.com/epiforecasts/scoringutils. 
+
+All metrics can be accessed independently using a low level framework with vectors and matrices. Alternatively, users can decide to have forecasts automatically scored. They simply pass in a data.frame in the correct format and specify columns over which to group and/or summarise. Internally, this is implemented with data.table to allow for an efficient handling of large data.frames. The package is extensively documented, has example data and a vignette CITATION that walks the user through all relevant steps. PLOTS? 
+
+
