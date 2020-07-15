@@ -1,3 +1,16 @@
+
+Introduction
+	Motivation
+	Explanation of the process --> work on branching process --> estimating Rt --> doing forecasts
+	Explanation of my contribution
+	list of publications
+
+
+Theory: epidemiology, estimating different quantities like Rt, deaths, cases, forecasting and scoring, ensembling
+
+Application: EpiSoon --> Rt website, Covid US forecasts
+
+
 Epidemiological Explanations What is Covid-19 What is Rt
 Overview over different ways to model this mechanistic models time series models in between:
 our approach via Rt –> cases

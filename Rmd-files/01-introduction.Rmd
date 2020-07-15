@@ -8,6 +8,8 @@ In order to get a feeling for the future trajectory of the epidemic, researchers
 
 The goal and motivation of this thesis is to help improve statistical forecasting and to apply these improvements in order to make better forecasts about Covid-19. It aims to improve forecasting in two specific ways: The first is to improve model evaluation by building a consistent evaluation framework based on new and existing work. The second one is to improve ensembling by establishing a somewhat novel ensembling approach and comparing it to other ensembling approaches. The third goal of the thesis is to show the practical application of these tools for weekly forecasts of Deaths in the United States. 
 
+MAYBE ALSO: HIGHLIGHT THE PERFORMANCE OF DIFFERNT MODELS
+
 ## Scope of this work, background, and personal contribution
 
 This thesis is in part built on work that comes out of a research collaboration with Funk group at the London School of Hygiene and Tropical Medicine that started in January 2020. The original goal back then was to improve forecasting for Ebola cases in Kongo. Past research had attempted to use $R_t$, the average number of people each infected person at time $t$ will infect themselves, to improve case forecasts. At that time I had worked on an implementation of Bayesian Structural Time Series models (BSTS) in Stan CITATION. In late January priorities quickly changed with the emergence of Covid-19. 
@@ -42,4 +44,4 @@ This master thesis is going to
 - present results for the different models and the ensemble
 
 
-## publications
+
