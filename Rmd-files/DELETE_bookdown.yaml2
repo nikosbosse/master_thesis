@@ -1,6 +1,6 @@
-book_filename: "master_thesis"
+book_filename: "thesis"
 repo: https://github.com/nikosbosse/master_thesis/
 chapter_name: "Chapter "
-download: [["master_thesis.pdf", "PDF"]]
+download: [["thesis.pdf", "PDF"]]
 delete_merged_file: true
 output_dir: "../docs"

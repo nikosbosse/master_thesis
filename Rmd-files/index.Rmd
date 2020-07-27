@@ -3,14 +3,18 @@ title: "A Minimal Book Example"
 author: "Nikos Bosse"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
+output: bookdown::pdf_book
 documentclass: book
 bibliography: [bib/masterthesis.bib, bib/packages.bib]
 biblio-style: apalike
+header-includes:
+  - \usepackage{amssymb}
 link-citations: yes
 github-repo: nikosbosse/master_thesis
 description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
 ---
+
+
 
 # Prerequisites
 
