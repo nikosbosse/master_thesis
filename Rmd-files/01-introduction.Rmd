@@ -1,27 +1,25 @@
-# Overview
+# Introduction
 
-To obtain accurate knowledge of the future has always been important for policy makers. The demand for predictions of the future trajectory of a disease has been supercharged with the rise of the novel coronavirus SARS-CoV-2. The virus that emerged in Wuhan in January 2020 has by now infected XXXXX and killed over XXXXX people in XXXXX different countries. 
-
-In order to get a feeling for the future trajectory of the epidemic, researchers have looked at different quantities like the number of cases, the number of deaths, the expected number of people each infected case is going to infect themselves ($R$) and the doubling or halving time of the number of cases. 
+Policy makers have always relied on some kind of forecast of what the future will be like. Accurate knowledge of the future is immensely valuable in all sorts of areas from farming to economics to public health. Forecasting has again gathered a lot of attention with the rise of the novel coronavirus SARS-CoV-2. As the virus spread throughout the world, more and more research globes around the world have started forecasting the trajectory of the epidemic. Several countries like the United States, the United Kingdom and Germany have started aggregating forecasts from different teams [CITATIONS]. Two questions have been at the centre of these efforts. The first is "how can we best evaluate the predictive performance of a model?" The second is "how can we combine and aggregate the different models to get the best possible prediction?". These two questions will be the focus of this thesis as well. 
 
 ## Aim and motivation
 
-The goal and motivation of this thesis is to help improve statistical forecasting and to apply these improvements in order to make better forecasts about Covid-19. It aims to improve forecasting in two specific ways: The first is to improve model evaluation by building a consistent evaluation framework based on new and existing work. The second one is to improve ensembling by establishing a somewhat novel ensembling approach and comparing it to other ensembling approaches. The third goal of the thesis is to show the practical application of these tools for weekly forecasts of Deaths in the United States. 
-
-MAYBE ALSO: HIGHLIGHT THE PERFORMANCE OF DIFFERNT MODELS
+The goal and motivation of this thesis is therefore twofold: It's first aim is to present the application of a consistent evaluation framework to weekly death forecasts submitted to the Reich Forecast Hub from XXX to XXX. It's second aim is to use this evaluation framework to evaluate and compare different ensemble techniques. 
 
 ## Scope of this work, background, and personal contribution
 
-This thesis is in part built on work that comes out of a research collaboration with Funk group at the London School of Hygiene and Tropical Medicine that started in January 2020. The original goal back then was to improve forecasting for Ebola cases in Kongo. Past research had attempted to use $R_t$, the average number of people each infected person at time $t$ will infect themselves, to improve case forecasts. At that time I had worked on an implementation of Bayesian Structural Time Series models (BSTS) in Stan CITATION. In late January priorities quickly changed with the emergence of Covid-19. 
+This thesis is in part built on work that comes out of a research collaboration with the Funk group at the London School of Hygiene and Tropical Medicine that started in January 2020. The original goal back then was to improve forecasting for Ebola cases in Kongo. Past research had attempted to use $R_t$, the average number of people each infected person at time $t$ will infect themselves, to improve case forecasts. At that time I had worked on an implementation of Bayesian Structural Time Series models (BSTS) in Stan CITATION. In late January priorities quickly changed with the emergence of Covid-19. 
 
 In February, I contributed to a branching process model CITATION that the group worked on to simulate potential trajectories the epidemic could take given different levels of contact tracing and asymptomatic spreaders. This work is largely unrelated to this master thesis. 
 
-In March, the focus on the working group shifted towards estimating $R_t$ and making these estimates available online. My priority then was again $R_t$ based forecasting - now for Covid-19 cases. Much of that work is now merged into an R package called `EpiSoon`. In order to be able to evaluate the forecasts I started working on an R package called `scoringuitls` that bundles together different metrics to evaluate forecasts. Most of the metrics in the package are not new. Most of them are published in the literature CITATION and were used in previous work on Ebola CITATION. Some of them were already implemented in other R packages, namely the `scoringRules` package. My main contribution was to collect these rules, document and bundle them in an easy-to-use package and build them into a consistent evaluation framework. A substantial part of building and coding up this consistent evaluation framework has happened as part of this thesis in May, June and July. 
+In March, the focus on the working group shifted towards estimating $R_t$ and making these estimates available online. My priority then was again $R_t$ based forecasting - now for Covid-19 cases. Much of that work is now merged into an R package called `EpiSoon`. In order to be able to evaluate the forecasts I started working on an R package called `scoringuitls` that bundles together different metrics to evaluate forecasts. Most of the metrics in the literature have previously been published CITATION and were used e.g. in previous work on Ebola CITATION. Some of them were already implemented in other R packages, namely the `scoringRules` package. My main contribution was to collect these rules, document and bundle them in an easy-to-use package and build them into a consistent evaluation framework. A substantial part of building and coding up this consistent evaluation framework has happened as part of this thesis in May, June and July. 
 
-In late April I began officially working on this master thesis. The three objectives of this thesis are: 
-- improve and build upon existing work to create a consistent framework for model evaluation
-- improve forecasting by means of ensembling
-- applying the evaluation and the ensembling to a real world setting. 
+In late April I began officially working on this master thesis. My work largely focused on 
+
+The three objectives of this thesis are: 
+- analyse and build upon existing work to create a consistent framework for model evaluation
+- analyse different ensembling methods
+--> both applied to forecast hub data. 
 
 To tackle the second objective I started development of a package called `stackr` in late April. This package uses the Continuous Ranked Probability Score (CRPS), a proper scoring rule to create an ensemble that minimises discrepancy between the predictive distribution and the true observed data. This package was developed in collaboration with Yuling Yao at Columbia University in New York. Most of the methodological contributions to model are his. I revised the Stan code and built the framework and the R package around it. 
 
@@ -32,17 +30,11 @@ In June, the working group started contributing to the Reich Lab Forecast Hub CI
 
 This master thesis is going to 
 
-- give an epidemiological overview over the current Covid-19 pandemic. Overview of different quantities? 
-
 - give a theoretical introduction into different types of forecasts and how to evaluate them
 
 - give an overview of different ways to form a model ensemble
 
 - give an introduction to the US Forecast Hub were model are submited and to the forecasting approach of the epiforecasts group
-    - present the different models we used to forecast US deaths
-
-- present results for the different models and the ensemble
-
 
 ## Code
 
