@@ -1,0 +1,6 @@
+model,weights,forecast_date,num_last
+COVIDhub-baseline,1.20192030508965e-05,2020-07-20,2
+COVIDhub-ensemble,0.000118153399999176,2020-07-20,2
+UMass-MechBayes,0.780089644625995,2020-07-20,2
+YYG-ParamSearch,0.219737916783245,2020-07-20,2
+epiforecasts-ensemble1,4.22659877094556e-05,2020-07-20,2
