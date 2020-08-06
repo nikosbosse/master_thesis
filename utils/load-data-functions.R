@@ -19,8 +19,13 @@ get_us_deaths <- function(data = "daily", anomaly_threshold = 100,
     }
 
     if(data == "cumulative"){
-      cumulative_adj <- readRDS(here::here("data", "processed-data", "deaths-data-cumulative.rds"))
+      cumulative_adj <- readRDS(here::here("data", "processed-data",
+                                           "deaths-data-cumulative.rds"))
       return(cumulative_adj)
+    }
+    if(data == "weekly"){
+      weekly <- readRDS(here::here("data", "processed-data", "deaths-data-weekly.rds"))
+      return(weekly)
     }
   }
 
@@ -112,44 +117,28 @@ get_us_deaths <- function(data = "daily", anomaly_threshold = 100,
     return(cumulative_adj)
   }
 
-}
-
-
-# Cases data --------------------------------------------------------------
-
-get_us_cases <- function(data = "daily"){
-
-  # Get & reshape data
-  case_cumulative <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv",
-                              check.names = FALSE) %>%
-    dplyr::select(Province_State, dplyr::matches("^\\d")) %>%
-    tidyr::pivot_longer(cols = -Province_State, names_to = "date", values_to = "cases") %>%
-    dplyr::mutate(date = lubridate::mdy(date)) %>%
-    dplyr::group_by(Province_State, date) %>%
-    dplyr::summarise(cases = sum(cases), .groups = "drop_last") %>%
-    dplyr::rename(state = Province_State) %>%
-    dplyr::mutate(epiweek = lubridate::epiweek(date)) %>%
-    dplyr::arrange(date) %>%
-    dplyr::filter(!state %in% c("Diamond Princess", "Grand Princess"))
-
-  if(data == "cumulative"){
-    saveRDS(case_cumulative, here::here("data", "case-data-cumulative.rds"))
-    return(case_cumulative)
-  }
-
-  if(data == "daily"){
-    case_daily <- case_cumulative %>%
-      # De-cumulate to daily
-      dplyr::group_by(state) %>%
-      dplyr::mutate(cases = c(0, diff(cases)),
-                    cases = replace(cases, cases < 0 , 0)) %>%
+  if (data == "weekly") {
+    # load deaths
+    weekly <- daily %>%
+      dplyr::group_by(epiweek, state) %>%
+      dplyr::summarise(deaths = sum(deaths),
+                       target_end_date = max(date),
+                       .groups = "drop_last") %>%
       dplyr::ungroup()
-    # Save daily cases in all states
-    # saveRDS(case_daily, here::here("data", "case-data-daily.rds"))
 
-    return(case_daily)
+    weekly <- dplyr::bind_rows(weekly,
+                               weekly %>%
+                                 dplyr::group_by(epiweek) %>%
+                                 dplyr::summarise(state = "US",
+                                                  deaths = sum(deaths),
+                                                  target_end_date = unique(target_end_date),
+                                                  .groups = "drop_last"))
+    # saveRDS(weekly, here::here("data", "processed-data", "deaths-data-weekly.rds"))
+    return(weekly)
   }
+
 }
+
 
 load_submission_files <- function(dates = c("latest", "all"),
                                   num_last = NULL,
@@ -226,55 +215,78 @@ load_submission_files <- function(dates = c("latest", "all"),
                        rbind(c("US", "US")),
                      by = c("location" = "state_code")) %>%
     # unclear bug where there seems to be a numerical error somewhere
-    dplyr::mutate(quantile = round(quantile, 3))
+    dplyr::mutate(quantile = round(quantile, 3)) %>%
+    dplyr::mutate(horizon = as.numeric(stringi::stri_extract_first_regex(target,
+                                                                         "[0-9]+")))
 
   return(forecasts)
 }
 
 
-combine_with_deaths <- function(forecasts) {
+combine_with_deaths <- function(forecasts,
+                                inner_join = TRUE) {
 
-  # load deaths
-  deaths <- get_us_deaths(data = "daily") %>%
-    dplyr::group_by(epiweek, state) %>%
-    dplyr::summarise(deaths = sum(deaths), .groups = "drop_last")
+  deaths <- get_us_deaths(data = "weekly")
+
+  forecasts <- dplyr::mutate(forecasts,
+                             epiweek = lubridate::epiweek(target_end_date))
 
   # join deaths with past forecasts and reformat
-  combined <- forecasts %>%
-    dplyr::mutate(epiweek = lubridate::epiweek(target_end_date)) %>%
-    dplyr::inner_join(deaths, by = c("state", "epiweek"))
+  if (inner_join) {
+    combined <- dplyr::inner_join(forecasts,
+                                  deaths, by = c("state", "epiweek", "target_end_date"))
+
+  } else {
+    combined <- dplyr::left_join(forecasts,
+                                 deaths, by = c("state", "epiweek", "target_end_date"))
+
+  }
 
   return(combined)
 }
 
 
 filter_forecasts <- function(forecasts, dates = NULL,
-                             locations = "auto", horizons = NULL) {
+                             locations = "auto",
+                             horizons = NULL,
+                             target_end_dates = NULL) {
   forecasts <- forecasts %>%
     dplyr::filter(type == "quantile",
                   grepl("inc", target),
                   grepl("death", target)) %>%
-    dplyr::select(-type)
+    dplyr::select(-type) %>%
+    dplyr::mutate(target_end_date = as.Date(target_end_date))
 
 
- if(!is.null(horizons)) {
+  if(!is.null(horizons)) {
 
-   if (horizons[1] == "auto") {
-     forecasts <- forecasts %>%
-       dplyr::mutate(horizon = as.numeric(stringi::stri_extract_first_regex(target,
-                                                                            "[0-9]+"))) %>%
-       dplyr::group_by(model) %>%
-       dplyr::mutate(max_horizon = max(horizon)) %>%
-       dplyr::ungroup() %>%
-       dplyr::filter(horizon <= min(max_horizon)) %>%
-       dplyr::select(-horizon, -max_horizon)
-   } else {
-     forecasts <- forecasts %>%
-       dplyr::mutate(horizon = as.numeric(stringi::stri_extract_first_regex(target,
-                                                                            "[0-9]+"))) %>%
-       dplyr::filter(horizon %in% horizons) %>%
-       dplyr::select(-horizon)
-   }
+    if (horizons[1] == "auto") {
+      forecasts <- forecasts %>%
+        dplyr::group_by(model) %>%
+        dplyr::mutate(max_horizon = max(horizon)) %>%
+        dplyr::ungroup() %>%
+        dplyr::filter(horizon <= min(max_horizon)) %>%
+        dplyr::select(-max_horizon)
+    } else {
+      forecasts <- forecasts %>%
+        dplyr::filter(horizon %in% horizons)
+    }
+  }
+
+  if (!is.null(target_end_dates)) {
+    if (target_end_dates[1] == "auto") {
+      forecasts <- forecasts %>%
+        dplyr::group_by(model) %>%
+        dplyr::mutate(max_date = max(target_end_date),
+                      min_date = min(target_end_date)) %>%
+        dplyr::ungroup() %>%
+        dplyr::filter(target_end_date <= min(max_date),
+                      target_end_date >= max(min_date)) %>%
+        dplyr::select(-max_date, -min_date)
+    } else {
+      forecasts <- forecasts %>%
+        dplyr::filter(target_end_date %in% target_end_dates)
+    }
   }
 
   if (!is.null(locations)) {
