@@ -1,0 +1,78 @@
+# The COVID-19 Forecast Hub
+
+The COVID-19 Forecast Hub [@HomeCOVID19] (https://covid19forecasthub.org/) is a collaboration between he U.S. Centers for Disease Control and Prevention (CDC), academic research groups lead by the Professor Nicholas Reich at the University of Massachussets Amherst, and different industry partners. Starting on April 13, the consortium elicited weekly forecasts for all US states and territories and the US as a whole from research teams around the world. Forecasts were submitted every Monday in a probabilistic format. The predictive distribution was represented by the median and eleven prediction intervals ranging from a 10% prediction interval to a 98% prediction interval (i.e. the following 23 quantiles were recorded: `c(0.01, 0.025, seq(0.05, 0.95, by = 0.05), 0.975, 0.99)`). Forecasts were made for one to (at least) four week ahead horizons of targets like daily or weekly deaths and case numbers. 
+
+Out of these targets, this thesis will focus only on weekly death incidences. The forecasts analysed here were made between XXX and XXXX. Some states were excluded in order to obtain a full set of complete forecasts. The ground truth data is provided by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University [@dongInteractiveWebbasedDashboard2020]. 
+
+- Figure with US data and selection of states
+- table with states included and models included? 
+
+<!-- ![plot of US data](../evaluation/plots/overall-national.png) -->
+
+``` {r eval = FALSE}
+
+knitr::include_graphics("../evaluation/plots/overall-national.png")
+```
+
+## Overview of the forecasting models
+
+X models are included in this analysis. X of them come from independent research teams. These models are joined by a baseline model and an ensemble model provided by the Forecast Hub team. All models were again aggregated using different ensemble techniques for the purpose of this analysis. In the following, an overview over the different models submitted is given. The information is taken from the descriptions provided by the research teams on github (https://github.com/reichlab/covid19-forecast-hub/tree/master/data-processed) as of 07.08.2020. Descriptions are updated whenever the model changes. This overview may therefore not accurately reflect the model components over the entire history of past submissions included in the analysis. 
+
+## COVIDhub-baseline
+
+The baseline model basically assumes that incidences will be the same as in the past and models the uncertainty around this estimate according to the distribution of past changes in incidences. More precisely, forecasts for incidences are generated in the following way: The timeseries of all past incidences is taken and first differences are formed. These first differences, as well as the negative of these incidences are then used further along. From this vector of past changes, samples are drawn to get a predictive distribution of future changes. A predictive distribution for future incidences is then obtained by adding these samples to the last observed incidence. The predictive distribution is then shifted to enforce that the mean of the distribution equals the last observed value. Incidences below zero are truncated, and quantiles are obtained from the samples. 
+## COVIDhub-ensemble
+
+The COVID-19 ensemble model is formed by taking the arithmetic mean of respective quantiles from all elegible models. Models are deemed eligible if they pass some general sense checks (e.g. cumulative forecasts must in general not decrease over time). The number of models inclueded varies from state to state as not all teams submit forecasts for all locations. 
+
+## epiforecasts-ensemble1
+
+The epiforecasts ensemble is the model submitted by our working group at the London School of Hygiene and Tropical Medicine. It consists of three submodels that were aggregated using an equally weighted quantile average. The three submodels are two timeseries models and an $R_t$-based prediction model. The two timeseries models were generated using the forecastHybrid package in R. The package automatically selects an Autoregressive Integrated Moving Average (ARMIMA) model or a State Space model with appropriate error, trend and seasonality (ETS model). One of the timeseries models includes current cases as a lagged predictor, while the other is based on deaths only. The third model was generated using our own R packages EpiSoon and EpiNow. EpiSoon takes in reported cases to estimate the trajectory of $R_t$, the average number of people infected by each infected person. This trajectory is then forecasted into the future using forecastHybrid and transformed back to incidences. These three models are fit independently to each location. 
+MAYBE MORE DETAILS AS IT'S OUR MODEL
+
+## IHME-CurveFit
+
+IHME seems to be using an SEIR model for their model predictions. The metadate provided for the Forecast Hub reads: 'This model makes predictions about the future that are dependent on
+  the assumption  that current interventions continue. The modeling approach in this
+  study is divided into four components:  (i) identification and processing of COVID-19
+  data;  (ii) statistical model estimation for population death rates as a function
+  of time  since the death rate exceeds a threshold in a location;  (iii) predicting
+  time to exceed a given population death threshold in states early in the pandemic;
+  and  (iv) modeling health service utilization as a function of deaths." CurveFit
+  package available at: https://github.com/ihmeuw-msca/CurveFit' CurveFit is a package that fits curves using nonlinear mixed effects. However, the github page for CurveFit points to two different github repos with code for SEIR models and their website (https://ihmeuw-msca.github.io/CurveFit/) confirms this. 
+  
+  
+## UMass-MechBayes
+
+https://github.com/dsheldon/covid
+
+UMass-MechBayes is a Bayesian model build from a classical SEIR compartmental model. All parameters have prior distributions and time-varying dynamics as well as noise from observations are modeled explicitly. In addition, it includes two compartments 'dead' and 'hospitalised and will die'. The model is fit independently to each state. 
+
+
+## YYG-ParamSearch
+
+n SEIR model that makes daily infections and deaths projections for US states.
+  A machine learning layer learns the best parameters/inputs for each state.
+  The model accounts for state reopenings.
+
+https://covid19-projections.com
+https://github.com/youyanggu/covid19_projections
+
+'We''ve built a SEIR model with learned parameters to make daily
+  projections regarding COVID-19 infections and deaths in all 50 US states and
+  70+ countries. The model also accounts for individual state-by-state reopenings
+  and the resulting effects on infections and deaths. The parameters/inputs
+  of this simulator are learned using hyperparameter optimization that minimizes
+  the error between the projected outputs (projected daily deaths) and the actual
+  results (reported daily deaths). Because the infections curve is unique for every
+  region, we let the model use each region''s own data to learn the best set of parameters
+  for that region. This includes parameters such as: mortality rate, initial R_0,
+  post-lockdown R, and the inflection date of any lockdowns. Other variables such
+  as the latency period, infectious period, and virus shedding period are fixed based
+  on published literature. After some additional validation techniques to minimize
+  overfitting, we use the learned parameters to simulate the future and make
+  projections. See website for full description, methods, and results.'
+
+
+
+
