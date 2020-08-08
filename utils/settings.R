@@ -63,6 +63,9 @@ n_samples <- 1000
 
 num_last <- 2
 
+locations_to_plot <-c("US", "New York", "California",
+                      "Texas", "Virginia", "Florida")
+
 settings <- list(submission_dates = submission_dates,
                  locations = locations,
                  forecast_date = forecast_date,
@@ -71,4 +74,5 @@ settings <- list(submission_dates = submission_dates,
                  model_names_eval = model_names_eval,
                  n_samples = n_samples,
                  num_last = num_last,
-                 horizons = horizons)
+                 horizons = horizons,
+                 locations_to_plot = locations_to_plot)

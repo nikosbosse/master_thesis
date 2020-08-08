@@ -1,13 +1,19 @@
 # An epidemiological overview of Covid-19
 
-The emergence of Covid-19 has left policy-makers scrambling for accurate information about the current state of affairs and likely developments in the future. But tracking a pandemic is not easy and it is also not immediately clear what aspects to look at. Should we track the number of reported cases, should we look at deaths or should we analsyse $R_t$, the average number of people each person infected at time $t$ will infect in the future? This chapter is going to give an overview of the information these quantities provide and discuss issues surrounding their estimation. These epidemiological aspects are not strictly relevant for the discussion of forecast evaluation and ensembling in chapter X and Y, but they were an important part of my work at LSHTM and form an important background for understanding the model choices in chapter XXX
+The emergence of Covid-19 had policy-makers searching for accurate information about the current state of affairs and likely developments in the future. But tracking a pandemic is not easy and it is also not immediately clear what aspects to look at. Should we track the number of reported cases, should we look at deaths or should we analsyse $R_t$, the average number of people each person infected at time $t$ will infect in the future? 
+
+This chapter is going to give an overview of the information these quantities provide and discuss issues surrounding their estimation. These epidemiological aspects are not strictly relevant for the discussion of forecast evaluation and ensembling in chapter X and Y, but they were an important part of my work at LSHTM and form an important background for understanding the model choices in chapter XXX
 
 
+## Overview of epidemiological prediction targets
+
+Many different quantities may be of interest depending on the specific decisions to be made. These include e.g. current and future incidences or cumulative numbers of cases and deaths, the number of people who need a ventilator or treatment in an intensive care unit (ICU), or indicators about the likely trajectory of the epidemic. 
+
+Metrics that directly capture the trajectory of the epidemic include the effective reproduction number and the doubling or halving time. The effective reproduction number, $R_t$ is the expected number of people that each infected person at time $t$ will infect themselves. In contrast to the basic reproduction number, $R_0$, the effective reproduction number varies over time, e.g. with changes in behaviour or different interventions implemented. The doubling or halving time is the time expected until the number of cases doubles or halves, depending on the state of the epidemic. These quantities can be a useful basis for policy decision, e.g. about lockdowns, but they are hard to estimate. Also, there exists no ground truth against which different models could be compared. 
+
+The obvious prediction target is the number of infected cases. 
 
 
-
-
-There are different ways to track the progress of a pandemic. This chapter will look at several of them in detail and outline their strengths and weaknesses as well as strategies to measure different quantities or even convert between them. 
 
 ## Estimating cases
 
