@@ -22,29 +22,7 @@ forecasts <- filter_forecasts(forecasts,
                               horizons = "auto",
                               target_end_dates = "auto")
 
-combined <- combine_with_deaths(forecasts)
-
-# reformat for scoring
-combined <- combined %>%
-  dplyr::rename(true_values = deaths,
-                predictions = value) %>%
-  dplyr::mutate(boundary = ifelse(quantile <= 0.5, "lower", "upper"),
-                range = abs(1 - 2 * quantile) * 100)
-
-full <- dplyr::bind_rows(combined,
-                         combined %>%
-                           dplyr::filter(quantile == 0.5) %>%
-                           dplyr::mutate(boundary = "upper")) %>%
-  # weird unexplicable rounding error?
-  dplyr::mutate(range = round(range, digits = 0),
-                horizon = as.numeric(substring(target, 1, 2))) %>%
-  dplyr::select(-target, -quantile, -location) %>%
-  unique() %>%
-  # filter away duplicate forecasts if there are any (if there aren't, this has no effect)
-  dplyr::group_by(forecast_date, model, state, epiweek, boundary, range, horizon) %>%
-  dplyr::slice(1) %>%
-  dplyr::ungroup()
-
+full <- prepare_for_scoring(forecasts)
 
 # ============================================================================ #
 # evaluate forecasts and plot

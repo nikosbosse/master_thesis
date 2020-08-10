@@ -1,6 +1,6 @@
 plot_forecasts = function(states = "US",
                           facet_formula = model ~ state,
-                          state_min_cutoff = NA,
+                          models = settings$model_names,
                           obs_weeks = 12,
                           horizons = 1,
                           exclude_new_epiweek = TRUE,
@@ -13,7 +13,7 @@ plot_forecasts = function(states = "US",
 
   # Get forecasts -----------------------------------------------------------
   forecasts <- load_submission_files(dates = "all",
-                                     models = settings$model_names)
+                                     models = models)
 
   forecasts <- filter_forecasts(forecasts,
                                 locations = NULL,
@@ -65,8 +65,6 @@ plot_forecasts = function(states = "US",
 
   return(plot)
 }
-
-plot_forecasts(horizons = 1)
 
 
 
