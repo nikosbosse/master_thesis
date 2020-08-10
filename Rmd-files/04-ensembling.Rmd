@@ -1,20 +1,90 @@
-# Ensembling
+# Model aggregation
 
-The following chapter gives an introduction to the idea of model ensembling and presents several approaches to ensemble models. 
+The following chapter gives an introduction to the idea behind the formation of model ensembles and presents several approaches to aggregate models to ensembles.  
 
 ## Theoretical idea
 
-Usually, a single forecasting model is not able to capture the nuances and full complexity of the true data-generating process. Forecasting models usually get some things right and others wrong. The important thing to note is that different forecasting models usually get different things wrong. Let us consider $K$ different models that make predictions $\hat{y}_1, \dots, \hat{y}_k, \dots \hat{y}_K$ for an unknown true value $y$. In a very simplified manner, we can assume that these all models make a random error, $\epsilon_k$ such that predictions can be expressed as $\hat{y}_k = y + \epsilon_k$. We can minimise the prediction error by taking the average prediction made by different models, instead of a single model. If prediction errors are independent and have expactation zero, then $\hat{y}_{\text{ensemble}} = \frac{1}{K} \sum_{k = 1}^{K} \hat{y}_k = \frac{1}{K} \sum_{k = 1}^{K} (y + \epsilon_k)$ will converge to the true value $y$ for an increasing number of models. This is the idea behind a simple mean ensemble that has proven very effective. [CITATIONS]
+Usually, a single forecasting model is not able to capture the nuances and full complexity of the true data-generating process. Forecasting models usually get some things right and others wrong. The important thing to note is that different forecasting models usually get different things wrong. Let us consider $K$ different models that make predictions $\hat{y}_1, \dots, \hat{y}_k, \dots \hat{y}_K$ for an unknown true value $y$. In a very simplified manner, we can assume that these all models make a random error, $\epsilon_k$ such that predictions can be expressed as $\hat{y}_k = y + \epsilon_k$. We can minimise the prediction error by taking the average prediction made by different models, instead of a single model. If prediction errors are independent and have expectation zero, then $\hat{y}_{\text{ensemble}} = \frac{1}{K} \sum_{k = 1}^{K} \hat{y}_k = \frac{1}{K} \sum_{k = 1}^{K} (y + \epsilon_k)$ will converge to the true value $y$ for an increasing number of models. This is the idea behind the simple mean ensemble that has proven very effective. [CITATIONS]
 
-In practice, prediction errors of different models are seldom completely independent, but are instead often correlated. In practice, this reduces the effectiveness of ensembling. Note also that ensembling also only makes sense if we believe our models to be correct, i.e. if we expect $\mathbb{E}(\epsilon_k) = 0$. It can therefore make sense to give less weight to models that have performed poorly in the past and more weight towards those that performed well. This is the idea behind weighted ensembles. 
+In practice, prediction errors of different models are seldom completely independent, but are instead often correlated. This may reduce the effectiveness of ensembling. As stated above, model aggregation only makes sense if we believe our models to be correct, i.e. if we expect $\mathbb{E}(\epsilon_k) = 0$. We may therefore want to exclude models we believe are incorrect from the ensemble. We could, for example, give less weight to models that have performed poorly in the past and more weight towards those that performed well. This is the idea behind weighted ensembles. 
 
-The last two paragraphs implicitly assumed that we create the ensembling by taking a weighted average of the model predictions. While this is one option, it is not the only one. As we are dealing with probabilistic forecasts and predictive distributions, we can also work with a mixture distribution instead of an average distribution. In principle, the average is more appropriate if we believe that all models predict the same thing and we are looking for the optimal candidat. The mixture may be more appropriate if we believe that our models reflect different possible scenarios and are somewhat uncertain, which of these scenarios will occur. 
+The last two paragraphs implicitly assumed that models are aggregated by taking a weighted average of the model predictions. While this is one option, it is not the only one. As we are dealing with probabilistic forecasts and predictive distributions, we can also work with a mixture distribution instead of an average distribution CONVOLUTION?. In principle, the average is more appropriate if we believe that all models predict the same thing and we are looking for the optimal candidate. The mixture may be more appropriate if we believe that our models reflect different possible scenarios and are uncertain, which of these scenarios will occur. 
 
 PLOT DIFFERERENCE MIXTURE AND AVERAGE
 
-In the following, two different ensembling strategies beyond the mean ensemble will be presented. The Quantile Regression Average is an ensemble strategy suited for quantile forecasts that determines optimal weights for a weighted average. The CRPS ensemble is based on predictive samples and determines optimal weights for a mixture distribution generated by bootstrapping from the individual ensemble members. 
+In the following, two different ensemble formation strategies will be presented. The Quantile Regression Average is an ensemble strategy suited for quantile forecasts that determines optimal weights for a weighted average. The CRPS ensemble is based on predictive samples and determines optimal weights for a mixture distribution generated by bootstrapping from the individual ensemble members. 
 
 ## QRA ensembling
 
+Several approaches have been proposed to aggregate quantile forecasts. Among these are: 
+QRA, FQRA, our approach. 
+
+Consider a forecast made for observation $i, i = 1, \dots, n$ by one model $k, k = 1, \dots, K$ at different quantile levels $\tau_t, t=1,\dots, T$. The corresponding quantile prediction for observation i from model k at quantile level t is denoted $q_ikt$. 
+
+The ensemble prediction at quantile level $t$, $q_{i, \text{ensemble},t}$ is then a weighted average of the predictions of the individual models: 
+
+$$q_{i,\text{ensemble}, t} = \sum_k^K = \alpha_k \cdot q_{ikt}$$, 
+where $\alpha_k$ is the weight given to model $k$. The weights are constrained to be non-negative and to sum up to one. To get an optimal ensemble, we are looking for the combination of weights that, across all quantile levels, produce an ensemble which minimises the weighted interval score over past observations. The optimisation problem can be denoted as follows: 
+
+CORRECT INDICES
+
+$$\mathop{\text{arg min}}_{\alpha_j, j=1,\dots,p} \sum_{k=1}^r \sum_{i=1}^n \psi_{\tau_k} \bigg(y_i - \sum_{j=1}^p \alpha_j q_{ijk} \bigg) $$
+where $\psi_\tau_k$ denotes the weighted interval score at quantile level $\tau_k$. 
+
+This optimisation problem can be extended in a number of ways. E.g. one can estimate different weights for different quantile levels or one can incorporate additional constraints, e.g. that quantiles not cross. All this functionality is conveniently bundled in the quantgen package CITATION. 
+
 
 ## CRPS ensembling
+
+While the QRA uses the weighted interval score as a loss function, we can also use the CRPS as a basis for an ensemble formation approach. The major advantage of using CRPS and predictive samples is that we can create a mixture distribution instead of a simple average. 
+
+STACKING VS CONVERGING TO THE OPTIMAL MODEL
+
+This CRPS ensembling approach is implemented in the R package `stackr` that was developed in collaboration with Yuling Yao from the Columbia University in New York. The following method overview is based on a document written up by Yuling Yao and edited by me that can be found in the `stackr` vignette. HOW TO CITE THIS? 
+
+Given a cumulative distribution function (CDF) with a finite first moment of a probabilistic forecast, the corresponding Continuous Ranked Probability Score can be written as
+$$crps(F,y)=\mathbb{E}_X|X-y|- \frac{1}{2}\mathbb{E}_{X,X^\prime}|X-X^\prime|.\tag{1}$$
+The CRPS can be used to stack different models to obtain one ensemble mixture model. Let us 
+assume we have data from $T$ time points $t = 1, \dots, T$ in $R$ regions $1, \dots, R$. 
+Observations are denoted $y_{tr}$. Predictive samples are generated from $K$ different
+models $k, \dots, K$. For every observation $y_{tr}$ the $S$ predictive samples 
+are denoted $x_{1ktr}, \dots, x_{Sktr}$. 
+
+Using these predictive draws, we can compute the CRPS of the $k$-th model for the 
+observation $y_{tr}$ at time $t$ in region $r$ as
+
+$$ \widehat {crps}_{ktr}= \widehat {crps}_(x_{1ktr}, \dots, x_{Sktr},y_{tr})= \frac{1}{S} \sum_{s=1}^S  |x_{sktr}-y_{tr}| -
+\frac{1}{2S^2} \sum_{s, j=1}^S |x_{sktr}- x_{jktr}|. \tag{2}$$
+
+## CRPS for a mixture of all models and one single observation 
+Now we want to aggregate predictions from these $K$ models. When the prediction is a mixture of the $K$
+models with weights $w_1, \dots, w_s$, the CRPS can be expressed as
+
+$$ \widehat {crps}_{agg, tr} (w_1, \dots, w_K) = \frac{1}{S} \sum_{k=1}^K w_k  \sum_{s=1}^S |x_{skt}-y_t| -
+\frac{1}{2S^2}  (\sum_{k=1}^K   \sum_{k, k'=1 }^K w_k w_{k'}   \sum_{s, j=1}^S |x_{skt}- x_{jk't}| ). \tag{3}$$
+
+This expression is quadratic in $w$. We only need to compute  $\sum_{s=1}^S |x_{skt}-y_{tr}|$, $\sum_{s, j=1}^S |x_{sktr}- x_{jktr}|$, and 
+$\sum_{s, j=1}^S |x_{sktr}- x_{jk'tr}|$ for all $k, k'$ pairs once and store them for all weight values in the optimization. 
+
+
+## Obtaining the weights that minimize CRPS
+The CRPS for the mixture of all models for all observations can simply obtained by 
+summing up the individual results from equation 3 over all regions and time points. 
+However, we can also weight predictions from different time points and regions differently. 
+This makes sense for example if we have very little data in the beginning or if
+current older observations are less characteristic of the current and future 
+dynamics. In this case we might want to downweight the early phase in the final 
+model evaluation. Similarly, we might want to give more or less weight to 
+certain regions. Mathematically we can introduce a time-varying weight 
+$\lambda_1, \dots, \lambda_T$, e.g. $\lambda_t = 2-(1-t/T)^2$ to
+penalize earler estimates. Likewise  we can introduce a region-specific 
+weight $\tau_r$. 
+
+To obtain the CRPS weights we finally solve a quadratic optimization:
+
+\begin{align*}
+ &\min_{w_1, \dots, w_K} \sum_{t=1}^T  \sum_{r=1}^R\lambda_t\tau_r  \widehat {crps}_{agg, tr} (w), \\
+  &s.t. ~{0\leq w_1, \dots, w_K \leq 1, \sum_{k=1}^K w_k=1}. 
+\end{align*}
+
+
