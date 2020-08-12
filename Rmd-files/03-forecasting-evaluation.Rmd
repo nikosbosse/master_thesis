@@ -1,23 +1,24 @@
-# Forecasting and evaluation
+# Forecasting and evaluation {#evaluation}
 
-This chapter will lay out a detailed evaluation framework we can use to evaluate the forecasts submitted to the COVID-19 Forecast Hub. It will, however, go beyond describing an evaluation framework for quantile forecasts, but instead approach this topic from a broader angle and include all kinds of probabilistic forecasts. The chapter will first give a brief overview of different types of forecasts that can be made. This will serve as a theoretical background for the remainder of this chapter. Then, it will introduce the forecasting paradigm as formulated by Gneiting et al. [@gneiting_probabilistic_2007]. Lastly, it will discuss a variety of evaluation scores and metrics in detail. 
+This chapter will lay out a detailed evaluation framework we can use to evaluate the forecasts submitted to the COVID-19 Forecast Hub. It will, however, go beyond describing an evaluation framework for quantile forecasts, but instead approach this topic from a broader angle and include all kinds of probabilistic forecasts. The chapter will first give a brief overview of different types of forecasts that can be made. This will serve as a theoretical background for the remainder of this chapter. Then, it will introduce the forecasting paradigm as formulated by Gneiting et al. [@gneitingCalibratedProbabilisticForecasting2005; @gneitingProbabilisticForecastsCalibration2007] Lastly, it will discuss a variety of evaluation scores and metrics in detail. 
 
 ## Types of forecasts
 
 A forecast is the forecaster’s stated belief about the future. This belief can be stated in a variety of ways with differing degrees of complexity. The simplest way to state our belief about the future is a point forecast, for example “the number of deaths from Covid-19 cases in the US December 2020 will be 20 000”. This is, in essence, an estimate of the mean of the unknown true data-generating distribution of deaths from Covid-19 in the US in December 2020. We could go one step further and also try and quantify our uncertainty by stating a variance or standard deviation. This could be understood as a point forecast for the variance of the distribution - or it could be understood as a first step towards a probabilistic forecast.
 
-Ideally, predictions should be stated in terms of predictive distributions. This allows us to state our beliefs about all aspects of the underlying data-generating distribution (including e.g. skewness or the width of its tails) and helps us to accurately quantify our uncertainty. We could for example make a forecast stating that “the number of cases in December 2020 follows a discretised normal distribution with a mean of 25 000 and a variance of 2,000”. Such a forecast is called a probabilistic forecast. XXXThe remainder of this paper will deal with evaluating probabilistic forecastsXXX. The predictive distribution will often be represented by a set of predictive samples from that distribution. This is especially handy as we can use algorithms like Markov Chain Monte Carlo (MCMC) algorithms to generate predictions if no analytical expression of the predictive distribution is available. The downside is that predictive samples take a lot of storage space. They also come with a loss of precision that is especially pronounced in the tails of the predictive distribution, where we need quite a lot of samples to characterise the distribution accurately. 
+Ideally, predictions should be stated in terms of predictive distributions. This allows us to state our beliefs about all aspects of the underlying data-generating distribution (including e.g. skewness or the width of its tails) and helps us to accurately quantify our uncertainty. We could for example make a forecast stating that “the number of cases in December 2020 follows a discretised normal distribution with a mean of 25 000 and a variance of 2,000”. Such a forecast is called a probabilistic forecast. This thesis focuses mainly on probabilistic forecasts. The predictive distribution can be expressed analytically, but intead it will often be represented by a set of predictive samples from that distribution. This is especially handy as we can use algorithms like Markov Chain Monte Carlo (MCMC) algorithms to generate predictions if no analytical expression of the predictive distribution is available. The downside is that predictive samples take a lot of storage space. They also come with a loss of precision that is especially pronounced in the tails of the predictive distribution, where we need quite a lot of samples to characterise the distribution accurately. 
 
 To circumvent these problems, often quantiles of the predictive distribution are stored instead. Quantile forecasts can easily be obtained from explicit distributional forecasts as well as from predictive samples. 
 
-Note that we could also in principle state our forecasts in a binary way. We could for example ask: "Will the number of Covid-19 related deaths in December 2020 exceed 25 000?" and give a probability that this will happen. This type of forecasting is common in many Machine Learning and classification problems. 
+Note that we could also in principle state our forecasts in a binary way. We could for example ask: "Will the number of Covid-19 related deaths in December 2020 exceed 25 000?" and give a probability that this will happen. This type of forecasting is common in many classification problems, but will not be the focus of this thesis. 
 
-All of these forecast types require slightly different approaches to evaluation. The following section will revisit the general forecasting paradigm proposed by Gneiting et al [@gneitingProbabilisticForecastsCalibration2007]. XXXThe remainder of this chapter will derive a consistent evaluation framework from it. XXX
+All of these forecast types require slightly different approaches to evaluation. The following section will introduce the general forecasting paradigm proposed by Gneiting et al., and the remainder of this chapter will derive a consistent evaluation framework based on it. 
 
 ## What is a good forecast? - The forecasting paradigm
-Ideally, the predictive distribution is equal to the true data-generating distribution, i.e.
+
+Ideally, the predictive distribution is equal to the true data-generating distribution [see @gneitingProbabilisticForecastsCalibration2007], i.e.
 $$ P_t = F_t $$
-where $P_t$ is the the predictive distribution for a given quantity at time $t$ and $F_t$ is the true, unknown data-generating distribution. In practice, the true data-generating distribution $F_t$ is unknown. Following  [@gneiting_probabilistic_2007] we can instead focus our efforts on two aspects of the predictive distribution *calibration* and *sharpness*. Calibration refers to the statistical consistency between the predictive distribution and the observation. There are different possible ways in which a model can be (mis-)calibrated, but for the remainder of this thesis it suffices to say that a well calibrated forecast does not systematically deviate from the observed values. Sharpness is a feature of the forecast only and describes how concentrated the predictive distribution is, i.e. how precise the forecasts are. The general forecasting paradigm formulated by [@gneiting_probabilistic_2007] states that we should *maximise sharpness of the predictive distribution subject to calibration*. To summarise these concepts in more familiar terms: we can think of calibration as "how correct is this forecast?" and of sharpness as "how useful is this forecast if it were true". Take, fore example, the task of predicting rain in a city like London. A model that predicted a rain probality of 20% for every single day could be called correct (to be precise, this model would be marginally calibrated (see Gneiting et al)). This model, however, would be much less useful than a model that would be able to accurately predict the weather every day. 
+where $P_t$ is the the predictive distribution for a given quantity at time $t$ and $F_t$ is the true, unknown data-generating distribution. In practice, the true data-generating distribution $F_t$ is unknown. Following Gneiting et al. we can instead focus our efforts on two aspects of the predictive distribution *calibration* and *sharpness*. Calibration refers to the statistical consistency between the predictive distribution and the observation. There are different possible ways in which a model can be (mis-)calibrated, but for the remainder of this thesis it suffices to say that a well calibrated forecast does not systematically deviate from the observed values. Sharpness is a feature of the forecast only and describes how concentrated the predictive distribution is, i.e. how precise the forecasts are. The general forecasting paradigm formulated by [@gneiting_probabilistic_2007] states that we should *maximise sharpness of the predictive distribution subject to calibration*. To summarise these concepts in more familiar terms: we can think of calibration as "how correct is this forecast?" and of sharpness as "how useful is this forecast if it were true". Take, fore example, the task of predicting rain in a city like London. A model that predicted a rain probality of 20% for every single day could be called correct (to be precise, this model would be marginally calibrated (see Gneiting et al)). This model, however, would be much less useful than a model that would be able to accurately predict the weather every day. 
 
 
 ## Assessing forecasts
@@ -45,16 +46,16 @@ to adjust for the integer nature of the forecasts. EXPLANATION. In both cases, B
 
 For quantile forecasts, we propose the following metric: 
 \begin{align*}
-  B_t &= 2 \cdot (1 - \max \{i | q_{t,i} \in Q_t \land q_{t,i} \leq x_t)\} \mathbb{1}( x_t \leq q_{t, 0.5}) \\
-  &+ 2 \cdot (1 - \min \{i | q_{t,i} \in Q_t \land q_{t,i} \geq x_t)\} \mathbb{1}( x_t \geq q_{t, 0.5})
+  B_t &= (1 - 2 \cdot \max \{i | q_{t,i} \in Q_t \land q_{t,i} \leq x_t\}) \mathbb{1}( x_t \leq q_{t, 0.5}) \\
+  &+ (1 - 2 \cdot \min \{i | q_{t,i} \in Q_t \land q_{t,i} \geq x_t\}) \mathbb{1}( x_t \geq q_{t, 0.5})
 \end{align*}
 
 
-$$B_t = 2 \cdot (1 - \max \{i | q_{t,i} \in Q_t \land q_{t,i} \leq x_t)\} \mathbb{1}( x_t \leq q_{t, 0.5}) \\
+$$B_t = (1 - 2 \cdot  \max \{i | q_{t,i} \in Q_t \land q_{t,i} \leq x_t)\} \mathbb{1}( x_t \leq q_{t, 0.5}) \\
   + 2 \cdot (1 - \min \{i | q_{t,i} \in Q_t \land q_{t,i} \geq x_t)\} \mathbb{1}( x_t \geq q_{t, 0.5})$$
   
 
-where $Q_t$ is the set of quantiles that form the predictive distribution at time $t$. They represent our belief about what the true value $x_t$ will be (at the time we made the forecast). For consistency, we define $Q_t$ such that it always includes the element $q_{t, 0} = - \infty$ and $q_{t,1} = \infty$. $\mathbb{1}()$ is the indicator function that is $1$ if the condition is satisfied and $0$ otherwise. In clearer terms, $B_t$ is defined as the maximum percentile rank for which the corresponding quantile is still below the true value, if the true value is smaller than the median of the predictive distribution. If the true value is above the median of the predictive distribution, then $B_t$ is the minimum percentile rank for which the corresponding quantile is still larger than the true value. If the true value is exactly the median, both terms cancel out and $B_t$ is zero. For a large enough number of quantiles, the percentile rank will equal the proportion of predictive samples below the observed true value, and this metric coincides with the one for continuous forecasts. Figure \ref{fig:example bias} exemplifies this by showing the bias for each 1 week ahead prediction made by the COVIDhub-baseline model. 
+where $Q_t$ is the set of quantiles that form the predictive distribution at time $t$. They represent our belief about what the true value $x_t$ will be (at the time we made the forecast). For consistency, we define $Q_t$ such that it always includes the element $q_{t, 0} = - \infty$ and $q_{t,1} = \infty$. $\mathbb{1}()$ is the indicator function that is $1$ if the condition is satisfied and $0$ otherwise. In clearer terms, $B_t$ is defined as the maximum percentile rank for which the corresponding quantile is still below the true value, if the true value is smaller than the median of the predictive distribution. If the true value is above the median of the predictive distribution, then $B_t$ is the minimum percentile rank for which the corresponding quantile is still larger than the true value. If the true value is exactly the median, both terms cancel out and $B_t$ is zero. For a large enough number of quantiles, the percentile rank will equal the proportion of predictive samples below the observed true value, and this metric coincides with the one for continuous forecasts. Figure \ref{fig:example bias} shows the the bias for each 1 week ahead prediction made by the COVIDhub-baseline model. 
 
 ![Example of Bias plot \label{fig:example bias}](../evaluation/plots/bias_example.png)
 Figure: bias across different horizons / states? 
@@ -70,7 +71,10 @@ $$u_t = P_t (x_t)$$
 
 If $F_t = G_t$ at all times $t$, then $u_t, t = 1 \dots T$ will be uniformly distributed. One can then plot a histogram of $u_t$ values to look for deviations from uniformity. Gneiting et al1 suggest a visual inspection of the PIT histogram. They explain that U-shaped histograms often correspond to predictions that are too narrow, while hump-shaped histograms indicate predictions are too wide. Biased predictions will often result in a triangle-shaped histogram. In addition, the scoringuitls package implements an Anderson-Darling test for uniformity of the PIT. The results have to be treated with caution. The test cannot prove uniformity, but only assess whether there is evidence against it. It is also quite sensitive to the number of $u_t$ samples available. As a rule of thumb, Funk et al.2 suggest there is no evidence to suggest a forecasting model is miscalibrated if the p-value found was greater than a threshold of $p \geq 0.1$, some evidence that it was miscalibrated if $0.01 < p < 0.1$, and good evidence that it was miscalibrated if $p \leq 0.01$. Note that uniformity of the PIT is a necessary, but not a sufficient condition [citation Hamill 2001 counter example]. 
 
-Figure \ref{example pit} shows the pit histogram for one week ahead predictions made by the COVIDhub-baseline model over different states. In order to obtain samples, a separate gamma distribution was first fit to every set of quantiles. Samples were then drawn from these distributions. 
+Figure \ref{fig:example_calibrations} shows example PIT histograms for different predictive distributions. 
+
+![example pit \ref{fig:example_calibrations}](../evaluation/plots/chapter-3-evaluation/calibration-examples.png)
+Figure \ref{example pit} shows the pit histogram for one week ahead predictions made by the COVIDhub-baseline model over different states. In order to obtain samples, a separate gamma distribution was first fit to every set of quantiles. Samples were then drawn from these distributions. We can clearly see that the forecaasts exhibit underdispersion, i.e. the confidence intervals are too narrow. 
 
 ![example pit \ref{example pit}](../evaluation/plots/chapter-3-evaluation/pit-baseline-model.png)
 
@@ -88,11 +92,10 @@ where $k_t$ is the observed value at time $t$ and $P_t(x)$ is the cumulative pre
 For quantile forecasts, we need to take a different approach to assess calibration. An intuitive way is to measure the proportion of true observed values that fall into  a certain interval range of the predictive distribution. If the 0.05, 0.25, 0.75, and 0.95 quantiles are given, then 50% of the true values should fall between the 0.25 and 0.75 quantiles and 90% should fall between the 0.05 and 0.95 quantiles. We can calculate and plot these values to inspect how well different quantiles of the forecast are calibrated. This is shown in Figure \ref{fig:interval_coverage}. To get a more precise picture, we can instead look at the percentage of true values below every single quantile, as shown in Figure \ref{fig:quantile_coverage}
 
 
-Figure 
 ![interval coverage](../evaluation/plots/chapter-3-evaluation/interval-coverage.png)
 ![interval coverage](../evaluation/plots/chapter-3-evaluation/quantile-coverage.png)
 
-
+![fig:coverage_time](../evaluation/plots/chapter-3-evaluation/coverage-time.png)
 
 ### Assessing sharpness
 
@@ -108,7 +111,9 @@ For quantile forecasts, a sensible measure for sharpness is a weighted sum of th
 
 $$\text{sharpness}_t = \sum_{\alpha | \alpha \leq 0.5} \frac{\alpha}{2} (q_{t, 1 - \alpha} - q_{t, \alpha}) $$.
 
-Note that we only need to sum over all percentile ranks smaller than 0.5 as the set of quantiles is assumed to be symmetric.
+Note that we only need to sum over all percentile ranks smaller than 0.5 as the set of quantiles is assumed to be symmetric. 
+
+
 
 
 
@@ -126,7 +131,7 @@ The Continuous Ranked Probability Score [citations] is defined as
 
 $$ \text{crps}(P_t, x) = \int_{-\infty}^\infty \left( P_t(y) - \mathbb(1)(y \geq x) \right)^2 dy $$.
 
-(For a sample based version, simply replace the integral by a sum and $P_t(y) by the proportion of smaller than or equal to $y$.) Smaller values of the CRPS are preferable. 
+For a sample based version, we can simply replace the integral by a sum and $P_t(y)$ by the proportion of smaller than or equal to $y$. Smaller values of the CRPS are preferable. 
 
 For integer counts, we can use the Ranked Probability Score (RPS), defined as 
 
@@ -135,17 +140,16 @@ $$ \text{rps}(P_t, x_t) = \sum_0^\infty (P_t(y) - \mathbb(1) (y \geq x_t))^2 $$
 
 Log Score
 
-Dawid-Sebastiani Score
+The Log score is a proper scoring rule widely used in a variety of applications CITATION due to its simplicity and conceptual clarity. SURPRISE BAYESIAN INFERENCE AND INFORMATION THEORY. 
 
-Interval Score
+. The log score is the log density of the predictive distribution at time $t$ evaluated at the true observed value, i.e. 
 
-
-
-
+$$ \text{log score}_t = \log p_t(y_t)$$
+where $p_t$ is the predictive density function at time $t$. This is illustrated in Figure \ref{fig:log_score}. In this formulation, larger values are better, but one can of course simply reverse the sign. 
 
 #### Interval score
 
-The Interval Score is a proper scoring rule to score quantile predictions, following Gneiting and Raftery (2007). Smaller values are better. For a given pair of predictive quantiles $q_{\alpha}, q_{1-\alpha}$, where $q_{\alpha}$ is the lower bound of the interval ranger and $q_{1-\alpha}$ is the upper bound, the interval score is given as 
+The Interval Score is a proper scoring rule to score quantile predictions, following Gneiting and Raftery (2007). Smaller values are better. For a given pair of predictive quantiles $q_{\frac{\alpha}{2}}, q_{1-\frac{\alpha}{2}}$, where $q_{\frac{\alpha}{2}}$ is the lower bound of the interval ranger and $q_{1-\frac{\alpha}{2}}$ is the upper bound, the interval score is given as 
 
 \begin{align*}
   \text{interval score}_{\alpha} &= (q_{1-\alpha}  - q_{\alpha}) + \\
@@ -155,6 +159,7 @@ The Interval Score is a proper scoring rule to score quantile predictions, follo
 
 where $1()$ is again the indicator function. For quantile forecast consisting of a set of quantiles $Q_t$, the quantile score can be obtained as a sum for the score for the individual quantile pairs. Optionally, the sum can be weighted by $\frac{\alpha}{2}$: 
 
+CORRECT THIS
 
 $$\text{interval score} = \sum_{\alpha | \alpha \leq 0.5} \frac{\alpha}{2} \cdot \text{interval score}_{\alpha} \\
 = \sum_{\alpha | \alpha \leq 0.5} \frac{\alpha}{2} \left[ (q_{1-\alpha}  - q_{\alpha}) + \frac{2}{\alpha} \cdot (q_{\alpha} - \text{true value}) \cdot \mathbb{1}(\text{true value} < q_{\alpha}) + \frac{2}{\alpha} \cdot (\text{true value} - q_{1-\alpha}) \cdot 1(\text{true value} > q_{1-\alpha}) \right]
@@ -163,11 +168,11 @@ $$\text{interval score} = \sum_{\alpha | \alpha \leq 0.5} \frac{\alpha}{2} \cdot
  
 In case of the weighted sum, the interval score converges towards the CRPS for an increasing number of quantiles.  CITATION and EXPLANATION. 
 
-### Scoring point forecasts
+<!-- ### Scoring point forecasts -->
 
-All forecasts discussed in this thesis are probabilistic forecasts. Nevertheless, it may be interesting to look at some metrics for point forecasts as well (bad sentence). 
-Numerous different metrics are available to help evaluate the quality of point forecasts. The package `metrics` lists XXX. Most 
-important: Mean Squared Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE). 
+<!-- All forecasts discussed in this thesis are probabilistic forecasts. Nevertheless, it may be interesting to look at some metrics for point forecasts as well (bad sentence).  -->
+<!-- Numerous different metrics are available to help evaluate the quality of point forecasts. The package `metrics` lists XXX. Most  -->
+<!-- important: Mean Squared Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE).  -->
 
 
 

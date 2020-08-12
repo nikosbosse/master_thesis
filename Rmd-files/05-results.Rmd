@@ -1,0 +1,18 @@
+# Results - evaluation and aggregation of Covid-19 death forecasts {#results}
+
+Plots: 
+- overall performance
+- performance in different states
+- performance over horizons
+
+
+
+
+Which states were easy to forecast? Which ones were hard to forecast? 
+
+Which model perform well and why?
+
+Which ensembling approaches perform well? 
+
+
+

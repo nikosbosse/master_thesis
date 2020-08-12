@@ -1,4 +1,4 @@
-# Model aggregation
+# Model aggregation {#model-aggregation}
 
 The following chapter gives an introduction to the idea behind the formation of model ensembles and presents several approaches to aggregate models to ensembles.  
 
@@ -29,7 +29,7 @@ where $\alpha_k$ is the weight given to model $k$. The weights are constrained t
 CORRECT INDICES
 
 $$\mathop{\text{arg min}}_{\alpha_j, j=1,\dots,p} \sum_{k=1}^r \sum_{i=1}^n \psi_{\tau_k} \bigg(y_i - \sum_{j=1}^p \alpha_j q_{ijk} \bigg) $$
-where $\psi_\tau_k$ denotes the weighted interval score at quantile level $\tau_k$. 
+where $\psi_{\tau_k}$ denotes the weighted interval score at quantile level $\tau_k$. 
 
 This optimisation problem can be extended in a number of ways. E.g. one can estimate different weights for different quantile levels or one can incorporate additional constraints, e.g. that quantiles not cross. All this functionality is conveniently bundled in the quantgen package CITATION. 
 

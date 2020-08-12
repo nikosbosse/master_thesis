@@ -338,5 +338,5 @@ prepare_for_scoring <- function(forecasts) {
     dplyr::slice(1) %>%
     dplyr::ungroup()
 
-  return(combined)
+  return(full)
 }

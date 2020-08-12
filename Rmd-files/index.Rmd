@@ -1,34 +1,50 @@
 --- 
-title: "A Minimal Book Example"
+title: "Evaluation and Aggregation of Covid-19 Death Forecasts in the United States"
 author: "Nikos Bosse"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-output: bookdown::pdf_book
+output: 
+  bookdown::pdf_book:
+    fig_caption: yes
 documentclass: book
 bibliography: [bib/masterthesis.bib, bib/packages.bib]
 biblio-style: apalike
+link-citations: yes
 header-includes:
   - \usepackage{amssymb}
-link-citations: yes
 github-repo: nikosbosse/master_thesis
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+description: "This thesis, titled 'Evaluation and Aggregation of Covid-19 death forecasts in the United States' was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020."
 ---
 
 
+``` {r}
 
-# Prerequisites
+library(EpiSoon)
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+```
 
-The **bookdown** package can be installed from CRAN or Github:
 
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
+Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
 
-To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.name/tinytex/>.
+```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
+par(mar = c(4, 4, .1, .1))
+plot(pressure, type = 'b', pch = 19)
+```
+
+Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+
+```{r nice-tab, tidy=FALSE}
+knitr::kable(
+  head(iris, 20), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+```
+
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'bib/packages.bib')
+knitr::write_bib(c(.packages(), 
+                   'bookdown', 'knitr', 'rmarkdown', 
+                   'EpiSoon', 'stackr', 'forecastHybrid'), 
+                 'packages.bib')
 ```
