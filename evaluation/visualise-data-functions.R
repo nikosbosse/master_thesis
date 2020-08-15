@@ -1,24 +1,29 @@
-plot_forecasts = function(states = "US",
+plot_forecasts <- function(forecasts = NULL,
+                          states = "US",
                           facet_formula = model ~ state,
                           models = settings$model_names,
                           obs_weeks = 12,
                           horizons = 1,
+                          ncol_facet = NULL,
                           exclude_new_epiweek = TRUE,
-                          observations_only = FALSE){
+                          observations_only = FALSE) {
 
   # Get observed data ------------------------------------------------------------------
 
   deaths <- get_us_deaths(data = "weekly") %>%
     dplyr::filter(epiweek < max(epiweek))
 
-  # Get forecasts -----------------------------------------------------------
-  forecasts <- load_submission_files(dates = "all",
-                                     models = models)
+  if (is.null(forecasts)) {
+    # Get forecasts -----------------------------------------------------------
+    forecasts <- load_submission_files(dates = "all",
+                                       models = models)
 
-  forecasts <- filter_forecasts(forecasts,
-                                locations = NULL,
-                                horizons = horizons,
-                                target_end_dates = "auto")
+    forecasts <- filter_forecasts(forecasts,
+                                  locations = NULL,
+                                  horizons = horizons,
+                                  target_end_dates = "auto")
+  }
+
 
   # Reshape forecasts and add observed data ------------------------------------
   # Filter to incidence forecasts and pivot forecasts for plotting
@@ -30,8 +35,13 @@ plot_forecasts = function(states = "US",
     tidyr::pivot_wider(names_from = quantile, values_from = value) %>%
     dplyr::ungroup()
 
+  if(is.null(states) | states == "all") {
+    states <- unique(deaths$state)
+  }
+
   plot_fc <- forecasts_wide %>%
-    dplyr::filter(state %in% states)
+    dplyr::filter(state %in% states,
+                  horizon %in% horizons)
 
   plot_deaths <- deaths %>%
     dplyr::filter(epiweek >= (max(epiweek) - obs_weeks)) %>%
@@ -39,7 +49,7 @@ plot_forecasts = function(states = "US",
       dplyr::filter(state %in% states)
 
 
-  manual_colours <- RColorBrewer::brewer.pal(5, name = "Set2")
+  manual_colours <- RColorBrewer::brewer.pal(8, name = "Set2")
 
   plot <- plot_fc %>%
     ggplot2::ggplot(ggplot2::aes(x = target_end_date, col = model, fill = model)) +
@@ -53,8 +63,9 @@ plot_forecasts = function(states = "US",
                        colour = "black") +
     ##
     ggplot2::scale_fill_manual(values = manual_colours) +
-    ggplot2::scale_color_manual(values = manual_colours) +
-    ggplot2::facet_wrap(facet_formula, scales = "free_y") +
+    ggplot2::scale_color_manual(values = manual_colours,) +
+    ggplot2::facet_wrap(facet_formula, scales = "free_y",
+                        ncol = ncol_facet) +
     ggplot2::expand_limits(y = 0) +
     ggplot2::labs(x = "Week", y = "Weekly incident deaths",
                   caption = NULL,

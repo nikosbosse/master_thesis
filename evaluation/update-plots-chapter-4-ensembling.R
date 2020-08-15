@@ -15,65 +15,95 @@ source(here::here("utils", "load-data-functions.R"))
 
 
 
-# get full data set
-deaths <- get_us_deaths(data = "weekly") %>%
-  dplyr::filter(epiweek < max(epiweek))
-
-forecasts <- load_submission_files(dates = "all",
-                                   models = "COVIDhub-baseline")
-
-forecasts <- filter_forecasts(forecasts,
-                              locations = "US",
-                              horizons = 1,
-                              target_end_dates = "auto")
-
-full <- prepare_for_scoring(forecasts)
-
-
-
-
-
 
 
 # ------------------------------------------------------------------------------
-# plot with baseline model and US and bias of that plot ------------------------
+# plot mixture and average of two distributions ------- ------------------------
 
-US_plot_baseline <- plot_forecasts(states = "US",
-                                   models = "COVIDhub-baseline",
-                                   obs_weeks = 13)
+x1 <- rnorm(10000)
+x2 <- rnorm(10000, 3.5, 1.4)
+
+mean <- (x1 + x2) / 2
+mean2 <- (sort(x1) + sort(x2)) / 2
+index <- sample(c(TRUE, FALSE), 10000, replace = TRUE)
+mixture <- ifelse(index, x1, x2)
+
+# check that taking a quantile average is indeed equivalent to just averaging
+# the sorted vector of
+quantiles1 <- quantile(x1, seq(0.01, 0.99, by = 0.01))
+quantiles2 <- quantile(x2, seq(0.01, 0.99, by = 0.01))
+quantiles3 <- quantile(mean2, seq(0.01, 0.99, by = 0.01))
+
+quantiles4 - (quantiles1 + quantiles2) / 2
 
 
-full %>%
-  dplyr::filter(target_end_date == "2020-08-01",
-                boundary == "upper")%>%
-  pull(predictions)
+df <- data.frame(x1 = x1,
+                 x2 = x2,
+                 mean2 = mean2,
+                 mean = mean,
+                 mixture = mixture)
 
-
-scores <- scoringutils::eval_forecasts(full,
-                                       by = c("model", "target_end_date",
-                                              "state", "horizon"))
-
-plot_bias <- ggplot2::ggplot() +
-  ggplot2::geom_point(data = scores, ggplot2::aes(y = bias,
-                                                  x = target_end_date),
-                      colour = "black") +
-  ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey") +
-  ggplot2::expand_limits(y = 0) +
+mixture_plot <- df %>%
+ggplot2::ggplot() +
+  ggplot2::geom_density(ggplot2::aes(x = x1, fill = "Distribution 1"),
+                          #binwidth = bw,
+                          alpha = 0.5) +
+  ggplot2::geom_density(ggplot2::aes(x = x2, fill = "Distribution 2"),
+                          #binwidth = bw,
+                          alpha = 0.5) +
+  ggplot2::geom_density(ggplot2::aes(x = mixture,
+                                       fill = "Combination: Mixture"),
+                          #binwidth = bw,
+                          alpha = 0.8) +
   ggplot2::labs(x = "Week", y = "Bias",
-                caption = paste0("Mean bias is ", round(mean(scores$bias), 3)),
+                caption = paste0(""),
                 col = "Model", fill = "Model") +
   cowplot::theme_cowplot() +
   ggplot2::theme(legend.position = "bottom",
                  text = ggplot2::element_text(family = "Sans Serif"))
 
-bias_plot_combined <- cowplot::plot_grid(US_plot_baseline,
-                                         plot_bias, ncol = 1,
-                                         rel_heights = c(2, 1),
-                                         scale = c(1, 1),
-                                         align = 'hv')
 
-ggplot2::ggsave(here::here("evaluation", "plots", "bias_example.png"),
-                bias_plot_combined)
+
+average_plot <- df %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_density(ggplot2::aes(x = x1, fill = "Distribution 1"),
+                        #binwidth = bw,
+                        alpha = 0.5) +
+  ggplot2::geom_density(ggplot2::aes(x = x2, fill = "Distribution 2"),
+                        #binwidth = bw,
+                        alpha = 0.5) +
+  ggplot2::geom_density(ggplot2::aes(x = mean2, fill = "Combination: Average"),
+                        #binwidth = bw,
+                        alpha = 0.8) +
+  ggplot2::labs(x = "Week", y = "Bias",
+                caption = paste0(""),
+                col = "Model", fill = "Model") +
+  cowplot::theme_cowplot() +
+  ggplot2::theme(legend.position = "bottom",
+                 text = ggplot2::element_text(family = "Sans Serif"))
+
+
+
+average_mixture <- cowplot::plot_grid(average_plot, mixture_plot)
+
+
+ggplot2::ggsave(here::here("evaluation", "plots", "chapter-4-ensemble",
+                           "average-mixture-example.png"),
+                average_mixture)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -90,7 +120,7 @@ predictions5 <- replicate(10000, rnorm(1000, mean = 0.2, sd =  0.7))
 
 # plot with observations
 true_value_plot <- ggplot2::ggplot(data = data.frame(x = true_values),
-                ggplot2::aes(x = x)) +
+                                   ggplot2::aes(x = x)) +
   ggplot2::geom_histogram(ggplot2::aes(y = ..density..),
                           fill = "grey",
                           colour = "dark grey") +
@@ -148,13 +178,13 @@ pit_underdispersion <- scoringutils::pit(true_values, predictions4)$hist_PIT +
 
 
 calibration_examples <- cowplot::plot_grid(standard_normal, shifted_mean,
-                   pit_standard_normal, pit_shifted_mean,
-                   underdispersion, overdispersion,
-                   pit_underdispersion, pit_overdispersion,
-                   ncol = 2,
-                   rel_heights = c(1, 1),
-                   scale = c(1, 1),
-                   align = 'hv')
+                                           pit_standard_normal, pit_shifted_mean,
+                                           underdispersion, overdispersion,
+                                           pit_underdispersion, pit_overdispersion,
+                                           ncol = 2,
+                                           rel_heights = c(1, 1),
+                                           scale = c(1, 1),
+                                           align = 'hv')
 
 
 
@@ -316,9 +346,9 @@ scores <- scoringutils::eval_forecasts(full,
                                        summarise_by = c("model", "target_end_date"))
 
 coverage_time <- ggplot2::ggplot(scores, ggplot2::aes(x = target_end_date,
-                                     y = calibration,
-                                     colour = range,
-                                     group = range)) +
+                                                      y = calibration,
+                                                      colour = range,
+                                                      group = range)) +
   ggplot2::geom_hline(ggplot2::aes(yintercept = range / 100, colour = range),
                       linetype = "dashed") +
   ggplot2::geom_vline(ggplot2::aes(xintercept = target_end_date),
@@ -380,8 +410,8 @@ mae_plot <- df %>%
 quantiles <- seq(0.005, 0.999, 0.043)
 
 df2 <- data.frame(true_value = 0,
-                 quantiles = quantiles,
-                 quant_pred = qnorm(quantiles, -0.6, 1.2))
+                  quantiles = quantiles,
+                  quant_pred = qnorm(quantiles, -0.6, 1.2))
 
 
 quantile_mae <- df2 %>%
@@ -466,7 +496,7 @@ log_score_example <- df %>%
                         colour = "dark grey",
                         linetype = "dashed") +
   ggplot2::geom_point(ggplot2::aes(y = log(dnorm(-0.8)), x = -0.8),
-                        colour = "black") +
+                      colour = "black") +
   cowplot::theme_cowplot() +
   ggplot2::labs(x = "Value",
                 y = "Log predictive density") +
@@ -475,7 +505,7 @@ log_score_example <- df %>%
   ggplot2::scale_x_continuous(breaks = c(-2, -0.8, 0, 2),
                               labels = c("-2","observed","0", "2")) +
   ggplot2::scale_y_continuous(breaks = c(-5, -3, log(dnorm(-0.8)), -1),
-                                         labels = c("-5","-3","log score", "-1")) +
+                              labels = c("-5","-3","log score", "-1")) +
   ggplot2::theme(axis.text.y = element_text(color = c("black", "black", "dark grey", "black")),
                  axis.ticks.y = element_line(color = c("black", "black", "dark grey", "black"))) +
   ggplot2::theme(axis.text.x = element_text(color = c("black", "dark grey", "black", "black")),
@@ -486,6 +516,12 @@ ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
                            "log-score-example.png"),
                 log_score_example)
 
+
+# if(!dir.exists(here::here("evaluation", "plots",
+#                           forecast_date))) {
+#   dir.create(here::here("evaluation", "plots",
+#                         forecast_date))
+# }
 
 
 # national_plot <- plot_forecasts(national = TRUE, obs_weeks = 8, exclude_new_epiweek = FALSE)

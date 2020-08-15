@@ -20,14 +20,94 @@ deaths <- get_us_deaths(data = "weekly") %>%
   dplyr::filter(epiweek < max(epiweek))
 
 forecasts <- load_submission_files(dates = "all",
-                                   models = "COVIDhub-baseline")
+                                   models = settings$model_names_eval)
 
 forecasts <- filter_forecasts(forecasts,
-                              locations = "US",
-                              horizons = 1,
+                              locations = NULL,
+                              horizons = c(1, 2, 3, 4),
                               target_end_dates = "auto")
+
+
+# ------------------------------------------------------------------------------
+# plot with forecasts for US ---------------------------
+
+# over different horizons maybe appendix?
+US_forecast_plots <- plot_forecasts(states = "US",
+                                   forecasts = forecasts,
+                                   facet_formula = model ~ horizon,
+                                   ncol_facet = 4,
+                                   horizons = c(1, 2, 3, 4),
+                                   obs_weeks = 7)
+
+US_forecast_one_week <- plot_forecasts(states = "US",
+                                    forecasts = forecasts,
+                                    facet_formula = ~ model,
+                                    ncol_facet = 4,
+                                    horizons = c(1),
+                                    obs_weeks = 7)
+
+ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+                           "US-forecast-1-wk-ahead.png"),
+                US_forecast_one_week, width = 10, height = 5)
+
+
+several_states_one_week <- plot_forecasts(states = c("California", "New York",
+                                                   "Texas", "Washington"),
+                                       forecasts = forecasts,
+                                       facet_formula = model ~ state,
+                                       ncol_facet = 4,
+                                       horizons = c(1),
+                                       obs_weeks = 7)
+
+
+several_states_one_week
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+# plot with forecasts for US ---------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 full <- prepare_for_scoring(forecasts)
 
 
+
+
+
+
+#
+# suppressWarnings(ggsave(here::here("evaluation", "plots",
+#                                    forecast_date, "submission-national.png"),
+#        plot = national_plot,
+#        width = 10, height = 10, dpi = 300))
+#
+#
+#
+# subnational_plot <- plot_forecasts(national = FALSE, state_min_cutoff = 50, obs_weeks = 8,
+#                                    exclude_new_epiweek = FALSE)
+#
+#
+# suppressWarnings(ggsave(here::here("evaluation", "plots",
+#                                    forecast_date, "submission-subnational.png"),
+#        plot = subnational_plot,
+#        width = 20, height = 25))
 
