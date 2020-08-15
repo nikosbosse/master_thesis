@@ -17,12 +17,6 @@ description: "This thesis, titled 'Evaluation and Aggregation of Covid-19 death 
 ---
 
 
-``` {r}
-
-library(EpiSoon)
-
-```
-
 
 Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
 
@@ -44,7 +38,7 @@ knitr::kable(
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(.packages(), 
-                   'bookdown', 'knitr', 'rmarkdown', 
+                   'bookdown', 'knitr', 'rmarkdown', 'nloptr',
                    'EpiSoon', 'stackr', 'forecastHybrid'), 
                  'packages.bib')
 ```

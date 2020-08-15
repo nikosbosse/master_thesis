@@ -1,5 +1,16 @@
 # Results - evaluation and aggregation of Covid-19 death forecasts {#results}
 
+SOMEWHERE: NUMBER OF STATES, OBSERVATIONS, MODELS ETC
+
+
+``` {r models-us, echo = FALSE, fig.cap = "One week ahead forecasts for the US from all models"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/US-forecast-1-wk-ahead.png")
+
+```
+
+More plots --> Appendix
+
 Plots: 
 - overall performance
 - performance in different states
@@ -16,3 +27,7 @@ Which ensembling approaches perform well?
 
 
 
+
+## Discussion 
+
+- would be good to have a plot / some analysis on how good the gamma fit for the CRPS actually works
