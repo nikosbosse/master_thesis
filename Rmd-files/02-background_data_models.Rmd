@@ -58,6 +58,7 @@ X models are included in this analysis. X of them come from independent research
 ## COVIDhub-baseline
 
 The baseline model basically assumes that incidences will be the same as in the past and models the uncertainty around this estimate according to the distribution of past changes in incidences. More precisely, forecasts for incidences are generated in the following way: The timeseries of all past incidences is taken and first differences are formed. These first differences, as well as the negative of these incidences are then used further along. From this vector of past changes, samples are drawn to get a predictive distribution of future changes. A predictive distribution for future incidences is then obtained by adding these samples to the last observed incidence. The predictive distribution is then shifted to enforce that the mean of the distribution equals the last observed value. Incidences below zero are truncated, and quantiles are obtained from the samples. 
+
 ## COVIDhub-ensemble
 
 The COVID-19 ensemble model is formed by taking the arithmetic mean of respective quantiles from all eligible models. Models are deemed eligible if they pass some general sense checks (e.g. cumulative forecasts must in general not decrease over time). The number of models inclueded varies from state to state as not all teams submit forecasts for all locations. 
@@ -68,18 +69,9 @@ The epiforecasts ensemble is the model submitted by our working group at the Lon
 MAYBE MORE DETAILS AS IT'S OUR MODEL
 Future cases were model using an exponential model, i.e. cases tomorrow were modeled as past cases times some factor. 
 
+<!-- ## IHME-CurveFit -->
 
-
-## IHME-CurveFit
-
-IHME seems to be using an SEIR model for their model predictions. The metadate provided for the Forecast Hub reads: 'This model makes predictions about the future that are dependent on
-  the assumption  that current interventions continue. The modeling approach in this
-  study is divided into four components:  (i) identification and processing of COVID-19
-  data;  (ii) statistical model estimation for population death rates as a function
-  of time  since the death rate exceeds a threshold in a location;  (iii) predicting
-  time to exceed a given population death threshold in states early in the pandemic;
-  and  (iv) modeling health service utilization as a function of deaths." CurveFit
-  package available at: https://github.com/ihmeuw-msca/CurveFit' CurveFit is a package that fits curves using nonlinear mixed effects. However, the github page for CurveFit points to two different github repos with code for SEIR models and their website (https://ihmeuw-msca.github.io/CurveFit/) confirms this. 
+<!-- The Institute for Health Metrics and Evaluation (IHME) seems to be using an SEIR model for their model predictions. While the metadata submitted to the Forecast Hub mention an R package called `CurveFit` (https://github.com/ihmeuw-msca/CurveFit), the `CurveFit` github page point to two other repositories with code for SEIR models and their website IHME (https://ihmeuw-msca.github.io/CurveFit/) confirms this.  -->
   
   
 ## UMass-MechBayes
@@ -91,28 +83,22 @@ UMass-MechBayes is a Bayesian model build from a classical SEIR compartmental mo
 
 ## YYG-ParamSearch
 
-n SEIR model that makes daily infections and deaths projections for US states.
-  A machine learning layer learns the best parameters/inputs for each state.
-  The model accounts for state reopenings.
+The ParamSearch model is also based on a SEIR model, but an additional layer is added to learn optimal hyperparameters for the model. Some of the parameters like the infectious period are shared across locations, but most parameters like the mortality, $R_$ etc. are determined per state. 
 
 https://covid19-projections.com
 https://github.com/youyanggu/covid19_projections
 
-'We''ve built a SEIR model with learned parameters to make daily
-  projections regarding COVID-19 infections and deaths in all 50 US states and
-  70+ countries. The model also accounts for individual state-by-state reopenings
-  and the resulting effects on infections and deaths. The parameters/inputs
-  of this simulator are learned using hyperparameter optimization that minimizes
-  the error between the projected outputs (projected daily deaths) and the actual
-  results (reported daily deaths). Because the infections curve is unique for every
-  region, we let the model use each region''s own data to learn the best set of parameters
-  for that region. This includes parameters such as: mortality rate, initial R_0,
-  post-lockdown R, and the inflection date of any lockdowns. Other variables such
-  as the latency period, infectious period, and virus shedding period are fixed based
-  on published literature. After some additional validation techniques to minimize
-  overfitting, we use the learned parameters to simulate the future and make
-  projections. See website for full description, methods, and results.'
 
+## CU-select
 
+The CU-select model is another SEIR model that is augmented by human insight. The Columbia University regularly submits a range of projections under different scenarios. For the CU-select model they always hand-pick the one they believe is most plausible. 
+
+## UT-Mobility
+
+The UT-Mobility uses a Bayesian negative binomial regression model implemented with the package `rstanarm`. One of the major predictors used is GPS mobility data provided by a company called SafeGraph. This data is used to compute measures of social distancing that are ultimately fed into the model. (https://covid-19.tacc.utexas.edu/media/filer_public/87/63/87635a46-b060-4b5b-a3a5-1b31ab8e0bc6/ut_covid-19_mortality_forecasting_model_latest.pdf)
+
+## LANL-GrowthRate
+
+The GrowthRate model form the Los Alamos National Labs is a two component model. The first component models the number of infections using a time-varying growth parameter that connects present (or future) infections to earlier infections and the number of susceptibles. In a second step, this infections get mapped to reported deaths by assuming a fraction of infections likely to die. 
 
 

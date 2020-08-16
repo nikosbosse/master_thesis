@@ -93,15 +93,17 @@ where $k_t$ is the observed value at time $t$ and $P_t(x)$ is the cumulative pre
 
 ##### Quantile forecasts
 
-For quantile forecasts, we need to take a different approach to assess calibration. An intuitive way is to measure the proportion of true observed values that fall into  a certain interval range of the predictive distribution. If the 0.05, 0.25, 0.75, and 0.95 quantiles are given, then 50% of the true values should fall between the 0.25 and 0.75 quantiles and 90% should fall between the 0.05 and 0.95 quantiles. We can calculate and plot these values to inspect how well different quantiles of the forecast are calibrated. For the COVIDhub-baseline model, the quantile coverage for the outer prediction intervals looks reasonable, but inner prediction intervals look too narrow. This is shown in Figure \@ref{fig:interval_coverage}. If we compare this to Figure \@ref{pit-example}, we can see the same pattern that suggests underdispersion of the predictive distribution in both Figures. The coverage plot, however, is able to narrow the problem down to the inner prediction intervals. To get an even more precise picture, we can also look at the percentage of true values below every single quantile. The quantile visualisation shown in Figure \ref{fig:quantile_coverage} suggests that the miscalibration largely comes from an upward bias of the inner prediction interval (compare to Figure \@ref{example-bias}). The major problem to address then, it seems, is not necessarily the general width of the prediction intervals, but foremost the upward bias of the inner quantiles. Note that this is a slightly different result from what Figures \@ref{fig:interval_coverage} and \@ref{fig:pit-example} suggested which underlines the importance of looking at miscalibration from various angles. 
+For quantile forecasts, we need to take a different approach to assess calibration. An intuitive way is to measure the proportion of true observed values that fall into  a certain interval range of the predictive distribution. If the 0.05, 0.25, 0.75, and 0.95 quantiles are given, then 50% of the true values should fall between the 0.25 and 0.75 quantiles and 90% should fall between the 0.05 and 0.95 quantiles. We can calculate and plot these values to inspect how well different quantiles of the forecast are calibrated. For the COVIDhub-baseline model, the quantile coverage for the outer prediction intervals looks reasonable, but inner prediction intervals look too narrow. This is shown in Figure \@ref{fig:interval-coverage}. If we compare this to Figure \@ref{pit-example}, we can see the same pattern that suggests underdispersion of the predictive distribution in both Figures. The coverage plot, however, is able to narrow the problem down to the inner prediction intervals. To get an even more precise picture, we can also look at the percentage of true values below every single quantile. The quantile visualisation shown in Figure \ref{fig:quantile-coverage} suggests that the miscalibration largely comes from an upward bias of the inner prediction interval (compare to Figure \@ref{example-bias}). The major problem to address then, it seems, is not necessarily the general width of the prediction intervals, but foremost the upward bias of the inner quantiles. Note that this is a slightly different result from what Figures \@ref{fig:interval-coverage} and \@ref{fig:pit-example} suggested which underlines the importance of looking at miscalibration from various angles. 
 
-``` {r interval_coverage, fig.cap = "Coverage of predictive intervals for one week ahead forecasts from the COVIDhub-baseline model."}
+``` {r interval-coverage, fig.cap = "Coverage of predictive intervals for one week ahead forecasts from the COVIDhub-baseline model."}
 
 knitr::include_graphics("../evaluation/plots/chapter-3-evaluation/interval-coverage.png")
 
 ```
 
-``` {r quantile_coverage, fig.cap = "Coverage of predictive quantiles for one week ahead forecasts from the COVIDhub-baseline model."}
+
+
+``` {r quantile-coverage, fig.cap = "Coverage of predictive quantiles for one week ahead forecasts from the COVIDhub-baseline model."}
 
 knitr::include_graphics("../evaluation/plots/chapter-3-evaluation/quantile-coverage.png")
 
@@ -164,9 +166,9 @@ Log Score
 The Log score can be traced back to @shannonMathematicalTheoryCommunication1948 and his work on communication and information theory and to @goodRationalDecisions1952 who first proposed a log score for binary predictions. The Log Score is now widely used in all sorts of fields, especially in Bayesian inference (see e.g. [@gelmanUnderstandingPredictiveInformation2014]). The log score is simply the log density of the predictive distribution at time $t$ evaluated at the true observed value, i.e. 
 
 $$ \text{log score}_t = \log p_t(y_t)$$
-where $p_t$ is the predictive density function at time $t$. This is illustrated in Figure \ref{fig:log_score}. In this formulation, larger values are better, but one can of course simply reverse the sign. 
+where $p_t$ is the predictive density function at time $t$. This is illustrated in Figure \ref{fig:log-score}. In this formulation, larger values are better, but one can of course simply reverse the sign. 
 
-``` {r log_score, fig.cap = "Illustration of the Log score as the log predictive desnity evaluated at the true observed value"}
+``` {r log-score, fig.cap = "Illustration of the Log score as the log predictive desnity evaluated at the true observed value"}
 
 knitr::include_graphics("../evaluation/plots/chapter-3-evaluation/log-score-example.png")
 

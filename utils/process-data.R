@@ -8,6 +8,8 @@ submission_dates <- settings$submission_dates
 models <- settings$model_names
 
 
+models <- c("LANL-GrowthRate")
+
 results <- list()
 
 for (model in models) {
@@ -52,7 +54,7 @@ for (model in models) {
 
     not_recovered <- c()
     for (date in as.character(missing_dates)) {
-      prior_date <- as.Date(date) - 1:5
+      prior_date <- as.Date(date) - 1:3
 
       # recover, if prior date is available
       if (any(prior_date %in% available_dates)) {

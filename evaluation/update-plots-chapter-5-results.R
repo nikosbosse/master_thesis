@@ -71,23 +71,34 @@ several_states_one_week
 
 
 
+
+
+
 # ------------------------------------------------------------------------------
-# plot with forecasts for US ---------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
+# plot with all scores in all states -------------------------------------------
 
 full <- prepare_for_scoring(forecasts)
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "state")) %>%
+  dplyr::filter(range == 60) %>%
+  dplyr::arrange(state, model, interval_score) %>%
+  data.table::dcast(state ~ model, value.var = "interval_score")
+# ISSUE: SUMMARISE INTERVAL SCORE CORRECTLY
+
+# Plot I want:
+#         Model1 Model2
+# State1
+# State2
+# + colour coding
+
+
+
+
 
 
 

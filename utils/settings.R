@@ -43,7 +43,10 @@ model_names <- c("COVIDhub-baseline",
                  "epiforecasts-ensemble1",
                  #"IHME-CurveFit",
                  "UMass-MechBayes",
-                 "YYG-ParamSearch")
+                 "YYG-ParamSearch",
+                 "CU-select",
+                 "UT-Mobility",
+                 "LANL-GrowthRate")
 
 
 model_names_eval <- c(model_names,
