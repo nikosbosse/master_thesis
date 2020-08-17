@@ -1,43 +1,5 @@
 # determin a full set to be used -----------------------------------------------
 
-# load in all data
-# past_forecasts <- load_submission_files(dates = "all",
-#                                         num_last = NULL,
-#                                         models = settings$model_names)
-#
-# # get locations
-# locations <- past_forecasts %>%
-#   split(as.factor(past_forecasts$model)) %>%
-#   purrr::map_dfr(.f = function(x) {
-#     df <- data.frame(location = unique(x$location),
-#                      model = unique(x$model))
-#     return(df)
-#   }) %>%
-#   dplyr::group_by(location) %>%
-#   dplyr::add_count() %>%
-#   dplyr::ungroup() %>%
-#   dplyr::filter(n == max(n)) %>%
-#   dplyr::pull(location) %>%
-#   unique()
-#
-# # get all horizons
-# horizons <- past_forecasts %>%
-#   dplyr::mutate(horizon = as.numeric(substr(target, 1, 1))) %>%
-#   split(as.factor(past_forecasts$model)) %>%
-#   purrr::map_dfr(.f = function(x) {
-#     df <- data.frame(horizon = unique(x$horizon),
-#                      model = unique(x$model))
-#     return(df)
-#   }) %>%
-#   dplyr::group_by(horizon) %>%
-#   dplyr::add_count() %>%
-#   dplyr::ungroup() %>%
-#   dplyr::filter(n == max(n)) %>%
-#   dplyr::pull(horizon) %>%
-#   unique()
-
-# get all dates
-
 model_names <- c("COVIDhub-baseline",
                  "COVIDhub-ensemble",
                  "epiforecasts-ensemble1",
@@ -48,6 +10,7 @@ model_names <- c("COVIDhub-baseline",
                  "UT-Mobility",
                  "LANL-GrowthRate")
 
+horizons <- 1:4
 
 model_names_eval <- c(model_names,
                       "crps-ensemble", "mean-ensemble", "qra-ensemble")
@@ -66,11 +29,21 @@ n_samples <- 1000
 
 num_last <- 2
 
+locations_included <- c("04", "06", "12", "13", "17", "24", "25", "34",
+                        "36", "39", "42", "48", "US")
+
+states_included <- c("Arizona", "California", "Florida", "Georgia", "Illinois",
+                     "Maryland", "Massachusetts", "New Jersey", "New York",
+                     "Ohio", "Pennsylvania", "Texas", "US")
+
+
 locations_to_plot <-c("US", "New York", "California",
                       "Texas", "Virginia", "Florida")
 
+# cut the last two dates as these are needed to form the ensemble weights
+evaluation_dates <- submission_dates[1:5]
+
 settings <- list(submission_dates = submission_dates,
-                 locations = locations,
                  forecast_date = forecast_date,
                  target_end_dates = target_end_dates,
                  model_names = model_names,
@@ -78,4 +51,7 @@ settings <- list(submission_dates = submission_dates,
                  n_samples = n_samples,
                  num_last = num_last,
                  horizons = horizons,
-                 locations_to_plot = locations_to_plot)
+                 locations_to_plot = locations_to_plot,
+                 locations_included = locations_included,
+                 states_included = states_included,
+                 evaluation_dates = evaluation_dates)

@@ -199,7 +199,10 @@ load_submission_files <- function(dates = c("latest", "all"),
                                   df <- data.table::fread(x) %>%
                                     dplyr::mutate(location = as.character(location))
                                   return(df)}) %>%
-      dplyr::mutate(model = model_name)
+      dplyr::mutate(model = model_name) %>%
+      dplyr::filter(grepl("inc", target),
+                    grepl("death", target),
+                    grepl("wk", target))
 
     return(forecasts)
   }
@@ -249,14 +252,16 @@ combine_with_deaths <- function(forecasts,
 filter_forecasts <- function(forecasts, dates = NULL,
                              locations = "auto",
                              horizons = NULL,
-                             target_end_dates = NULL) {
+                             target_end_dates = NULL,
+                             types = c("quantile")) {
+
   forecasts <- forecasts %>%
-    dplyr::filter(type == "quantile",
-                  grepl("inc", target),
-                  grepl("death", target)) %>%
-    dplyr::select(-type) %>%
+    dplyr::filter(type %in% types) %>%
     dplyr::mutate(target_end_date = as.Date(target_end_date))
 
+  if (length(types) == 1) {
+    forecasts <- dplyr::select(forecasts, -type)
+  }
 
   if(!is.null(horizons)) {
 

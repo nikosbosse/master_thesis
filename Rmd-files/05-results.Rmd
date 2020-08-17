@@ -25,9 +25,14 @@ Which model perform well and why?
 
 Which ensembling approaches perform well? 
 
+Plot with weights over time
 
 
 
 ## Discussion 
 
 - would be good to have a plot / some analysis on how good the gamma fit for the CRPS actually works
+- restriction due to inclusion of the epiforecasts-ensemble1 --> locations and dates
+- exntension: dealing with missing forecasts
+- sensitivity analysis: time included for ensemble weight estimation
+

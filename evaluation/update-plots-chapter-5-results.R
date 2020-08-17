@@ -51,16 +51,54 @@ ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
                 US_forecast_one_week, width = 10, height = 5)
 
 
-several_states_one_week <- plot_forecasts(states = c("California", "New York",
-                                                   "Texas", "Washington"),
+# for Appendix
+several_states_one_week <- plot_forecasts(states = settings$states_included,
                                        forecasts = forecasts,
-                                       facet_formula = model ~ state,
-                                       ncol_facet = 4,
+                                       facet_formula = state ~ model,
+                                       ncol_facet = 11,
                                        horizons = c(1),
                                        obs_weeks = 7)
 
+ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+                           "all-states-one-week.png"),
+                several_states_one_week, width = 18, height = 25)
 
-several_states_one_week
+
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+## scores overall by range plot
+summarised_scores <- scoringutils::eval_forecasts(full, summarised = TRUE,
+                                                  by = c("model", "state",
+                                                         "target_end_date",
+                                                         "horizon"),
+                                                  interval_score_arguments = list(weigh = TRUE),
+                                                  summarise_by = c("model"))
+
+
+# maybe get rid of lines in the plot and also get rid of the numbers
+wis_overview_plot <- score_overview_plot(summarised_scores)
+
+ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+                           "scores-by-range.png"),
+                wis_overview_plot, width = 7, height = 12)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -75,7 +113,14 @@ several_states_one_week
 
 
 # ------------------------------------------------------------------------------
-# plot with all scores in all states -------------------------------------------
+# heatmap plot with all scores in all states -----------------------------------
+
+forecasts <- load_submission_files(dates = settings$evaluation_dates,
+                                   models = settings$model_names_eval)
+
+forecasts <- filter_forecasts(forecasts,
+                              locations = settings$locations_included,
+                              horizons = c(1, 2, 3, 4))
 
 full <- prepare_for_scoring(forecasts)
 
@@ -84,17 +129,53 @@ scores <- scoringutils::eval_forecasts(full,
                                               "target_end_date",
                                               "model", "state", "horizon"),
                                        interval_score_arguments = list(weigh = TRUE),
-                                       summarise_by = c("model", "state")) %>%
+                                       summarise_by = c("model", "state"))
+
+scores <- scores %>%
+  # change this once we have the WIS
   dplyr::filter(range == 60) %>%
   dplyr::arrange(state, model, interval_score) %>%
-  data.table::dcast(state ~ model, value.var = "interval_score")
-# ISSUE: SUMMARISE INTERVAL SCORE CORRECTLY
+  dplyr::group_by(state) %>%
+  dplyr::mutate(rank = rank(interval_score, ties.method = "average")) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(model = forcats::fct_reorder(model,
+                                             interval_score,
+                                             .fun='mean'),
+                state = forcats::fct_reorder(state,
+                                             interval_score,
+                                             .fun='mean'))
 
-# Plot I want:
-#         Model1 Model2
-# State1
-# State2
-# + colour coding
+heatmap_plot <- ggplot2::ggplot(scores, ggplot2::aes(x = model, y = state, fill = rank)) +
+  ggplot2::geom_tile() +
+  ggplot2::geom_text(ggplot2::aes(label = round(interval_score, 1)),
+                     family = "Sans Serif") +
+  ggplot2::scale_fill_gradient2(low = "skyblue", high = "red",
+                                name = "Model rank per state") +
+  cowplot::theme_cowplot() +
+  ggplot2::theme(legend.position = "bottom",
+                 text = ggplot2::element_text(family = "Sans Serif"),
+                 panel.background = element_rect(fill = "aliceblue"))
+
+# maybe tilt model names?
+
+ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+                           "heatmap-model-scores.png"),
+                heatmap_plot, width = 10, height = 10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

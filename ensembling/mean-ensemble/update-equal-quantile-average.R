@@ -10,9 +10,12 @@ source(here::here("utils", "load-data-functions.R"))
 
 # Load Forecasts ---------------------------------------------------------------
 forecasts <- load_submission_files(dates = settings$forecast_date,
-                                   models = settings$model_names) %>%
-  dplyr::filter(grepl("wk", target),
-                grepl("death", target))
+                                   models = settings$model_names)
+
+forecasts <- filter_forecasts(forecasts,
+                              horizons = settings$horizons,
+                              locations = settings$locations_included,
+                              types = c("quantile", "point"))
 
 # get forecast_date
 forecast_date <- settings$forecast_date
@@ -36,9 +39,9 @@ mean_ensemble <- forecasts_wide %>%
                   rowMeans(na.rm = TRUE)) %>%
   dplyr::rename(value = ensemble) %>%
   dplyr::select(-dplyr::all_of(models)) %>%
-  dplyr::select(forecast_date, target, target_end_date, location, type, quantile, value) %>%
+  dplyr::select(forecast_date, target, target_end_date, location, type, quantile, value)
   # round values after ensembling
-  dplyr::mutate(value = round(value))
+  # dplyr::mutate(value = round(value))
 
 
 # store as csv submission ------------------------------------------------------

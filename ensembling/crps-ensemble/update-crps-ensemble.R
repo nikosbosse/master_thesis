@@ -24,14 +24,21 @@ today <- forecast_date
 
 # Load Forecasts ---------------------------------------------------------------
 past_forecasts <- load_submission_files(dates = forecast_date,
-                                        num_last = 2,
+                                        num_last = settings$num_last,
                                         models = settings$model_names,
                                         drop_latest_forecast = TRUE)
 
 
 full_set <- filter_forecasts(past_forecasts,
-                             locations = "auto",
+                             locations = settings$locations_included,
                              horizons = 2)
+
+if (nrow(full_set) == 0) {
+  full_set <- filter_forecasts(past_forecasts,
+                               locations = settings$locations_included,
+                               horizons = 1)
+
+}
 
 combined <- combine_with_deaths(full_set)
 
@@ -79,7 +86,8 @@ past_forecasts <- load_submission_files(dates = forecast_date,
                                         models = settings$model_names)
 
 full_set <- filter_forecasts(past_forecasts,
-                             locations = NULL, horizons = NULL) %>%
+                             locations = settings$locations_included,
+                             horizons = settings$horizons) %>%
   dplyr::mutate(date = target_end_date,
                 y_pred = value,
                 geography = state)

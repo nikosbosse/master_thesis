@@ -14,7 +14,7 @@ deaths <- get_us_deaths(data = "weekly") %>%
   dplyr::filter(epiweek < max(epiweek))
 
 # Get forecasts -----------------------------------------------------------
-forecasts <- load_submission_files(dates = "all",
+forecasts <- load_submission_files(dates = settings$evaluation_dates,
                                    models = settings$model_names_eval)
 
 forecasts <- filter_forecasts(forecasts,
@@ -45,33 +45,32 @@ unsummarised_scores <- scoringutils::eval_forecasts(full, summarised = FALSE,
                                                            "horizon"))
 
 
-# weighted interval score overview plot
-summarised_scores <- scoringutils::eval_forecasts(full, summarised = TRUE,
-                                                  by = c("model", "state",
-                                                         "target_end_date",
-                                                         "horizon"),
-                                                  interval_score_arguments = list(weigh = TRUE),
-                                                  summarise_by = c("model"))
 
 
-wis_overview_plot <- score_overview_plot(summarised_scores)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# standard plots previously produced. Unsure whether or not to use them
 plots <- plot_scores(scores %>%
-                       dplyr::filter(range %in% c(0, 20, 50, 90)))
+                       dplyr::filter(range %in% c(0, 20, 50, 90)) %>%
+                       as.data.table())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # state plots
 scores_state <- scoringutils::eval_forecasts(full, summarised = TRUE,

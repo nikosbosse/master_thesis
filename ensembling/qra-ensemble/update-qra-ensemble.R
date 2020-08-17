@@ -4,20 +4,24 @@ source(here::here("utils", "settings.R"))
 source(here::here("utils", "load-data-functions.R"))
 
 
-
 # get weights ------------------------------------------------------------------
 
 # load past forecasts
 forecast_date <- settings$forecast_date
 
-past_forecasts <- load_submission_files(dates = settings$forecast_date,
+# manual
+if (forecast_date == "2020-06-29") {
+  settings$num_last <-  1
+}
+
+past_forecasts <- load_submission_files(dates = as.Date(settings$forecast_date),
                                         num_last = settings$num_last,
                                         models = settings$model_names,
                                         drop_latest_forecast = TRUE)
 
 full_set <- filter_forecasts(past_forecasts,
-                             locations = "auto",
-                             horizons = "auto")
+                             locations = settings$locations_included,
+                             horizons = settings$horizons)
 
 # store quantiles available
 tau <- full_set$quantile %>%
@@ -57,7 +61,7 @@ if(!(length(true_values) == (nrow(combined))  / length(models))){
 
 # extract forecasts as matrices and store as quantgen array
 qarr <- combined %>%
-  dplyr::select(-deaths) %>%
+  dplyr::select(-deaths, -horizon) %>%
   dplyr::group_split(model, .keep = FALSE) %>%
   setNames(models) %>%
   purrr::map(.f = as.matrix) %>%
@@ -65,6 +69,7 @@ qarr <- combined %>%
 
 model_weights <- quantgen::quantile_ensemble(qarr = qarr,
                                              y = true_values,
+                                             verbose = FALSE,
                                              tau = tau)$alpha
 
 message("QRA weights:")
@@ -85,8 +90,10 @@ forecasts <- load_submission_files(dates = settings$forecast_date,
                                    num_last = NULL,
                                    models = settings$model_names)
 
-# do we want any filtering here? maybe the locations from a pre selection list
-# or the time horizons
+forecasts <- filter_forecasts(forecasts,
+                              locations = settings$locations_included,
+                              horizons = settings$horizons,
+                              types = c("quantile", "point"))
 
 # pivot_wider
 forecasts_wide <- forecasts %>%
@@ -102,9 +109,9 @@ qra_ensemble <- forecasts_wide %>%
                                               na.rm = TRUE)) %>%
   dplyr::rename(value = ensemble) %>%
   dplyr::select(-dplyr::all_of(models)) %>%
-  dplyr::select(forecast_date, target, target_end_date, location, type, quantile, value) %>%
+  dplyr::select(forecast_date, target, target_end_date, location, type, quantile, value)
   # round values after ensembling
-  dplyr::mutate(value = round(value))
+  # dplyr::mutate(value = round(value))
 
 
 # write dated file
