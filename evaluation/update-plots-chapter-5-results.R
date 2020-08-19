@@ -573,6 +573,7 @@ ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
 # PIT plots
 
 source(here::here("ensembling", "crps-ensemble", "fit-distribution-functions.R"))
+combined <- combine_with_deaths(forecasts)
 fc <- data.table::as.data.table(combined)
 n_samples = settings$n_samples
 
@@ -598,17 +599,23 @@ pit_plot <- scoringutils::eval_forecasts(df,
                                                               plot = TRUE),
                                          pit_plots = TRUE)$pit_plots
 
-pit_plot2 <- lapply(pit_plot,
-                    FUN = function(x) {
-                      x <- x +
-                        ggplot2::theme(legend.position = "bottom",
-                                       text = ggplot2::element_text(family = "Sans Serif"))
-                      return(x)
-                    })
+pit_plot$overall_pit <- NULL
 
-cowplot::plot_grid(plotlist = pit_plot2)
+pit_plot2 <- purrr::map2(pit_plot, names(pit_plot),
+            .f = function(.x, .y) {
+              x <- .x +
+                ggplot2::labs(title = .y) +
+                ggplot2::theme(legend.position = "bottom",
+                               text = ggplot2::element_text(family = "Sans Serif"))
+              return(x)
+              })
 
+all_pit_plots <- cowplot::plot_grid(plotlist = pit_plot2)
 
+ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+                           "all-pit-plots.png"),
+                all_pit_plots,
+                width = 11, height = 9)
 
 
 
@@ -626,6 +633,41 @@ cowplot::plot_grid(plotlist = pit_plot2)
 
 # ------------------------------------------------------------------------------
 # Plots with weights over time
+
+crps_weights_files <- list.files(here::here("ensembling", "crps-ensemble", "crps-weights"))
+crps_weights_paths <- here::here("ensembling", "crps-ensemble", "crps-weights",
+                                 crps_weights_files)
+qra_weights_files <- list.files(here::here("ensembling", "qra-ensemble", "qra-weights"))
+qra_weights_paths <- here::here("ensembling", "qra-ensemble", "qra-weights",
+                                qra_weights_files)
+
+crps_weights <- purrr::map_dfr(crps_weights_paths, read.csv) %>%
+  dplyr::mutate(method = "crps")
+
+qra_weights <- purrr::map_dfr(qra_weights_paths, read.csv) %>%
+  dplyr::mutate(method = "qra")
+
+weights <- dplyr::bind_rows(crps_weights, qra_weights)
+
+weights_time <- weights %>%
+  dplyr::mutate(model = forcats::fct_reorder(model,
+                                             weights,
+                                             .fun='mean',
+                                             .desc = TRUE)) %>%
+  ggplot2::ggplot(ggplot2::aes(fill = model,
+                               y = weights,
+                               x = forecast_date)) +
+  ggplot2::facet_grid(method ~ .) +
+  ggplot2::labs(x = "Forecast date", y = "Model weights") +
+  ggplot2::geom_bar(position = "fill", stat = "identity") +
+  ggplot2::theme(#legend.position = "bottom",
+                 text = ggplot2::element_text(family = "Sans Serif"))
+
+ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+                           "weights-time.png"),
+                weights_time,
+                width = 11, height = 9)
+
 
 
 
