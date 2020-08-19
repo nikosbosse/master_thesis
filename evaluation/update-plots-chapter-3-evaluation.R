@@ -43,12 +43,6 @@ US_plot_baseline <- plot_forecasts(states = "US",
                                    obs_weeks = 13)
 
 
-full %>%
-  dplyr::filter(target_end_date == "2020-08-01",
-                boundary == "upper")%>%
-  pull(predictions)
-
-
 scores <- scoringutils::eval_forecasts(full,
                                        by = c("model", "target_end_date",
                                               "state", "horizon"))

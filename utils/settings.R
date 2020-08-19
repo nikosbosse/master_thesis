@@ -43,6 +43,11 @@ locations_to_plot <-c("US", "New York", "California",
 # cut the last two dates as these are needed to form the ensemble weights
 evaluation_dates <- submission_dates[1:5]
 
+
+manual_colours <- c(RColorBrewer::brewer.pal(8, name = "Set2")[-6],
+                    RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7)])
+
+
 settings <- list(submission_dates = submission_dates,
                  forecast_date = forecast_date,
                  target_end_dates = target_end_dates,
@@ -54,4 +59,5 @@ settings <- list(submission_dates = submission_dates,
                  locations_to_plot = locations_to_plot,
                  locations_included = locations_included,
                  states_included = states_included,
-                 evaluation_dates = evaluation_dates)
+                 evaluation_dates = evaluation_dates,
+                 manual_colours = manual_colours)

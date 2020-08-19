@@ -1,20 +1,82 @@
 # Results - evaluation and aggregation of Covid-19 death forecasts {#results}
 
-SOMEWHERE: NUMBER OF STATES, OBSERVATIONS, MODELS ETC
+The following chapter is going lay out the results
 
+- overview of the different projections
+
+
+## Looking at Forecasts
+
+Figure \@ref(fig:models-us) gives an overview of the projections for one and four week ahead forecasts. We can see that most models generally do a good job at capturing the dynamic one week ahead into the future. For four-week-ahead predictions, performance seems to deteriorate significantly. 
 
 ``` {r models-us, echo = FALSE, fig.cap = "One week ahead forecasts for the US from all models"}
 
-knitr::include_graphics("../visualisation/chapter-5-results/US-forecast-1-wk-ahead.png")
+knitr::include_graphics("../visualisation/chapter-5-results/US-forecast-1-4-wk-ahead.png")
 
 ```
 
+
+## Overall Performance
+
+- table with scores
+- heatmap
+
+
+Figure \@ref(fig:heatmap-performance) gives an overview of the model perfomance for every state. The colour indicates the rank that model achieved per state. States are sorted from highest average interval score to lowest to illustrate contributions from different states. Note that the average weighted interval score is dominated by large values. These tend to come from predictions made with a longer horizon for states with high numbers of cases. Figure \@ref(fig:heatmap-performance-horizon) shows performance over horizons instead of states. The colouring now indicates how much higher a score is relative to the lowest average score achieved by the model. Models are again sorted from lowest to highest average weighted interval score. 
+
+
+``` {r heatmap-performance, echo = FALSE, fig.cap = "Heatmap with the average of the weighted interval score over all horizons, states and forecast dates. The colouring indicates the rank of the model per state"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/heatmap-model-scores.png")
+
+```
+
+
+``` {r heatmap-performance-horizon, echo = FALSE, fig.cap = "Heatmap with the average of the weighted interval score across all states and forecast dates. The colouring indicates how much higher a score is relative to the lowest average score achieved by a model"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/heatmap-model-scores-horizon.png")
+
+```
+
+
 More plots --> Appendix
 
-Plots: 
-- overall performance
-- performance in different states
-- performance over horizons
+
+## Calibration
+
+Figure \@ref(fig:interval-coverage-all) shows the empirical interval coverage for all different models. Figure \@ref(fig:quantile-coverage-all) shows the proportion of predictions lower than the true value for each quantile of the model predictions. 
+
+``` {r interval-coverage-all, echo = FALSE, fig.cap = "Coverage of the prediction intervals across all locations and forecast dates"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/interval-coverage-all.png")
+
+```
+
+
+``` {r quantile-coverage-all, echo = FALSE, fig.cap = "Coverage of the prediction intervals across all locations and forecast dates"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/quantile-coverage-all.png")
+
+```
+
+
+- plot interval and quantile coverage over horizons
+
+
+
+
+- plot bias over time
+
+
+- detailed look at the ensemble models
+e.g. calibration plots for different states just for the three ensembles
+
+
+
+
+
+
+
 
 
 
@@ -35,4 +97,5 @@ Plot with weights over time
 - restriction due to inclusion of the epiforecasts-ensemble1 --> locations and dates
 - exntension: dealing with missing forecasts
 - sensitivity analysis: time included for ensemble weight estimation
+- break up interval score in width part and miss penalty part
 
