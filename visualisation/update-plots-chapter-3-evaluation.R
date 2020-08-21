@@ -9,7 +9,7 @@ library(RColorBrewer)
 library(dplyr)
 
 # source function for visualisation
-source(here::here("evaluation", "visualise-data-functions.R"))
+source(here::here("visualisation", "plotting-functions", "visualise-data-functions.R"))
 source(here::here("utils", "settings.R"))
 source(here::here("utils", "load-data-functions.R"))
 
@@ -38,10 +38,16 @@ full <- prepare_for_scoring(forecasts)
 # ------------------------------------------------------------------------------
 # plot with baseline model and US and bias of that plot ------------------------
 
-US_plot_baseline <- plot_forecasts(states = "US",
+US_plot_baseline <- plot_forecasts(forecasts = forecasts,
+                                   states = "US",
                                    models = "COVIDhub-baseline",
-                                   obs_weeks = 13)
-
+                                   obs_weeks = 13) +
+  ggplot2::theme(legend.position = "none",
+                 axis.title.y = ggplot2::element_text(margin = margin(t = 0,
+                                                                      r = 20,
+                                                                      b = 0,
+                                                                      l = 0))) +
+  ggplot2::labs(x = "")
 
 scores <- scoringutils::eval_forecasts(full,
                                        by = c("model", "target_end_date",
@@ -51,22 +57,26 @@ plot_bias <- ggplot2::ggplot() +
   ggplot2::geom_point(data = scores, ggplot2::aes(y = bias,
                                                   x = target_end_date),
                       colour = "black") +
-  ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey") +
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey") +
   ggplot2::expand_limits(y = 0) +
   ggplot2::labs(x = "Week", y = "Bias",
                 caption = paste0("Mean bias is ", round(mean(scores$bias), 3)),
                 col = "Model", fill = "Model") +
   cowplot::theme_cowplot() +
   ggplot2::theme(legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+                 text = ggplot2::element_text(family = "Sans Serif"),
+                 axis.title.y = ggplot2::element_text(margin = margin(t = 0,
+                                                                      r = 20,
+                                                                      b = 0,
+                                                                      l = 0)))
 
 bias_plot_combined <- cowplot::plot_grid(US_plot_baseline,
                                          plot_bias, ncol = 1,
                                          rel_heights = c(2, 1),
                                          scale = c(1, 1),
-                                         align = 'hv')
+                                         align = 'v')
 
-ggplot2::ggsave(here::here("evaluation", "plots", "bias_example.png"),
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation", "bias_example.png"),
                 bias_plot_combined)
 
 
@@ -152,7 +162,7 @@ calibration_examples <- cowplot::plot_grid(standard_normal, shifted_mean,
 
 
 
-ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "calibration-examples.png"),
                 calibration_examples,
                 height = 15, width = 8)
@@ -168,17 +178,19 @@ ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
 # ------------------------------------------------------------------------------
 # pit calibration plot of US forecasts from baseline model ---------------------
 
-forecasts <- load_submission_files(dates = "all",
-                                   models = "COVIDhub-baseline")
+forecasts_all <- load_submission_files(dates = "all",
+                                       models = "COVIDhub-baseline")
 
-forecasts <- filter_forecasts(forecasts,
-                              locations = NULL,
-                              horizons = 1,
-                              target_end_dates = "auto")
+forecasts_all <- filter_forecasts(forecasts_all,
+                                  locations = NULL,
+                                  horizons = 1,
+                                  target_end_dates = "auto")
+
+source("ensembling/crps-ensemble/fit-distribution-functions.R")
 
 n_samples <- 1000
 
-combined <- combine_with_deaths(forecasts) %>%
+combined <- combine_with_deaths(forecasts_all) %>%
   data.table::as.data.table()
 
 samples <- combined[, .(y_pred = get_samples(value, quantile, n_samples = n_samples),
@@ -194,7 +206,9 @@ df <- samples %>%
                 sample = sample_nr)
 
 pit_plot <- scoringutils::eval_forecasts(df,
-                                         by = c("model", "state", "target"),
+                                         by = c("model", "state",
+                                                "target", "forecast_date"),
+                                         summarise_by = c("forecast_date", "model"),
                                          pit_arguments = list(num_bins = 30,
                                                               plot = TRUE),
                                          pit_plots = TRUE)$pit_plots
@@ -205,7 +219,7 @@ plot <- pit_plot$overall_pit +
   ggplot2::theme(legend.position = "bottom",
                  text = ggplot2::element_text(family = "Sans Serif"))
 
-ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
+ggplot2::ggsave(here::here("visualisation","chapter-3-evaluation",
                            "pit-baseline-model.png"),
                 plot)
 
@@ -219,23 +233,27 @@ ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
 # ------------------------------------------------------------------------------
 # plot with empirical coverage from baseline model -----------------------------
 
-forecasts <- load_submission_files(dates = "all",
-                                   models = "COVIDhub-baseline")
+# forecasts <- load_submission_files(dates = "all",
+#                                    models = "COVIDhub-baseline")
+#
+# forecasts <- filter_forecasts(forecasts,
+#                               locations = NULL,
+#                               horizons = 1,
+#                               target_end_dates = "auto")
+#
+# n_samples <- 1000
+#
+# combined <- combine_with_deaths(forecasts) %>%
+#   data.table::as.data.table()
 
-forecasts <- filter_forecasts(forecasts,
-                              locations = NULL,
-                              horizons = 1,
-                              target_end_dates = "auto")
+full2 <- prepare_for_scoring(forecasts_all)
+full <- prepare_for_scoring(forecasts)
 
-n_samples <- 1000
-
-combined <- combine_with_deaths(forecasts) %>%
-  data.table::as.data.table()
 
 scores <- scoringutils::eval_forecasts(full,
                                        by = c("model", "forecast_date",
-                                              "target_end_date"),
-                                       summarise_by = c("model"))
+                                              "target_end_date", "state"),
+                                       summarise_by = c("model", "range"))
 
 ## overall model calibration - empirical interval coverage
 interval_coverage <- ggplot2::ggplot(scores, ggplot2::aes(x = range)) +
@@ -249,7 +267,7 @@ interval_coverage <- ggplot2::ggplot(scores, ggplot2::aes(x = range)) +
   ggplot2::xlab("Percent observations inside interval range") +
   ggplot2::ylab("Interval range")
 
-ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "interval-coverage.png"),
                 interval_coverage)
 
@@ -258,17 +276,19 @@ ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
 # ------------------------------------------------------------------------------
 # plot with quantile coverage
 
-forecasts <- load_submission_files(dates = "all",
-                                   models = "COVIDhub-baseline")
+# forecasts <- load_submission_files(dates = "all",
+#                                    models = "COVIDhub-baseline")
+#
+# forecasts <- filter_forecasts(forecasts,
+#                               locations = "US",
+#                               horizons = 1,
+#                               target_end_dates = "auto")
+#
+# forecasts <- combine_with_deaths(forecasts)
 
-forecasts <- filter_forecasts(forecasts,
-                              locations = "US",
-                              horizons = 1,
-                              target_end_dates = "auto")
+combined <- combine_with_deaths(forecasts)
 
-forecasts <- combine_with_deaths(forecasts)
-
-quantile_coverage_plot <- forecasts %>%
+quantile_coverage_plot <- combined %>%
   dplyr::group_by(quantile) %>%
   dplyr::summarise(coverage = mean(deaths <= value)) %>%
   ggplot2::ggplot(ggplot2::aes(x = quantile)) +
@@ -281,7 +301,7 @@ quantile_coverage_plot <- forecasts %>%
   ggplot2::xlab("Quantile") +
   ggplot2::ylab("Percent observations below quantile")
 
-ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "quantile-coverage.png"),
                 quantile_coverage_plot)
 
@@ -294,47 +314,47 @@ ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
 
 # ------------------------------------------------------------------------------
 # plot with interval coverage over time
-forecasts <- load_submission_files(dates = "all",
-                                   models = "COVIDhub-baseline")
-
-forecasts <- filter_forecasts(forecasts,
-                              locations = NULL,
-                              horizons = 1,
-                              target_end_dates = "auto")
-
-full <- prepare_for_scoring(forecasts)
-
-scores <- scoringutils::eval_forecasts(full,
-                                       by = c("model", "forecast_date", "state",
-                                              "target_end_date", "horizon"),
-                                       summarise_by = c("model", "target_end_date"))
-
-coverage_time <- ggplot2::ggplot(scores, ggplot2::aes(x = target_end_date,
-                                     y = calibration,
-                                     colour = range,
-                                     group = range)) +
-  ggplot2::geom_hline(ggplot2::aes(yintercept = range / 100, colour = range),
-                      linetype = "dashed") +
-  ggplot2::geom_vline(ggplot2::aes(xintercept = target_end_date),
-                      colour = "grey",
-                      linetype = "dashed",
-                      alpha = 0.4) +
-  ggplot2::geom_label(data = scores %>%
-                        dplyr::filter(target_end_date == max(target_end_date)),
-                      ggplot2::aes(y = calibration,
-                                   label = range,
-                                   family = "Sans Serif")) +
-  ggplot2::geom_line() +
-  cowplot::theme_cowplot() +
-  ggplot2::facet_grid(NULL) +
-  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                 legend.position = "bottom") +
-  ggplot2::xlab("Forecast week") +
-  ggplot2::ylab("Coverage rate")
-
-ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
-                           "coverage-time.png"),
-                coverage_time)
+# forecasts <- load_submission_files(dates = "all",
+#                                    models = "COVIDhub-baseline")
+#
+# forecasts <- filter_forecasts(forecasts,
+#                               locations = NULL,
+#                               horizons = 1,
+#                               target_end_dates = "auto")
+#
+# full <- prepare_for_scoring(forecasts)
+#
+# scores <- scoringutils::eval_forecasts(full,
+#                                        by = c("model", "forecast_date", "state",
+#                                               "target_end_date", "horizon"),
+#                                        summarise_by = c("model", "target_end_date"))
+#
+# coverage_time <- ggplot2::ggplot(scores, ggplot2::aes(x = target_end_date,
+#                                      y = calibration,
+#                                      colour = range,
+#                                      group = range)) +
+#   ggplot2::geom_hline(ggplot2::aes(yintercept = range / 100, colour = range),
+#                       linetype = "dashed") +
+#   ggplot2::geom_vline(ggplot2::aes(xintercept = target_end_date),
+#                       colour = "grey",
+#                       linetype = "dashed",
+#                       alpha = 0.4) +
+#   ggplot2::geom_label(data = scores %>%
+#                         dplyr::filter(target_end_date == max(target_end_date)),
+#                       ggplot2::aes(y = calibration,
+#                                    label = range,
+#                                    family = "Sans Serif")) +
+#   ggplot2::geom_line() +
+#   cowplot::theme_cowplot() +
+#   ggplot2::facet_grid(NULL) +
+#   ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
+#                  legend.position = "bottom") +
+#   ggplot2::xlab("Forecast week") +
+#   ggplot2::ylab("Coverage rate")
+#
+# ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
+#                            "coverage-time.png"),
+#                 coverage_time)
 
 
 
@@ -438,6 +458,8 @@ ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
 
 
 
+
+
 # ------------------------------------------------------------------------------
 # plot for explaining log score
 
@@ -476,7 +498,7 @@ log_score_example <- df %>%
                  axis.ticks.x = element_line(color = c("black", "dark grey", "black", "black")))
 
 
-ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "log-score-example.png"),
                 log_score_example)
 

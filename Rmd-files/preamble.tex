@@ -6,3 +6,28 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={150mm,237mm},
+ left=30mm,
+ top=30mm,
+ }
+
+
+% \usepackage[pagestyles]{titlesec}   
+% \newpagestyle{mystyle}{\setfoot[\thepage][][]{}{}{\thepage}}
+% \pagestyle{mystyle}
+
+
+\usepackage{fancyhdr}   
+
+\pagestyle{fancy}
+\fancyhead{}% clear headers
+\fancyfoot{}% clear footers
+\renewcommand{\headrulewidth}{0pt}% eliminate horizontal line
+\fancyfoot[CO, CE]{\thepage}
+
+\usepackage{hyperref}
+\def\UrlBreaks{\do\/\do-}

@@ -53,15 +53,17 @@ plot_forecasts <- function(forecasts = NULL,
                       RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7)])
 
   plot <- plot_fc %>%
-    ggplot2::ggplot(ggplot2::aes(x = target_end_date, col = model, fill = model)) +
-    ggplot2::geom_ribbon(ggplot2::aes(ymin = c0.05, ymax = c0.95), color = NA, alpha = 0.1) +
-    ggplot2::geom_ribbon(ggplot2::aes(ymin = c0.25, ymax = c0.75), color = NA, alpha = 0.2) +
+    ggplot2::ggplot(ggplot2::aes(x = target_end_date)) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = c0.05, ymax = c0.95,
+                                      fill = model), alpha = 0.1) +
+    ggplot2::geom_ribbon(ggplot2::aes(ymin = c0.25, ymax = c0.75,
+                                      fill = model), alpha = 0.2) +
     ggplot2::geom_point(data = plot_deaths, ggplot2::aes(y = c0.5), size = 1,
                         colour = "black") +
     ggplot2::geom_line(data = plot_deaths, ggplot2::aes(y = c0.5), lwd = 0.5,
                        colour = "black") +
-    ggplot2::geom_line(ggplot2::aes(y = c0.5), lwd = 0.2) +
-    ggplot2::geom_point(ggplot2::aes(y = c0.5), size = 2,
+    ggplot2::geom_line(ggplot2::aes(y = c0.5, colour = model), lwd = 0.2) +
+    ggplot2::geom_point(ggplot2::aes(y = c0.5, colour = model), size = 2,
                         fill = "white",
                         shape = 21) +
     ggplot2::scale_fill_manual(values = manual_colours) +
@@ -75,7 +77,8 @@ plot_forecasts <- function(forecasts = NULL,
     cowplot::theme_cowplot() +
     ggplot2::theme(legend.position = "bottom",
                    text = ggplot2::element_text(family = "Sans Serif"),
-                   panel.background = element_rect(fill = "aliceblue"))
+                   panel.background = element_rect(fill = "aliceblue")
+                   )
 
   return(plot)
 }

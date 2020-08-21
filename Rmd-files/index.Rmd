@@ -4,8 +4,10 @@ author: "Nikos Bosse"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: 
+  #thesisdown::thesis_pdf: default
   bookdown::pdf_book:
     fig_caption: yes
+    toc_depth: 3
 documentclass: book
 bibliography: [bib/masterthesis.bib, bib/packages.bib]
 biblio-style: apalike
@@ -16,29 +18,25 @@ github-repo: nikosbosse/master_thesis
 description: "This thesis, titled 'Evaluation and Aggregation of Covid-19 death forecasts in the United States' was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020."
 ---
 
-
-
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
-
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
-
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
-
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
-
-
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(.packages(), 
                    'bookdown', 'knitr', 'rmarkdown', 'nloptr',
-                   'EpiSoon', 'stackr', 'forecastHybrid'), 
-                 'packages.bib')
+                   'scoringutils',
+                   'EpiSoon', 'EpiNow', 'EpiNow2',
+                   'stackr', 'forecastHybrid'), 
+                 'bib/packages.bib')
 ```
+
+
+# Todo
+
+- Work through all the citations and adapt the author names in the bib file so they get shown consistently
+
+- update data to include more dates
+
+- Maybe add renewal equation / more detail to Chapter 2 and our epiforecasts-ensemble model
+
+- Think about whether to move the introduction of the covid hub models to Chapter 5 results (current tendency is not to do that) 
+
+- maybe do a quick random effects models on WIS

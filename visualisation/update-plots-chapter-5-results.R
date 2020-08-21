@@ -9,7 +9,7 @@ library(RColorBrewer)
 library(dplyr)
 
 # source function for visualisation
-source(here::here("evaluation", "visualise-data-functions.R"))
+source(here::here("visualisation", "plotting-functions", "visualise-data-functions.R"))
 source(here::here("utils", "settings.R"))
 source(here::here("utils", "load-data-functions.R"))
 
@@ -56,7 +56,7 @@ US_forecast_four_weeks <- plot_forecasts(states = "US",
 US_forecast_one_four_weeks <- plot_forecasts(states = "US",
                                          forecasts = forecasts,
                                          facet_formula = model ~ horizon,
-                                         ncol_facet = 6,
+                                         ncol_facet = 4,
                                          horizons = c(1, 4),
                                          obs_weeks = 7)
 
@@ -340,7 +340,8 @@ coverage_over_horizons <- ggplot2::ggplot(scores, ggplot2::aes(x = horizon,
 
 ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
                            "interval-coverage-horizons.png"),
-                coverage_over_horizons)
+                coverage_over_horizons,
+                width = 10, height = 6)
 
 
 quantile_coverage_over_horizons <- combined  %>%
