@@ -141,9 +141,6 @@ plot_scores <- function(scores,
 }
 
 
-
-
-
 score_overview_plot <- function(summarised_scores) {
   summarised_scores <- summarised_scores %>%
     dplyr::mutate(model = forcats::fct_reorder(model,
@@ -164,25 +161,26 @@ score_overview_plot <- function(summarised_scores) {
     ggplot2::geom_point(size = 2) +
     ggplot2::geom_line(ggplot2::aes(group = range),
                        colour = "black",
-                       size = 0.1) +
-    ggplot2::geom_text(data = summarised_scores %>%
-                         dplyr::filter(model %in% last_model),
-                       ggplot2::aes(label = range,
-                                    x = model,
-                                    y = interval_score,
-                                    family = "Sans Serif"),
-                       size = 3,
-                       position = ggplot2::position_nudge(x = 0.2),
-                       colour = "black") +
+                       size = 0.01) +
+    # ggplot2::geom_text(data = summarised_scores %>%
+    #                      dplyr::filter(model %in% last_model),
+    #                    ggplot2::aes(label = range,
+    #                                 x = model,
+    #                                 y = interval_score,
+    #                                 family = "Sans Serif"),
+    #                    size = 3,
+    #                    position = ggplot2::position_nudge(x = 0.2),
+    #                    colour = "black") +
     cowplot::theme_cowplot() +
+    #ggplot2::scale_color_continuous(low = "steelblue", high = "salmon") +
     ggplot2::theme(legend.position = "right",
                    text = ggplot2::element_text(family = "Sans Serif"),
                    axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                        hjust=1)) +
     ggplot2::labs(y = "Interval Score",
                   x = "Model")
+
+  return(plot)
+
 }
-
-
-
 

@@ -156,16 +156,15 @@ calibration_examples <- cowplot::plot_grid(standard_normal, shifted_mean,
                    underdispersion, overdispersion,
                    pit_underdispersion, pit_overdispersion,
                    ncol = 2,
-                   rel_heights = c(1, 1),
+                   rel_heights = c(0.5),
                    scale = c(1, 1),
                    align = 'hv')
-
 
 
 ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "calibration-examples.png"),
                 calibration_examples,
-                height = 15, width = 8)
+                height = 10, width = 8)
 
 
 
@@ -431,25 +430,55 @@ crps_mae <- df3 %>%
   ggplot2::geom_hline(yintercept = 0, colour = "dark grey",
                       linetype = "dashed") +
   cowplot::theme_cowplot() +
-  ggplot2::expand_limits(x = c(0,1)) +
-  ggplot2::labs(x = "Predictive cumulative distribution",
+  ggplot2::labs(x = "Cumulative distribution",
                 y = "Value") +
   ggplot2::coord_flip() +
   ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
                  legend.position = "bottom")
 
-mae_plots <- cowplot::plot_grid(mae_plot, quantile_mae, crps_mae,
-                                ncol = 1,
-                                rel_heights = c(1, 1),
-                                scale = c(1, 1),
-                                align = 'hv')
 
 
-ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
-                           "mae-plots.png"),
-                mae_plots)
+df4 <- data.frame(true_value = 0,
+                  value = seq(-3.690995164,
+                              3.108278767,
+                              length.out = 995),
+                  Fx = c(rep(0, 700), rep(1, 295)))
+
+point_cdf <- df4 %>%
+  ggplot2::ggplot(ggplot2::aes(x = value)) +
+  ggplot2::geom_line(ggplot2::aes(y = Fx)) +
+  ggplot2::annotate("rect", xmin = 0, xmax = 1.090386,
+                    ymin = 0, ymax = 1,
+                    fill = "red",
+                    alpha = 0.1) +
+  ggplot2::geom_vline(xintercept = 0, colour = "dark grey",
+                      linetype = "dashed") +
+  cowplot::theme_cowplot() +
+  #ggplot2::expand_limits(x = c(0,1)) +
+  ggplot2::labs(y = "Cumulative distribution",
+                x = "") +
+  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
+                 legend.position = "bottom")
 
 
+# mae_plots <- cowplot::plot_grid(mae_plot, quantile_mae, crps_mae,
+#                                 ncol = 1,
+#                                 rel_heights = c(1, 1),
+#                                 scale = c(1, 1),
+#                                 align = 'hv')
+#
+#
+# ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
+#                            "mae-plots.png"),
+#                 mae_plots)
+
+
+crps_explanation <- cowplot::plot_grid(point_cdf, crps_mae,
+                                       ncol = 1)
+
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
+                           "crps-explanation.png"),
+                crps_explanation)
 
 
 

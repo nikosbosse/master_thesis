@@ -24,19 +24,42 @@ knitr::write_bib(c(.packages(),
                    'bookdown', 'knitr', 'rmarkdown', 'nloptr',
                    'scoringutils',
                    'EpiSoon', 'EpiNow', 'EpiNow2',
-                   'stackr', 'forecastHybrid'), 
+                   'stackr', 'forecastHybrid', 
+                   'quantgen', 'rstan'), 
                  'bib/packages.bib')
 ```
 
 
 # Todo
 
+- Make aims section a bit larger in introduction
+
+- Thing about moving the personal contribution part to the end of the thesis? Rewriting it? Dropping it? 
+
 - Work through all the citations and adapt the author names in the bib file so they get shown consistently
+
+- Use present tense or future tense consistently in the Chapter introduction paragraphs
 
 - update data to include more dates
 
+- WIS in Chapter 3: PART THAT WIS FOR ALPHA = 0 IS PROPORTIONAL TO THE MAE
+
+- Think about the new calibration metrics and how to include them in the results chapter. 
+
 - Maybe add renewal equation / more detail to Chapter 2 and our epiforecasts-ensemble model
 
-- Think about whether to move the introduction of the covid hub models to Chapter 5 results (current tendency is not to do that) 
+- Think about the thread "Forget calibration, only accuracy matters" that Seb pointed to. Maybe add that to a discussion in Chapter 3 or 5? 
+
+- Maybe add example plots to `scoringutils`
+
+- Think about the quantile sharpness formula: is the weighting correct? The problem is that if I include a 99.99999999 interval, the sharpness value will simply go to infinity. Weigh by $(1 - \frac{\alpha}{2})$?
+
+- Think about whether to move the introduction of the covid hub models from Chapter 2 to Chapter 5 results (current tendency is not to do that) 
 
 - maybe do a quick random effects models on WIS
+
+- Chapter results Figure 1: determine optimal width / height
+
+- Maybe add a part for Point Forecast Scores in Evaluation Chapter. The Part about when to use MAE and MSE. Also maybe add those to scoringutils
+
+- Think about correct order for HEATMAP2 Plot in Chapter Results

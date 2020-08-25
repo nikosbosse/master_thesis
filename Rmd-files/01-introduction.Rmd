@@ -18,7 +18,7 @@ In order to be able to evaluate the forecasts I started working on an R package 
 
 In late April I began officially working on this master thesis. As stated above, this work focuses on two main topics: forecast evaluation and aggreagation of individual prediction models. To tackle the second topic I started the development of a package called `stackr` [@R-stackr] in late April. This package uses the Continuous Ranked Probability Score (CRPS), a proper scoring rule to create an ensemble that minimises discrepancy between the predictive distribution and the true observed data (see Chapters \@ref(evaluation) and \@ref(model-aggregation). This package was developed in collaboration with Yuling Yao at Columbia University in New York. 
 
-In June, the working group started contributing to Forecast Hub run by the @covid19forecasthub.orgCovid19forecasthubOrg2020. The model we submitted, 'epiforecasts-ensemble1', will be discussed in greater depth in Chapter \@ref(background-data). I contributed to the development of the pipeline, but mainly focused on evaluating and aggregating our forecasts. 
+In June, the working group started contributing to Forecast Hub run by the @@umass-amherstinfluenzaforecastingcenterofexcellenceCovid19forecasthubOrg2020. The model we submitted, 'epiforecasts-ensemble1', will be discussed in greater depth in Chapter \@ref(background-data). I contributed to the development of the pipeline, but mainly focused on evaluating and aggregating our forecasts. 
 
 
 ## Outline of this thesis
