@@ -63,3 +63,5 @@ knitr::write_bib(c(.packages(),
 - Maybe add a part for Point Forecast Scores in Evaluation Chapter. The Part about when to use MAE and MSE. Also maybe add those to scoringutils
 
 - Think about correct order for HEATMAP2 Plot in Chapter Results
+
+- Chapter 5 results: Report mean as well as Median for scores

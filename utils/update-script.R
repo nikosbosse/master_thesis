@@ -3,7 +3,7 @@ source("utils/settings.R")
 submission_dates <- as.character(settings$submission_dates)
 
 # filter out the last two dates - these are needed to obtain the QRA weights
-submission_dates <- submission_dates[1:5]
+submission_dates <- submission_dates[submission_dates > as.Date("2020-06-22")]
 
 for (forecast_date in submission_dates) {
 

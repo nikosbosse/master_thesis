@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Arch Linux) (preloaded format=xelatex 2020.7.20)  23 AUG 2020 13:53
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Arch Linux) (preloaded format=xelatex 2020.7.20)  26 AUG 2020 22:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -453,7 +453,11 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibsep=\skip71
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count302
-) (./master_thesis.aux)
+) (./master_thesis.aux
+
+LaTeX Warning: Label `assessing-sharpness' multiply defined.
+
+)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 151.
 LaTeX Font Info:    ... okay on input line 151.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 151.
@@ -857,21 +861,17 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 6.99925pt on input line 3.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 3.
-)
+[3])
 \tf@toc=\write4
-[3] [4
-
-]
+[4]
 Chapter 1.
-[5] [6
+[5
+
+] [6
 
 ]
 Chapter 2.
-[7]
-
-LaTeX Warning: Reference `results' on page 8 undefined on input line 226.
-
-[8]
+[7] [8]
 Chapter 3.
 [9
 
@@ -887,6 +887,9 @@ Chapter 4.
 File: ../visualisation/chapter-3-evaluation/bias_example.png Graphic file (type
  bmp)
 <../visualisation/chapter-3-evaluation/bias_example.png>
+
+LaTeX Warning: Float too large for page by 10.8879pt on input line 442.
+
 [17] [18]
 File: ../visualisation/chapter-3-evaluation/calibration-examples.png Graphic fi
 le (type bmp)
@@ -898,11 +901,11 @@ File: ../visualisation/chapter-3-evaluation/interval-coverage.png Graphic file
 (type bmp)
 <../visualisation/chapter-3-evaluation/interval-coverage.png>
 
-LaTeX Warning: Reference `(' on page 19 undefined on input line 478.
+LaTeX Warning: Reference `(' on page 19 undefined on input line 486.
 
 
-LaTeX Warning: Reference `example-bias' on page 19 undefined on input line 478.
-
+LaTeX Warning: Reference `fig:example-bias' on page 19 undefined on input line 
+486.
 
 File: ../visualisation/chapter-3-evaluation/quantile-coverage.png Graphic file 
 (type bmp)
@@ -912,62 +915,13 @@ File: ../visualisation/chapter-3-evaluation/log-score-example.png Graphic file
 (type bmp)
 <../visualisation/chapter-3-evaluation/log-score-example.png>
 [24] [25]
-
-LaTeX Warning: Reference `crps-explanation' on page 26 undefined on input line 
-542.
-
 File: ../visualisation/chapter-3-evaluation/log-score-example.png Graphic file 
 (type bmp)
 <../visualisation/chapter-3-evaluation/log-score-example.png>
 [26] [27]
-
-LaTeX Warning: Reference `results' on page 28 undefined on input line 587.
-
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 602.
-[28]
-Overfull \hbox (3.70866pt too wide) in paragraph at lines 650--650
-[]\TU/lmtt/m/n/10 ##    sharpness interval_score_0.5 calibration_0.5 coverage_d
-eviation_0.5 bias_0.5[] 
- []
-
-
-Overfull \hbox (3.70866pt too wide) in paragraph at lines 650--650
-[]\TU/lmtt/m/n/10 ## 1: 0.2609725          0.7212312               0           
-         0.0      0.5[] 
- []
-
-
-Overfull \hbox (3.70866pt too wide) in paragraph at lines 650--650
-[]\TU/lmtt/m/n/10 ## 2: 0.2609725          0.5686168               0           
-        -0.5      0.5[] 
- []
-
-
-Overfull \hbox (3.70866pt too wide) in paragraph at lines 650--650
-[]\TU/lmtt/m/n/10 ## 3: 0.2609725          0.1644854               1           
-         0.1      0.5[] 
- []
-
-
-Overfull \hbox (3.70866pt too wide) in paragraph at lines 650--650
-[]\TU/lmtt/m/n/10 ## 4: 0.2568891          0.8148384               0           
-         0.0      0.5[] 
- []
-
-
-Overfull \hbox (3.70866pt too wide) in paragraph at lines 650--650
-[]\TU/lmtt/m/n/10 ## 5: 0.2568891          0.4574078               1           
-         0.5      0.5[] 
- []
-
-
-Overfull \hbox (3.70866pt too wide) in paragraph at lines 650--650
-[]\TU/lmtt/m/n/10 ## 6: 0.2568891          0.1644854               1           
-         0.1      0.5[] 
- []
-
-[29] [30
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 612.
+[28] [29] [30
 
 ]
 Chapter 5.
@@ -975,32 +929,138 @@ Chapter 5.
 File: ../visualisation/chapter-4-ensemble/average-mixture-example.png Graphic f
 ile (type bmp)
 <../visualisation/chapter-4-ensemble/average-mixture-example.png>
-[32] [33] [34] (./master_thesis.bbl [35] [36
+[32] [33] [34] [35] [36
 
-] [37]
+]
+Chapter 6.
+File: ../visualisation/chapter-5-results/US-forecast-1-4-wk-ahead.png Graphic f
+ile (type bmp)
+<../visualisation/chapter-5-results/US-forecast-1-4-wk-ahead.png>
+File: ../visualisation/chapter-5-results/coloured-summarised-scores.png Graphic
+ file (type bmp)
+<../visualisation/chapter-5-results/coloured-summarised-scores.png>
+[37] [38]
+File: ../visualisation/chapter-5-results/correlation-map.png Graphic file (type
+ bmp)
+<../visualisation/chapter-5-results/correlation-map.png>
+File: ../visualisation/chapter-5-results/corr-plot.png Graphic file (type bmp)
+<../visualisation/chapter-5-results/corr-plot.png>
+[39] [40]
+File: ../visualisation/chapter-5-results/heatmap-model-scores.png Graphic file 
+(type bmp)
+<../visualisation/chapter-5-results/heatmap-model-scores.png>
+File: ../visualisation/chapter-5-results/heatmap-model-scores-horizon.png Graph
+ic file (type bmp)
+<../visualisation/chapter-5-results/heatmap-model-scores-horizon.png>
+File: ../visualisation/chapter-5-results/scores-by-range.png Graphic file (type
+ bmp)
+<../visualisation/chapter-5-results/scores-by-range.png>
+File: ../visualisation/chapter-5-results/bias-horizons.png Graphic file (type b
+mp)
+<../visualisation/chapter-5-results/bias-horizons.png>
+[41] [42] [43] [44]
+File: ../visualisation/chapter-5-results/bias-YYG.png Graphic file (type bmp)
+<../visualisation/chapter-5-results/bias-YYG.png>
+File: ../visualisation/chapter-5-results/interval-coverage-all.png Graphic file
+ (type bmp)
+<../visualisation/chapter-5-results/interval-coverage-all.png>
+[45] [46]
+File: ../visualisation/chapter-5-results/quantile-coverage-all.png Graphic file
+ (type bmp)
+<../visualisation/chapter-5-results/quantile-coverage-all.png>
+File: ../visualisation/chapter-5-results/interval-coverage-horizons.png Graphic
+ file (type bmp)
+<../visualisation/chapter-5-results/interval-coverage-horizons.png>
+File: ../visualisation/chapter-5-results/quantile-coverage-horizons.png Graphic
+ file (type bmp)
+<../visualisation/chapter-5-results/quantile-coverage-horizons.png>
+File: ../visualisation/chapter-5-results/coverage-deviation-by-range.png Graphi
+c file (type bmp)
+<../visualisation/chapter-5-results/coverage-deviation-by-range.png>
+File: ../visualisation/chapter-5-results/heatmap-model-coverage.png Graphic fil
+e (type bmp)
+<../visualisation/chapter-5-results/heatmap-model-coverage.png>
+
+LaTeX Warning: Reference `all-pit-plots' on page 47 undefined on input line 965
+.
+
+[47] [48] [49] [50]
+File: ../visualisation/chapter-5-results/all-pit-plots.png Graphic file (type b
+mp)
+<../visualisation/chapter-5-results/all-pit-plots.png>
+File: ../visualisation/chapter-5-results/sharpness-horizons.png Graphic file (t
+ype bmp)
+<../visualisation/chapter-5-results/sharpness-horizons.png>
+File: ../visualisation/chapter-5-results/sharpness-by-range.png Graphic file (t
+ype bmp)
+<../visualisation/chapter-5-results/sharpness-by-range.png>
+
+Underfull \vbox (badness 2884) has occurred while \output is active []
+
+[51] [52]
+Overfull \hbox (34.83878pt too wide) in paragraph at lines 1010--1042
+ [][] 
+ []
+
+File: ../visualisation/chapter-5-results/random-location-effect.png Graphic fil
+e (type bmp)
+<../visualisation/chapter-5-results/random-location-effect.png>
+File: ../visualisation/chapter-5-results/random-forecast-date-effect.png Graphi
+c file (type bmp)
+<../visualisation/chapter-5-results/random-forecast-date-effect.png>
+[53] [54]
+File: ../visualisation/chapter-5-results/bias_ensemble.png Graphic file (type b
+mp)
+<../visualisation/chapter-5-results/bias_ensemble.png>
+
+LaTeX Warning: Reference `coloured-summarised-scores' on page 55 undefined on i
+nput line 1076.
+
+[55]
+File: ../visualisation/chapter-5-results/coverage_ensemble.png Graphic file (ty
+pe bmp)
+<../visualisation/chapter-5-results/coverage_ensemble.png>
+
+LaTeX Warning: Reference `(' on page 56 undefined on input line 1082.
+
+File: ../visualisation/chapter-5-results/heatmap-sharpness-ensemble.png Graphic
+ file (type bmp)
+<../visualisation/chapter-5-results/heatmap-sharpness-ensemble.png>
+File: ../visualisation/chapter-5-results/weights-time.png Graphic file (type bm
+p)
+<../visualisation/chapter-5-results/weights-time.png>
+File: ../visualisation/chapter-5-results/weights-vs-wis.png Graphic file (type 
+bmp)
+<../visualisation/chapter-5-results/weights-vs-wis.png>
+(./master_thesis.bbl [56] [57] [58] [59
+
+]
 Overfull \hbox (25.88853pt too wide) in paragraph at lines 194--197
 []\TU/lmr/m/n/10 Ryan Tibshirani (2020).  Quantile Stacking.  https://ryantibs.
 github.io/quantgen/stacking_example.html. 
  []
 
-[38])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 786.
-[39]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 786.
+[60])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1133.
+[61]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1133.
 (./master_thesis.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 786.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 786.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1133.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1133.
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 19918 strings out of 479284
- 353927 string characters out of 5886220
- 802028 words of memory out of 5000000
- 37256 multiletter control sequences out of 15000+600000
+ 20252 strings out of 479284
+ 370361 string characters out of 5886220
+ 806222 words of memory out of 5000000
+ 37564 multiletter control sequences out of 15000+600000
  538821 words of font info for 81 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  58i,12n,118p,1870b,495s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on master_thesis.pdf (39 pages).
+Output written on master_thesis.pdf (61 pages).

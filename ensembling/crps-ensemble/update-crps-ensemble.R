@@ -28,7 +28,6 @@ past_forecasts <- load_submission_files(dates = forecast_date,
                                         models = settings$model_names,
                                         drop_latest_forecast = TRUE)
 
-
 full_set <- filter_forecasts(past_forecasts,
                              locations = settings$locations_included,
                              horizons = 2)

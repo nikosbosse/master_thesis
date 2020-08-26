@@ -8,8 +8,6 @@ submission_dates <- settings$submission_dates
 models <- settings$model_names
 
 
-models <- c("LANL-GrowthRate")
-
 results <- list()
 
 for (model in models) {

@@ -108,12 +108,12 @@ get_us_deaths <- function(data = "daily", anomaly_threshold = 100,
   # Return data
   if(data == "daily"){
     # Save daily deaths in all states
-    # saveRDS(daily, here::here("data", "processed-data", "deaths-data-daily.rds"))
+    saveRDS(daily, here::here("data", "processed-data", "deaths-data-daily.rds"))
     return(daily)
   }
 
   if(data == "cumulative"){
-    # saveRDS(cumulative_adj, here::here("data", "processed-data", "deaths-data-cumulative.rds"))
+    saveRDS(cumulative_adj, here::here("data", "processed-data", "deaths-data-cumulative.rds"))
     return(cumulative_adj)
   }
 
@@ -133,7 +133,7 @@ get_us_deaths <- function(data = "daily", anomaly_threshold = 100,
                                                   deaths = sum(deaths),
                                                   target_end_date = unique(target_end_date),
                                                   .groups = "drop_last"))
-    # saveRDS(weekly, here::here("data", "processed-data", "deaths-data-weekly.rds"))
+    saveRDS(weekly, here::here("data", "processed-data", "deaths-data-weekly.rds"))
     return(weekly)
   }
 

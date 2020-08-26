@@ -15,8 +15,8 @@ horizons <- 1:4
 model_names_eval <- c(model_names,
                       "crps-ensemble", "mean-ensemble", "qra-ensemble")
 
-submission_dates <- lubridate::ymd("2020-07-27") - seq(0, 13 * 7, 7)
-submission_dates <- submission_dates[1:7]
+submission_dates <- lubridate::ymd("2020-08-03") - seq(0, 7 * 7, 7)
+#submission_dates <- submission_dates[1:7]
 
 # check at some point that models all have the correct target_end_dates
 target_end_dates <- submission_dates + 5
@@ -41,7 +41,7 @@ locations_to_plot <-c("US", "New York", "California",
                       "Texas", "Virginia", "Florida")
 
 # cut the last two dates as these are needed to form the ensemble weights
-evaluation_dates <- submission_dates[1:5]
+evaluation_dates <- submission_dates[submission_dates >= as.Date("2020-06-29")]
 
 
 manual_colours <- c(RColorBrewer::brewer.pal(8, name = "Set2")[-6],
