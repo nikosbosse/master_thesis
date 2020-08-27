@@ -8,10 +8,45 @@ library(ggplot2)
 library(RColorBrewer)
 library(dplyr)
 
+source(here::here("utils", "settings.R"))
+
+evaluation_scenario <- "baseline"
+sensitivity_ensembles <- FALSE
+
+root_folder <- c("visualisation/chapter-5-results")
+
+if (sensitivity_ensembles) {
+  settings$model_names_eval <- settings$ensemble_names_all
+  root_folder <- paste0(root_folder, "/ensembles")
+}
+
+root_folder <- paste0(root_folder, "/scenario-",
+                      evaluation_scenario)
+
+if(!dir.exists(root_folder)) {
+  dir.create(root_folder)
+}
+
+
+if(evaluation_scenario == 1) {
+  settings$evaluation_dates <-
+    settings$evaluation_dates[settings$evaluation_dates <= as.Date("2020-07-27")]
+}
+
+if(evaluation_scenario == 2) {
+  settings$evaluation_dates <-
+    settings$evaluation_dates[settings$evaluation_dates <= as.Date("2020-07-20")]
+}
+
+if(evaluation_scenario == 3) {
+  settings$evaluation_dates <-
+    settings$evaluation_dates[settings$evaluation_dates <= as.Date("2020-07-13")]
+}
+
+
 # source function for visualisation
 source(here::here("visualisation", "plotting-functions", "visualise-data-functions.R"))
 source(here::here("visualisation", "plotting-functions", "evaluation-plots-function.R"))
-source(here::here("utils", "settings.R"))
 source(here::here("utils", "load-data-functions.R"))
 
 # scenario <- settings$scenario
@@ -87,7 +122,7 @@ US_forecast_one_four_weeks <- plot_forecasts(states = "US",
 #                            "US-forecast-1-wk-ahead.png"),
 #                 US_forecast_one_week, width = 10, height = 5)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "US-forecast-1-4-wk-ahead.png"),
                 US_forecast_one_four_weeks, width = 12, height = 10)
 
@@ -118,18 +153,17 @@ ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
 # ------------------------------------------------------------------------------
 # scores table ---------------------------
 
-summarised_scores <- scoringutils::eval_forecasts(full,
-                                                  by = c("model", "state",
-                                                         "target_end_date",
-                                                         "horizon"),
-                                                  interval_score_arguments = list(weigh = TRUE),
-                                                  summarise_by = c("model")) %>%
-  dplyr::arrange(interval_score)
-
-summarised_scores %>%
-  dplyr::select(-calibration) %>%
-  saveRDS(here::here("visualisation", "chapter-5-results", "
-                     summarised_scores.rds"))
+# summarised_scores <- scoringutils::eval_forecasts(full,
+#                                                   by = c("model", "state",
+#                                                          "target_end_date",
+#                                                          "horizon"),
+#                                                   interval_score_arguments = list(weigh = TRUE),
+#                                                   summarise_by = c("model")) %>%
+#   dplyr::arrange(interval_score)
+#
+# summarised_scores %>%
+#   dplyr::select(-calibration) %>%
+#   saveRDS(here::here("summarised_scores.rds"))
 
 
 
@@ -210,7 +244,7 @@ coloured_table <- df %>%
   ggplot2::coord_cartesian(expand=FALSE)
 
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "coloured-summarised-scores.png"),
                 coloured_table, width = 10, height = 5)
 
@@ -264,7 +298,7 @@ correlation_map <- scores %>%
   ggplot2::labs(x = "", y = "") +
   ggplot2::coord_cartesian(expand = FALSE)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "correlation-map.png"),
                 correlation_map, width = 13, height = 8)
 
@@ -280,7 +314,7 @@ corr_plot <- scores %>%
   ggplot2::theme(panel.spacing = unit(3, "mm"),
                  panel.background = element_rect(fill = "aliceblue"))
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "corr-plot.png"),
                 corr_plot, width = 14, height = 14)
 
@@ -305,9 +339,9 @@ unsum_scores <- scoringutils::eval_forecasts(full,
                                              summarise_by = c("model", "state",
                                                               "forecast_date", "horizon"))
 
-saveRDS(unsum_scores, "visualisation/chapter-5-results/unsummarised_scores.rds")
+saveRDS(unsum_scores, paste0(root_folder,"/unsummarised_scores.rds"))
 
-unsum_scores <- readRDS("visualisation/chapter-5-results/unsummarised_scores.rds") %>%
+unsum_scores <- readRDS(paste0(root_folder, "/unsummarised_scores.rds")) %>%
   dplyr::mutate(log_scores = log(interval_score),
                 abs_bias_std = (abs(bias) - mean(abs(bias))) / sd(abs(bias)),
                 coverage_deviation_std = (coverage_deviation -
@@ -383,7 +417,7 @@ heatmap_plot <- ggplot2::ggplot(scores, ggplot2::aes(y = model, x = state, fill 
                                                      hjust=1)) +
   ggplot2::coord_cartesian(expand = FALSE)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "heatmap-model-scores.png"),
                 heatmap_plot, width = 10, height = 5.5)
 
@@ -426,7 +460,7 @@ heatmap_plot2 <- ggplot2::ggplot(scores, ggplot2::aes(y = model,
                  text = ggplot2::element_text(family = "Sans Serif")) +
   ggplot2::coord_cartesian(expand=FALSE)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "heatmap-model-scores-horizon.png"),
                 heatmap_plot2, width = 10, height = 4.5)
 
@@ -456,7 +490,7 @@ summarised_scores <- scoringutils::eval_forecasts(full,
 
 wis_overview_plot <- score_overview_plot(summarised_scores)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "scores-by-range.png"),
                 wis_overview_plot, width = 10, height = 5)
 
@@ -504,6 +538,9 @@ scores <- scoringutils::eval_forecasts(full,
                                        quantiles = c(0.05, 0.15, 0.25, 0.4, 0.5,
                                                      0.6, 0.75, 0.85, 0.95))
 
+scores %>%
+  filter(model == "crps-ensemble-4-1")
+
 
 bias_horizons <- scores %>%
   dplyr::mutate(model = forcats::fct_reorder(model,
@@ -518,6 +555,49 @@ bias_horizons <- scores %>%
                           position = ggplot2::position_dodge2(width = 0.5,
                                                               padding = 0)) +
   ggplot2::geom_linerange(ggplot2::aes(ymin = bias_0.25, ymax = bias_0.75),
+                          source(here::here("ensembling", "crps-ensemble", "fit-distribution-functions.R"))
+                          combined <- combine_with_deaths(forecasts)
+                          fc <- data.table::as.data.table(combined)
+                          n_samples = settings$n_samples
+
+                          samples <- fc[, .(y_pred = get_samples(value, quantile, n_samples = n_samples),
+                                            sample_nr = 1:n_samples,
+                                            state = unique(state),
+                                            y_obs = unique(deaths)),
+                                        by = c("model", "forecast_date",
+                                               "target_end_date",
+                                               "target", "location")]
+
+                          df <- samples %>%
+                            dplyr::rename(predictions = y_pred,
+                                          true_values = y_obs,
+                                          id = target_end_date,
+                                          sample = sample_nr)
+
+                          pit_plot <- scoringutils::eval_forecasts(df,
+                                                                   by = c("model", "state", "target", "id",
+                                                                          "forecast_date"),
+                                                                   summarise_by = c("model"),
+                                                                   pit_arguments = list(num_bins = 30,
+                                                                                        plot = TRUE),
+                                                                   pit_plots = TRUE)$pit_plots
+
+                          pit_plot$overall_pit <- NULL
+
+                          pit_plot2 <- purrr::map2(pit_plot, names(pit_plot),
+                                                   .f = function(.x, .y) {
+                                                     x <- .x +
+                                                       ggplot2::labs(title = .y)
+                                                     return(x)
+                                                   })
+
+                          all_pit_plots <- cowplot::plot_grid(plotlist = pit_plot2,
+                                                              ncol = 3)
+
+                          ggplot2::ggsave(here::here(root_folder,
+                                                     "all-pit-plots.png"),
+                                          all_pit_plots,
+                                          width = 11, height = 9)
                           size = 2,
                           alpha = 0.4,
                           position = ggplot2::position_dodge2(width = 0.5,
@@ -548,7 +628,7 @@ bias_horizons <- scores %>%
 # maybe: make y = horizon, facet_grid ~ model and change the colour such
 # that the models are coloured, not the horizons
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "bias-horizons.png"),
                 bias_horizons,
                 width = 10, height = 5)
@@ -624,7 +704,8 @@ bias_plot_combined <- cowplot::plot_grid(plot_YYG,
                                          scale = c(1, 1),
                                          align = 'v')
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results", "bias-YYG.png"),
+ggplot2::ggsave(here::here(root_folder,
+                           "bias-YYG.png"),
                 bias_plot_combined,
                 width = 10, height = 7)
 
@@ -647,7 +728,7 @@ ggplot2::ggsave(here::here("visualisation", "chapter-5-results", "bias-YYG.png")
 
 
 
-
+l
 
 
 
@@ -680,15 +761,15 @@ interval_coverage_all <- ggplot2::ggplot(scores, ggplot2::aes(x = range, colour 
   cowplot::theme_cowplot() +
   ggplot2::scale_color_manual(values = settings$manual_colours) +
   ggplot2::facet_wrap(~ model, ncol = 3) +
-  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                 legend.position = "none") +
+  ggplot2::theme(legend.position = "none",
+                 panel.spacing = unit(5, "mm")) +
   ggplot2::ylab("Percent observations inside interval range") +
   ggplot2::xlab("Interval range")
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "interval-coverage-all.png"),
                 interval_coverage_all,
-                width = 10, height = 10)
+                width = 10, height = 7)
 
 
 
@@ -707,15 +788,20 @@ quantile_coverage_plot_all <- combined  %>%
   cowplot::theme_cowplot() +
   ggplot2::scale_color_manual(values = settings$manual_colours) +
   ggplot2::facet_wrap(~ model, ncol = 3) +
-  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
+  ggplot2::theme(panel.spacing = unit(5, "mm"),
                  legend.position = "none") +
   ggplot2::xlab("Quantile") +
+  #ggplot2::scale_y_continuous(breaks=c(0,0.25,0.5,0.75, 1)) +
   ggplot2::ylab("Proportion of observations below quantile")
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "quantile-coverage-all.png"),
                 quantile_coverage_plot_all,
-                width = 10, height = 10)
+                width = 10, height = 7)
+
+
+
+
 
 
 
@@ -749,16 +835,24 @@ coverage_over_horizons <- ggplot2::ggplot(scores, ggplot2::aes(x = horizon,
   ggplot2::geom_line() +
   cowplot::theme_cowplot() +
   ggplot2::facet_wrap(~ model, ncol = 3) +
-  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                 legend.position = "bottom") +
+  ggplot2::theme(legend.position = "bottom") +
   ggplot2::xlab("Forecast horizon in weeks") +
   ggplot2::ylab("Empirical interval coverage")
 
+coverage_over_horizons <- shift_legend3(coverage_over_horizons)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "interval-coverage-horizons.png"),
                 coverage_over_horizons,
-                width = 10, height = 10)
+                width = 10, height = 7)
+
+
+
+
+
+
+
+
 
 
 quantile_coverage_over_horizons <- combined  %>%
@@ -786,10 +880,13 @@ quantile_coverage_over_horizons <- combined  %>%
   ggplot2::xlab("Forecast horizon in weeks") +
   ggplot2::ylab("Empirical quantile coverage")
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+
+quantile_coverage_over_horizons <- shift_legend3(quantile_coverage_over_horizons)
+
+ggplot2::ggsave(here::here(root_folder,
                            "quantile-coverage-horizons.png"),
                 quantile_coverage_over_horizons,
-                width = 10, height = 10)
+                width = 12, height = 7)
 
 
 
@@ -828,7 +925,7 @@ coverage_deviation_by_range <- summarised_scores %>%
   ggplot2::labs(y = "Coverage deviation",
                 x = "Model")
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "coverage-deviation-by-range.png"),
                 coverage_deviation_by_range, width = 10, height = 5)
 
@@ -880,9 +977,46 @@ heatmap_plot_coverage <- ggplot2::ggplot(scores,
                                                      hjust=1)) +
   ggplot2::coord_cartesian(expand = FALSE)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "heatmap-model-coverage.png"),
                 heatmap_plot_coverage, width = 10, height = 4.8)
+
+
+
+
+
+Texas_forecast_one_weeks <- plot_forecasts(states = "Texas",
+                                             forecasts = forecasts,
+                                             facet_formula = model ~ horizon,
+                                             ncol_facet = 4,
+                                             horizons = c(1),
+                                             obs_weeks = 13) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1),
+                 legend.position = "none")
+
+ggplot2::ggsave(here::here(root_folder,
+                           "Texas-one-week.png"),
+                Texas_forecast_one_weeks, width = 10, height = 4.8)
+
+
+NY_forecast_one_weeks <- plot_forecasts(states = "New York",
+                                           forecasts = forecasts,
+                                           facet_formula = model ~ horizon,
+                                           ncol_facet = 4,
+                                           horizons = c(1),
+                                           obs_weeks = 13) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1),
+                 legend.position = "none")
+
+ggplot2::ggsave(here::here(root_folder,
+                           "NY-one-week.png"),
+                N>_forecast_one_weeks, width = 10, height = 4.8)
+
+
+
+
 
 
 
@@ -947,7 +1081,7 @@ pit_plot2 <- purrr::map2(pit_plot, names(pit_plot),
 all_pit_plots <- cowplot::plot_grid(plotlist = pit_plot2,
                                     ncol = 3)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "all-pit-plots.png"),
                 all_pit_plots,
                 width = 11, height = 9)
@@ -1034,7 +1168,7 @@ sharpness_horizons <- scores %>%
 # maybe: make y = horizon, facet_grid ~ model and change the colour such
 # that the models are coloured, not the horizons
 # log scale on y axis or not?
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "sharpness-horizons.png"),
                 sharpness_horizons,
                 width = 12, height = 4.8)
@@ -1074,8 +1208,7 @@ sharpness_by_range <- summarised_scores %>%
   ggplot2::labs(y = "Sharpness",
                 x = "Model")
 
-ggplot2::ggsave(here::here("visualisation",
-                           "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "sharpness-by-range.png"),
                 sharpness_by_range, width = 10, height = 4.6)
 
@@ -1177,14 +1310,23 @@ ggplot2::ggsave(here::here("visualisation",
 # ------------------------------------------------------------------------------
 # Random effects model on WIS
 
+unsummarised_scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       quantiles = c(0.05, 0.95, 0.25, 0.75, 0.4, 0.6, 0.5),
+                                       summarise_by = c("model", "horizon",
+                                                        "state", "forecast_date"))
+
 library(magrittr)
-unsummarised_scores <- readRDS("../visualisation/chapter-5-results/unsummarised_scores.rds") %>%
+unsummarised_scores <- unsummarised_scores %>%
   dplyr::mutate(log_scores = log(interval_score),
                 state = as.factor(state),
                 model = as.factor(model),
                 model = forcats::fct_reorder(model, interval_score,
                                              .fun = "mean"),
-                model = relevel(model, ref = "COVIDhub-baseline"),
+                model = relevel(model, ref = "COVIDhub-ensemble"),
                 forecast_date = as.factor(forecast_date)) %>%
   dplyr::filter(is.finite(log_scores))
 
@@ -1193,7 +1335,7 @@ fit <- lmerTest::lmer(log_scores ~ model * horizon
                       + (1|state) + (1|forecast_date),
                       data = unsummarised_scores)
 
-saveRDS(fit, "visualisation/chapter-5-results/random-effects-model.RDS")
+saveRDS(fit, paste0(root_folder, "/random-effects-model.RDS"))
 
 
 # ------------------------------------------------------------------------------
@@ -1211,10 +1353,10 @@ random_locations <- lme4::ranef(fit, drop = TRUE)$state %>%
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
                                                      vjust = 1, hjust = 1))
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
-                           "random-location-effect.png"),
-                random_locations,
-                width = 10, height = 4)
+# ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+#                            "random-location-effect.png"),
+#                 random_locations,
+#                 width = 10, height = 4)
 
 
 # ------------------------------------------------------------------------------
@@ -1231,13 +1373,22 @@ random_forecast_date <- lme4::ranef(fit, drop = TRUE)$forecast_date %>%
                                                      vjust = 1, hjust = 1))
 
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
-                           "random-forecast-date-effect.png"),
-                random_forecast_date,
+# ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+#                            "random-forecast-date-effect.png"),
+#                 random_forecast_date,
+#                 width = 10, height = 4)
+
+
+random_effects <- cowplot::plot_grid(random_locations,
+                                     random_forecast_date,
+                                     rel_widths = c(1.5, 1),
+                                     ncol = 2)
+
+
+ggplot2::ggsave(here::here(root_folder,
+                           "random-effects.png"),
+                random_effects,
                 width = 10, height = 4)
-
-
-
 
 
 
@@ -1323,7 +1474,7 @@ coverage_ensemble <- cowplot::plot_grid(interval_coverage_ensemble,
                    rel_widths = c(0.65,1),
                    ncol = 2)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "coverage_ensemble.png"),
                 coverage_ensemble,
                 width = 10, height = 4)
@@ -1343,7 +1494,7 @@ forecasts_ensemble <- filter_forecasts(forecasts_ensemble,
                                   locations = settings$locations_included,
                                   horizons = c(1, 2, 3, 4))
 
-full_ensemble <- prepare_for_scoring(forecasts_ensmble)
+full_ensemble <- prepare_for_scoring(forecasts_ensemble)
 
 scores_ensemble <- scoringutils::eval_forecasts(full_ensemble,
                                            by = c("model", "state",
@@ -1403,7 +1554,7 @@ bias_plot_combined_ensemble <- cowplot::plot_grid(plot_ensemble,
                                                   scale = c(1, 1),
                                                   align = 'v')
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "bias_ensemble.png"),
                 bias_plot_combined_ensemble,
                 width = 10, height = 16)
@@ -1458,9 +1609,9 @@ heatmap_plot_sharpness <- ggplot2::ggplot(scores_ensemble,
                                                      hjust=1)) +
   ggplot2::coord_cartesian(expand = FALSE)
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "heatmap-sharpness-ensemble.png"),
-                heatmap_plot_sharpness, width = 10, height = 4)
+                heatmap_plot_sharpness, width = 10, height = 3.5)
 
 
 
@@ -1474,45 +1625,42 @@ ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
 # ------------------------------------------------------------------------------
 # Plots with weights over time
 
-crps_weights_files <- list.files(here::here("ensembling", "crps-ensemble", "crps-weights"))
-crps_weights_paths <- here::here("ensembling", "crps-ensemble", "crps-weights",
-                                 crps_weights_files)
-qra_weights_files <- list.files(here::here("ensembling", "qra-ensemble", "qra-weights"))
-qra_weights_paths <- here::here("ensembling", "qra-ensemble", "qra-weights",
-                                qra_weights_files)
+if (evaluation_scenario != "ensembles") {
+  crps_weights_files <- list.files(here::here("ensembling", "crps-ensemble", "crps-weights"))
+  crps_weights_files <- crps_weights_files[grepl(".csv", crps_weights_files)]
+  crps_weights_paths <- here::here("ensembling", "crps-ensemble", "crps-weights",
+                                   crps_weights_files)
+  qra_weights_files <- list.files(here::here("ensembling", "qra-ensemble", "qra-weights"))
+  qra_weights_files <- qra_weights_files[grepl(".csv", qra_weights_files)]
+  qra_weights_paths <- here::here("ensembling", "qra-ensemble", "qra-weights",
+                                  qra_weights_files)
 
-crps_weights <- purrr::map_dfr(crps_weights_paths, read.csv) %>%
-  dplyr::mutate(method = "crps")
+  crps_weights <- purrr::map_dfr(crps_weights_paths, read.csv) %>%
+    dplyr::mutate(method = "crps")
 
-qra_weights <- purrr::map_dfr(qra_weights_paths, read.csv) %>%
-  dplyr::mutate(method = "qra")
+  qra_weights <- purrr::map_dfr(qra_weights_paths, read.csv) %>%
+    dplyr::mutate(method = "qra")
 
-weights <- dplyr::bind_rows(crps_weights, qra_weights)
+  weights <- dplyr::bind_rows(crps_weights, qra_weights)
 
-weights_time <- weights %>%
-  dplyr::mutate(model = forcats::fct_reorder(model,
-                                             weights,
-                                             .fun='mean',
-                                             .desc = TRUE)) %>%
-  ggplot2::ggplot(ggplot2::aes(fill = model,
-                               y = weights,
-                               x = forecast_date)) +
-  ggplot2::facet_grid(method ~ .) +
-  ggplot2::labs(x = "Forecast date", y = "Model weights") +
-  ggplot2::geom_bar(position = "fill", stat = "identity") +
-  ggplot2::theme(#legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+  weights_time <- weights %>%
+    dplyr::mutate(model = forcats::fct_reorder(model,
+                                               weights,
+                                               .fun='mean',
+                                               .desc = TRUE)) %>%
+    ggplot2::ggplot(ggplot2::aes(fill = model,
+                                 y = weights,
+                                 x = forecast_date)) +
+    ggplot2::facet_grid(method ~ .) +
+    ggplot2::labs(x = "Forecast date", y = "Model weights") +
+    ggplot2::geom_bar(position = "fill", stat = "identity") +
+    ggplot2::theme(#legend.position = "bottom",
+      text = ggplot2::element_text(family = "Sans Serif"))
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
-                           "weights-time.png"),
-                weights_time,
-                width = 11, height = 9)
-
-
-
-
-
-
+  ggplot2::ggsave(here::here(root_folder,
+                             "weights-time.png"),
+                  weights_time,
+                  width = 10, height = 4)
 
 
 scores <- scoringutils::eval_forecasts(full,
@@ -1601,10 +1749,87 @@ weights_vs_scores <- cowplot::plot_grid(wis_score1, wis_score2,
                                         ncol = 1,
                                         rel_heights = c(1,1, 0.6, 0.85))
 
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+ggplot2::ggsave(here::here(root_folder,
                            "weights-vs-wis.png"),
                 weights_vs_scores,
-                width = 13, height = 8)
+                width = 13, height = 10)
+
+}
+
+
+if (evaluation_scenario == "ensemble") {
+  crps_weights_dirs <- list.dirs(here::here("ensembling",
+                                            "crps-ensemble",
+                                            "crps-weights"))[-1]
+  crps_weights_files <- list.files(crps_weights_dirs)
+}
+
+
+
+
+
+
+# make a regression of ensemble models
+
+if (sensitivity_ensembles) {
+
+  forecasts <- load_submission_files(dates = settings$evaluation_dates,
+                                     models = settings$model_names_eval)
+
+  forecasts <- filter_forecasts(forecasts,
+                                locations = settings$locations_included,
+                                horizons = c(1, 2, 3, 4))
+
+  full <- prepare_for_scoring(forecasts)
+
+  scores <- scoringutils::eval_forecasts(full,
+                                         by = c("forecast_date",
+                                                "target_end_date",
+                                                "model", "state", "horizon"),
+                                         interval_score_arguments = list(weigh = TRUE),
+                                         summarise_by = c("model", "forecast_date",
+                                                          "horizon", "state"))
+
+
+  unsummarised_scores <- scores %>%
+    dplyr::mutate(log_scores = log(interval_score),
+                  state = as.factor(state),
+                  model = as.factor(model),
+                  model = forcats::fct_reorder(model, interval_score,
+                                               .fun = "mean"),
+                  model = relevel(model, ref = "qra-ensemble-1"),
+                  forecast_date = as.factor(forecast_date)) %>%
+    dplyr::filter(is.finite(log_scores))
+
+
+  unsummarised_scores %>%
+    dplyr::group_by(model) %>%
+    dplyr::summarise(mean = mean(interval_score),
+                     mean_log = mean(log_scores))
+
+  ensemble_fit <- lmerTest::lmer(log_scores ~ model
+                        + (1|state) + (1|forecast_date),
+                        data = unsummarised_scores)
+
+  summary(ensemble_fit) %>%
+    coef() %>%
+    as.data.frame() %>%
+    dplyr::arrange(Estimate)
+
+  saveRDS(ensemble_fit, paste0(root_folder, "/random-effects-model-ensemble.RDS"))
+
+
+  }
+
+
+
+
+
+
+
+
+
+
 
 
 #

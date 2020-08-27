@@ -9,13 +9,24 @@ source(here::here("utils", "load-data-functions.R"))
 # load past forecasts
 forecast_date <- settings$forecast_date
 
-# manual
+num_last <- settings$ensemble_past_included
+
+# manual corection if not enough past observations available
 if (forecast_date == "2020-06-29") {
-  settings$num_last <-  1
+  num_last <-  1
+}
+if (forecast_date == "2020-07-06") {
+  if (num_last > 2)
+  num_last <-  2
+}
+if (forecast_date == "2020-07-13") {
+  if (num_last > 3) {
+    num_last <-  1
+  }
 }
 
 past_forecasts <- load_submission_files(dates = as.Date(settings$forecast_date),
-                                        num_last = settings$num_last,
+                                        num_last = num_last,
                                         models = settings$model_names,
                                         drop_latest_forecast = TRUE)
 
@@ -79,8 +90,19 @@ weights_df <- data.frame(model = models,
                          weights = model_weights,
                          forecast_date = forecast_date,
                          num_last = settings$num_last)
+
+if (!dir.exists(here::here("ensembling", "qra-ensemble", "qra-weights",
+                           paste0(settings$ensemble_past_included)))) {
+  dir.create(here::here("ensembling", "qra-ensemble", "qra-weights",
+                        paste0(settings$ensemble_past_included)))
+}
+
 filename <- here::here("ensembling", "qra-ensemble", "qra-weights",
+                       paste0(settings$ensemble_past_included),
                        paste0(forecast_date, "-crps-weights.csv"))
+
+
+
 data.table::fwrite(weights_df, file = filename)
 
 
@@ -115,10 +137,13 @@ qra_ensemble <- forecasts_wide %>%
 
 
 # write dated file
-if (!dir.exists(here::here("data", "processed-data", "qra-ensemble"))) {
-  dir.create(here::here("data", "processed-data", "qra-ensemble"))
+if (!dir.exists(here::here("data", "processed-data",
+                           paste0("qra-ensemble-", settings$ensemble_past_included)))) {
+  dir.create(here::here("data", "processed-data",
+                        paste0("qra-ensemble-", settings$ensemble_past_included)))
 }
 
-filename <- here::here("data", "processed-data", "qra-ensemble",
+filename <- here::here("data", "processed-data",
+                       paste0("qra-ensemble-", settings$ensemble_past_included),
                        paste0(forecast_date, "-epiforecasts-ensemble1-qra.csv"))
 data.table::fwrite(qra_ensemble, filename)

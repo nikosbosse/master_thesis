@@ -1,0 +1,60 @@
+\contentsline {chapter}{\numberline {1}Todo}{5}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Introduction}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Aim and motivation}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Scope, context, and personal contribution}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Outline of this thesis}{8}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Code}{8}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Epidemiological background, data and forecasting models}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Overview of epidemiological prediction targets}{9}{section.3.1}%
+\contentsline {section}{\numberline {3.2}An overview of common epidemiological models}{10}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Compartmental models}{10}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Time series models}{11}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Semi-mechanistic models}{11}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}The COVID-19 Forecast Hub}{11}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Overview of the forecasting models analysed}{12}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}COVIDhub-baseline}{12}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}COVIDhub-ensemble}{13}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}epiforecasts-ensemble1}{13}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}UMass-MechBayes}{14}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}YYG-ParamSearch}{14}{subsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.4.6}CU-select}{14}{subsection.3.4.6}%
+\contentsline {subsection}{\numberline {3.4.7}UT-Mobility}{14}{subsection.3.4.7}%
+\contentsline {subsection}{\numberline {3.4.8}LANL-GrowthRate}{14}{subsection.3.4.8}%
+\contentsline {chapter}{\numberline {4}Forecasting and evaluation}{15}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Types of forecasts}{15}{section.4.1}%
+\contentsline {section}{\numberline {4.2}What is a good forecast? - The forecasting paradigm}{16}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Assesssing calibration}{16}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Assessing bias}{16}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}The probability integral transform}{17}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Calibration and empirical coverage}{19}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Assessing sharpness}{19}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Proper scoring rules}{24}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Log Score}{24}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}(Continuous) Ranked Probability Score}{24}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Interval score}{26}{subsection.4.5.3}%
+\contentsline {section}{\numberline {4.6}A proposed evaluation framework}{28}{section.4.6}%
+\contentsline {section}{\numberline {4.7}The scoringutils package}{28}{section.4.7}%
+\contentsline {chapter}{\numberline {5}Model aggregation}{31}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Theoretical idea}{31}{section.5.1}%
+\contentsline {section}{\numberline {5.2}The Quantile Regression Average ensemble}{32}{section.5.2}%
+\contentsline {section}{\numberline {5.3}The CRPS ensemble}{33}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Results - evaluation and aggregation of Covid-19 death forecasts}{37}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Forecast visualisation}{37}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Summarised scores}{39}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Correlation between metrics}{39}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Scores by subgroups}{42}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Assessing Calibration}{44}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Bias}{44}{subsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.1.1}Bias by subgroups}{44}{subsubsection.6.3.1.1}%
+\contentsline {subsection}{\numberline {6.3.2}Coverage}{44}{subsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.2.1}Coverage by subgroups}{45}{subsubsection.6.3.2.1}%
+\contentsline {subsection}{\numberline {6.3.3}PIT histograms}{48}{subsection.6.3.3}%
+\contentsline {section}{\numberline {6.4}Assessing sharpness}{49}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Model evaluation in a regression framework}{49}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Assessing ensemble performance}{51}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Additional details to forecast visualisation, bias, coverage, sharpness}{53}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Model weights over time}{53}{subsection.6.6.2}%
+\contentsline {section}{\numberline {6.7}Other ensemble variants}{53}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Sensitivity analysis}{57}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Discussion}{57}{section.6.9}%
+\contentsline {chapter}{\numberline {7}Discussion}{61}{chapter.7}%

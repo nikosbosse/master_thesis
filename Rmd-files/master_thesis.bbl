@@ -1,0 +1,267 @@
+\begin{thebibliography}{}
+
+\bibitem[Anderson and Darling, 1952]{andersonAsymptoticTheoryCertain1952}
+Anderson, T.~W. and Darling, D.~A. (1952).
+\newblock Asymptotic {{Theory}} of {{Certain}} {"}{{Goodness}} of {{Fit}}{"}
+  {{Criteria Based}} on {{Stochastic Processes}}.
+\newblock {\em The Annals of Mathematical Statistics}, 23(2):193--212.
+
+\bibitem[Angus, 1994]{angusProbabilityIntegralTransform1994}
+Angus, J.~E. (1994).
+\newblock The {Probability} {Integral} {Transform} and {Related} {Results}.
+\newblock {\em SIAM Review}, 36(4):652--654.
+\newblock Publisher: Society for Industrial and Applied Mathematics.
+
+\bibitem[Bosse et~al., 2020a]{R-scoringutils}
+Bosse, N., {Sam Abbott}, and Funk, S. (2020a).
+\newblock {\em scoringutils: Utilities for Scoring and Assessing Predictions}.
+\newblock R package version 0.1.2.
+
+\bibitem[Bosse et~al., 2020b]{R-stackr}
+Bosse, N., Yao, Y., Abbott, S., and Funk, S. (2020b).
+\newblock {\em stackr: Create Mixture Models From Predictive Samples}.
+\newblock R package version 0.1.0.
+
+\bibitem[Bracher et~al., 2020]{bracherEvaluatingEpidemicForecasts2020}
+Bracher, J., Ray, E.~L., Gneiting, T., and Reich, N.~G. (2020).
+\newblock Evaluating epidemic forecasts in an interval format.
+\newblock {\em arXiv:2005.12881 [q-bio, stat]}.
+\newblock arXiv: 2005.12881.
+
+\bibitem[Brauer, 2008]{brauerCompartmentalModelsEpidemiology2008}
+Brauer, F. (2008).
+\newblock Compartmental {Models} in {Epidemiology}.
+\newblock In Brauer, F., van~den Driessche, P., and Wu, J., editors, {\em
+  Mathematical {Epidemiology}}, Lecture {Notes} in {Mathematics}, pages 19--79.
+  Springer, Berlin, Heidelberg.
+
+\bibitem[Cori et~al., 2013]{coriNewFrameworkSoftware2013}
+Cori, A., Ferguson, N.~M., Fraser, C., and Cauchemez, S. (2013).
+\newblock A {New} {Framework} and {Software} to {Estimate} {Time}-{Varying}
+  {Reproduction} {Numbers} {During} {Epidemics}.
+\newblock {\em American Journal of Epidemiology}, 178(9):1505--1512.
+
+\bibitem[Czado et~al., 2009]{czadoPredictiveModelAssessment2009}
+Czado, C., Gneiting, T., and Held, L. (2009).
+\newblock Predictive model assessment for count data.
+\newblock {\em Biometrics}, 65(4):1254--1261.
+
+\bibitem[Dawid, 1984]{dawidPresentPositionPotential1984}
+Dawid, A.~P. (1984).
+\newblock Present {Position} and {Potential} {Developments}: {Some} {Personal}
+  {Views} {Statistical} {Theory} the {Prequential} {Approach}.
+\newblock {\em Journal of the Royal Statistical Society: Series A (General)},
+  147(2):278--290.
+\newblock \_eprint:
+  https://rss.onlinelibrary.wiley.com/doi/pdf/10.2307/2981683.
+
+\bibitem[Dong et~al., 2020]{dongInteractiveWebbasedDashboard2020}
+Dong, E., Du, H., and Gardner, L. (2020).
+\newblock An interactive web-based dashboard to track {COVID}-19 in real time.
+\newblock {\em The Lancet Infectious Diseases}, 20(5):533--534.
+\newblock Publisher: Elsevier.
+
+\bibitem[Epstein, 1969]{epsteinScoringSystemProbability1969}
+Epstein, E.~S. (1969).
+\newblock A {Scoring} {System} for {Probability} {Forecasts} of {Ranked}
+  {Categories}.
+\newblock {\em Journal of Applied Meteorology}, 8(6):985--987.
+\newblock Publisher: American Meteorological Society.
+
+\bibitem[Funk et~al., 2019]{funkAssessingPerformanceRealtime2019}
+Funk, S., Camacho, A., Kucharski, A.~J., Lowe, R., Eggo, R.~M., and Edmunds,
+  W.~J. (2019).
+\newblock Assessing the performance of real-time epidemic forecasts: {A} case
+  study of {Ebola} in the {Western} {Area} region of {Sierra} {Leone}, 2014-15.
+\newblock {\em PLOS Computational Biology}, 15(2):e1006785.
+
+\bibitem[Gelman et~al., 2014]{gelmanUnderstandingPredictiveInformation2014}
+Gelman, A., Hwang, J., and Vehtari, A. (2014).
+\newblock Understanding predictive information criteria for {Bayesian} models.
+\newblock {\em Statistics and Computing}, 24(6):997--1016.
+
+\bibitem[Gneiting et~al., 2007]{gneitingProbabilisticForecastsCalibration2007}
+Gneiting, T., Balabdaoui, F., and Raftery, A.~E. (2007).
+\newblock Probabilistic forecasts, calibration and sharpness.
+\newblock {\em Journal of the Royal Statistical Society: Series B (Statistical
+  Methodology)}, 69(2):243--268.
+
+\bibitem[Gneiting and Raftery, 2007]{gneitingStrictlyProperScoring2007}
+Gneiting, T. and Raftery, A.~E. (2007).
+\newblock Strictly {Proper} {Scoring} {Rules}, {Prediction}, and {Estimation}.
+\newblock {\em Journal of the American Statistical Association},
+  102(477):359--378.
+
+\bibitem[Gneiting et~al., 2005]{gneitingCalibratedProbabilisticForecasting2005}
+Gneiting, T., Raftery, A.~E., Westveld, A.~H., and Goldman, T. (2005).
+\newblock Calibrated {Probabilistic} {Forecasting} {Using} {Ensemble} {Model}
+  {Output} {Statistics} and {Minimum} {CRPS} {Estimation}.
+\newblock {\em Monthly Weather Review}, 133(5):1098--1118.
+\newblock Publisher: American Meteorological Society.
+
+\bibitem[Good, 1952]{goodRationalDecisions1952}
+Good, I.~J. (1952).
+\newblock Rational {Decisions}.
+\newblock {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)}, 14(1):107--114.
+\newblock Publisher: [Royal Statistical Society, Wiley].
+
+\bibitem[Gostic et~al., 2020]{gosticPracticalConsiderationsMeasuring2020}
+Gostic, K.~M., McGough, L., Baskerville, E., Abbott, S., Joshi, K., Tedijanto,
+  C., Kahn, R., Niehus, R., Hay, J., de~Salazar, P., Hellewell, J., Meakin, S.,
+  Munday, J., Bosse, N.~I., Sherrat, K., Thompson, R.~N., White, L.~F.,
+  Huisman, J.~S., Scire, J., Bonhoeffer, S., Stadler, T., Wallinga, J., Funk,
+  S., Lipsitch, M., and Cobey, S. (2020).
+\newblock Practical considerations for measuring the effective reproductive
+  number, {Rt}.
+\newblock {\em medRxiv}.
+
+\bibitem[Guo et~al., 2020]{R-rstan}
+Guo, J., Gabry, J., and Goodrich, B. (2020).
+\newblock {\em rstan: R Interface to Stan}.
+\newblock R package version 2.19.3.
+
+\bibitem[Hamill, 2001]{hamillInterpretationRankHistograms2001}
+Hamill, T.~M. (2001).
+\newblock Interpretation of {Rank} {Histograms} for {Verifying} {Ensemble}
+  {Forecasts}.
+\newblock {\em Monthly Weather Review}, 129(3):550--560.
+\newblock Publisher: American Meteorological Society.
+
+\bibitem[Hellewell et~al., 2020]{hellewellFeasibilityControllingCOVID192020}
+Hellewell, J., Abbott, S., Gimma, A., Bosse, N.~I., Jarvis, C.~I., Russell,
+  T.~W., Munday, J.~D., Kucharski, A.~J., Edmunds, W.~J., Sun, F., Flasche, S.,
+  Quilty, B.~J., Davies, N., Liu, Y., Clifford, S., Klepac, P., Jit, M.,
+  Diamond, C., Gibbs, H., Zandvoort, K.~v., Funk, S., and Eggo, R.~M. (2020).
+\newblock Feasibility of controlling {COVID}-19 outbreaks by isolation of cases
+  and contacts.
+\newblock {\em The Lancet Global Health}, 8(4):e488--e496.
+
+\bibitem[Hoeting et~al., 1999]{hoetingBayesianModelAveraging1999}
+Hoeting, J.~A., Madigan, D., Raftery, A.~E., and Volinsky, C.~T. (1999).
+\newblock Bayesian {{Model Averaging}}: {{A Tutorial}}.
+\newblock {\em Statistical Science}, 14(4):382--401.
+
+\bibitem[{Hyndman, Rob J and Athanasopoulos, George},
+  2019]{hyndmanrobjForecastingPrinciplesPractice2019}
+{Hyndman, Rob J and Athanasopoulos, George} (2019).
+\newblock {\em Forecasting: {{Principles}} and {{Practice}}}.
+
+\bibitem[Matheson and Winkler, 1976]{mathesonScoringRulesContinuous1976}
+Matheson, J.~E. and Winkler, R.~L. (1976).
+\newblock Scoring {Rules} for {Continuous} {Probability} {Distributions}.
+\newblock {\em Management Science}, 22(10):1087--1096.
+\newblock Publisher: INFORMS.
+
+\bibitem[Murphy, 1969]{murphyRankedProbabilityScore1969}
+Murphy, A.~H. (1969).
+\newblock On the “{Ranked} {Probability} {Score}”.
+\newblock {\em Journal of Applied Meteorology}, 8(6):988--989.
+\newblock Publisher: American Meteorological Society.
+
+\bibitem[{National Health Commission of the PRC},
+  2020]{nationalhealthcommissionoftheprcFeb13Daily}
+{National Health Commission of the PRC} (2020).
+\newblock Feb 13: {Daily} briefing on novel coronavirus cases in {China}.
+
+\bibitem[Nishiura and Chowell, 2009]{nishiuraEffectiveReproductionNumber2009}
+Nishiura, H. and Chowell, G. (2009).
+\newblock The {Effective} {Reproduction} {Number} as a {Prelude} to
+  {Statistical} {Estimation} of {Time}-{Dependent} {Epidemic} {Trends}.
+\newblock {\em Mathematical and Statistical Estimation Approaches in
+  Epidemiology}, pages 103--121.
+
+\bibitem[Nowotarski and Weron, 2015]{nowotarskiComputingElectricitySpot2015}
+Nowotarski, J. and Weron, R. (2015).
+\newblock Computing electricity spot price prediction intervals using quantile
+  regression and forecast averaging.
+\newblock {\em Computational Statistics}, 30(3):791--803.
+
+\bibitem[Raftery et~al., 2005]{rafteryUsingBayesianModel2005}
+Raftery, A.~E., Gneiting, T., Balabdaoui, F., and Polakowski, M. (2005).
+\newblock Using {Bayesian} {Model} {Averaging} to {Calibrate} {Forecast}
+  {Ensembles}.
+\newblock {\em Monthly Weather Review}, 133(5):1155--1174.
+\newblock Publisher: American Meteorological Society.
+
+\bibitem[Raftery et~al., 1997]{rafteryBayesianModelAveraging1997}
+Raftery, A.~E., Madigan, D., and Hoeting, J.~A. (1997).
+\newblock Bayesian {{Model Averaging}} for {{Linear Regression Models}}.
+\newblock {\em Journal of the American Statistical Association},
+  92(437):179--191.
+
+\bibitem[{Ryan Tibshirani}, 2020]{ryantibshiraniQuantileStacking2020}
+{Ryan Tibshirani} (2020).
+\newblock Quantile {{Stacking}}.
+\newblock https://ryantibs.github.io/quantgen/stacking\_example.html.
+
+\bibitem[{Sam Abbott} et~al., 2020a]{R-EpiSoon}
+{Sam Abbott}, Bosse, N., Hellewell, J., Sherratt, K., Munday, J., Thompson, R.,
+  Chateigner, A., Mareschal, S., Rau, A., Vialaneix, N., DeWitt, M., and Funk,
+  S. (2020a).
+\newblock {\em EpiSoon: Forecast Cases Using Reproduction Numbers}.
+\newblock R package version 0.3.0.
+
+\bibitem[{Sam Abbott} et~al., 2020b]{R-EpiNow}
+{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020b).
+\newblock {\em EpiNow: Estimate Realtime Case Counts and Time-varying
+  Epidemiological Parameters}.
+\newblock R package version 0.3.0.
+
+\bibitem[{Sam Abbott} et~al., 2020c]{R-EpiNow2}
+{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020c).
+\newblock {\em EpiNow2: Estimate Realtime Case Counts and Time-varying
+  Epidemiological Parameters}.
+\newblock R package version 0.3.0.
+
+\bibitem[Shannon, 1948]{shannonMathematicalTheoryCommunication1948}
+Shannon, C.~E. (1948).
+\newblock A {Mathematical} {Theory} of {Communication}.
+\newblock page~55.
+
+\bibitem[Shaub and Ellis, 2020]{R-forecastHybrid}
+Shaub, D. and Ellis, P. (2020).
+\newblock {\em forecastHybrid: Convenient Functions for Ensemble Time Series
+  Forecasts}.
+\newblock R package version 5.0.18.
+
+\bibitem[Tibshirani, 2020]{R-quantgen}
+Tibshirani, R. (2020).
+\newblock {\em quantgen: Tools for generalized quantile modeling}.
+\newblock R package version 1.0.0.
+
+\bibitem[{Timothy W Russell, Joel Hellewell, Sam Abbott, Nick Golding, Hamish
+  Gibbs, Christopher I Jarvis, Kevin van Zandvoort, CMMID nCov working group,
+  Stefan Flasche, Rosalind M Eggo, W John Edmunds \& Adam J Kucharski},
+  2020]{timothywrusselljoelhellewellsamabbottnickgoldinghamishgibbschristopherijarviskevinvanzandvoortcmmidncovworkinggroupstefanflascherosalindmeggowjohnedmundsadamjkucharskiUsingDelayadjustedCase2020}
+{Timothy W Russell, Joel Hellewell, Sam Abbott, Nick Golding, Hamish Gibbs,
+  Christopher I Jarvis, Kevin van Zandvoort, CMMID nCov working group, Stefan
+  Flasche, Rosalind M Eggo, W John Edmunds \& Adam J Kucharski} (2020).
+\newblock Using a delay-adjusted case fatality ratio to estimate
+  under-reporting.
+
+\bibitem[{UMass-Amherst Influenza Forecasting Center of Excellence},
+  2020]{umass-amherstinfluenzaforecastingcenterofexcellenceCovid19forecasthubOrg2020}
+{UMass-Amherst Influenza Forecasting Center of Excellence} (2020).
+\newblock Covid19forecasthub.org.
+\newblock https://covid19forecasthub.org/.
+
+\bibitem[Woody et~al., 2020]{woodyProjectionsFirstwaveCOVID192020}
+Woody, S., {Garcia Tec}, M., Dahan, M., Gaither, K., Lachmann, M., Fox, S.,
+  Meyers, L.~A., and Scott, J.~G. (2020).
+\newblock Projections for first-wave {{COVID}}-19 deaths across the {{US}}
+  using social-distancing measures derived from mobile phones.
+\newblock Preprint, {Infectious Diseases (except HIV/AIDS)}.
+
+\bibitem[Yao et~al., 2018]{yaoUsingStackingAverage2018}
+Yao, Y., Vehtari, A., Simpson, D., and Gelman, A. (2018).
+\newblock Using stacking to average {Bayesian} predictive distributions.
+\newblock {\em Bayesian Analysis}, 13(3):917--1007.
+\newblock arXiv: 1704.02030.
+
+\bibitem[Ypma and Johnson, 2020]{R-nloptr}
+Ypma, J. and Johnson, S.~G. (2020).
+\newblock {\em nloptr: R Interface to NLopt}.
+\newblock R package version 1.2.2.2.
+
+\end{thebibliography}

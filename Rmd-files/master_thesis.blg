@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2020/Arch Linux)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: master_thesis.aux
+The style file: apalike.bst
+Database file #1: bib/masterthesis.bib
+Database file #2: bib/packages.bib
+Warning--empty publisher in hyndmanrobjForecastingPrinciplesPractice2019
+Warning--empty journal in shannonMathematicalTheoryCommunication1948
+You've used 42 entries,
+            1935 wiz_defined-function locations,
+            756 strings with 14559 characters,
+and the built_in function-call counts, 17780 in all, are:
+= -- 1704
+> -- 923
+< -- 24
++ -- 338
+- -- 323
+* -- 1593
+:= -- 3163
+add.period$ -- 136
+call.type$ -- 42
+change.case$ -- 361
+chr.to.int$ -- 39
+cite$ -- 44
+duplicate$ -- 583
+empty$ -- 1099
+format.name$ -- 379
+if$ -- 3352
+int.to.chr$ -- 4
+int.to.str$ -- 0
+missing$ -- 29
+newline$ -- 222
+num.names$ -- 128
+pop$ -- 293
+preamble$ -- 1
+purify$ -- 370
+quote$ -- 0
+skip$ -- 455
+stack$ -- 0
+substring$ -- 1167
+swap$ -- 66
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 250
+warning$ -- 2
+while$ -- 135
+width$ -- 0
+write$ -- 552
+(There were 2 warnings)

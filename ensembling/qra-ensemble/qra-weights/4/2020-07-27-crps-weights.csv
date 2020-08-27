@@ -1,0 +1,9 @@
+model,weights,forecast_date,num_last
+COVIDhub-baseline,0,2020-07-27,2
+COVIDhub-ensemble,0.0811804379132389,2020-07-27,2
+CU-select,0.261893823228552,2020-07-27,2
+epiforecasts-ensemble1,0,2020-07-27,2
+LANL-GrowthRate,0,2020-07-27,2
+UMass-MechBayes,0.23010571507216,2020-07-27,2
+UT-Mobility,0.232735688866995,2020-07-27,2
+YYG-ParamSearch,0.194084334919055,2020-07-27,2

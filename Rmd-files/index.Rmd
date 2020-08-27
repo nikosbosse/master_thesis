@@ -8,6 +8,7 @@ output:
   bookdown::pdf_book:
     fig_caption: yes
     toc_depth: 3
+    latex_engine: pdflatex
 documentclass: book
 bibliography: [bib/masterthesis.bib, bib/packages.bib]
 biblio-style: apalike
@@ -17,6 +18,13 @@ header-includes:
 github-repo: nikosbosse/master_thesis
 description: "This thesis, titled 'Evaluation and Aggregation of Covid-19 death forecasts in the United States' was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020."
 ---
+
+```{r setup, include=FALSE}
+library(kableExtra)
+library(magrittr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
@@ -35,16 +43,11 @@ knitr::write_bib(c(.packages(),
 - Make aims section a bit larger in introduction
 
 - Thing about moving the personal contribution part to the end of the thesis? Rewriting it? Dropping it? 
-
 - Work through all the citations and adapt the author names in the bib file so they get shown consistently
 
 - Use present tense or future tense consistently in the Chapter introduction paragraphs
 
-- update data to include more dates
-
 - WIS in Chapter 3: PART THAT WIS FOR ALPHA = 0 IS PROPORTIONAL TO THE MAE
-
-- Think about the new calibration metrics and how to include them in the results chapter. 
 
 - Maybe add renewal equation / more detail to Chapter 2 and our epiforecasts-ensemble model
 
@@ -56,12 +59,11 @@ knitr::write_bib(c(.packages(),
 
 - Think about whether to move the introduction of the covid hub models from Chapter 2 to Chapter 5 results (current tendency is not to do that) 
 
-- maybe do a quick random effects models on WIS
-
-- Chapter results Figure 1: determine optimal width / height
-
 - Maybe add a part for Point Forecast Scores in Evaluation Chapter. The Part about when to use MAE and MSE. Also maybe add those to scoringutils
 
-- Think about correct order for HEATMAP2 Plot in Chapter Results
+- Chapter 5 results: Report mean as well as Median for scores (in the plots)
 
-- Chapter 5 results: Report mean as well as Median for scores
+- Make a plot with quantile deviation by range --> visualisation of bias. 
+
+- Chapter 5 - change baseline in Regression to the best model
+

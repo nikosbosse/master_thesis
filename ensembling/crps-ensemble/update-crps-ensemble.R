@@ -22,20 +22,39 @@ forecast_date <- settings$forecast_date
 # also filter only horizon == 1 for stackr optimisation
 today <- forecast_date
 
+num_last <- settings$ensemble_past_included
+
+# manual corection if not enough past observations available
+if (forecast_date == "2020-06-29") {
+  num_last <-  1
+}
+if (forecast_date == "2020-07-06") {
+  if (num_last > 2)
+    num_last <-  2
+}
+if (forecast_date == "2020-07-13") {
+  if (num_last > 3) {
+    num_last <-  1
+  }
+}
+
+optimisation_horizon <- settings$crps_optimisation_horizon
+
 # Load Forecasts ---------------------------------------------------------------
 past_forecasts <- load_submission_files(dates = forecast_date,
-                                        num_last = settings$num_last,
+                                        num_last = num_last,
                                         models = settings$model_names,
                                         drop_latest_forecast = TRUE)
 
 full_set <- filter_forecasts(past_forecasts,
                              locations = settings$locations_included,
-                             horizons = 2)
+                             horizons = optimisation_horizon)
 
-if (nrow(full_set) == 0) {
+while (nrow(full_set) == 0) {
+  optimisation_horizon <- optimisation_horizon - 1
   full_set <- filter_forecasts(past_forecasts,
                                locations = settings$locations_included,
-                               horizons = 1)
+                               horizons = optimisation_horizon)
 
 }
 
@@ -59,18 +78,33 @@ samples <- samples %>%
                 date = target_end_date)
 
 
-w <- stackr::crps_weights(data = samples)
+w <- stackr::crps_weights(data = samples,
+                          lambda = "equal")
+
 
 message("CRPS weights:")
-message(paste0("\n", models, "\n", w, "\n"))
+message(paste0("\n", names(w), "\n", w, "\n"))
 
 # save weights
 weights_df <- data.frame(model = names(w),
                          weights = w,
                          forecast_date = forecast_date,
                          num_last = settings$num_last)
+
+
+if (!dir.exists(here::here("ensembling", "crps-ensemble", "crps-weights",
+                           paste(settings$ensemble_past_included,
+                                 settings$crps_optimisation_horizon, sep = "-")))) {
+  dir.create(here::here("ensembling", "crps-ensemble", "crps-weights",
+                        paste(settings$ensemble_past_included,
+                              settings$crps_optimisation_horizon, sep = "-")))
+}
+
 filename <- here::here("ensembling", "crps-ensemble", "crps-weights",
-                       paste0(forecast_date, "-crps-weights.csv"))
+                       paste(settings$ensemble_past_included,
+                             settings$crps_optimisation_horizon, sep = "-"),
+                       paste0(forecast_date,
+                              "-crps-weights.csv"))
 data.table::fwrite(weights_df, file = filename)
 
 
@@ -162,10 +196,19 @@ combined <- combined %>%
 
 # write file
 
-if (!dir.exists(here::here("data", "processed-data", "crps-ensemble"))) {
-  dir.create(here::here("data", "processed-data", "crps-ensemble"))
+if (!dir.exists(here::here("data", "processed-data",
+                           paste("crps-ensemble",
+                                 settings$ensemble_past_included,
+                                 settings$crps_optimisation_horizon, sep = "-")))) {
+  dir.create(here::here("data", "processed-data",
+                        paste("crps-ensemble",
+                              settings$ensemble_past_included,
+                              settings$crps_optimisation_horizon, sep = "-")))
 }
-filename <- here::here("data", "processed-data", "crps-ensemble",
+filename <- here::here("data", "processed-data",
+                       paste("crps-ensemble",
+                             settings$ensemble_past_included,
+                             settings$crps_optimisation_horizon, sep = "-"),
                        paste0(forecast_date, "-crps-ensemble.csv"))
 
 data.table::fwrite(combined, filename)

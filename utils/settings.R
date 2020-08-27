@@ -15,7 +15,22 @@ horizons <- 1:4
 model_names_eval <- c(model_names,
                       "crps-ensemble", "mean-ensemble", "qra-ensemble")
 
-submission_dates <- lubridate::ymd("2020-08-03") - seq(0, 7 * 7, 7)
+ensemble_names_all <- c("crps-ensemble-1-1",
+                        "crps-ensemble-2-1",
+                        "crps-ensemble-2-2",
+                        "crps-ensemble-3-1",
+                        "crps-ensemble-3-2",
+                        "crps-ensemble-3-3",
+                        "crps-ensemble-4-1",
+                        "crps-ensemble-4-2",
+                        "crps-ensemble-4-3",
+                        "crps-ensemble-4-4",
+                        "qra-ensemble-1",
+                        "qra-ensemble-2",
+                        "qra-ensemble-3",
+                        "qra-ensemble-4")
+
+submission_dates <- lubridate::ymd("2020-08-03") - seq(0, 6 * 7, 7)
 #submission_dates <- submission_dates[1:7]
 
 # check at some point that models all have the correct target_end_dates
@@ -26,6 +41,18 @@ if (!exists("forecast_date")) {
 }
 
 n_samples <- 1000
+
+if (!exists("ensemble_past_included")) {
+  ensemble_past_included <- 2
+}
+
+if (!exists("crps_optimisation_horizon")) {
+  crps_optimisation_horizon <- 2
+}
+
+
+
+
 
 num_last <- 2
 
@@ -45,8 +72,8 @@ evaluation_dates <- submission_dates[submission_dates >= as.Date("2020-06-29")]
 
 
 manual_colours <- c(RColorBrewer::brewer.pal(8, name = "Set2")[-6],
-                    RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7)])
-
+                    RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7)],
+                    RColorBrewer::brewer.pal(8, name = "Dark2")[c(1, 4, 8)])
 
 settings <- list(submission_dates = submission_dates,
                  forecast_date = forecast_date,
@@ -60,4 +87,7 @@ settings <- list(submission_dates = submission_dates,
                  locations_included = locations_included,
                  states_included = states_included,
                  evaluation_dates = evaluation_dates,
-                 manual_colours = manual_colours)
+                 manual_colours = manual_colours,
+                 ensemble_past_included = ensemble_past_included,
+                 crps_optimisation_horizon = crps_optimisation_horizon,
+                 ensemble_names_all = ensemble_names_all)
