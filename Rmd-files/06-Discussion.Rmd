@@ -1,3 +1,14 @@
 # Discussion
 
 
+- crps ensemble works surprisingly well
+- tendency bias crps and qra is interesting
+- One could argue that the comparison of the ensembles is not entirely fair as the COVIDhub-ensemble model is a much larger ensemble with more components. On the other hand we can require that other ensembles at least not perform worse. 
+
+- some riddles can't be answered with the scores: epiforecasts-ensemble1
+- this weird perfect correlation
+
+- restriction due to inclusion of the epiforecasts-ensemble1 --> locations and dates
+- break up interval score in width part and miss penalty part
+
+

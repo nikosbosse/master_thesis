@@ -11,7 +11,7 @@ library(dplyr)
 source(here::here("utils", "settings.R"))
 
 evaluation_scenario <- "baseline"
-sensitivity_ensembles <- FALSE
+sensitivity_ensembles <- TRUE
 
 root_folder <- c("visualisation/chapter-5-results")
 
@@ -141,6 +141,19 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
+test <- plot_forecasts(states = settings$states_included,
+                       forecasts = forecasts,
+                       facet_formula = state ~ model,
+                       ncol_facet = 4,
+                       horizons = c(1),
+                       obs_weeks = 7)
+
+ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+                           "all-states-one-week.png"),
+                several_states_one_week, width = 18, height = 25)
+
+ggplot2::ggsave("~/Deskstop/test.png", test,
+                width = 10, height = 20)
 
 
 
@@ -555,49 +568,6 @@ bias_horizons <- scores %>%
                           position = ggplot2::position_dodge2(width = 0.5,
                                                               padding = 0)) +
   ggplot2::geom_linerange(ggplot2::aes(ymin = bias_0.25, ymax = bias_0.75),
-                          source(here::here("ensembling", "crps-ensemble", "fit-distribution-functions.R"))
-                          combined <- combine_with_deaths(forecasts)
-                          fc <- data.table::as.data.table(combined)
-                          n_samples = settings$n_samples
-
-                          samples <- fc[, .(y_pred = get_samples(value, quantile, n_samples = n_samples),
-                                            sample_nr = 1:n_samples,
-                                            state = unique(state),
-                                            y_obs = unique(deaths)),
-                                        by = c("model", "forecast_date",
-                                               "target_end_date",
-                                               "target", "location")]
-
-                          df <- samples %>%
-                            dplyr::rename(predictions = y_pred,
-                                          true_values = y_obs,
-                                          id = target_end_date,
-                                          sample = sample_nr)
-
-                          pit_plot <- scoringutils::eval_forecasts(df,
-                                                                   by = c("model", "state", "target", "id",
-                                                                          "forecast_date"),
-                                                                   summarise_by = c("model"),
-                                                                   pit_arguments = list(num_bins = 30,
-                                                                                        plot = TRUE),
-                                                                   pit_plots = TRUE)$pit_plots
-
-                          pit_plot$overall_pit <- NULL
-
-                          pit_plot2 <- purrr::map2(pit_plot, names(pit_plot),
-                                                   .f = function(.x, .y) {
-                                                     x <- .x +
-                                                       ggplot2::labs(title = .y)
-                                                     return(x)
-                                                   })
-
-                          all_pit_plots <- cowplot::plot_grid(plotlist = pit_plot2,
-                                                              ncol = 3)
-
-                          ggplot2::ggsave(here::here(root_folder,
-                                                     "all-pit-plots.png"),
-                                          all_pit_plots,
-                                          width = 11, height = 9)
                           size = 2,
                           alpha = 0.4,
                           position = ggplot2::position_dodge2(width = 0.5,
@@ -637,77 +607,77 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
-
-
-# ------------------------------------------------------------------------------
-# Detailed bias for YYG
-
-forecasts_YYG <- load_submission_files(dates = settings$evaluation_dates,
-                                       models = "YYG-ParamSearch")
-
-forecasts_YYG <- filter_forecasts(forecasts_YYG,
-                                  locations = settings$locations_included,
-                                  horizons = c(1, 2, 3, 4))
-
-full_YYG <- prepare_for_scoring(forecasts_YYG)
-
-scores_YYG <- scoringutils::eval_forecasts(full_YYG,
-                                       by = c("model", "state",
-                                              "target_end_date",
-                                              "horizon"),
-                                       interval_score_arguments = list(weigh = TRUE),
-                                       summarise_by = c("model", "state",
-                                                        "target_end_date", "horizon")) %>%
-  dplyr::filter(horizon == 1)
-
-
-high_bias_states <- scores_YYG %>%
-  dplyr::group_by(state) %>%
-  dplyr::summarise(bias = mean(abs(bias))) %>%
-  dplyr::arrange(-bias) %>%
-  dplyr::pull(state)
-
-
-plot_YYG <- plot_forecasts(forecasts = forecasts_YYG,
-                                   states = high_bias_states[1:6],
-                                   models = "YYG-ParamSearch",
-                                   obs_weeks = 13) +
-  ggplot2::theme(legend.position = "none",
-                 axis.title.y = ggplot2::element_text(margin = margin(t = 0,
-                                                                      r = 20,
-                                                                      b = 0,
-                                                                      l = 0))) +
-  ggplot2::labs(x = "")
-
-bias_YYG <- ggplot2::ggplot() +
-  ggplot2::geom_point(data = scores_YYG %>%
-                        dplyr::filter(state %in% high_bias_states[1:6]),
-                      ggplot2::aes(y = bias,
-                                                  x = target_end_date),
-                      colour = "black") +
-  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey") +
-  ggplot2::expand_limits(y = 0) +
-  ggplot2::labs(x = "Week", y = "Bias",
-                col = "Model", fill = "Model") +
-  ggplot2::facet_wrap(~ state) +
-  ggplot2::expand_limits(x = c(as.Date("2020-05-23"), as.Date("2020-08-22"))) +
-  cowplot::theme_cowplot() +
-  ggplot2::theme(legend.position = "bottom",
-                 axis.title.y = ggplot2::element_text(margin = margin(t = 0,
-                                                                      r = 20,
-                                                                      b = 0,
-                                                                      l = 0)))
-
-bias_plot_combined <- cowplot::plot_grid(plot_YYG,
-                                         bias_YYG, ncol = 1,
-                                         rel_heights = c(2, 1.5),
-                                         scale = c(1, 1),
-                                         align = 'v')
-
-ggplot2::ggsave(here::here(root_folder,
-                           "bias-YYG.png"),
-                bias_plot_combined,
-                width = 10, height = 7)
+#
+#
+# # ------------------------------------------------------------------------------
+# # Detailed bias for YYG
+#
+# forecasts_YYG <- load_submission_files(dates = settings$evaluation_dates,
+#                                        models = "YYG-ParamSearch")
+#
+# forecasts_YYG <- filter_forecasts(forecasts_YYG,
+#                                   locations = settings$locations_included,
+#                                   horizons = c(1, 2, 3, 4))
+#
+# full_YYG <- prepare_for_scoring(forecasts_YYG)
+#
+# scores_YYG <- scoringutils::eval_forecasts(full_YYG,
+#                                        by = c("model", "state",
+#                                               "target_end_date",
+#                                               "horizon"),
+#                                        interval_score_arguments = list(weigh = TRUE),
+#                                        summarise_by = c("model", "state",
+#                                                         "target_end_date", "horizon")) %>%
+#   dplyr::filter(horizon == 1)
+#
+#
+# high_bias_states <- scores_YYG %>%
+#   dplyr::group_by(state) %>%
+#   dplyr::summarise(bias = mean(abs(bias))) %>%
+#   dplyr::arrange(-bias) %>%
+#   dplyr::pull(state)
+#
+#
+# plot_YYG <- plot_forecasts(forecasts = forecasts_YYG,
+#                                    states = high_bias_states[1:6],
+#                                    models = "YYG-ParamSearch",
+#                                    obs_weeks = 13) +
+#   ggplot2::theme(legend.position = "none",
+#                  axis.title.y = ggplot2::element_text(margin = margin(t = 0,
+#                                                                       r = 20,
+#                                                                       b = 0,
+#                                                                       l = 0))) +
+#   ggplot2::labs(x = "")
+#
+# bias_YYG <- ggplot2::ggplot() +
+#   ggplot2::geom_point(data = scores_YYG %>%
+#                         dplyr::filter(state %in% high_bias_states[1:6]),
+#                       ggplot2::aes(y = bias,
+#                                                   x = target_end_date),
+#                       colour = "black") +
+#   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey") +
+#   ggplot2::expand_limits(y = 0) +
+#   ggplot2::labs(x = "Week", y = "Bias",
+#                 col = "Model", fill = "Model") +
+#   ggplot2::facet_wrap(~ state) +
+#   ggplot2::expand_limits(x = c(as.Date("2020-05-23"), as.Date("2020-08-22"))) +
+#   cowplot::theme_cowplot() +
+#   ggplot2::theme(legend.position = "bottom",
+#                  axis.title.y = ggplot2::element_text(margin = margin(t = 0,
+#                                                                       r = 20,
+#                                                                       b = 0,
+#                                                                       l = 0)))
+#
+# bias_plot_combined <- cowplot::plot_grid(plot_YYG,
+#                                          bias_YYG, ncol = 1,
+#                                          rel_heights = c(2, 1.5),
+#                                          scale = c(1, 1),
+#                                          align = 'v')
+#
+# ggplot2::ggsave(here::here(root_folder,
+#                            "bias-YYG.png"),
+#                 bias_plot_combined,
+#                 width = 10, height = 7)
 
 
 
@@ -1107,6 +1077,86 @@ ggplot2::ggsave(here::here(root_folder,
 # Sharpness
 # ==============================================================================
 
+
+
+
+
+# ------------------------------------------------------------------------------
+# Detailed sharpness for ensemble models
+
+forecasts_ensemble <- load_submission_files(dates = settings$evaluation_dates,
+                                            models = c("crps-ensemble"))
+
+forecasts_ensemble <- filter_forecasts(forecasts_ensemble,
+                                       locations = settings$locations_included,
+                                       horizons = c(1, 2, 3, 4))
+
+full_ensemble <- prepare_for_scoring(forecasts_ensemble)
+
+scores_ensemble <- scoringutils::eval_forecasts(full_ensemble,
+                                                by = c("model", "state",
+                                                       "target_end_date",
+                                                       "forecast_date",
+                                                       "horizon"),
+                                                interval_score_arguments = list(weigh = TRUE),
+                                                summarise_by = c("model", "state",
+                                                                 "target_end_date", "horizon")) %>%
+  dplyr::filter(horizon == 1)
+
+high_wis_states <- c("US", "Texas", "Florida", "California", "New Jersey", "Arizona",
+            "Georgia", "Illinois")
+
+plot_ensemble <- plot_forecasts(forecasts = forecasts_ensemble,
+                                   states = high_wis_states[1:8],
+                                   models = c("crps-ensemble"),
+                                   obs_weeks = 13,
+                                facet_formula = ~ state,
+                                ncol_facet = 4) +
+  ggplot2::theme(legend.position = "none",
+                 axis.title.y = ggplot2::element_text(margin = margin(t = 0,
+                                                                      r = 20,
+                                                                      b = 0,
+                                                                      l = 0))) +
+  ggplot2::labs(x = "")
+
+sharpness_ensemble_plot <- ggplot2::ggplot() +
+  ggplot2::geom_point(data = scores_ensemble %>%
+                        dplyr::filter(state %in% high_wis_states[1:8]),
+                      ggplot2::aes(y = sharpness,
+                                   x = target_end_date),
+                      colour = "black") +
+  ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey") +
+  ggplot2::expand_limits(y = 0) +
+  ggplot2::labs(x = "Week", y = "Sharpness",
+                col = "Model", fill = "Model") +
+  ggplot2::facet_wrap(~ state,
+                      ncol = 4,
+                      scales = "free_y") +
+  ggplot2::expand_limits(x = c(as.Date("2020-05-23"), as.Date("2020-08-22"))) +
+  cowplot::theme_cowplot() +
+  ggplot2::theme(legend.position = "bottom",
+                 axis.title.y = ggplot2::element_text(margin = margin(t = 0,
+                                                                      r = 20,
+                                                                      b = 0,
+                                                                      l = 0)))
+
+sharpness_plot_combined <- cowplot::plot_grid(plot_ensemble,
+                                              sharpness_ensemble_plot,
+                                              ncol = 1,
+                                              rel_heights = c(2, 1.5),
+                                              scale = c(1, 1),
+                                              align = 'v')
+
+ggplot2::ggsave(here::here(root_folder,
+                           "sharpness-predictions-ensemble.png"),
+                sharpness_plot_combined,
+                width = 10, height = 7)
+
+
+
+
+
+
 # ------------------------------------------------------------------------------
 # Sharpness over horizons
 
@@ -1211,6 +1261,75 @@ sharpness_by_range <- summarised_scores %>%
 ggplot2::ggsave(here::here(root_folder,
                            "sharpness-by-range.png"),
                 sharpness_by_range, width = 10, height = 4.6)
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+## sharpness by state
+
+forecasts <- load_submission_files(dates = settings$evaluation_dates,
+                                  models = settings$model_names_eval)
+
+forecasts <- filter_forecasts(forecasts,
+                              locations = settings$locations_included,
+                              horizons = c(1, 2, 3, 4))
+
+full <- prepare_for_scoring(forecasts)
+
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "state"))
+
+scores <- scores %>%
+  dplyr::arrange(state, model, interval_score) %>%
+  dplyr::group_by(state) %>%
+  dplyr::mutate(rank = rank(sharpness, ties.method = "average")) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(model = forcats::fct_reorder(model,
+                                             interval_score,
+                                             .fun='mean',
+                                             .desc = TRUE),
+                state = forcats::fct_reorder(state,
+                                             sharpness,
+                                             .fun='mean',
+                                             .desc = TRUE))
+
+heatmap_plot_sharpness <- ggplot2::ggplot(scores,
+                                          ggplot2::aes(y = model,
+                                                       x = state,
+                                                       fill = rank)) +
+  ggplot2::geom_tile(colour = "white", size = 0.3) +
+  ggplot2::geom_text(ggplot2::aes(label = round(sharpness, 1)),
+                     family = "Sans Serif") +
+  ggplot2::scale_fill_gradient2(low = "skyblue", high = "red",
+                                name = "Model rank per state",
+                                breaks = seq(1,11,2)) +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(y = "") +
+  ggplot2::theme(legend.position = "bottom",
+                 axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1)) +
+  ggplot2::coord_cartesian(expand = FALSE)
+
+ggplot2::ggsave(here::here(root_folder,
+                           "heatmap-model-sharpness.png"),
+                heatmap_plot_sharpness, width = 10, height = 5.5)
+
+
+
+
+
+
 
 
 
@@ -1331,7 +1450,7 @@ unsummarised_scores <- unsummarised_scores %>%
   dplyr::filter(is.finite(log_scores))
 
 
-fit <- lmerTest::lmer(log_scores ~ model * horizon
+fit <- lmerTest::lmer(log_scores ~ model + horizon
                       + (1|state) + (1|forecast_date),
                       data = unsummarised_scores)
 
@@ -1774,7 +1893,7 @@ if (evaluation_scenario == "ensemble") {
 if (sensitivity_ensembles) {
 
   forecasts <- load_submission_files(dates = settings$evaluation_dates,
-                                     models = settings$model_names_eval)
+                                     models = c(settings$model_names_eval))
 
   forecasts <- filter_forecasts(forecasts,
                                 locations = settings$locations_included,
@@ -1797,7 +1916,7 @@ if (sensitivity_ensembles) {
                   model = as.factor(model),
                   model = forcats::fct_reorder(model, interval_score,
                                                .fun = "mean"),
-                  model = relevel(model, ref = "qra-ensemble-1"),
+                  model = relevel(model, ref = "COVIDhub-ensemble"),
                   forecast_date = as.factor(forecast_date)) %>%
     dplyr::filter(is.finite(log_scores))
 
@@ -1823,10 +1942,15 @@ if (sensitivity_ensembles) {
 
 
 
+test <- plot_forecasts(states = settings$states_included,
+                       forecasts = forecasts,
+                       facet_formula = state ~ model,
+                       ncol_facet = 4,
+                       horizons = c(1),
+                       obs_weeks = 7)
 
-
-
-
+ggplot2::ggsave("~/Deskstop/test.png", test,
+                width = 10, height = 20)
 
 
 

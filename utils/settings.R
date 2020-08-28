@@ -28,7 +28,8 @@ ensemble_names_all <- c("crps-ensemble-1-1",
                         "qra-ensemble-1",
                         "qra-ensemble-2",
                         "qra-ensemble-3",
-                        "qra-ensemble-4")
+                        "qra-ensemble-4",
+                        "COVIDhub-ensemble")
 
 submission_dates <- lubridate::ymd("2020-08-03") - seq(0, 6 * 7, 7)
 #submission_dates <- submission_dates[1:7]

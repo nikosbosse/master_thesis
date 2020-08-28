@@ -67,3 +67,7 @@ knitr::write_bib(c(.packages(),
 
 - Chapter 5 - change baseline in Regression to the best model
 
+- Explain more how I got to the set of scores I summarise over, and how the ensemble models are formed
+
+
+

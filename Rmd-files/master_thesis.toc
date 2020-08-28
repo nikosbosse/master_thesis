@@ -47,14 +47,13 @@
 \contentsline {subsection}{\numberline {6.3.1}Bias}{44}{subsection.6.3.1}%
 \contentsline {subsubsection}{\numberline {6.3.1.1}Bias by subgroups}{44}{subsubsection.6.3.1.1}%
 \contentsline {subsection}{\numberline {6.3.2}Coverage}{44}{subsection.6.3.2}%
-\contentsline {subsubsection}{\numberline {6.3.2.1}Coverage by subgroups}{45}{subsubsection.6.3.2.1}%
-\contentsline {subsection}{\numberline {6.3.3}PIT histograms}{48}{subsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.2.1}Coverage by subgroups}{47}{subsubsection.6.3.2.1}%
+\contentsline {subsection}{\numberline {6.3.3}PIT histograms}{49}{subsection.6.3.3}%
 \contentsline {section}{\numberline {6.4}Assessing sharpness}{49}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Model evaluation in a regression framework}{49}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Assessing ensemble performance}{51}{section.6.6}%
-\contentsline {subsection}{\numberline {6.6.1}Additional details to forecast visualisation, bias, coverage, sharpness}{53}{subsection.6.6.1}%
-\contentsline {subsection}{\numberline {6.6.2}Model weights over time}{53}{subsection.6.6.2}%
-\contentsline {section}{\numberline {6.7}Other ensemble variants}{53}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Sensitivity analysis}{57}{section.6.8}%
-\contentsline {section}{\numberline {6.9}Discussion}{57}{section.6.9}%
+\contentsline {section}{\numberline {6.5}Model evaluation in a regression framework}{53}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Assessing ensemble performance}{56}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Model weights over time}{56}{subsection.6.6.1}%
+\contentsline {section}{\numberline {6.7}Other ensemble variants}{56}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Sensitivity analysis}{58}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Discussion / chapter summary}{60}{section.6.9}%
 \contentsline {chapter}{\numberline {7}Discussion}{61}{chapter.7}%

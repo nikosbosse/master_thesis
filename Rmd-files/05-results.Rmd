@@ -146,11 +146,15 @@ After having examined the aggregated scores we can now move to visualise and ana
 
 ### Bias
 
-Just as we did with in Chapter \@ref(evaluation), we start our analysis of calibration with bias. For the purpose of model improvement it seems most useful to compare the evolution of bias over time with the actual predictions and observations. With the help of this comparison we can obtain insights regarding the particular situations that cause models to biased or not. While this is of course unfeasible to do for all eleven models, Figure \@ref(fig:bias-YYG) exemplifies this for the YYG-ParamSearch model. From the plot we can see that the model seems to have difficulties with picking up changes in trends. As death numbers were mostly starting to rise again during the time frame analysed here, this translates into a downward bias. As the bias in California (and to a certain extent in Georgia) suggests, this picture could have looked much different at another stage of the epidemic. 
+Just as we did with in Chapter \@ref(evaluation), we start our analysis of calibration with bias. For the purpose of model improvement it seems most useful to compare the evolution of bias over time with the actual predictions and observations. With the help of this comparison we can obtain insights regarding the particular situations that cause models to biased or not. While this is of course unfeasible to do for all eleven models, Figure \@ref(fig:bias-ensemble) shows one-week-ahead predictions and  bias for the three ensemble models in the six locations with the highest average WIS. We see that all models make very similar predictions. The qra-ensemble seems to have a slight tendency for higher bias values, but this is hard to infer just from looking at the plots.
+All models seems to have some difficulties with picking up rapid changes in trends. This is especially pronounced in Texas. We can see that models seem to overpredict when deaths are increasing (Arizona, Texas) and seem to underpredict when cases are decreasing (New Jersey, last two weeks in Arizona). 
 
-``` {r bias-YYG, echo = FALSE, out.width = "100%", fig.cap = "Observations and predictions (top) as well as bias (bottom) for the YYG-ParamSearch model in the six states that exhibited the largest absolute bias."}
+Looking at the plot we can digress a bit and make a second unrelated observation regarding the crps-ensemble model: Plots of New Jersey (and maybe Florida) show that the model sometimes produces very large spikes in uncertainty. This can probably be attributed to the loss of precision that results from the sampling in the crps model aggregation progress. If we look back at the PLOT IN CHAPTER MODEL AGGREGATION, we can probably attribute this to the loss of precision due to sampling. We saw IN THE PLOT that samples from the gamma distribution tend to have much larger tails than the actual distribution. 
 
-knitr::include_graphics("../visualisation/chapter-5-results/bias-YYG.png")
+
+``` {r bias-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Observations and predictions (top) as well as bias (bottom) for the YYG-ParamSearch model in the six states that exhibited the largest absolute bias."}
+
+knitr::include_graphics("../visualisation/chapter-5-results/bias_ensemble.png")
 
 ```
 
@@ -170,15 +174,22 @@ BIAS IN DIFFERENT STATES?
 
 ### Coverage
 
-We next turn to examine coverage. Figure \@ref(fig:interval-coverage-all) shows the empirical interval coverage for all eleven models. We see that some models, and especially CU-select and UT-mobility have problems with calibration. The COVIDhub-baseline model is an interesting case. While the aggregated coverage deviation score in Figure \@ref(fig:coloured-summarised-scores) looked very good, we can now conclude from this plot that the COVIDhub-baseline is not well calibrated. It instead is covering too much by its inner prediction intervals, but too little by its outer intervals. The qra-ensemble and especially the COVIDhub-ensemble seem to do best in terms of coverage. Note that for the qra-ensemble this is maybe a little surprising as Figure \@ref(fig:coloured-summarised-scores) suggests the qra-ensemble has some issues with bias. Note again that empirical coverage only shows one kind of calibration and that good coverage is a necessary condition, but not sufficient to prove good calibration.
-
+We next turn to examine coverage. Figure \@ref(fig:interval-coverage-all) shows the empirical interval coverage for all eleven models. We see that some models (especially CU-select and UT-mobility) have problems with calibration. The COVIDhub-baseline model is an interesting case. While the aggregated coverage deviation score in Figure \@ref(fig:coloured-summarised-scores) looked very good, we can now conclude from this plot that the COVIDhub-baseline is not well calibrated. It instead is covering too much by its inner prediction intervals, but too little by its outer intervals. The epiforecasts-ensemble1, the qra-ensemble and especially the COVIDhub-ensemble seem to do best in terms of interval coverage. Looking only at interval coverage plots, however, does not tell us where the lack of coverage comes from. 
 ``` {r interval-coverage-all, echo = FALSE, out.width = "100%", fig.cap = "Coverage of the prediction intervals across all locations and forecast dates"}
 
 knitr::include_graphics("../visualisation/chapter-5-results/interval-coverage-all.png")
 
 ```
 
-Figure \@ref(fig:quantile-coverage-all) goes into more detail and shows the proportion of predictions lower than the true value for each quantile of the model predictions. This visualisation shows more information, but is also harder to interpret. Now the UMass-MechBayes model looks especially good, while the qra-ensemble seems less ideal than before. This quantile coverage representation allows us to investigate the bias component of calibration more precisely. We can for example see that the qra-ensemble which exhibits an upward bias (compare \@ref(fig:coloured-summarised-scores)) is moved to the left of the diagonal, while e.g. the YYG-ParamSearch, which is downward biased, is moved to the right. An interesting extension to this thesis could therefore be to analyse bias more closely in terms of quantile coverage deviation and compare this to the bias measure chosen here. 
+Figure \@ref(fig:quantile-coverage-all) therefore goes into more detail and shows quantile coverage, i.e. the proportion of predictions lower than the true value for each quantile of the model predictions. This makes it possible to see whether a lack of coverage in a certain interval range is more a problem of the lower or the upper bounds of the interval range. For the epiforecasts-ensemble1, for example, we could see a lack of coverage in the outer prediction intervals in Figure \@ref(fig:interval-coverage-all). With the help of the quantile coverage plot we can now see that the problem lies in the upper, rather than the lower bounds. It seems that the epiforecasts-ensemble1 did well in quantifying uncertainty below the median, but was underpredicting the likelihood of extreme events above the median. This quantile coverage visualisation also allows us to reexamine the bias component of calibration again. We can for example see that the UT-Mobility and qra-ensemble, which exhibit an upward bias (compare \@ref(fig:coloured-summarised-scores)), are moved to the left of the diagonal, while e.g. the YYG-ParamSearch or the LANL-GrowthRate model, which are downward biased, are moved to the right. 
+
+<!-- An interesting extension to this thesis might be to compare the currently chosen bias metric with bias measured in terms of quantile deviation. The latter would of course not work with individual observations, but only on an aggregate level on which coverage can be evaluated. NOT SURE ABOUT THE LAST TWO SENTENCES -->
+
+
+
+
+
+
 
 <!-- We can also see a slight discrepancy between the plot and the numerical values, as the YYG-ParamSearch model (bias: -0.13) looks about the same or even a bit further away from the diagonal than the qra-ensemble (bias: +0.21), even though the latter exhibits more absolute bias. This then of course brings up the question which of the ways to look at it is the 'better' one.  -->
 
@@ -187,11 +198,17 @@ Figure \@ref(fig:quantile-coverage-all) goes into more detail and shows the prop
 knitr::include_graphics("../visualisation/chapter-5-results/quantile-coverage-all.png")
 
 ```
+
+One major advantage this type of visualisation has over PIT histograms is that we can easily compare different models in a single plot. Figure \@ref(fig:coverage-ensemble) exemplifies this for the ensemble models. It is obvious taht the COVIDhub-ensemble did best in terms of interval as well as quantile coverage. The crps-ensemble and the mean-ensemble have a slightly too high interval coverage, which we confirms what we have already seen in the summarised scores in Figure \@ref(fig:coloured-summarised-scores). Looking at the quantile coverage plot (on the right) we can see clearly see that the qra-ensemble model is the most biased of all ensemble models. It is therefore maybe surprising to see the model looks quite well in terms of interval coverage (on the left). We can explain this discrepancy by taking sharpness into account. In Figure \@ref(fig:coloured-summarised-scores) we could see that the COVIDhub-ensemble was much sharper than the other three ensembles which were about equally sharp. For the mean-ensemble and the crps-ensemble the increased width of the prediction intervals for the translated into a positive coverage deviation, while for the qra-ensemble it only mitigated the effect the increased bias would have had on interval coverage. This discrepancy between quantile and interval coverage, however, highlights again that interval coverage only shows one kind of calibration. Good interval coverage is a necessary condition, but not sufficient to prove good calibration. In general, it seems that the quantile plot (right) visually correlates better with overall model performance as judged by WIS. We should therefore look at the quantile coverage plot rather than the interval coverage plot if we were to choose only one. 
+
+``` {r coverage-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Interval coverage (left) and quantile coverage (right)"}
+knitr::include_graphics("../visualisation/chapter-5-results/coverage_ensemble.png")
+
+```
+
 #### Coverage by subgroups
 
-Instead of looking at overall coverage, we can again look at coverage in different subgroups. 
-
-We might for example ask how coverage changes over different prediction horizons, as this could give an indication of how well we far into the future we can confidently make predictions. Figures \@ref(fig:interval-coverage-horizon) and \@ref(fig:quantile-coverage-horizon) show the interval and quantile coverage over different prediction horizons. We can generally see that coverage generally tends to deteriorate at least slightly with increasing forecast horizons for many models. WORK ON THIS INTERPRETATION OR MAYBE JUST GET RID OF THE PLOTS? 
+We can again look at coverage in different subgroups to get a better understanding for how the models and the metrics behave. We might for example want to ask how coverage changes over different prediction horizons, as this could give an indication of how well we far into the future we can confidently make predictions. Figures \@ref(fig:interval-coverage-horizon) and \@ref(fig:quantile-coverage-horizon) show the interval and quantile coverage over different prediction horizons. We can generally see that coverage generally tends to deteriorate at least slightly with increasing forecast horizons for many models. WORK ON THIS INTERPRETATION OR MAYBE JUST MOVE THE PLOTS TO THE APPENDIX.  
 
 ``` {r interval-coverage-horizon, echo = FALSE, out.width = "100%", fig.cap = "Coverage of the prediction intervals across all locations and forecast dates over different horizons"}
 
@@ -205,7 +222,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/quantile-coverage-ho
 
 ```
 
-As before, we may also be interested in how different ranges contribute to overall coverage deviation.  \@ref(fig:coverage-deviation-range) therefore shows coverage deviation by range. MAYBE THIS PLOT IS NOT SO INTERESTING AND I SHOULD DROP IT. A MAYBE MORE INTERSTING PLOT COULD BE COVERAGE DEVIATION BY QUANTILE - THIS WOULD GIVE A MAYBE NICE VISUALISATION OF BIAS. 
+As before, we may also be interested in how different ranges contribute to overall coverage deviation.  \@ref(fig:coverage-deviation-range) therefore shows coverage deviation by range. MAYBE THIS PLOT IS NOT SO INTERESTING AND I SHOULD DROP IT. A MAYBE MORE INTERSTING PLOT COULD BE COVERAGE DEVIATION BY QUANTILE - THIS WOULD GIVE A MAYBE NICE VISUALISATION OF BIAS.
 
 ``` {r coverage-deviation-range, echo = FALSE, out.width = "100%", fig.cap = "Coverage deviation for different ranges"}
 
@@ -227,68 +244,74 @@ knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/Te
 ```
 ### PIT histograms
 
-In addition to looking at coverage plots, we can also approach calibration from PIT histograms. Figure \@ref(all-pit-plots) shows the PIT histograms for all eleven models. We can immediately see that the Anderson-Darling test for uniformity is rejected for all models. While some models are indeed severely miscalibrated (as illustrated by the coverage plots), we may probably also conclude that the Anderson-Darling test has limited value for most practical purposes of model differentiation. The PIT histograms summarise a lot of information included in the previous analysis. We can for example again see the bias in the qra-ensemble and the YYG-ParamSearch model that we observed previously. We can also again see the hump shape corresponding to the fact that the crps-ensemble and the mean-ensemble have have a positive coverage deviation, i.e. the predictions are wider than they actually need be. Note that the PIT plots don't have the same scale on the y-axis, which make them easier to read on their own, but a bit harder to compare. 
+In addition to looking at coverage plots, we can also approach calibration through PIT histograms. Figure \@ref(all-pit-plots) shows the PIT histograms for all eleven models. We can immediately see that the Anderson-Darling test for uniformity is rejected for all models. While some models are indeed severely miscalibrated (as seen before in the coverage plots), we may probably also conclude that the Anderson-Darling test has limited value for most practical purposes of model comparison. PIT histograms are arguably somewhat hard to interpret for many readers. However, they provide a very good way to succinctly summarise different aspects of calibration and show again a lot of the things previously observed in other plots. We can for example see again the bias in the qra-ensemble and the YYG-ParamSearch model. Or we can recognise the hump shape corresponding to the positive coverage deviation of the crps-ensemble and the mean-ensemble (the predictions are wider than they actually need be). We will, however, not revisit all these aspects again, but instead turn to sharpness now. 
 
-``` {r all-pit-plots, echo = FALSE, out.width = "100%", fig.cap = "PIT histograms for all models. Samples were obtained by first fitting a gamma distribution to the set of quantiles. "}
+``` {r all-pit-plots, echo = FALSE, out.width = "100%", fig.cap = "PIT histograms for all models. Samples were obtained by first fitting a gamma distribution to the set of quantiles. Note that the PIT plots shown here don't have the same scale on the y-axis, which make them easier to read on their own, but a bit harder to compare. "}
 
 knitr::include_graphics("../visualisation/chapter-5-results/all-pit-plots.png")
 
 ```
 
-After having looked at calibration in detail, let us now torn to sharpness. 
-
-
 ## Assessing sharpness
 
 INTRODUCION TO SECTION
 
-MAYBE A SIMILAR PLOT FOR SHARPNESS AND YYG AS WE HAD FOR BIAS? 
+In order to understand the individual model better it is again most helpful to plot sharpness next to predictions. Figure \@ref(fig:sharpness-crps-ensemble) does this for the crps-ensemble model for one-week-ahead predictions. Only one of the ensemble models is shown as all four make very similar forecasts. We can see that sharpness does not really follow a clearly identifiable pattern. It is much larger, of course, in locations like the US as a whole that have many more cases. But we cannot really see the ensemble model consistently adapting to past mistakes. Ideally, we would want a model to make wider predictions whenever predictions and observations do not match (for example, when the trend changes) and narrower ones when past predictions and observations have matched. Unfortunately, none of the original PLOT IN APPENDIX models really seems to exhibit that kind of behaviour and the ensemble is not able to mitigate this shortcoming. Instead we see rather random looking changes in sharpness (see e.g. Arizona, US). 
 
-Sharpness by range, state, horizon
+``` {r sharpness-crps-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Sharpness over different horizons. "}
 
-Figure \@ref(fig:sharpness-horizons) is a stupid plot and should probably be replaced? 
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/sharpness-predictions-ensemble.png")
 
-Not much useful information apart from the fact that sharpness decreases with horizon
+```
+
+In order to get a better feeling for differences in model behaviour we can again try and compare sharpness in different subgroups. Figure \@ref(fig:sharpness-horizons) shows sharpness over different horizons for all eleven models. This visualisation shows that prediction intervals tends to grow with increasing forecast horizons for almost all models. This provides a simple sanity check, as we should expect prediction intervals to grow with uncertainty. Only CU-select and LANL-GrowthRate fail this check as their median sharpness does not increase over all horizons. For the better performing models we mostly see a moderate increase with the only exception of UMass-MechBayes among the top performers. Comparing this with WIS over horizon (see Figure \@ref(fig:heatmap-horizons)) we can conclude that this lack of sharpness for four-week-ahead forecasts is indeed accompanied by a worse weighted interval score. We can now also conclude that it is this lack of sharpness for four-week-ahead-predictions that cause UMass-MechBayes to rank among the bottom in terms of average sharpness (compare again Figure \@ref(fig:coloured-summarised-scores)). 
 
 ``` {r sharpness-horizons, echo = FALSE, out.width = "100%", fig.cap = "Sharpness over different horizons. "}
 
 knitr::include_graphics("../visualisation/chapter-5-results/sharpness-horizons.png")
 
 ```
-
-
-Figure \@ref(fig:scores-ranges) shows how different interval ranges contribute to the overall sharpness of a forecast (the sharpness value shown in Figure \@ref(fig:coloured-summarised-scores) is just the average). It generally seems that 50% intervals tend to contribute most to sharpnes, while neither narrow intervals near the median nor the tails of the predictive distribution seem to make large contributions. We also see again an overall trend that sharper models tend to do better (again with the slight exception of the top three models). 
+Looking at sharpness separated by different interval ranges allows us again to discern the contributions to overall sharpness from individual prediction intervals. Figure \@ref(fig:scores-ranges) the contributions from inner and outer prediction intervals for all eleven models. It generally seems that 50% intervals tend to contribute most to sharpnes, while neither narrow intervals near the median nor the tails of the predictive distribution seem to make large contributions. 
 
 ``` {r sharpness-ranges, echo = FALSE, out.width = "100%", fig.cap = "Sharpness across all states and forecast dates and horizons for different interval ranges"}
 
 knitr::include_graphics("../visualisation/chapter-5-results/sharpness-by-range.png")
 
 ```
+Visualising sharpness for different states is again a way to see how different states vary in the sharpness they permit as well as how consistetnly models do in terms of sharpness. Figure \@ref(fig:sharpness-ensemble) shows sharpness for every model and ensemble. We clearly see that average sharpness is largely dominated by sharpness in the US as a whole. We can also observe that some models (e.g. COVIDhub-ensemble, YYG-ParamSearch, CU-select) consistently tend towards sharper forecasts, while other models vary a lot across regions. 
+
+``` {r sharpness-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Sharpness of the ensemble models in different states. The shading indicates how much higher a certain sharpness value is compared to the minimum value achieved in that state."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/heatmap-model-sharpness.png")
+
+```
+
+SECTION SUMMARY? 
+
+
 
 
 ## Model evaluation in a regression framework
 
 To complement the analysis presented above we can look at evaluation in a regression. This is a natural next steps towards model selection that in principle allows us to make a better founded decision for or against a specific model to choose for future predictions. It is also very helpful for the case in which we do not have a complete set of predictions. If a certain research group for example misses a submission or does not submit forecasts in all states, then we can better mitigate this in a regression framework than by merely averaging over all available data. 
 
-To that end we employ a mixed-effects model with fixed effects for models and horizons and random effects for states and forecast dates. The model formula looks as shown below. Interval scores are again log transformed to mitigate issues with the heavy tails of the original distribution. The baseline is the COVIDhub-baseline model
+To that end we employ a mixed-effects model with fixed effects for models and horizons and random effects for states and forecast dates. The model formula looks as shown below. Interval scores are again log transformed to mitigate issues with the heavy tails of the original distribution. As a baseline we take the COVIDhub-ensemble model (the top performer). This helps us to discern whether models at the top can actually be distinguished and show significant performance differences. 
 
 ```{r random-effects-model-code, eval = FALSE}
-fit <- lme4::lmer(log_scores ~ model * horizon + (1|state) + (1|forecast_date),
+fit <- lme4::lmer(log_scores ~ model + horizon + (1|state) + (1|forecast_date),
                   data = unsummarised_scores)
 
 ```
 
-Table \@ref(tab:random-effects-model) shows the results from that regression, sorted by size of the estimate. We can see that the regression confirms general tendencies observed before. The horizon, for example, has a highly significant positive effect on the the weighted interval score. For some models this effect is more pronounced (e.g. the UT-Moblity model that also has a significant positive interaction), for others less (e.g. the COVIDhub-ensemble). The overall ranking of marginal model effects largely corresponds to the model ranking presented in \@ref(fig:coloured-summarised-scores). Small discrepancies occur, because we separated the horizon effect in the regression. If we were to make a model choice irrespective of the horizon one could simply remove this term. If one were especially interested in say 4-week-ahead predictions, one could include horizon as a dummy and look for the combined estimate for 4-week-ahead predictions. 
+Table \@ref(tab:random-effects-model) shows the results from that regression. We can see that the regression confirms general tendencies observed before. The horizon, for example, has a highly significant positive effect on the weighted interval score. The overall ranking of model effects corresponds to the model ranking by log interval score presented in \@ref(fig:coloured-summarised-scores). This regression can of course be adapted. One possibility is to model an interaction between model and horizon to control for the fact that some models cope better or worse with increasing uncertainty. It also seems sensible to model horizon as a factor instead of a metric variable. If we were especially interested in performance over say a four-week-ahead horizon, we could then estimate a separate effect for every model at horizon four by looking at the combination of the model effect and the interaction. The regression outcome suggests a clear split between two groups of models in terms of perfomance. Models in the top group are roughly comparable, except for the mean ensemble (and maybe the qra-ensemble) which fare a bit worse. Note again that the regression was performed on log scores which changes the order with respect to untransformed scores. The mean-ensemble, for example looks worse according to log scores than it would otherwise have. This suggests that mean-ensemble avoids outliers, but does a bit worse on a typical forecast. 
 
 ```{r random-effects-model, message = FALSE, echo = FALSE, message=FALSE}
 library(kableExtra)
 
-fit <- readRDS("../visualisation/chapter-5-results/random-effects-model.RDS")
+fit <- readRDS("../visualisation/chapter-5-results/scenario-baseline/random-effects-model.RDS")
 fit %>%
   summary() %>%
   coef() %>% 
   as.data.frame() %>%
-    dplyr::arrange(-Estimate) %>%
   knitr::kable(caption = 'Mixed model regression of the log weighted interval score on model, horizon (both fixed), state, and forecast date (both random)',
                format = "latex", 
                booktabs = TRUE) %>%
@@ -296,62 +319,24 @@ fit %>%
 
 ```
 
-We can also use the regression framework to learn more about the effects of different locations and forecast dates. Figure \@ref(fig:random-effects) shows the estimated random effects from all different locations and forecast dates. We can see that location effects are much larger than time effects. The strength of this regression framework, however, is its ability to aid with model selection. The end of the next section will try to put that into practice WORK ON THAT SENTENCE / PARAGRAPH. 
+While the strength of this regression framework is its ability to aid with model selection, we can also use it to learn more about the effects of different locations and forecast dates. Figure \@ref(fig:random-effects) shows the estimated random effects from all different locations and forecast dates. We can see that location effects are much larger than forecast date effects. 
 
 ``` {r random-effects, echo = FALSE, out.width = "100%", fig.cap = "Random effects of the different locations (left) and forecast dates (right"}
 knitr::include_graphics("../visualisation/chapter-5-results/random-effects.png")
 
 ```
 
-
+SECTION SUMMARY / TRANSITION
 
 ## Assessing ensemble performance
 
-So far we have simply treated the three ensemble models as one of our eleven candidate models. The following section shall discuss some of the particularities of the ensemble models in more detail. REWRITE THIS. GOAL: Understand ensemble behaviour better? 
+The following section will explore some aspects concerning the ensemble models in a bit more detail. These paragraphs will focus on the qra and the crps ensemble, as these are the ones of greatest interest. The first part will examine how ensemble member weights evolve over time for the two model aggregation approaches. The second part will then look at different variants of the qra and crps ensemble that alter the number of past observations to take into account or the horizon to optimise for. A regression framework will be used again to determine differences between the different ensemble variants. The COVIDhub-ensemble will here serve as a benchmark against which to compare the other ensembles. 
 
-Structure: 
-- bias
-- compare coverage
-- compare sharpness
-- look at ensemble weights
-- look at other ensemble possibilities + regression (Maybe another section)
-
-
-
-The following section will explore the ensemble models in a bit more detail. While the ensemble models were already included in the analysis above, some nuances will be highlighted again. 
-
-Two things have to be kept in mind when looking at the ensemble models: First, the mean ensemble is of course itself a subset of the COVIDhub-ensemble. The COVIDhub-ensemble is itself a mean ensemble of all submitted and eligible models. Therefore the only difference we see in performance between the mean-ensemble and the COVIDhub-ensemble is due to the selection of models for this analysis. If models included here perform better on average, then we should expect the mean ensemble to outperform the COVIDhub-ensemble model. As Figure \@ref(fig:coloured-summarised-scores) shows this is not the case. 
-
-The second thing to keep in mind is that the crps-ensemble implementation in this thesis entails fitting a gamma distribution to the set of predictive quantiles which is bound to lose some precision. It is therefore expected to the see the crps-ensemble perform worse and therefore rather surprising that it keeps up in performance with the other ensembles. 
-
-### Additional details to forecast visualisation, bias, coverage, sharpness
-
-Figure \@ref(fig:bias-ensemble) plots the observations and predictions, as well as bias, in the six locations with the highest WIS. We see that all models make very similar predictions. The qra-ensemble seems to have a slight tendency for higher bias values, but this is hard to infer just from looking at the plots. We can see, e.g. in New Jersey, that the crps-ensemble sometimes produces very large spikes in uncertainty. If we look back at the PLOT IN CHAPTER MODEL AGGREGATION, we can probably attribute this to the loss of precision due to sampling. We saw IN THE PLOT that samples from the gamma distribution tend to have much larger tails than the actual distribution. 
-
-``` {r bias-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Bias of the ensemble models"}
-knitr::include_graphics("../visualisation/chapter-5-results/bias_ensemble.png")
-
-```
-
-Figure \@ref(fig:coverage-ensemble) summarises interval and quantile coverage for all ensemble models in one plot, which makes it easier to directly compare them. Looking at the quantile plot (on the right) we can now see the bias more pronounced in the qra-ensemble model. The COVIDhub-ensemble exhibits very good interval as well as quantile coverage. The crps-ensemble and the mean-ensemble have a slightly too high interval coverage. Interestingly though, the crps-ensemble looks somewhat downward biased in the quantile plot. Going back to Figure \@ref(coloured-summarised-scores), however, we hardly see any bias on the aggregate level. This may again warrant more investigation into different possible bias metrics. Visually, it seems, that the distance from the diagonal in the quantile plot correlates better with overall model performance as judged by WIS than distance in the interval coverage plot on the left (COVIDhub-ensemble as the top performer, qra-ensemble as the worst among the ensembles). 
-GOAL / DIRECTION OF THIS PARAGRAPH? 
-
-``` {r coverage-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Interval coverage (left) and quantile coverage (right)"}
-knitr::include_graphics("../visualisation/chapter-5-results/coverage_ensemble.png")
-
-```
-
-Figure \@ref(fig:sharpness-ensemble) shows sharpness for every model and ensemble. We can see that the mean-ensemble and the qra-ensemble model are less sharp than the other two models. Comparing with Figure @\ref(fig:coverage-ensemble) we can now explain why the qra-ensemble still seems to maintain almost perfect interval coverage even though it is biased. The mean-ensemble, which is less biased, has even more interval coverage. 
-
-``` {r sharpness-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Sharpness of the ensemble models in different states. The shading indicates how much higher a certain sharpness value is compared to the minimum value achieved in that state."}
-knitr::include_graphics("../visualisation/chapter-5-results/heatmap-sharpness-ensemble.png")
-
-```
-
+The mean-ensemble will not be discussed in more depth as it is not very interesting in terms of further investigation. Since its member models are all already included in the COVIDhub-ensemble model, performance differences between the mean-ensemble and the COVIDhub-ensemble can be fully attributed to the subselection of models from the Forecast Hub for this thesis. 
 
 ### Model weights over time
 
-Figure \@ref(fig:weights-time) shows the weights over time. 
+Looking at the how ensemble weights evolve over time can give us insights about how the ensembles work. Figure \@ref(fig:weights-time) visualises this evolution. We can see that both model aggregation approaches seem to 
 
 ``` {r weights-time, echo = FALSE, out.width = "100%", fig.cap = "Weights given to the different models in the ensemble over time"}
 
@@ -397,9 +382,13 @@ fit %>%
 INTERESTING: WEIGHTS OVER TIME
 
 
+ADD TO INTERPRETATION: The second thing to keep in mind is that the crps-ensemble implementation in this thesis entails fitting a gamma distribution to the set of predictive quantiles which is bound to lose some precision. It is therefore expected to the see the crps-ensemble perform worse and therefore rather surprising that it keeps up in performance with the other ensembles. 
+
 ## Sensitivity analysis
 
-Figure \@ref(fig:senitivity) shows model performance over 4 different time frames. 
+In order to test the validity and robustness of the results obtained, this section presents a small validity analysis. This analysis could of course be expanded greatly. 
+
+Instead of looking at the whole time window, the three latest dates were successively removed. Figure \@ref(fig:senitivity) shows the summarised scores for all models in the four different scenarios. We can see XXX. 
 
 ``` {r senitivity, echo = FALSE, fig.show = "hold", out.width = "50%", fig.cap = "Weights given to the different models in the ensemble over time"}
 
@@ -408,7 +397,8 @@ knitr::include_graphics("../visualisation/chapter-5-results/scenario-1/coloured-
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-2/coloured-summarised-scores.png")
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-3/coloured-summarised-scores.png")
 ```
-Figure \@ref(fig:senitivity) shows ensemble model performance over 4 different time frames. qra-ensemble-4 stays at the top consistently, it seems like qra is slightly outperforming crps. It still seems like crps-ensemble horizon 2 is best. 
+
+The same analysis is of course also interesting for the ensemble variants. Figure \@ref(fig:senitivity) therefore shows aggregated scores for all ensemble variants for the four different scenarios. REWORK INTERPRETATION. qra-ensemble-4 stays at the top consistently, it seems like qra is slightly outperforming crps. It still seems like crps-ensemble horizon 2 is best. 
 
 
 ``` {r senitivity-ensembles, echo = FALSE, fig.show = "hold", out.width = "50%", fig.cap = "Weights given to the different models in the ensemble over time"}
@@ -421,15 +411,11 @@ knitr::include_graphics("../visualisation/chapter-5-results/ensembles/scenario-3
 
 
 
-## Discussion 
+## Discussion / chapter summary
 
 - Which states were easy to forecast? Which ones were hard to forecast? 
-- would be good to have a plot / some analysis on how good the gamma fit for the CRPS actually works
-- restriction due to inclusion of the epiforecasts-ensemble1 --> locations and dates
 - exntension: dealing with missing forecasts
 - sensitivity analysis: time included for ensemble weight estimation
-- break up interval score in width part and miss penalty part
-
 
 
 
