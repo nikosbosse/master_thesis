@@ -128,15 +128,6 @@ Hamill, T.~M. (2001).
 \newblock {\em Monthly Weather Review}, 129(3):550--560.
 \newblock Publisher: American Meteorological Society.
 
-\bibitem[Hellewell et~al., 2020]{hellewellFeasibilityControllingCOVID192020}
-Hellewell, J., Abbott, S., Gimma, A., Bosse, N.~I., Jarvis, C.~I., Russell,
-  T.~W., Munday, J.~D., Kucharski, A.~J., Edmunds, W.~J., Sun, F., Flasche, S.,
-  Quilty, B.~J., Davies, N., Liu, Y., Clifford, S., Klepac, P., Jit, M.,
-  Diamond, C., Gibbs, H., Zandvoort, K.~v., Funk, S., and Eggo, R.~M. (2020).
-\newblock Feasibility of controlling {COVID}-19 outbreaks by isolation of cases
-  and contacts.
-\newblock {\em The Lancet Global Health}, 8(4):e488--e496.
-
 \bibitem[Hoeting et~al., 1999]{hoetingBayesianModelAveraging1999}
 Hoeting, J.~A., Madigan, D., Raftery, A.~E., and Volinsky, C.~T. (1999).
 \newblock Bayesian {{Model Averaging}}: {{A Tutorial}}.
@@ -195,21 +186,14 @@ Raftery, A.~E., Madigan, D., and Hoeting, J.~A. (1997).
 \newblock Quantile {{Stacking}}.
 \newblock https://ryantibs.github.io/quantgen/stacking\_example.html.
 
-\bibitem[{Sam Abbott} et~al., 2020a]{R-EpiSoon}
-{Sam Abbott}, Bosse, N., Hellewell, J., Sherratt, K., Munday, J., Thompson, R.,
-  Chateigner, A., Mareschal, S., Rau, A., Vialaneix, N., DeWitt, M., and Funk,
-  S. (2020a).
-\newblock {\em EpiSoon: Forecast Cases Using Reproduction Numbers}.
-\newblock R package version 0.3.0.
-
-\bibitem[{Sam Abbott} et~al., 2020b]{R-EpiNow}
-{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020b).
+\bibitem[{Sam Abbott} et~al., 2020a]{R-EpiNow}
+{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020a).
 \newblock {\em EpiNow: Estimate Realtime Case Counts and Time-varying
   Epidemiological Parameters}.
 \newblock R package version 0.3.0.
 
-\bibitem[{Sam Abbott} et~al., 2020c]{R-EpiNow2}
-{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020c).
+\bibitem[{Sam Abbott} et~al., 2020b]{R-EpiNow2}
+{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020b).
 \newblock {\em EpiNow2: Estimate Realtime Case Counts and Time-varying
   Epidemiological Parameters}.
 \newblock R package version 0.3.0.
@@ -258,10 +242,5 @@ Yao, Y., Vehtari, A., Simpson, D., and Gelman, A. (2018).
 \newblock Using stacking to average {Bayesian} predictive distributions.
 \newblock {\em Bayesian Analysis}, 13(3):917--1007.
 \newblock arXiv: 1704.02030.
-
-\bibitem[Ypma and Johnson, 2020]{R-nloptr}
-Ypma, J. and Johnson, S.~G. (2020).
-\newblock {\em nloptr: R Interface to NLopt}.
-\newblock R package version 1.2.2.2.
 
 \end{thebibliography}

@@ -6,45 +6,45 @@ Database file #1: bib/masterthesis.bib
 Database file #2: bib/packages.bib
 Warning--empty publisher in hyndmanrobjForecastingPrinciplesPractice2019
 Warning--empty journal in shannonMathematicalTheoryCommunication1948
-You've used 42 entries,
+You've used 39 entries,
             1935 wiz_defined-function locations,
-            756 strings with 14559 characters,
-and the built_in function-call counts, 17780 in all, are:
-= -- 1704
-> -- 923
-< -- 24
-+ -- 338
-- -- 323
-* -- 1593
-:= -- 3163
-add.period$ -- 136
-call.type$ -- 42
-change.case$ -- 361
-chr.to.int$ -- 39
-cite$ -- 44
-duplicate$ -- 583
-empty$ -- 1099
-format.name$ -- 379
-if$ -- 3352
-int.to.chr$ -- 4
+            741 strings with 13529 characters,
+and the built_in function-call counts, 15832 in all, are:
+= -- 1544
+> -- 734
+< -- 23
++ -- 265
+- -- 251
+* -- 1388
+:= -- 2804
+add.period$ -- 127
+call.type$ -- 39
+change.case$ -- 312
+chr.to.int$ -- 37
+cite$ -- 41
+duplicate$ -- 543
+empty$ -- 1027
+format.name$ -- 302
+if$ -- 3009
+int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 29
-newline$ -- 222
-num.names$ -- 128
-pop$ -- 293
+missing$ -- 28
+newline$ -- 207
+num.names$ -- 119
+pop$ -- 245
 preamble$ -- 1
-purify$ -- 370
+purify$ -- 319
 quote$ -- 0
-skip$ -- 455
+skip$ -- 424
 stack$ -- 0
-substring$ -- 1167
-swap$ -- 66
+substring$ -- 1100
+swap$ -- 61
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 250
+type$ -- 232
 warning$ -- 2
-while$ -- 135
+while$ -- 127
 width$ -- 0
-write$ -- 552
+write$ -- 515
 (There were 2 warnings)

@@ -40,9 +40,14 @@ knitr::write_bib(c(.packages(),
 
 # Todo
 
-- Make aims section a bit larger in introduction
+- Maybe add the different possible calibration types to the evaluation chapter
 
-- Thing about moving the personal contribution part to the end of the thesis? Rewriting it? Dropping it? 
+- Do I want a summary section for each Chapter? 
+
+- Maybe implement an equally weighted mixture ensemble
+
+- consistent writing of Chapter / chapter
+
 - Work through all the citations and adapt the author names in the bib file so they get shown consistently
 
 - Use present tense or future tense consistently in the Chapter introduction paragraphs

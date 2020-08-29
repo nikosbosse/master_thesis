@@ -1,6 +1,7 @@
 # Model aggregation {#model-aggregation}
 
-Forecasting, in the context of Covid-19, has very much been a collaborative effort. Given the large number of research teams that contribute to the Forecast Hub and the multitude of approaches and models they employ, a question that naturally arises is: "how can we combine these efforts to create the best possible collective forecast?" The following chapter gives an introduction to the idea behind model aggregation and presents several approaches to combine models to ensembles.  
+The discussion of proper scoring rules in Chapter \@ref(evaluation) now allows us to go one step further and to explore how we can combine individual models to optimal ensembles using these proper scoring rules. This chapter presents two approaches, Quantile Regression Averaging (QRA) that builds upon the weighted interval score and a novel stacking approach that forms an ensemble that minimises the continuous ranked probability score. Before discussing these model aggregation approaches, this Chapter provides an intuition for why model ensembles work and for how different predictive distributions can be combined. 
+
 
 ## Theoretical idea
 

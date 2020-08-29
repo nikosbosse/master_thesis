@@ -32,8 +32,9 @@ full <- prepare_for_scoring(forecasts)
 
 
 
-
-
+# ------------------------------------------------------------------------------
+# BIAS
+# ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # plot with baseline model and US and bias of that plot ------------------------
@@ -41,7 +42,7 @@ full <- prepare_for_scoring(forecasts)
 US_plot_baseline <- plot_forecasts(forecasts = forecasts,
                                    states = "US",
                                    models = "COVIDhub-baseline",
-                                   obs_weeks = 13) +
+                                   obs_weeks = 16) +
   ggplot2::theme(legend.position = "none",
                  axis.title.y = ggplot2::element_text(margin = margin(t = 0,
                                                                       r = 20,
@@ -77,10 +78,121 @@ bias_plot_combined <- cowplot::plot_grid(US_plot_baseline,
                                          align = 'v')
 
 ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation", "bias_example.png"),
-                bias_plot_combined)
+                bias_plot_combined,
+                width = 10,
+                height = 4.5)
 
 
 
+
+
+
+# ------------------------------------------------------------------------------
+# plot with empirical coverage from baseline model -----------------------------
+
+# forecasts <- load_submission_files(dates = "all",
+#                                    models = "COVIDhub-baseline")
+#
+# forecasts <- filter_forecasts(forecasts,
+#                               locations = NULL,
+#                               horizons = 1,
+#                               target_end_dates = "auto")
+#
+# n_samples <- 1000
+#
+# combined <- combine_with_deaths(forecasts) %>%
+#   data.table::as.data.table()
+
+full2 <- prepare_for_scoring(forecasts_all)
+full <- prepare_for_scoring(forecasts)
+
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("model", "forecast_date",
+                                              "target_end_date", "state"),
+                                       summarise_by = c("model", "range"))
+
+## overall model calibration - empirical interval coverage
+interval_coverage <- ggplot2::ggplot(scores, ggplot2::aes(x = range)) +
+  ggplot2::geom_line(ggplot2::aes(y = range), colour = "grey",
+                     linetype = "dashed") +
+  ggplot2::geom_line(ggplot2::aes(y = calibration * 100)) +
+  cowplot::theme_cowplot() +
+  #ggplot2::facet_wrap(~ model, ncol = 3) +
+  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
+                 legend.position = "bottom") +
+  ggplot2::ylab("Percent observations inside interval range") +
+  ggplot2::xlab("Interval range")
+
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
+                           "interval-coverage.png"),
+                interval_coverage,
+                width = 10,
+                height = 4.5)
+
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+# Coverage
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# plot with quantile coverage
+
+# forecasts <- load_submission_files(dates = "all",
+#                                    models = "COVIDhub-baseline")
+#
+# forecasts <- filter_forecasts(forecasts,
+#                               locations = "US",
+#                               horizons = 1,
+#                               target_end_dates = "auto")
+#
+# forecasts <- combine_with_deaths(forecasts)
+
+combined <- combine_with_deaths(forecasts)
+
+quantile_coverage_plot <- combined %>%
+  dplyr::group_by(quantile) %>%
+  dplyr::summarise(coverage = mean(deaths <= value)) %>%
+  ggplot2::ggplot(ggplot2::aes(x = quantile)) +
+  ggplot2::geom_line(ggplot2::aes(y = quantile), colour = "grey",
+                     linetype = "dashed") +
+  ggplot2::geom_line(ggplot2::aes(y = coverage)) +
+  cowplot::theme_cowplot() +
+  #ggplot2::facet_wrap(~ model) +
+  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
+                 legend.position = "bottom") +
+  ggplot2::xlab("Quantile") +
+  ggplot2::ylab("Percent observations below quantile")
+
+ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
+                           "quantile-coverage.png"),
+                quantile_coverage_plot,
+                width = 10,
+                height = 4.5)
+
+
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+# PIT calibration
+# ------------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
@@ -101,44 +213,45 @@ true_value_plot <- ggplot2::ggplot(data = data.frame(x = true_values),
   cowplot::theme_cowplot() +
   ggplot2::labs(x = "True values",
                 y = "Density") +
-  ggplot2::theme(legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+  ggplot2::theme(legend.position = "bottom")
 
 # plot with standard normal distribution
 standard_normal <- true_value_plot +
-  ggplot2::geom_function(fun = dnorm, colour = "black")
+  ggplot2::geom_function(fun = dnorm, colour = "black") +
+  ggplot2::ggtitle("Normal(0, 1)")
 
 pit_standard_normal <- scoringutils::pit(true_values, predictions1)$hist_PIT +
   cowplot::theme_cowplot() +
-  ggplot2::theme(legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+  ggplot2::theme(legend.position = "bottom")
 
 # plot with shifted mean
 shifted_mean <- true_value_plot +
-  ggplot2::geom_function(fun = dnorm, colour = "black", args = list(mean = 0.5))
+  ggplot2::geom_function(fun = dnorm, colour = "black", args = list(mean = 0.5)) +
+  ggplot2::ggtitle("Normal(0.5, 1)")
+
 
 pit_shifted_mean <- scoringutils::pit(true_values, predictions2)$hist_PIT +
   cowplot::theme_cowplot() +
-  ggplot2::theme(legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+  ggplot2::theme(legend.position = "bottom")
 
 # plot with overdispersion
 overdispersion <- true_value_plot +
-  ggplot2::geom_function(fun = dnorm, colour = "black", args = list(sd = 1.4))
+  ggplot2::geom_function(fun = dnorm, colour = "black", args = list(sd = 1.4)) +
+  ggplot2::ggtitle("Normal(0, 1.4")
 
 pit_overdispersion <- scoringutils::pit(true_values, predictions3)$hist_PIT +
   cowplot::theme_cowplot() +
-  ggplot2::theme(legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+  ggplot2::theme(legend.position = "bottom")
 
-# plot with underdispesion
+# plot with underdispersion
 underdispersion <- true_value_plot +
-  ggplot2::geom_function(fun = dnorm, colour = "black", args = list(sd = 0.7))
+  ggplot2::geom_function(fun = dnorm, colour = "black", args = list(sd = 0.7)) +
+  ggplot2::ggtitle("Normal(0, 0.7")
+
 
 pit_underdispersion <- scoringutils::pit(true_values, predictions4)$hist_PIT +
   cowplot::theme_cowplot() +
-  ggplot2::theme(legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+  ggplot2::theme(legend.position = "bottom")
 
 # # plot with underdispesion + mean shift
 # underdispesion_mean_shift <- true_value_plot +
@@ -151,22 +264,93 @@ pit_underdispersion <- scoringutils::pit(true_values, predictions4)$hist_PIT +
 #                  text = ggplot2::element_text(family = "Sans Serif"))
 
 
-calibration_examples <- cowplot::plot_grid(standard_normal, shifted_mean,
-                   pit_standard_normal, pit_shifted_mean,
-                   underdispersion, overdispersion,
-                   pit_underdispersion, pit_overdispersion,
-                   ncol = 2,
-                   rel_heights = c(0.5),
-                   scale = c(1, 1),
-                   align = 'hv')
+calibration_examples1 <- cowplot::plot_grid(standard_normal, NULL,
+                                           pit_standard_normal,
+                                           ncol = 1,
+                                           rel_heights = c(1, -0.2, 1),
+                                           align = 'hv')
 
+calibration_examples2 <- cowplot::plot_grid(shifted_mean, NULL,
+                                            pit_shifted_mean,
+                                            ncol = 1,
+                                            rel_heights = c(1, -0.2, 1),
+                                            align = 'hv')
+
+calibration_examples3 <- cowplot::plot_grid(underdispersion, NULL,
+                                            pit_underdispersion,
+                                            ncol = 1,
+                                            rel_heights = c(1, -0.2, 1),
+                                            align = 'hv')
+
+calibration_examples4 <- cowplot::plot_grid(overdispersion, NULL,
+                                            pit_overdispersion,
+                                            ncol = 1,
+                                            rel_heights = c(1, -0.2, 1),
+                                            align = 'hv')
+
+calibration_examples <- cowplot::plot_grid(calibration_examples1,
+                                           calibration_examples2,
+                                           NULL, NULL,
+                                           calibration_examples3,
+                                           calibration_examples4,
+                                           ncol = 2,
+                                           rel_heights = c(1, 0.2, 1))
 
 ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "calibration-examples.png"),
                 calibration_examples,
-                height = 10, width = 8)
+                height = 7, width = 10)
 
 
+
+# test AD test
+results <- list()
+for (i in 1:1000) {
+  true_values <- rnorm(1000, 0, 1)
+  predictions1 <- replicate(10000, rnorm(1000))
+
+  results[[i]] <- scoringutils::pit(true_values,
+                                    predictions1, plot = FALSE)$p_value
+}
+saveRDS(results, "visualisation/chapter-3-evaluation/ADtest_1000_10000.RDS")
+
+r <- unlist(results)
+sum(r < 0.01)
+sum(r >= 0.01 & r < 0.1)
+sum(r >= 0.1)
+
+results2 <- list()
+for (i in 1:1000) {
+  true_values <- rnorm(100, 0, 1)
+  predictions1 <- replicate(2000, rnorm(100, 0.05, 1.01))
+
+  results2[[i]] <- scoringutils::pit(true_values,
+                                    predictions1, plot = FALSE)$p_value
+}
+
+saveRDS(results2, "visualisation/chapter-3-evaluation/ADtest_100_2000.RDS")
+
+r2 <- unlist(results2)
+sum(r2 < 0.01)
+sum(r2 >= 0.01 & r2 < 0.1)
+sum(r2 >= 0.1)
+
+
+results3 <- list()
+for (i in 1:1000) {
+  true_values <- rnorm(50, 0, 1)
+  predictions1 <- replicate(1000, rnorm(50))
+
+  results3[[i]] <- scoringutils::pit(true_values,
+                                     predictions1, plot = FALSE)$p_value
+}
+
+saveRDS(results3, "visualisation/chapter-3-evaluation/ADtest_50_1000.RDS")
+
+r3 <- unlist(results3)
+sum(r3 < 0.01)
+sum(r3 >= 0.01 & r3 < 0.1)
+sum(r3 >= 0.1)
 
 
 
@@ -220,140 +404,12 @@ plot <- pit_plot$overall_pit +
 
 ggplot2::ggsave(here::here("visualisation","chapter-3-evaluation",
                            "pit-baseline-model.png"),
-                plot)
+                plot,
+                width = 10, height = 4)
 
 
 
 
-
-
-
-
-# ------------------------------------------------------------------------------
-# plot with empirical coverage from baseline model -----------------------------
-
-# forecasts <- load_submission_files(dates = "all",
-#                                    models = "COVIDhub-baseline")
-#
-# forecasts <- filter_forecasts(forecasts,
-#                               locations = NULL,
-#                               horizons = 1,
-#                               target_end_dates = "auto")
-#
-# n_samples <- 1000
-#
-# combined <- combine_with_deaths(forecasts) %>%
-#   data.table::as.data.table()
-
-full2 <- prepare_for_scoring(forecasts_all)
-full <- prepare_for_scoring(forecasts)
-
-
-scores <- scoringutils::eval_forecasts(full,
-                                       by = c("model", "forecast_date",
-                                              "target_end_date", "state"),
-                                       summarise_by = c("model", "range"))
-
-## overall model calibration - empirical interval coverage
-interval_coverage <- ggplot2::ggplot(scores, ggplot2::aes(x = range)) +
-  ggplot2::geom_line(ggplot2::aes(y = range), colour = "grey",
-                     linetype = "dashed") +
-  ggplot2::geom_line(ggplot2::aes(y = calibration * 100)) +
-  cowplot::theme_cowplot() +
-  ggplot2::facet_wrap(~ model, ncol = 3) +
-  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                 legend.position = "bottom") +
-  ggplot2::xlab("Percent observations inside interval range") +
-  ggplot2::ylab("Interval range")
-
-ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
-                           "interval-coverage.png"),
-                interval_coverage)
-
-
-
-# ------------------------------------------------------------------------------
-# plot with quantile coverage
-
-# forecasts <- load_submission_files(dates = "all",
-#                                    models = "COVIDhub-baseline")
-#
-# forecasts <- filter_forecasts(forecasts,
-#                               locations = "US",
-#                               horizons = 1,
-#                               target_end_dates = "auto")
-#
-# forecasts <- combine_with_deaths(forecasts)
-
-combined <- combine_with_deaths(forecasts)
-
-quantile_coverage_plot <- combined %>%
-  dplyr::group_by(quantile) %>%
-  dplyr::summarise(coverage = mean(deaths <= value)) %>%
-  ggplot2::ggplot(ggplot2::aes(x = quantile)) +
-  ggplot2::geom_line(ggplot2::aes(y = quantile), colour = "grey",
-                     linetype = "dashed") +
-  ggplot2::geom_line(ggplot2::aes(y = coverage)) +
-  cowplot::theme_cowplot() +
-  ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                 legend.position = "bottom") +
-  ggplot2::xlab("Quantile") +
-  ggplot2::ylab("Percent observations below quantile")
-
-ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
-                           "quantile-coverage.png"),
-                quantile_coverage_plot)
-
-
-
-
-
-
-
-
-# ------------------------------------------------------------------------------
-# plot with interval coverage over time
-# forecasts <- load_submission_files(dates = "all",
-#                                    models = "COVIDhub-baseline")
-#
-# forecasts <- filter_forecasts(forecasts,
-#                               locations = NULL,
-#                               horizons = 1,
-#                               target_end_dates = "auto")
-#
-# full <- prepare_for_scoring(forecasts)
-#
-# scores <- scoringutils::eval_forecasts(full,
-#                                        by = c("model", "forecast_date", "state",
-#                                               "target_end_date", "horizon"),
-#                                        summarise_by = c("model", "target_end_date"))
-#
-# coverage_time <- ggplot2::ggplot(scores, ggplot2::aes(x = target_end_date,
-#                                      y = calibration,
-#                                      colour = range,
-#                                      group = range)) +
-#   ggplot2::geom_hline(ggplot2::aes(yintercept = range / 100, colour = range),
-#                       linetype = "dashed") +
-#   ggplot2::geom_vline(ggplot2::aes(xintercept = target_end_date),
-#                       colour = "grey",
-#                       linetype = "dashed",
-#                       alpha = 0.4) +
-#   ggplot2::geom_label(data = scores %>%
-#                         dplyr::filter(target_end_date == max(target_end_date)),
-#                       ggplot2::aes(y = calibration,
-#                                    label = range,
-#                                    family = "Sans Serif")) +
-#   ggplot2::geom_line() +
-#   cowplot::theme_cowplot() +
-#   ggplot2::facet_grid(NULL) +
-#   ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-#                  legend.position = "bottom") +
-#   ggplot2::xlab("Forecast week") +
-#   ggplot2::ylab("Coverage rate")
-#
-# ggplot2::ggsave(here::here("evaluation", "plots", "chapter-3-evaluation",
-#                            "coverage-time.png"),
-#                 coverage_time)
 
 
 
@@ -478,7 +534,15 @@ crps_explanation <- cowplot::plot_grid(point_cdf, crps_mae,
 
 ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "crps-explanation.png"),
-                crps_explanation)
+                crps_explanation,
+                width = 10, height = 5)
+
+
+
+
+
+
+
 
 
 
@@ -529,7 +593,8 @@ log_score_example <- df %>%
 
 ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "log-score-example.png"),
-                log_score_example)
+                log_score_example,
+                width = 10, height = 3.5)
 
 
 
