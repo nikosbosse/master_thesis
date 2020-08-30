@@ -42,6 +42,8 @@ knitr::write_bib(c(.packages(),
 
 - Maybe add the different possible calibration types to the evaluation chapter
 
+- Read more about stacking. Is the QRA stacking? 
+
 - Do I want a summary section for each Chapter? 
 
 - Maybe implement an equally weighted mixture ensemble

@@ -44,7 +44,7 @@ Chapter \@ref(discussion) will discuss the results and conclude this thesis.
 
 #### Code {-}
 
-All code used throughout this thesis is publicly available. This includes the code for this thesis^[[github.com/nikosbosse/master_thesis](https://github.com/nikosbosse/master_thesis)], the code for the `scoringutils`^[[github.com/epiforecasts/scoringutils](https://github.com/epiforecasts/scoringutils)] and the `stackr`^[[github.com/epiforecasts/stackr](https://github.com/epiforecasts/stackr)] package as well as the code used to create the epiforecasts-ensemble predictions^[[github.com/epiforecasts/covid-us-forecasts](https://github.com/epiforecasts/covid-us-forecasts)] submitted to the Forecast Hub. 
+All analysis was conducted in R (version 4.0.2) [@R-base]. All code used throughout this thesis is publicly available. This includes the code for this thesis^[[github.com/nikosbosse/master_thesis](https://github.com/nikosbosse/master_thesis)], the code for the `scoringutils`^[[github.com/epiforecasts/scoringutils](https://github.com/epiforecasts/scoringutils)] and the `stackr`^[[github.com/epiforecasts/stackr](https://github.com/epiforecasts/stackr)] package as well as the code used to create the epiforecasts-ensemble predictions^[[github.com/epiforecasts/covid-us-forecasts](https://github.com/epiforecasts/covid-us-forecasts)] submitted to the Forecast Hub. 
 
 
 
