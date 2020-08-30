@@ -12,3 +12,7 @@
 - break up interval score in width part and miss penalty part
 
 
+
+- connect bias / coverage deviation more with actually looking at the plots --> when are states hard and easy to forecast? 
+- More connection between results and model types: which models perform well / badly?
+

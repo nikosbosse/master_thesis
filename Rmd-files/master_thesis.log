@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2020.7.20)  29 AUG 2020 23:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2020.7.20)  30 AUG 2020 19:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -580,7 +580,7 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-84.
+86.
 (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [5
@@ -594,535 +594,85 @@ Chapter 3.
 [9
 
 ] [10]
-<../visualisation/chapter-3-evaluation/bias_example.png, id=270, 722.7pt x 325.
+<../visualisation/chapter-3-evaluation/bias_example.png, id=246, 722.7pt x 325.
 215pt>
 File: ../visualisation/chapter-3-evaluation/bias_example.png Graphic file (type
  png)
 <use ../visualisation/chapter-3-evaluation/bias_example.png>
 Package pdftex.def Info: ../visualisation/chapter-3-evaluation/bias_example.png
-  used on input line 284.
+  used on input line 287.
 (pdftex.def)             Requested size: 426.79732pt x 192.05879pt.
 [11 <../visualisation/chapter-3-evaluation/bias_example.png (PNG copy)>]
-<../visualisation/chapter-3-evaluation/interval-coverage.png, id=281, 722.7pt x
+<../visualisation/chapter-3-evaluation/interval-coverage.png, id=257, 722.7pt x
  325.215pt>
 File: ../visualisation/chapter-3-evaluation/interval-coverage.png Graphic file 
 (type png)
 <use ../visualisation/chapter-3-evaluation/interval-coverage.png>
 Package pdftex.def Info: ../visualisation/chapter-3-evaluation/interval-coverag
-e.png  used on input line 295.
+e.png  used on input line 298.
 (pdftex.def)             Requested size: 213.39314pt x 96.02692pt.
-<../visualisation/chapter-3-evaluation/quantile-coverage.png, id=282, 722.7pt x
+<../visualisation/chapter-3-evaluation/quantile-coverage.png, id=258, 722.7pt x
  325.215pt>
 File: ../visualisation/chapter-3-evaluation/quantile-coverage.png Graphic file 
 (type png)
 <use ../visualisation/chapter-3-evaluation/quantile-coverage.png>
 Package pdftex.def Info: ../visualisation/chapter-3-evaluation/quantile-coverag
-e.png  used on input line 295.
+e.png  used on input line 298.
 (pdftex.def)             Requested size: 213.39314pt x 96.02692pt.
 
-Overfull \hbox (2.21716pt too wide) in paragraph at lines 295--295
+Overfull \hbox (2.21716pt too wide) in paragraph at lines 298--298
 [][] [] 
  []
 
 
-LaTeX Warning: Reference `(' on page 12 undefined on input line 298.
+LaTeX Warning: Reference `(' on page 12 undefined on input line 301.
 
 [12 <../visualisation/chapter-3-evaluation/interval-coverage.png> <../visualisa
 tion/chapter-3-evaluation/quantile-coverage.png>]
-<../visualisation/chapter-3-evaluation/calibration-examples.png, id=305, 722.7p
+<../visualisation/chapter-3-evaluation/calibration-examples.png, id=280, 722.7p
 t x 505.89pt>
 File: ../visualisation/chapter-3-evaluation/calibration-examples.png Graphic fi
 le (type png)
 <use ../visualisation/chapter-3-evaluation/calibration-examples.png>
 Package pdftex.def Info: ../visualisation/chapter-3-evaluation/calibration-exam
-ples.png  used on input line 316.
+ples.png  used on input line 319.
 (pdftex.def)             Requested size: 426.79732pt x 298.75812pt.
-<../visualisation/chapter-3-evaluation/pit-baseline-model.png, id=315, 722.7pt 
+<../visualisation/chapter-3-evaluation/pit-baseline-model.png, id=290, 722.7pt 
 x 289.08pt>
 File: ../visualisation/chapter-3-evaluation/pit-baseline-model.png Graphic file
  (type png)
 <use ../visualisation/chapter-3-evaluation/pit-baseline-model.png>
 Package pdftex.def Info: ../visualisation/chapter-3-evaluation/pit-baseline-mod
-el.png  used on input line 328.
+el.png  used on input line 331.
 (pdftex.def)             Requested size: 426.79732pt x 170.71892pt.
 [13 <../visualisation/chapter-3-evaluation/calibration-examples.png>] [14 <../v
 isualisation/chapter-3-evaluation/pit-baseline-model.png>]
-<../visualisation/chapter-3-evaluation/log-score-example.png, id=354, 722.7pt x
+<../visualisation/chapter-3-evaluation/log-score-example.png, id=330, 722.7pt x
  252.945pt>
 File: ../visualisation/chapter-3-evaluation/log-score-example.png Graphic file 
 (type png)
 <use ../visualisation/chapter-3-evaluation/log-score-example.png>
 Package pdftex.def Info: ../visualisation/chapter-3-evaluation/log-score-exampl
-e.png  used on input line 366.
+e.png  used on input line 369.
 (pdftex.def)             Requested size: 426.79732pt x 149.37906pt.
 [15 <../visualisation/chapter-3-evaluation/log-score-example.png>]
-<../visualisation/chapter-3-evaluation/crps-explanation.png, id=383, 722.7pt x 
+<../visualisation/chapter-3-evaluation/crps-explanation.png, id=359, 722.7pt x 
 361.35pt>
 File: ../visualisation/chapter-3-evaluation/crps-explanation.png Graphic file (
 type png)
 <use ../visualisation/chapter-3-evaluation/crps-explanation.png>
 Package pdftex.def Info: ../visualisation/chapter-3-evaluation/crps-explanation
-.png  used on input line 397.
+.png  used on input line 400.
 (pdftex.def)             Requested size: 426.79732pt x 213.39867pt.
 [16 <../visualisation/chapter-3-evaluation/crps-explanation.png (PNG copy)>] [1
 7]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 454.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 457.
 [18] [19] [20
 
 ]
 Chapter 4.
 [21]
-<../visualisation/chapter-4-ensemble/average-mixture-example.png, id=438, 629.2
+<../visualisation/chapter-4-ensemble/average-mixture-example.png, id=415, 629.2
 308pt x 325.9377pt>
-File: ../visualisation/chapter-4-ensemble/average-mixture-example.png Graphic f
-ile (type png)
-<use ../visualisation/chapter-4-ensemble/average-mixture-example.png>
-Package pdftex.def Info: ../visualisation/chapter-4-ensemble/average-mixture-ex
-ample.png  used on input line 523.
-(pdftex.def)             Requested size: 405.4523pt x 210.02179pt.
-[22 <../visualisation/chapter-4-ensemble/average-mixture-example.png (PNG copy)
->] [23] [24] [25] [26
-
-]
-Chapter 5.
-<../visualisation/chapter-5-results/US-forecast-1-4-wk-ahead.png, id=502, 867.2
-4pt x 722.7pt>
-File: ../visualisation/chapter-5-results/US-forecast-1-4-wk-ahead.png Graphic f
-ile (type png)
-<use ../visualisation/chapter-5-results/US-forecast-1-4-wk-ahead.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/US-forecast-1-4-wk-
-ahead.png  used on input line 653.
-(pdftex.def)             Requested size: 426.79071pt x 355.65892pt.
-[27] [28 <../visualisation/chapter-5-results/US-forecast-1-4-wk-ahead.png (PNG 
-copy)>]
-<../visualisation/chapter-5-results/coloured-summarised-scores.png, id=516, 722
-.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/coloured-summarised-scores.png Graphic
- file (type png)
-<use ../visualisation/chapter-5-results/coloured-summarised-scores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/coloured-summarised
--scores.png  used on input line 664.
-(pdftex.def)             Requested size: 426.79732pt x 213.39867pt.
-[29 <../visualisation/chapter-5-results/coloured-summarised-scores.png (PNG cop
-y)>]
-<../visualisation/chapter-5-results/correlation-map.png, id=526, 939.51pt x 578
-.16pt>
-File: ../visualisation/chapter-5-results/correlation-map.png Graphic file (type
- png)
-<use ../visualisation/chapter-5-results/correlation-map.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/correlation-map.png
-  used on input line 680.
-(pdftex.def)             Requested size: 426.7896pt x 262.63976pt.
-<../visualisation/chapter-5-results/corr-plot.png, id=528, 1011.78pt x 1011.78p
-t>
-File: ../visualisation/chapter-5-results/corr-plot.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/corr-plot.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/corr-plot.png  used
- on input line 691.
-(pdftex.def)             Requested size: 426.79732pt x 426.79732pt.
-[30 <../visualisation/chapter-5-results/correlation-map.png (PNG copy)>] [31 <.
-./visualisation/chapter-5-results/corr-plot.png (PNG copy)>]
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-731.
-(/usr/share/texmf-dist/tex/latex/lm/ts1lmtt.fd
-File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-<../visualisation/chapter-5-results/heatmap-model-scores.png, id=542, 722.7pt x
- 397.485pt>
-File: ../visualisation/chapter-5-results/heatmap-model-scores.png Graphic file 
-(type png)
-<use ../visualisation/chapter-5-results/heatmap-model-scores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/heatmap-model-score
-s.png  used on input line 743.
-(pdftex.def)             Requested size: 426.79732pt x 234.73853pt.
-[32 <../visualisation/chapter-5-results/heatmap-model-scores.png (PNG copy)>]
-<../visualisation/chapter-5-results/heatmap-model-scores-horizon.png, id=553, 7
-22.7pt x 325.215pt>
-File: ../visualisation/chapter-5-results/heatmap-model-scores-horizon.png Graph
-ic file (type png)
-<use ../visualisation/chapter-5-results/heatmap-model-scores-horizon.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/heatmap-model-score
-s-horizon.png  used on input line 749.
-(pdftex.def)             Requested size: 426.79732pt x 192.05879pt.
-<../visualisation/chapter-5-results/scores-by-range.png, id=555, 722.7pt x 361.
-35pt>
-File: ../visualisation/chapter-5-results/scores-by-range.png Graphic file (type
- png)
-<use ../visualisation/chapter-5-results/scores-by-range.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scores-by-range.png
-  used on input line 755.
-(pdftex.def)             Requested size: 426.79732pt x 213.39867pt.
-[33 <../visualisation/chapter-5-results/heatmap-model-scores-horizon.png (PNG c
-opy)> <../visualisation/chapter-5-results/scores-by-range.png (PNG copy)>]
-<../visualisation/chapter-5-results/bias_ensemble.png, id=564, 722.7pt x 1156.3
-2pt>
-File: ../visualisation/chapter-5-results/bias_ensemble.png Graphic file (type p
-ng)
-<use ../visualisation/chapter-5-results/bias_ensemble.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/bias_ensemble.png  
-used on input line 772.
-(pdftex.def)             Requested size: 421.44897pt x 674.31839pt.
-
-LaTeX Warning: Float too large for page by 35.93251pt on input line 773.
-
-<../visualisation/chapter-5-results/bias-horizons.png, id=566, 722.7pt x 361.35
-pt>
-File: ../visualisation/chapter-5-results/bias-horizons.png Graphic file (type p
-ng)
-<use ../visualisation/chapter-5-results/bias-horizons.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/bias-horizons.png  
-used on input line 783.
-(pdftex.def)             Requested size: 426.79732pt x 213.39867pt.
-<../visualisation/chapter-5-results/interval-coverage-all.png, id=569, 722.7pt 
-x 505.89pt>
-File: ../visualisation/chapter-5-results/interval-coverage-all.png Graphic file
- (type png)
-<use ../visualisation/chapter-5-results/interval-coverage-all.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/interval-coverage-a
-ll.png  used on input line 794.
-(pdftex.def)             Requested size: 426.79732pt x 298.75812pt.
-<../visualisation/chapter-5-results/quantile-coverage-all.png, id=573, 722.7pt 
-x 505.89pt>
-File: ../visualisation/chapter-5-results/quantile-coverage-all.png Graphic file
- (type png)
-<use ../visualisation/chapter-5-results/quantile-coverage-all.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/quantile-coverage-a
-ll.png  used on input line 800.
-(pdftex.def)             Requested size: 426.79732pt x 298.75812pt.
-[34] [35 <../visualisation/chapter-5-results/bias_ensemble.png (PNG copy)>] [36
- <../visualisation/chapter-5-results/bias-horizons.png (PNG copy)> <../visualis
-ation/chapter-5-results/interval-coverage-all.png (PNG copy)>]
-<../visualisation/chapter-5-results/coverage_ensemble.png, id=597, 722.7pt x 28
-9.08pt>
-File: ../visualisation/chapter-5-results/coverage_ensemble.png Graphic file (ty
-pe png)
-<use ../visualisation/chapter-5-results/coverage_ensemble.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/coverage_ensemble.p
-ng  used on input line 806.
-(pdftex.def)             Requested size: 426.79732pt x 170.71892pt.
-<../visualisation/chapter-5-results/interval-coverage-horizons.png, id=600, 722
-.7pt x 505.89pt>
-File: ../visualisation/chapter-5-results/interval-coverage-horizons.png Graphic
- file (type png)
-<use ../visualisation/chapter-5-results/interval-coverage-horizons.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/interval-coverage-h
-orizons.png  used on input line 815.
-(pdftex.def)             Requested size: 426.79732pt x 298.75812pt.
-<../visualisation/chapter-5-results/quantile-coverage-horizons.png, id=601, 867
-.24pt x 505.89pt>
-File: ../visualisation/chapter-5-results/quantile-coverage-horizons.png Graphic
- file (type png)
-<use ../visualisation/chapter-5-results/quantile-coverage-horizons.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/quantile-coverage-h
-orizons.png  used on input line 819.
-(pdftex.def)             Requested size: 426.79071pt x 248.96123pt.
-[37 <../visualisation/chapter-5-results/quantile-coverage-all.png (PNG copy)>] 
-[38 <../visualisation/chapter-5-results/coverage_ensemble.png (PNG copy)> <../v
-isualisation/chapter-5-results/interval-coverage-horizons.png (PNG copy)>]
-<../visualisation/chapter-5-results/coverage-deviation-by-range.png, id=617, 72
-2.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/coverage-deviation-by-range.png Graphi
-c file (type png)
-<use ../visualisation/chapter-5-results/coverage-deviation-by-range.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/coverage-deviation-
-by-range.png  used on input line 825.
-(pdftex.def)             Requested size: 426.79732pt x 213.39867pt.
-<../visualisation/chapter-5-results/heatmap-model-coverage.png, id=620, 722.7pt
- x 346.896pt>
-File: ../visualisation/chapter-5-results/heatmap-model-coverage.png Graphic fil
-e (type png)
-<use ../visualisation/chapter-5-results/heatmap-model-coverage.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/heatmap-model-cover
-age.png  used on input line 831.
-(pdftex.def)             Requested size: 426.79732pt x 204.8627pt.
-<../visualisation/chapter-5-results/scenario-baseline/Texas-one-week.png, id=62
-1, 722.7pt x 346.896pt>
-File: ../visualisation/chapter-5-results/scenario-baseline/Texas-one-week.png G
-raphic file (type png)
-<use ../visualisation/chapter-5-results/scenario-baseline/Texas-one-week.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scenario-baseline/T
-exas-one-week.png  used on input line 834.
-(pdftex.def)             Requested size: 426.79732pt x 204.8627pt.
-
-LaTeX Warning: Reference `all-pit-plots' on page 39 undefined on input line 840
-.
-
-<../visualisation/chapter-5-results/all-pit-plots.png, id=622, 794.97pt x 650.4
-3pt>
-File: ../visualisation/chapter-5-results/all-pit-plots.png Graphic file (type p
-ng)
-<use ../visualisation/chapter-5-results/all-pit-plots.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/all-pit-plots.png  
-used on input line 843.
-(pdftex.def)             Requested size: 426.80284pt x 349.20232pt.
-pdfTeX warning (ext4): destination with the same identifier (name{assessing-sha
-rpness}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.847 ...ng sharpness}\label{assessing-sharpness}}
-                                                   [39 <../visualisation/chapte
-r-5-results/quantile-coverage-horizons.png (PNG copy)>] [40 <../visualisation/c
-hapter-5-results/coverage-deviation-by-range.png (PNG copy)> <../visualisation/
-chapter-5-results/heatmap-model-coverage.png (PNG copy)>] [41 <../visualisation
-/chapter-5-results/scenario-baseline/Texas-one-week.png (PNG copy)> <../visuali
-sation/chapter-5-results/all-pit-plots.png>]
-<../visualisation/chapter-5-results/scenario-baseline/sharpness-predictions-ens
-emble.png, id=642, 722.7pt x 505.89pt>
-File: ../visualisation/chapter-5-results/scenario-baseline/sharpness-prediction
-s-ensemble.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/scenario-baseline/sharpness-predictions
--ensemble.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scenario-baseline/s
-harpness-predictions-ensemble.png  used on input line 854.
-(pdftex.def)             Requested size: 426.79732pt x 298.75812pt.
-
-LaTeX Warning: Reference `fig:heatmap-horizons' on page 42 undefined on input l
-ine 857.
-
-<../visualisation/chapter-5-results/sharpness-horizons.png, id=645, 867.24pt x 
-346.896pt>
-File: ../visualisation/chapter-5-results/sharpness-horizons.png Graphic file (t
-ype png)
-<use ../visualisation/chapter-5-results/sharpness-horizons.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/sharpness-horizons.
-png  used on input line 860.
-(pdftex.def)             Requested size: 426.79071pt x 170.71628pt.
-<../visualisation/chapter-5-results/sharpness-by-range.png, id=647, 722.7pt x 3
-32.442pt>
-File: ../visualisation/chapter-5-results/sharpness-by-range.png Graphic file (t
-ype png)
-<use ../visualisation/chapter-5-results/sharpness-by-range.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/sharpness-by-range.
-png  used on input line 866.
-(pdftex.def)             Requested size: 426.79732pt x 196.32675pt.
-[42 <../visualisation/chapter-5-results/scenario-baseline/sharpness-predictions
--ensemble.png (PNG copy)>]
-<../visualisation/chapter-5-results/scenario-baseline/heatmap-model-sharpness.p
-ng, id=655, 722.7pt x 397.485pt>
-File: ../visualisation/chapter-5-results/scenario-baseline/heatmap-model-sharpn
-ess.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/scenario-baseline/heatmap-model-sharpne
-ss.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scenario-baseline/h
-eatmap-model-sharpness.png  used on input line 872.
-(pdftex.def)             Requested size: 426.79732pt x 234.73853pt.
-[43 <../visualisation/chapter-5-results/sharpness-horizons.png (PNG copy)> <../
-visualisation/chapter-5-results/sharpness-by-range.png (PNG copy)>]
-<../visualisation/chapter-5-results/random-effects.png, id=667, 722.7pt x 289.0
-8pt>
-File: ../visualisation/chapter-5-results/random-effects.png Graphic file (type 
-png)
-<use ../visualisation/chapter-5-results/random-effects.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/random-effects.png 
- used on input line 923.
-(pdftex.def)             Requested size: 426.79732pt x 170.71892pt.
-
-Underfull \vbox (badness 2384) has occurred while \output is active []
-
-[44 <../visualisation/chapter-5-results/scenario-baseline/heatmap-model-sharpne
-ss.png (PNG copy)>] [45 <../visualisation/chapter-5-results/random-effects.png>
-]
-<../visualisation/chapter-5-results/weights-time.png, id=682, 722.7pt x 289.08p
-t>
-File: ../visualisation/chapter-5-results/weights-time.png Graphic file (type pn
-g)
-<use ../visualisation/chapter-5-results/weights-time.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/weights-time.png  u
-sed on input line 941.
-(pdftex.def)             Requested size: 426.79732pt x 170.71892pt.
-<../visualisation/chapter-5-results/weights-vs-wis.png, id=684, 939.51pt x 722.
-7pt>
-File: ../visualisation/chapter-5-results/weights-vs-wis.png Graphic file (type 
-png)
-<use ../visualisation/chapter-5-results/weights-vs-wis.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/weights-vs-wis.png 
- used on input line 947.
-(pdftex.def)             Requested size: 426.7896pt x 328.29968pt.
-[46 <../visualisation/chapter-5-results/weights-time.png (PNG copy)>] [47 <../v
-isualisation/chapter-5-results/weights-vs-wis.png (PNG copy)>]
-<../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-summar
-ised-scores.png, id=699, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-s
-ummarised-scores.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-su
-mmarised-scores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/ensembles/scenario-
-baseline/coloured-summarised-scores.png  used on input line 957.
-(pdftex.def)             Requested size: 426.79732pt x 213.39867pt.
-<../visualisation/chapter-5-results/scenario-baseline/coloured-summarised-score
-s.png, id=701, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/scenario-baseline/coloured-summarised-
-scores.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/scenario-baseline/coloured-summarised-s
-cores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scenario-baseline/c
-oloured-summarised-scores.png  used on input line 1001.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-<../visualisation/chapter-5-results/scenario-1/coloured-summarised-scores.png, 
-id=702, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/scenario-1/coloured-summarised-scores.
-png Graphic file (type png)
-<use ../visualisation/chapter-5-results/scenario-1/coloured-summarised-scores.p
-ng>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scenario-1/coloured
--summarised-scores.png  used on input line 1001.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-<../visualisation/chapter-5-results/scenario-2/coloured-summarised-scores.png, 
-id=703, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/scenario-2/coloured-summarised-scores.
-png Graphic file (type png)
-<use ../visualisation/chapter-5-results/scenario-2/coloured-summarised-scores.p
-ng>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scenario-2/coloured
--summarised-scores.png  used on input line 1001.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-<../visualisation/chapter-5-results/scenario-3/coloured-summarised-scores.png, 
-id=704, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/scenario-3/coloured-summarised-scores.
-png Graphic file (type png)
-<use ../visualisation/chapter-5-results/scenario-3/coloured-summarised-scores.p
-ng>
-Package pdftex.def Info: ../visualisation/chapter-5-results/scenario-3/coloured
--summarised-scores.png  used on input line 1001.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-
-Overfull \hbox (2.21716pt too wide) in paragraph at lines 1001--1001
-[][] []
- []
-
-
-Overfull \hbox (2.21716pt too wide) in paragraph at lines 1001--1001
-[] [] 
- []
-
-[48 <../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-su
-mmarised-scores.png (PNG copy)>] [49 <../visualisation/chapter-5-results/scenar
-io-baseline/coloured-summarised-scores.png (PNG copy)> <../visualisation/chapte
-r-5-results/scenario-1/coloured-summarised-scores.png (PNG copy)> <../visualisa
-tion/chapter-5-results/scenario-2/coloured-summarised-scores.png (PNG copy)> <.
-./visualisation/chapter-5-results/scenario-3/coloured-summarised-scores.png (PN
-G copy)>]
-File: ../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-s
-ummarised-scores.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-su
-mmarised-scores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/ensembles/scenario-
-baseline/coloured-summarised-scores.png  used on input line 1007.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-<../visualisation/chapter-5-results/ensembles/scenario-1/coloured-summarised-sc
-ores.png, id=719, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/ensembles/scenario-1/coloured-summaris
-ed-scores.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/ensembles/scenario-1/coloured-summarise
-d-scores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/ensembles/scenario-
-1/coloured-summarised-scores.png  used on input line 1007.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-<../visualisation/chapter-5-results/ensembles/scenario-2/coloured-summarised-sc
-ores.png, id=720, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/ensembles/scenario-2/coloured-summaris
-ed-scores.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/ensembles/scenario-2/coloured-summarise
-d-scores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/ensembles/scenario-
-2/coloured-summarised-scores.png  used on input line 1007.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-<../visualisation/chapter-5-results/ensembles/scenario-3/coloured-summarised-sc
-ores.png, id=721, 722.7pt x 361.35pt>
-File: ../visualisation/chapter-5-results/ensembles/scenario-3/coloured-summaris
-ed-scores.png Graphic file (type png)
-<use ../visualisation/chapter-5-results/ensembles/scenario-3/coloured-summarise
-d-scores.png>
-Package pdftex.def Info: ../visualisation/chapter-5-results/ensembles/scenario-
-3/coloured-summarised-scores.png  used on input line 1007.
-(pdftex.def)             Requested size: 213.39314pt x 106.69656pt.
-
-Overfull \hbox (2.21716pt too wide) in paragraph at lines 1007--1007
-[][] []
- []
-
-
-Overfull \hbox (2.21716pt too wide) in paragraph at lines 1007--1007
-[] [] 
- []
-
-[50 <../visualisation/chapter-5-results/ensembles/scenario-1/coloured-summarise
-d-scores.png (PNG copy)> <../visualisation/chapter-5-results/ensembles/scenario
--2/coloured-summarised-scores.png (PNG copy)> <../visualisation/chapter-5-resul
-ts/ensembles/scenario-3/coloured-summarised-scores.png (PNG copy)>]
-Chapter 6.
-[51
-
-] [52
-
-]
-Chapter 7.
-[53] [54] [55]
-<../visualisation/chapter-2-background-data/plot-observations.png, id=790, 867.
-24pt x 578.16pt>
-File: ../visualisation/chapter-2-background-data/plot-observations.png Graphic 
-file (type png)
-<use ../visualisation/chapter-2-background-data/plot-observations.png>
-Package pdftex.def Info: ../visualisation/chapter-2-background-data/plot-observ
-ations.png  used on input line 1164.
-(pdftex.def)             Requested size: 405.45912pt x 270.30608pt.
-[56] [57 <../visualisation/chapter-2-background-data/plot-observations.png (PNG
- copy)>] (./master_thesis.bbl [58] [59
-
-]
-Overfull \hbox (16.90495pt too wide) in paragraph at lines 185--188
-[]\T1/lmr/m/n/10 (-20) Ryan Tib-shi-rani (2020).  Quan-tile Stack-ing.  https:/
-/ryantibs.github.io/quantgen/stacking_example.html. 
- []
-
-[60])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1216.
-[61]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1216.
-(./master_thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1216.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1216.
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
-Here is how much of TeX's memory you used:
- 15177 strings out of 480478
- 238837 string characters out of 5905959
- 517604 words of memory out of 5000000
- 30479 multiletter control sequences out of 15000+600000
- 614118 words of font info for 151 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 41i,12n,45p,2144b,500s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf-dist/f
-onts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy
-.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf-
-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-
-mathit.enc}</usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/
-texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/
-public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></
-usr/share/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/share/texmf-dist/fon
-ts/type1/public/lm/lmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8
-.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-d
-ist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/l
-m/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/share/t
-exmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/pub
-lic/lm/lmr7.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/sha
-re/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fonts/typ
-e1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy5.pfb>
-</usr/share/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/share/texmf-dist/f
-onts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmt
-k10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/tex
-mf-dist/fonts/type1/public/lm/lmtti10.pfb></usr/share/texmf-dist/fonts/type1/pu
-blic/amsfonts/symbols/msbm10.pfb>
-Output written on master_thesis.pdf (61 pages, 14676174 bytes).
-PDF statistics:
- 1149 PDF objects out of 1200 (max. 8388607)
- 1003 compressed objects within 11 object streams
- 265 named destinations out of 1000 (max. 500000)
- 14971 words of extra memory for PDF output out of 17280 (max. 10000000)
-
+File: ../visualisation/chapter-4-ensemble/average-mixture-example.png Gr

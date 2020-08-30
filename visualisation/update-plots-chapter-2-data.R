@@ -30,7 +30,7 @@ plot <- plot +
 ggplot2::ggsave(here::here("visualisation", "chapter-2-background-data",
                            "plot-observations.png"),
                 plot,
-                width = 12, height = 8)
+                width = 10, height = 7)
 
 # plot forecasts made for the US
 
@@ -49,12 +49,24 @@ ggplot2::ggsave(here::here("visualisation", "chapter-2-background-data", "overal
 # ------------------------------------------------------------------------------
 # table with overview of the different models and ensembles
 
-table <- data.frame(locations = settings$states_included,
-                    dates = c(settings$evaluation_dates, rep(NA, 8)),
-                    models = c(settings$model_names, rep(NA, 5)),
-                    ensembles = c("Quantile Average Ensemble",
-                                  "Quantile Regression Average Ensemble",
-                                  "CRPS Mixture Ensemble", rep(NA, 10)))
+table <- tibble::tibble(locations = settings$states_included,
+                        dates = c(sort(settings$evaluation_dates), rep(NA, 7)),
+                        models = c(settings$model_names,
+                                   c(NA, "mean-ensemble",
+                                     "qra-ensemble",
+                                     "crps-ensemble", NA)),
+                        `model summary` = c("Baseline prediction model",
+                                            "Official quantile average ensemble",
+                                            "time series / growth rate model",
+                                            "Bayesian SEIR model",
+                                            "Machine Learning / SEIR model",
+                                            "SEIR / human selection model",
+                                            "Regression model",
+                                            "Growth rate model",
+                                            NA,
+                                            "Quantile average ensemble",
+                                            "QRA ensemble",
+                                            "CRPS ensemble", NA))
 
 saveRDS(table, here::here("visualisation", "chapter-2-background-data",
                           "table-overview.RDS"))

@@ -106,16 +106,6 @@ Good, I.~J. (1952).
   (Methodological)}, 14(1):107--114.
 \newblock Publisher: [Royal Statistical Society, Wiley].
 
-\bibitem[Gostic et~al., 2020]{gosticPracticalConsiderationsMeasuring2020}
-Gostic, K.~M., McGough, L., Baskerville, E., Abbott, S., Joshi, K., Tedijanto,
-  C., Kahn, R., Niehus, R., Hay, J., de~Salazar, P., Hellewell, J., Meakin, S.,
-  Munday, J., Bosse, N.~I., Sherrat, K., Thompson, R.~N., White, L.~F.,
-  Huisman, J.~S., Scire, J., Bonhoeffer, S., Stadler, T., Wallinga, J., Funk,
-  S., Lipsitch, M., and Cobey, S. (2020).
-\newblock Practical considerations for measuring the effective reproductive
-  number, {Rt}.
-\newblock {\em medRxiv}.
-
 \bibitem[Guo et~al., 2020]{R-rstan}
 Guo, J., Gabry, J., and Goodrich, B. (2020).
 \newblock {\em rstan: R Interface to Stan}.
@@ -133,11 +123,6 @@ Hoeting, J.~A., Madigan, D., Raftery, A.~E., and Volinsky, C.~T. (1999).
 \newblock Bayesian {{Model Averaging}}: {{A Tutorial}}.
 \newblock {\em Statistical Science}, 14(4):382--401.
 
-\bibitem[{Hyndman, Rob J and Athanasopoulos, George},
-  2019]{hyndmanrobjForecastingPrinciplesPractice2019}
-{Hyndman, Rob J and Athanasopoulos, George} (2019).
-\newblock {\em Forecasting: {{Principles}} and {{Practice}}}.
-
 \bibitem[Matheson and Winkler, 1976]{mathesonScoringRulesContinuous1976}
 Matheson, J.~E. and Winkler, R.~L. (1976).
 \newblock Scoring {Rules} for {Continuous} {Probability} {Distributions}.
@@ -149,11 +134,6 @@ Murphy, A.~H. (1969).
 \newblock On the “{Ranked} {Probability} {Score}”.
 \newblock {\em Journal of Applied Meteorology}, 8(6):988--989.
 \newblock Publisher: American Meteorological Society.
-
-\bibitem[{National Health Commission of the PRC},
-  2020]{nationalhealthcommissionoftheprcFeb13Daily}
-{National Health Commission of the PRC} (2020).
-\newblock Feb 13: {Daily} briefing on novel coronavirus cases in {China}.
 
 \bibitem[Nishiura and Chowell, 2009]{nishiuraEffectiveReproductionNumber2009}
 Nishiura, H. and Chowell, G. (2009).
@@ -167,6 +147,11 @@ Nowotarski, J. and Weron, R. (2015).
 \newblock Computing electricity spot price prediction intervals using quantile
   regression and forecast averaging.
 \newblock {\em Computational Statistics}, 30(3):791--803.
+
+\bibitem[{R Core Team}, 2020]{R-base}
+{R Core Team} (2020).
+\newblock {\em R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria.
 
 \bibitem[Raftery et~al., 2005]{rafteryUsingBayesianModel2005}
 Raftery, A.~E., Gneiting, T., Balabdaoui, F., and Polakowski, M. (2005).
@@ -186,14 +171,21 @@ Raftery, A.~E., Madigan, D., and Hoeting, J.~A. (1997).
 \newblock Quantile {{Stacking}}.
 \newblock https://ryantibs.github.io/quantgen/stacking\_example.html.
 
-\bibitem[{Sam Abbott} et~al., 2020a]{R-EpiNow}
-{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020a).
+\bibitem[{Sam Abbott} et~al., 2020a]{R-EpiSoon}
+{Sam Abbott}, Bosse, N., Hellewell, J., Sherratt, K., Munday, J., Thompson, R.,
+  Chateigner, A., Mareschal, S., Rau, A., Vialaneix, N., DeWitt, M., and Funk,
+  S. (2020a).
+\newblock {\em EpiSoon: Forecast Cases Using Reproduction Numbers}.
+\newblock R package version 0.3.0.
+
+\bibitem[{Sam Abbott} et~al., 2020b]{R-EpiNow}
+{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020b).
 \newblock {\em EpiNow: Estimate Realtime Case Counts and Time-varying
   Epidemiological Parameters}.
 \newblock R package version 0.3.0.
 
-\bibitem[{Sam Abbott} et~al., 2020b]{R-EpiNow2}
-{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020b).
+\bibitem[{Sam Abbott} et~al., 2020c]{R-EpiNow2}
+{Sam Abbott}, Hellewell, J., Munday, J., Thompson, R., and Funk, S. (2020c).
 \newblock {\em EpiNow2: Estimate Realtime Case Counts and Time-varying
   Epidemiological Parameters}.
 \newblock R package version 0.3.0.
@@ -213,16 +205,6 @@ Shaub, D. and Ellis, P. (2020).
 Tibshirani, R. (2020).
 \newblock {\em quantgen: Tools for generalized quantile modeling}.
 \newblock R package version 1.0.0.
-
-\bibitem[{Timothy W Russell, Joel Hellewell, Sam Abbott, Nick Golding, Hamish
-  Gibbs, Christopher I Jarvis, Kevin van Zandvoort, CMMID nCov working group,
-  Stefan Flasche, Rosalind M Eggo, W John Edmunds \& Adam J Kucharski},
-  2020]{timothywrusselljoelhellewellsamabbottnickgoldinghamishgibbschristopherijarviskevinvanzandvoortcmmidncovworkinggroupstefanflascherosalindmeggowjohnedmundsadamjkucharskiUsingDelayadjustedCase2020}
-{Timothy W Russell, Joel Hellewell, Sam Abbott, Nick Golding, Hamish Gibbs,
-  Christopher I Jarvis, Kevin van Zandvoort, CMMID nCov working group, Stefan
-  Flasche, Rosalind M Eggo, W John Edmunds \& Adam J Kucharski} (2020).
-\newblock Using a delay-adjusted case fatality ratio to estimate
-  under-reporting.
 
 \bibitem[{UMass-Amherst Influenza Forecasting Center of Excellence},
   2020]{umass-amherstinfluenzaforecastingcenterofexcellenceCovid19forecasthubOrg2020}
