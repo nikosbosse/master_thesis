@@ -11,7 +11,7 @@ library(dplyr)
 source(here::here("utils", "settings.R"))
 
 evaluation_scenario <- "baseline"
-sensitivity_ensembles <- TRUE
+sensitivity_ensembles <- FALSE
 
 root_folder <- c("visualisation/chapter-5-results")
 
@@ -198,8 +198,8 @@ scores <- scoringutils::eval_forecasts(full,
                                               "target_end_date",
                                               "horizon"),
                                        interval_score_arguments = list(weigh = TRUE),
-                                       summarise_by = c("model", "forecast_date",
-                                                        "horizon", "state"))
+                                       summarise_by = c("model",
+                                                        "state"))
 
 summarised_scores <- scores %>%
   dplyr::mutate(log_interval_score = log(interval_score),
@@ -266,7 +266,8 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
-
+cor(as.numeric(abs(scores$bias)),
+     as.numeric(scores$coverage_deviation))
 
 
 

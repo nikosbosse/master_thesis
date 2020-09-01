@@ -80,6 +80,12 @@ Gelman, A., Hwang, J., and Vehtari, A. (2014).
 \newblock Understanding predictive information criteria for {Bayesian} models.
 \newblock {\em Statistics and Computing}, 24(6):997--1016.
 
+\bibitem[Gneiting, 2010]{gneitingMakingEvaluatingPoint2010}
+Gneiting, T. (2010).
+\newblock Making and {Evaluating} {Point} {Forecasts}.
+\newblock {\em arXiv:0912.0902 [math, stat]}.
+\newblock arXiv: 0912.0902.
+
 \bibitem[Gneiting et~al., 2007]{gneitingProbabilisticForecastsCalibration2007}
 Gneiting, T., Balabdaoui, F., and Raftery, A.~E. (2007).
 \newblock Probabilistic forecasts, calibration and sharpness.

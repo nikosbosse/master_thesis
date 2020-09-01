@@ -5,45 +5,45 @@ The style file: apalike.bst
 Database file #1: bib/masterthesis.bib
 Database file #2: bib/packages.bib
 Warning--empty journal in shannonMathematicalTheoryCommunication1948
-You've used 37 entries,
+You've used 38 entries,
             1935 wiz_defined-function locations,
-            733 strings with 12251 characters,
-and the built_in function-call counts, 14948 in all, are:
-= -- 1473
-> -- 655
-< -- 21
-+ -- 236
-- -- 221
-* -- 1304
-:= -- 2630
-add.period$ -- 124
-call.type$ -- 37
-change.case$ -- 286
-chr.to.int$ -- 34
-cite$ -- 38
-duplicate$ -- 522
-empty$ -- 994
-format.name$ -- 270
-if$ -- 2855
+            740 strings with 12425 characters,
+and the built_in function-call counts, 15227 in all, are:
+= -- 1501
+> -- 662
+< -- 22
++ -- 238
+- -- 223
+* -- 1321
+:= -- 2684
+add.period$ -- 128
+call.type$ -- 38
+change.case$ -- 292
+chr.to.int$ -- 35
+cite$ -- 39
+duplicate$ -- 535
+empty$ -- 1014
+format.name$ -- 273
+if$ -- 2908
 int.to.chr$ -- 4
 int.to.str$ -- 0
-missing$ -- 25
-newline$ -- 200
-num.names$ -- 113
-pop$ -- 220
+missing$ -- 26
+newline$ -- 206
+num.names$ -- 116
+pop$ -- 224
 preamble$ -- 1
-purify$ -- 294
+purify$ -- 300
 quote$ -- 0
-skip$ -- 405
+skip$ -- 416
 stack$ -- 0
-substring$ -- 1076
-swap$ -- 63
+substring$ -- 1088
+swap$ -- 64
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 222
+type$ -- 228
 warning$ -- 1
-while$ -- 123
+while$ -- 125
 width$ -- 0
-write$ -- 498
+write$ -- 512
 (There was 1 warning)

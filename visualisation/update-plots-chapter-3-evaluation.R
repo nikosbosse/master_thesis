@@ -237,7 +237,7 @@ pit_shifted_mean <- scoringutils::pit(true_values, predictions2)$hist_PIT +
 # plot with overdispersion
 overdispersion <- true_value_plot +
   ggplot2::geom_function(fun = dnorm, colour = "black", args = list(sd = 1.4)) +
-  ggplot2::ggtitle("Normal(0, 1.4")
+  ggplot2::ggtitle("Normal(0, 1.4)")
 
 pit_overdispersion <- scoringutils::pit(true_values, predictions3)$hist_PIT +
   cowplot::theme_cowplot() +
@@ -246,7 +246,7 @@ pit_overdispersion <- scoringutils::pit(true_values, predictions3)$hist_PIT +
 # plot with underdispersion
 underdispersion <- true_value_plot +
   ggplot2::geom_function(fun = dnorm, colour = "black", args = list(sd = 0.7)) +
-  ggplot2::ggtitle("Normal(0, 0.7")
+  ggplot2::ggtitle("Normal(0, 0.7)")
 
 
 pit_underdispersion <- scoringutils::pit(true_values, predictions4)$hist_PIT +

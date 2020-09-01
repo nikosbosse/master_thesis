@@ -56,15 +56,7 @@ knitr::write_bib(c(.packages(),
 
 - WIS in Chapter 3: PART THAT WIS FOR ALPHA = 0 IS PROPORTIONAL TO THE MAE
 
-- Maybe add renewal equation / more detail to Chapter 2 and our epiforecasts-ensemble model
-
-- Think about the thread "Forget calibration, only accuracy matters" that Seb pointed to. Maybe add that to a discussion in Chapter 3 or 5? 
-
 - Maybe add example plots to `scoringutils`
-
-- Think about the quantile sharpness formula: is the weighting correct? The problem is that if I include a 99.99999999 interval, the sharpness value will simply go to infinity. Weigh by $(1 - \frac{\alpha}{2})$?
-
-- Think about whether to move the introduction of the covid hub models from Chapter 2 to Chapter 5 results (current tendency is not to do that) 
 
 - Maybe add a part for Point Forecast Scores in Evaluation Chapter. The Part about when to use MAE and MSE. Also maybe add those to scoringutils
 
@@ -72,9 +64,7 @@ knitr::write_bib(c(.packages(),
 
 - Make a plot with quantile deviation by range --> visualisation of bias. 
 
-- Chapter 5 - change baseline in Regression to the best model
-
 - Explain more how I got to the set of scores I summarise over, and how the ensemble models are formed
 
-
+- Add a note that the regression framework was proposed by the Forecast Hub. 
 

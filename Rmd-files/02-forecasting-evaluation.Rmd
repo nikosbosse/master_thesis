@@ -64,7 +64,7 @@ knitr::include_graphics("../visualisation/chapter-3-evaluation/quantile-coverage
 
 ```
 
-To get an even more precise picture, we can also look at the percentage of true values below every single quantile of the predictive distribution. This is shown on the right in Figure \ref(fig:coverage). This plot suggests that the miscalibration largely comes from an upward bias of the inner prediction interval. The major problem to address then, it seems, is not necessarily the general width of the prediction intervals, but foremost the upward bias of the inner quantiles. 
+To get an even more precise picture, we can also look at the percentage of true values below every single quantile of the predictive distribution. This is shown on the right in Figure \@ref(fig:coverage). This plot suggests that the miscalibration largely comes from an upward bias of the inner prediction interval. The major problem to address then, it seems, is not necessarily the general width of the prediction intervals, but foremost the upward bias of the inner quantiles. 
 
 <!-- Note that this is a slightly different result from what Figures \@ref(fig:interval-coverage) and \@ref(fig:pit-baseline-model) suggested which underlines the importance of looking at miscalibration from various angles.  -->
 
@@ -79,7 +79,7 @@ $$u_t = P_t (x_t)$$
 where $u_t$ is the transformed variable and $P_t(x_t)$ is the predictive distribution evaluated at the true observed value $x_t$. If $P_t = F_t$ at all times $t$, then $u_t, t = 1 \dots T$ will follow a uniform distribution (for a proof see e.g. @angusProbabilityIntegralTransform1994). 
 
 In the case of discrete outcomes, the PIT is no longer uniform even when forecasts are ideal. As @funkAssessingPerformanceRealtime2019 suggest, we can instead use a randomised PIT instead by redefining $$u_t = P_t(x_t) + v \cdot (P_t(x_t) - P_t(x_t - 1) )$$
-where $x_t$ is again the observed value at time $t$, $P_t()$ is the CDF of the predictive distribution function and $P_t (-1) = 0$ by definition. $v_t$ is a standard uniform variable and independent of $x_t$. If $P_t$ is equal to the true data-generating distribution function, then $u_t$ is standard uniform. [@czadoPredictiveModelAssessment2009] also propose a non-randomised version of the PIT for count data that could be used alternatively. 
+where $x_t$ is again the observed value at time $t$, $P_t()$ is the CDF of the predictive distribution function and $P_t (-1) = 0$ by definition. $v_t$ is a standard uniform variable and independent of $x_t$. If $P_t$ is equal to the true data-generating distribution function, then $u_t$ is standard uniform. @czadoPredictiveModelAssessment2009 also propose a non-randomised version of the PIT for count data that could be used alternatively. 
 
 One can then plot a histogram of $u_t$ values to look for deviations from uniformity. U-shaped histograms often result from predictions that are too narrow, while hump-shaped histograms indicate that predictions may be too wide. Biased predictions will usually result in a triangle-shaped histogram. Figure \@ref(fig:pit-examples) shows four different simulated example PIT histograms that illustrate these characteristics. 
 ``` {r pit-examples, echo = FALSE, out.width = "100%", fig.asp = 0.7, fig.align = "center", fig.cap = "Four examples of different predictive distributions and the correspoding PIT histograms below. The data always follows the same Normal(0,1) distribution. Preditive distributions are indicated by the title of the subplot."}
