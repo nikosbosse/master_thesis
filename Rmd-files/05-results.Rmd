@@ -9,6 +9,53 @@ The evaluation is followed by a more detailed look at the ensemble models that w
 The chapter will conclude with a brief sensitivity analysis that serves as a quick check of the plausibility of the inferences made throughout the chapter. 
 
 
+Procedure: 
+
+1) get a feeling for the data --> visualisation
+2) get a ranking, e.g. if we wanted to make a quick decision
+    --> summarised score
+    --> regression
+    
+3) understand the metrics and what really drives them
+    --> look at correlation between scores
+    --> look at contributions from missing / too little sharpness
+    --> look at contribution from individual ranges
+    --> correlation between WIS and case numbers / WIS and horizons?
+    --> contributions from states / 
+    
+4) understand what drives differences in performance 
+    --> different states: which were the ones that models did badly in? 
+    --> different horizons? when? interaction with states? 
+    
+5) understand individual models and how to improve them
+    --> calibration
+    --> sharpness
+
+summary: do I find characteristics of well / badly performing models? 
+
+
+
+
+
+
+
+Interesting questions
+- how do different ranges contribute to scoes
+--> if a score is not good, what do we look for? 
+which states were hard to forecast and why? 
+do models do consistently well or badly? 
+What do models get right? 
+	- trend changes
+	- changes in uncertainty? 
+Drivers of the WIS
+	correlation metrics
+	scores at different ranges
+	scores at different locations
+	
+
+
+
+
 <!-- The chapter will examine the performance of   -->
 
 
@@ -32,30 +79,71 @@ knitr::include_graphics("../visualisation/chapter-5-results/US-forecast-1-4-wk-a
 ```
 
 
-## Summarised scores
+## Summarised scores and overall performance
 
-We next turn to the aggregated scores from the different metrics and proper scoring. These help us to summarise the complexity and nuances of overall model performance with a few numbers. They are therefore a sensible starting point before going deeper into assessing model calibration and sharpness. 
+evaluation = what performs well and why? --> we start with the what. 
+
+We now want to evaluate overall performance. This is the thing we are most interested in. It also as a mental anchor for the coming steps. The rest is about what drives performance. 
+
+In order to evaluate performance, we first have a look at the aggregated scores from the different metrics. After that we perform a mixed effects regression that helps us to understand the ranking better and forms the basis for a model selection decision. Idea: we probably shouldn't choose a model that performs significantly worse than the top performer, but we should still look out for calibration and sharpness. 
+
+<!-- We next turn to the aggregated scores from the different metrics and proper scoring. These help us to summarise the complexity and nuances of overall model performance with a few numbers. They are therefore a sensible starting point before going deeper into assessing model calibration and sharpness.  -->
 
 Figure \@ref(fig:coloured-summarised-scores) shows the summarised scores for all eleven models from the metrics presented in Chapter \@ref(evaluation). 
-<!-- Table \@ref(tab:sum-scores) shows the summarised scores for all eleven models from the metrics presented in Chapter \@ref(evaluation).  -->
-
-<!-- ```{r sum-scores, echo=FALSE, results='asis'} -->
-<!-- df <- readRDS("../visualisation/chapter-5-results/ -->
-<!--                      summarised_scores.rds") -->
-
-<!-- options(knitr.kable.NA = '') -->
-<!-- knitr::kable( -->
-<!--   df,  -->
-<!--   caption = 'Evaluation metrics for all models, aggregated over all forecast dates, horizons and locations', -->
-<!--   booktabs = TRUE)  -->
-<!-- ``` -->
 ``` {r coloured-summarised-scores, echo = FALSE, out.width = "100%", fig.cap = "Colour coded summary of scores. Neutral / optimal values are shown in white, too low values in blue and too high values in red"}
 
-knitr::include_graphics("../visualisation/chapter-5-results/coloured-summarised-scores.png")
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/coloured-summarised-scores.png")
 
 ```
-We can see that our quick visual ranking largely corresponds to the perfomance as judeged by the weighted interval score. The ensembles and UMassMechBayes rank at the top, while LANL-GrowthRate and UT-Mobility are ranked at the bottom. We don't, however, see the full picture from these aggregate scores. The epiforecasts-ensemble1, for example, does far worse than the UMass-MechBayes, even though both have similar values for coverage deviation, bias, absolute bias and sharpness. Absolute bias is included in Figure \@ref(fig:coloured-summarised-scores), as bias is aggregated over both positive and negative values and can therefore be misleading. We can see that the ranking is slightly different if we apply a log transformation to the weigthed interval score. This suggests that the average weighted interval score is heavily influenced by extreme values. 
+We can see that our quick visual ranking largely corresponds to the perfomance as judged by the weighted interval score. The ensembles and UMassMechBayes rank at the top, while LANL-GrowthRate and UT-Mobility are ranked at the bottom. We don't, however, see the full picture from these aggregate scores. The epiforecasts-ensemble1, for example, does far worse than the UMass-MechBayes, even though both have similar values for coverage deviation, bias, absolute bias and sharpness. Absolute bias is included in Figure \@ref(fig:coloured-summarised-scores), as bias is aggregated over both positive and negative values and can therefore be misleading. We can see that the ranking is slightly different if we apply a log transformation to the weigthed interval score. This suggests that the average weighted interval score is heavily influenced by extreme values. 
 
+To complement the analysis presented above we can look at evaluation in a regression. This is a natural next steps towards model selection that in principle allows us to make a better founded decision for or against a specific model to choose for future predictions. It is also very helpful for the case in which we do not have a complete set of predictions. If a certain research group for example misses a submission or does not submit forecasts in all states, then we can better mitigate this in a regression framework than by merely averaging over all available data. 
+
+To that end we employ a mixed-effects model with fixed effects for models and horizons and random effects for states and forecast dates. The model formula looks as shown below. Interval scores are again log transformed to mitigate issues with the heavy tails of the original distribution. As a baseline we take the COVIDhub-ensemble model (the top performer). This helps us to discern whether models at the top can actually be distinguished and show significant performance differences. 
+
+```{r random-effects-model-code, eval = FALSE}
+fit <- lme4::lmer(log_scores ~ model + horizon + (1|state) + (1|forecast_date),
+                  data = unsummarised_scores)
+
+```
+
+Table \@ref(tab:random-effects-model) shows the results from that regression. We can see that the regression confirms general tendencies observed before. The horizon, for example, has a highly significant positive effect on the weighted interval score. The overall ranking of model effects corresponds to the model ranking by log interval score presented in \@ref(fig:coloured-summarised-scores). This regression can of course be adapted. One possibility is to model an interaction between model and horizon to control for the fact that some models cope better or worse with increasing uncertainty. It also seems sensible to model horizon as a factor instead of a metric variable. If we were especially interested in performance over say a four-week-ahead horizon, we could then estimate a separate effect for every model at horizon four by looking at the combination of the model effect and the interaction. The regression outcome suggests a clear split between two groups of models in terms of perfomance. Models in the top group are roughly comparable, except for the mean ensemble (and maybe the qra-ensemble) which fare a bit worse. Note again that the regression was performed on log scores which changes the order with respect to untransformed scores. The mean-ensemble, for example looks worse according to log scores than it would otherwise have. This suggests that mean-ensemble avoids outliers, but does a bit worse on a typical forecast. 
+
+```{r random-effects-model, message = FALSE, echo = FALSE, message=FALSE, results="as.is"}
+library(kableExtra)
+
+fit <- readRDS("../visualisation/chapter-5-results/scenario-baseline/random-effects-model.RDS")
+fit %>%
+  summary() %>%
+  coef() %>% 
+  as.data.frame() %>%
+  knitr::kable(caption = 'Mixed model regression of the log weighted interval score on model, horizon (both fixed), state, and forecast date (both random)',
+               format = "latex", 
+               booktabs = TRUE) %>%
+  kable_styling(latex_options="scale_down")
+
+```
+
+While the strength of this regression framework is its ability to aid with model selection, we can also use it to learn more about the effects of different locations and forecast dates. Figure \@ref(fig:random-effects) shows the estimated random effects from all different locations and forecast dates. We can see that location effects are much larger than forecast date effects. 
+
+``` {r random-effects, echo = FALSE, out.width = "100%", fig.cap = "Random effects of the different locations (left) and forecast dates (right"}
+knitr::include_graphics("../visualisation/chapter-5-results/random-effects.png")
+
+```
+
+
+
+## Understanding the metrics and what really drives them
+
+We now have a model ranking. But we still want to understand the metrics better. 
+This part is probably not strictly necessary for model evaluation, but we want to learn here. 
+
+3) understand the metrics and what really drives them
+    --> look at correlation between scores
+    --> look at contributions from missing / too little sharpness
+    --> look at contribution from individual ranges
+    --> correlation between WIS and case numbers / WIS and horizons?
+    --> contributions from states / 
 
 ### Correlation between metrics
 
@@ -75,41 +163,172 @@ Figure \@ref(fig:correlation-plot) shows a full correlation plot with all univar
 
 ``` {r correlation-plot, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Correlation plot that shows bivariate scatter plots for all evaluation metrics."}
 
-knitr::include_graphics("../visualisation/chapter-5-results/corr-plot.png")
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/corr-plot.png")
 
 ```
 
 
-Table \@ref(tab:regression-wis-metrics) shows a quick regression of the log weighted interval score on absolute bias, coverage deviation and sharpness. All regressors have been standardised, so the effect size should be interpreted in terms of standard deviations. Coverage deviation and sharpness have the expected sign while absolute bias does not. As we have seen in Figure \@ref(fig:correlation-map) bias and coverage deviation do correlate strongly, which might make estimation harder. Also for some reason it might be that coincidentally upwards biased models still performed well overall. 
+<!-- Table \@ref(tab:regression-wis-metrics) shows a quick regression of the log weighted interval score on absolute bias, coverage deviation and sharpness. All regressors have been standardised, so the effect size should be interpreted in terms of standard deviations. Coverage deviation and sharpness have the expected sign while absolute bias does not. As we have seen in Figure \@ref(fig:correlation-map) bias and coverage deviation do correlate strongly, which might make estimation harder. Also for some reason it might be that coincidentally upwards biased models still performed well overall.  -->
 
-HOW DO I EXPLAIN THIS? MAYBE JUST DROP THE REGRESSION ALTOGETHER??
+<!-- HOW DO I EXPLAIN THIS? MAYBE JUST DROP THE REGRESSION ALTOGETHER?? -->
 
-``` {r regression-wis-metrics-code, eval = FALSE}
-lm(log_scores ~ abs_bias_std + coverage_deviation_std + log_sharpness_std, 
-   data = unsummarised_scores) 
+<!-- ``` {r regression-wis-metrics-code, eval = FALSE} -->
+<!-- lm(log_scores ~ abs_bias_std + coverage_deviation_std + log_sharpness_std,  -->
+<!--    data = unsummarised_scores)  -->
+
+<!-- ``` -->
+
+
+<!-- ```{r regression-wis-metrics, echo = FALSE} -->
+<!-- library(magrittr) -->
+<!-- unsum_scores <- readRDS("../visualisation/chapter-5-results/scenario-baseline/unsummarised_scores.rds") %>% -->
+<!--   dplyr::mutate(log_scores = log(interval_score), -->
+<!--                 abs_bias_std = (abs(bias) - mean(abs(bias))) / sd(abs(bias)), -->
+<!--                 coverage_deviation_std = (coverage_deviation - -->
+<!--                                             mean(coverage_deviation)) /sd(coverage_deviation), -->
+<!--                 log_sharpness_std = (log(sharpness) - mean(log(sharpness)))/sd(log(sharpness)), -->
+<!--                 sharpness_std = (sharpness - mean(sharpness))/sd(sharpness)) %>% -->
+<!--   dplyr::filter(is.finite(log_scores)) -->
+
+
+<!-- lm(log_scores ~ abs_bias_std + coverage_deviation_std + log_sharpness_std, data = unsum_scores) %>% -->
+<!--   summary() -->
+<!--   broom::tidy() %>% -->
+<!--   knitr::kable(caption = 'Regression of the log weighted interval score on the (standardised) absolute bias, coverage deviation and sharpness. ', -->
+<!--   booktabs = TRUE) -->
+
+<!-- ``` -->
+
+
+
+
+### Contributions to WIS from sharpness and over- / under-prediction
+
+Question: what mainly drives WIS? 
+
+Figure \@ref(fig:wis-contributions) shows WIS contributions by horizon. We see that sharpness does increase with horizon, but the main driver is values falling outside of prediction intervals. For better models, the ratio of sharpness / penalty is better
+
+
+``` {r wis-contributions, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Correlation plot that shows bivariate scatter plots for all evaluation metrics."}
+
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/wis-contributions.png")
 
 ```
 
 
-```{r regression-wis-metrics, echo = FALSE}
-library(magrittr)
-unsum_scores <- readRDS("../visualisation/chapter-5-results/scenario-baseline/unsummarised_scores.rds") %>%
-  dplyr::mutate(log_scores = log(interval_score),
-                abs_bias_std = (abs(bias) - mean(abs(bias))) / sd(abs(bias)),
-                coverage_deviation_std = (coverage_deviation -
-                                            mean(coverage_deviation)) /sd(coverage_deviation),
-                log_sharpness_std = (log(sharpness) - mean(log(sharpness)))/sd(log(sharpness)),
-                sharpness_std = (sharpness - mean(sharpness))/sd(sharpness)) %>%
-  dplyr::filter(is.finite(log_scores))
 
+### Contributions to WIS from different ranges
 
-lm(log_scores ~ abs_bias_std + coverage_deviation_std + log_sharpness_std, data = unsum_scores) %>%
-  summary()
-  broom::tidy() %>%
-  knitr::kable(caption = 'Regression of the log weighted interval score on the (standardised) absolute bias, coverage deviation and sharpness. ',
-  booktabs = TRUE)
+To understand the composition of the weighted interval score better we can also look at the contributions from different interval ranges to the overall WIS. Figure \@ref(fig:scores-ranges) shows that the WIS as implemented here seems to be more strongly influenced by the inner prediction intervals (small interval range) than the outer intervals (large range). Note again that other weightings are possible for the weighted interval score. 
+
+``` {r scores-ranges, echo = FALSE, out.width = "100%", fig.cap = "Story here: outer interval ranges are more wrong, but get weighted down"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/scores-by-range.png")
+knitr::include_graphics("../visualisation/chapter-5-results/sharpness-by-range.png")
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/penalty-by-range.png")
+knitr::include_graphics("../visualisation/chapter-5-results/coverage-deviation-by-range.png")
 
 ```
+
+
+<!-- ``` {r sharpness-ranges, echo = FALSE, fig.show = "hold", out.width = "100%", fig.cap = "Sharpness across all states and forecast dates and horizons for different interval ranges"} -->
+
+
+
+<!-- ``` -->
+
+<!-- ``` {r penalty-ranges, echo = FALSE, out.width = "100%", fig.cap = "Interval scores across all states and forecast dates and horizons for different interval ranges"} -->
+
+
+
+<!-- ``` -->
+
+<!-- ``` {r coverage-deviation-range, echo = FALSE, out.width = "100%", fig.cap = "Coverage deviation for different ranges"} -->
+
+
+
+<!-- ``` -->
+
+Message: outer prediction intervals are more wrong, but they get weighted down
+
+
+
+
+### What drives WIS 
+
+- differences in state
+- not differences in forecast dates
+
+
+
+
+``` {r wis-deaths, echo = FALSE, out.width = "100%", fig.cap = "Story here: outer interval ranges are more wrong, but get weighted down"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/wis-vs-deaths.png")
+
+```
+
+## Correlation WIS / case numbers
+
+
+
+
+--> correlation between WIS and case numbers / WIS and horizons?
+
+
+
+
+
+
+--> contributions from states / 
+
+
+
+## Identifying key drivers of performance
+
+
+
+
+
+
+
+a) understanding how the interval score works
+b) where do models perform well / badly? 
+
+We are interested in what drives performance. 
+
+- correlation between WIS and metrics
+
+- WIS by range
+
+- WIS by state
+
+- WIS by horizon
+
+- WIS by forecast date
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### Scores by subgroups
@@ -132,13 +351,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/heatmap-model-scores
 
 ```
 
-To understand the composition of the weighted interval score better we can also look at the contributions from different interval ranges to the overall WIS. Figure \@ref(fig:scores-ranges) shows that the WIS as implemented here seems to be more strongly influenced by the inner prediction intervals (small interval range) than the outer intervals (large range). Note again that other weightings are possible for the weighted interval score. 
 
-``` {r scores-ranges, echo = FALSE, out.width = "100%", fig.cap = "Interval scores across all states and forecast dates and horizons for different interval ranges"}
-
-knitr::include_graphics("../visualisation/chapter-5-results/scores-by-range.png")
-
-```
 
 After having examined the aggregated scores we can now move to visualise and analyse calibration and sharpness in detail. 
 
@@ -224,11 +437,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/quantile-coverage-ho
 
 As before, we may also be interested in how different ranges contribute to overall coverage deviation.  \@ref(fig:coverage-deviation-range) therefore shows coverage deviation by range. MAYBE THIS PLOT IS NOT SO INTERESTING AND I SHOULD DROP IT. A MAYBE MORE INTERSTING PLOT COULD BE COVERAGE DEVIATION BY QUANTILE - THIS WOULD GIVE A MAYBE NICE VISUALISATION OF BIAS.
 
-``` {r coverage-deviation-range, echo = FALSE, out.width = "100%", fig.cap = "Coverage deviation for different ranges"}
 
-knitr::include_graphics("../visualisation/chapter-5-results/coverage-deviation-by-range.png")
-
-```
 
 Coverage deviation by state is interesting as it gives us some feeling for how hard different states are to forecast. Figure \@ref(fig:coverage-deviation-states) shows the deviation by state. We see that some states are very prone to over- and underprediction. While better performing models tend to be more right we see that all models fail significantly in states like Texas. Figure \@ref(fig:pred-texas) shows one-week-ahead predictions and observed values in Texas. Surprisingly, all models are unable to keep up with the change in trend. 
 
@@ -273,11 +482,6 @@ knitr::include_graphics("../visualisation/chapter-5-results/sharpness-horizons.p
 ```
 Looking at sharpness separated by different interval ranges allows us again to discern the contributions to overall sharpness from individual prediction intervals. Figure \@ref(fig:scores-ranges) the contributions from inner and outer prediction intervals for all eleven models. It generally seems that 50% intervals tend to contribute most to sharpnes, while neither narrow intervals near the median nor the tails of the predictive distribution seem to make large contributions. 
 
-``` {r sharpness-ranges, echo = FALSE, out.width = "100%", fig.cap = "Sharpness across all states and forecast dates and horizons for different interval ranges"}
-
-knitr::include_graphics("../visualisation/chapter-5-results/sharpness-by-range.png")
-
-```
 Visualising sharpness for different states is again a way to see how different states vary in the sharpness they permit as well as how consistetnly models do in terms of sharpness. Figure \@ref(fig:sharpness-ensemble) shows sharpness for every model and ensemble. We clearly see that average sharpness is largely dominated by sharpness in the US as a whole. We can also observe that some models (e.g. COVIDhub-ensemble, YYG-ParamSearch, CU-select) consistently tend towards sharper forecasts, while other models vary a lot across regions. 
 
 ``` {r sharpness-ensemble, echo = FALSE, out.width = "100%", fig.cap = "Sharpness of the ensemble models in different states. The shading indicates how much higher a certain sharpness value is compared to the minimum value achieved in that state."}
@@ -296,7 +500,7 @@ To complement the analysis presented above we can look at evaluation in a regres
 
 To that end we employ a mixed-effects model with fixed effects for models and horizons and random effects for states and forecast dates. The model formula looks as shown below. Interval scores are again log transformed to mitigate issues with the heavy tails of the original distribution. As a baseline we take the COVIDhub-ensemble model (the top performer). This helps us to discern whether models at the top can actually be distinguished and show significant performance differences. 
 
-```{r random-effects-model-code, eval = FALSE}
+```{r random-effects-model-code2, eval = FALSE}
 fit <- lme4::lmer(log_scores ~ model + horizon + (1|state) + (1|forecast_date),
                   data = unsummarised_scores)
 
@@ -304,7 +508,7 @@ fit <- lme4::lmer(log_scores ~ model + horizon + (1|state) + (1|forecast_date),
 
 Table \@ref(tab:random-effects-model) shows the results from that regression. We can see that the regression confirms general tendencies observed before. The horizon, for example, has a highly significant positive effect on the weighted interval score. The overall ranking of model effects corresponds to the model ranking by log interval score presented in \@ref(fig:coloured-summarised-scores). This regression can of course be adapted. One possibility is to model an interaction between model and horizon to control for the fact that some models cope better or worse with increasing uncertainty. It also seems sensible to model horizon as a factor instead of a metric variable. If we were especially interested in performance over say a four-week-ahead horizon, we could then estimate a separate effect for every model at horizon four by looking at the combination of the model effect and the interaction. The regression outcome suggests a clear split between two groups of models in terms of perfomance. Models in the top group are roughly comparable, except for the mean ensemble (and maybe the qra-ensemble) which fare a bit worse. Note again that the regression was performed on log scores which changes the order with respect to untransformed scores. The mean-ensemble, for example looks worse according to log scores than it would otherwise have. This suggests that mean-ensemble avoids outliers, but does a bit worse on a typical forecast. 
 
-```{r random-effects-model, message = FALSE, echo = FALSE, message=FALSE, results="as.is"}
+```{r random-effects-model2, message = FALSE, echo = FALSE, message=FALSE, results="as.is"}
 library(kableExtra)
 
 fit <- readRDS("../visualisation/chapter-5-results/scenario-baseline/random-effects-model.RDS")
@@ -321,7 +525,7 @@ fit %>%
 
 While the strength of this regression framework is its ability to aid with model selection, we can also use it to learn more about the effects of different locations and forecast dates. Figure \@ref(fig:random-effects) shows the estimated random effects from all different locations and forecast dates. We can see that location effects are much larger than forecast date effects. 
 
-``` {r random-effects, echo = FALSE, out.width = "100%", fig.cap = "Random effects of the different locations (left) and forecast dates (right"}
+``` {r random-effects2, echo = FALSE, out.width = "100%", fig.cap = "Random effects of the different locations (left) and forecast dates (right"}
 knitr::include_graphics("../visualisation/chapter-5-results/random-effects.png")
 
 ```

@@ -140,20 +140,20 @@ ggplot2::ggsave(here::here(root_folder,
 #
 
 
-
-test <- plot_forecasts(states = settings$states_included,
-                       forecasts = forecasts,
-                       facet_formula = state ~ model,
-                       ncol_facet = 4,
-                       horizons = c(1),
-                       obs_weeks = 7)
-
-ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
-                           "all-states-one-week.png"),
-                several_states_one_week, width = 18, height = 25)
-
-ggplot2::ggsave("~/Deskstop/test.png", test,
-                width = 10, height = 20)
+#
+# test <- plot_forecasts(states = settings$states_included,
+#                        forecasts = forecasts,
+#                        facet_formula = state ~ model,
+#                        ncol_facet = 4,
+#                        horizons = c(1),
+#                        obs_weeks = 7)
+#
+# ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+#                            "all-states-one-week.png"),
+#                 several_states_one_week, width = 18, height = 25)
+#
+# ggplot2::ggsave("~/Deskstop/test.png", test,
+#                 width = 10, height = 20)
 
 
 
@@ -161,37 +161,6 @@ ggplot2::ggsave("~/Deskstop/test.png", test,
 # ==============================================================================
 # Look at summarised scores
 # ==============================================================================
-
-
-# ------------------------------------------------------------------------------
-# scores table ---------------------------
-
-# summarised_scores <- scoringutils::eval_forecasts(full,
-#                                                   by = c("model", "state",
-#                                                          "target_end_date",
-#                                                          "horizon"),
-#                                                   interval_score_arguments = list(weigh = TRUE),
-#                                                   summarise_by = c("model")) %>%
-#   dplyr::arrange(interval_score)
-#
-# summarised_scores %>%
-#   dplyr::select(-calibration) %>%
-#   saveRDS(here::here("summarised_scores.rds"))
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ------------------------------------------------------------------------------
-# Coloured scores table ---------------------------
 
 scores <- scoringutils::eval_forecasts(full,
                                        by = c("model", "state",
@@ -201,48 +170,80 @@ scores <- scoringutils::eval_forecasts(full,
                                        summarise_by = c("model",
                                                         "state"))
 
+models <- scores %>%
+  dplyr::mutate(model = forcats::fct_reorder(model,
+                                             interval_score,
+                                             .fun='mean',
+                                             .desc = TRUE)) %>%
+  dplyr::pull(model) %>%
+  unique()
+model_levels <- levels(models)
+
+settings$model_levels <- model_levels
+
 summarised_scores <- scores %>%
   dplyr::mutate(log_interval_score = log(interval_score),
-                abs_bias = abs(bias)) %>%
+                abs_bias = abs(bias),
+                penalty = is_underprediction + is_overprediction) %>%
   dplyr::group_by(model) %>%
   dplyr::summarise(log_interval_score = mean(log_interval_score),
                    interval_score = mean(interval_score),
                    coverage_deviation = mean(coverage_deviation),
                    bias = mean(bias),
                    abs_bias = mean(abs_bias),
+                   overprediction = mean(is_overprediction),
+                   underprediction = mean(is_underprediction),
                    sharpness = mean(sharpness),
-                   calibration = mean(calibration)) %>%
+                   calibration = mean(calibration),
+                   penalty = mean(penalty)) %>%
   dplyr::arrange(interval_score)
 
 tmp <- summarised_scores %>%
   dplyr::select(-calibration) %>%
-  dplyr::mutate(log_wis_scaled = (log_interval_score - min(log_interval_score)) / sd(log_interval_score),
-                wis_scaled = (interval_score - min(interval_score)) / sd(interval_score),
-                cov_scaled = (coverage_deviation) / sd(coverage_deviation),
+  dplyr::mutate(log_interval_score_scaled = (log_interval_score - min(log_interval_score)) / sd(log_interval_score),
+                interval_score_scaled = (interval_score - min(interval_score)) / sd(interval_score),
+                coverage_deviation_scaled = (coverage_deviation) / sd(coverage_deviation),
                 bias_scaled = (bias) / sd(bias),
+                underprediction_scaled = (underprediction - min(underprediction)) / sd(underprediction),
+                overprediction_scaled = (overprediction - min(overprediction) )/ sd(overprediction),
                 abs_bias_scaled = (abs_bias - min(abs_bias)) / (sd(abs_bias)),
-                sharpness_scaled = (sharpness - min(sharpness)) / sd(sharpness))
+                sharpness_scaled = (sharpness - min(sharpness)) / sd(sharpness),
+                penalty_scaled = (penalty - min(penalty)) / sd(penalty))
 
-df <- dplyr::bind_cols(tmp %>%
-                         tidyr::pivot_longer(cols = c(log_wis_scaled, wis_scaled, cov_scaled,
-                                                      bias_scaled, abs_bias_scaled, sharpness_scaled),
-                                             values_to = "value_scaled"),
-                       tmp %>%
-                         tidyr::pivot_longer(cols = c(log_interval_score, interval_score,
-                                                      coverage_deviation, bias, abs_bias, sharpness),
-                                             values_to = "value"),
-                       by = c("model")) %>%
-  dplyr::rename(model = model...1,
-                name = name...17) %>%
-  dplyr::mutate(model = forcats::fct_reorder(model,
-                                             interval_score,
-                                             .fun='mean',
-                                             .desc = TRUE))
+
+scaled <- tmp %>%
+  tidyr::pivot_longer(cols = c(log_interval_score_scaled, interval_score_scaled,
+                               coverage_deviation_scaled,
+                               underprediction_scaled, overprediction_scaled,
+                               bias_scaled, abs_bias_scaled, sharpness_scaled,
+                               penalty_scaled),
+                      values_to = "value_scaled") %>%
+  dplyr::select(model, value_scaled, name) %>%
+  dplyr::mutate(name = gsub("_scaled", "", name))
+
+normal <- tmp %>%
+  tidyr::pivot_longer(cols = c(log_interval_score, interval_score,
+                               overprediction, underprediction,
+                               coverage_deviation, bias, abs_bias, sharpness,
+                               penalty),
+                      values_to = "value") %>%
+  dplyr::select(model, value, name)
+
+
+df <- dplyr::inner_join(normal, scaled) %>%
+  dplyr::mutate(model = forcats::fct_relevel(model,
+                                             settings$model_levels))
+
 
 coloured_table <- df %>%
   dplyr::mutate(name = factor(name,
-                              levels = c("interval_score", "log_interval_score", "coverage_deviation",
-                                         "bias", "abs_bias", "sharpness"))) %>%
+                              levels = c("interval_score", "log_interval_score",
+                                         "sharpness",
+                                         "overprediction", "underprediction",
+                                         "penalty",
+                                         "bias", "abs_bias",
+                                         "coverage_deviation"))) %>%
+  dplyr::arrange(name) %>%
   ggplot2::ggplot(ggplot2::aes(y = model, x = name)) +
   #ggplot2::geom_tile(fill = "blue") +
   ggplot2::geom_tile(ggplot2::aes(fill = value_scaled), colour = "white") +
@@ -266,11 +267,6 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
-cor(as.numeric(abs(scores$bias)),
-     as.numeric(scores$coverage_deviation))
-
-
-
 
 # ------------------------------------------------------------------------------
 # Correlation between scores ---------------------------
@@ -290,7 +286,8 @@ get_upper_tri <- function(cormat){
 }
 
 correlation_map <- scores %>%
-  dplyr::mutate("absolute bias" = abs(bias),
+  dplyr::mutate(penalty = is_underprediction + is_overprediction,
+                "absolute bias" = abs(bias),
                 log_interval_score = log(interval_score),
                 log_sharpness = log(sharpness)) %>%
   dplyr::filter(is.finite(log_interval_score)) %>%
@@ -305,7 +302,8 @@ correlation_map <- scores %>%
   ggplot2::geom_text(ggplot2::aes(y = Var2, label = value)) +
   ggplot2::scale_fill_gradient2(low = "steelblue", mid = "white",
                                 high = "salmon",
-                                name = "Correlation") +
+                                name = "Correlation",
+                                breaks = c(-1, -0.5, 0, 0.5, 1)) +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
   cowplot::theme_cowplot() +
@@ -318,19 +316,20 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 corr_plot <- scores %>%
-  dplyr::mutate("absolute bias" = abs(bias),
+  dplyr::mutate(penalty = is_underprediction + is_overprediction,
+                "absolute bias" = abs(bias),
                 log_interval_score = log(interval_score),
                 log_sharpness = log(sharpness)) %>%
-  dplyr::select(-model, -state, -horizon, -bias, -forecast_date, -calibration) %>%
   dplyr::filter(is.finite(log_interval_score)) %>%
+  dplyr::select(-model, -state, -horizon, -bias, -forecast_date, -calibration) %>%
   GGally::ggpairs() +
   cowplot::theme_cowplot() +
-  ggplot2::theme(panel.spacing = unit(3, "mm"),
-                 panel.background = element_rect(fill = "aliceblue"))
+  ggplot2::theme(panel.spacing = ggplot2::unit(3, "mm"),
+                 panel.background = ggplot2::element_rect(fill = "aliceblue"))
 
 ggplot2::ggsave(here::here(root_folder,
                            "corr-plot.png"),
-                corr_plot, width = 14, height = 14)
+                corr_plot, width = 16, height = 18)
 
 
 
@@ -366,6 +365,270 @@ unsum_scores <- readRDS(paste0(root_folder, "/unsummarised_scores.rds")) %>%
 
 lm(log_scores ~ abs_bias_std + coverage_deviation_std + sharpness_std, data = unsum_scores) %>%
   summary()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+# contributions from sharpness, over, underprediction
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("model", "state",
+                                              "target_end_date",
+                                              "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "horizon"))
+
+wis_contribution <- scores %>%
+  dplyr::mutate(model = forcats::fct_relevel(model,
+                                             settings$model_levels),
+                model = forcats::fct_rev(model)) %>%
+  ggplot2::ggplot(ggplot2::aes(x = horizon, group = model)) +
+  ggplot2::geom_linerange(ggplot2::aes(ymax = is_underprediction,
+                                       ymin = 0, colour = "Underprediction"),
+                          size = 3) +
+  ggplot2::geom_linerange(ggplot2::aes(ymax = is_overprediction + is_underprediction,
+                                       ymin = is_underprediction,
+                                       colour = "Overprediction"),
+                          size = 3)  +
+  ggplot2::geom_linerange(ggplot2::aes(ymax = sharpness + is_overprediction + is_underprediction,
+                                       ymin = is_overprediction + is_underprediction,
+                                       colour = "Sharpness"),
+                          size = 3) +
+  ggplot2::facet_wrap(~ model, nrow = 2) +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(x = "Horizon", y = "Contribution to Weighted Interval Score") +
+  ggplot2::theme(legend.position = "bottom",
+                 panel.spacing = ggplot2::unit(4, "mm"))
+
+ggplot2::ggsave(here::here(root_folder,
+                           "wis-contributions.png"),
+                wis_contribution, width = 13, height = 6.5)
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+# contributions from sharpness, over, underprediction
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("model", "state",
+                                              "target_end_date",
+                                              "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "horizon"))
+
+man_colours <- c(RColorBrewer::brewer.pal(3, name = "Set1")[2],
+                 RColorBrewer::brewer.pal(3, name = "Set1")[1],
+                 RColorBrewer::brewer.pal(3, name = "Set1")[3])
+
+wis_contribution_rel_horizon <- scores %>%
+  dplyr::mutate(model = forcats::fct_relevel(model,
+                                             settings$model_levels),
+                model = forcats::fct_rev(model)) %>%
+  dplyr::select(model,horizon, is_underprediction, is_overprediction, sharpness) %>%
+  tidyr::pivot_longer(cols = c(sharpness, is_underprediction, is_overprediction)) %>%
+    dplyr::mutate(name = forcats::fct_relevel(name,
+                                              c("is_underprediction",
+                                                "is_overprediction",
+                                                "sharpness"))) %>%
+    dplyr::arrange(name) %>%
+    #dplyr::mutate(name = forcats::fct_rev(name)) %>%
+    # dplyr::mutate(name = forcats::fct_relevel(name,
+    #                                           c("sharpness",
+    #                                             "is_underprediction",
+    #                                             "is_overprediction"))) %>%
+    #dplyr::mutate(name = forcats::fct_rev(name)) %>%
+  ggplot2::ggplot(ggplot2::aes(x = horizon, y = value, group = model,
+                               fill = name)) +
+  ggplot2::geom_bar(position = "fill", stat = "identity") +
+  ggplot2::facet_wrap(~ model, nrow = 2) +
+  ggplot2::scale_fill_manual(values = man_colours,
+                             name = "Colour") +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(x = "Horizon", y = "Contribution to Weighted Interval Score") +
+  ggplot2::theme(legend.position = "bottom",
+                 panel.spacing = ggplot2::unit(4, "mm"))
+
+ggplot2::ggsave(here::here(root_folder,
+                           "wis-contributions.png"),
+                wis_contribution, width = 13, height = 6.5)
+
+
+
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("model", "state",
+                                              "target_end_date",
+                                              "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "state"))
+
+
+
+wis_contribution_rel_state1 <- scores %>%
+  dplyr::mutate(model = forcats::fct_relevel(model,
+                                             settings$model_levels),
+                model = forcats::fct_rev(model)) %>%
+  dplyr::select(model,state, is_underprediction, is_overprediction, sharpness) %>%
+  tidyr::pivot_longer(cols = c(sharpness, is_underprediction, is_overprediction)) %>%
+  dplyr::mutate(name = forcats::fct_relevel(name,
+                                            c("is_underprediction",
+                                              "is_overprediction",
+                                              "sharpness"))) %>%
+  dplyr::arrange(name) %>%
+  #dplyr::mutate(name = forcats::fct_rev(name)) %>%
+  # dplyr::mutate(name = forcats::fct_relevel(name,
+  #                                           c("sharpness",
+  #                                             "is_underprediction",
+  #                                             "is_overprediction"))) %>%
+  #dplyr::mutate(name = forcats::fct_rev(name)) %>%
+  ggplot2::ggplot(ggplot2::aes(x = state, y = value, group = model,
+                               fill = name)) +
+  ggplot2::geom_bar(position = "fill", stat = "identity") +
+  ggplot2::facet_wrap(~ model, nrow = 2) +
+  ggplot2::scale_fill_manual(values = man_colours,
+                             name = "Colour") +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(x = "Horizon", y = "Contribution to Weighted Interval Score") +
+  ggplot2::theme(legend.position = "bottom",
+                 panel.spacing = ggplot2::unit(4, "mm"))
+
+ggplot2::ggsave(here::here(root_folder,
+                           "wis-contributions.png"),
+                wis_contribution, width = 13, height = 6.5)
+
+
+
+
+
+wis_contribution_rel_state2 <- scores %>%
+  dplyr::mutate(model = forcats::fct_relevel(model,
+                                             settings$model_levels),
+                model = forcats::fct_rev(model),
+                state = forcats::fct_reorder(state,
+                                             interval_score,
+                                             .fun='mean',
+                                             .desc = TRUE)) %>%
+  dplyr::select(model,state, is_underprediction, is_overprediction, sharpness) %>%
+  tidyr::pivot_longer(cols = c(sharpness, is_underprediction, is_overprediction)) %>%
+  dplyr::mutate(name = forcats::fct_relevel(name,
+                                            c("is_underprediction",
+                                              "is_overprediction",
+                                              "sharpness"))) %>%
+  dplyr::arrange(name) %>%
+  #dplyr::mutate(name = forcats::fct_rev(name)) %>%
+  # dplyr::mutate(name = forcats::fct_relevel(name,
+  #                                           c("sharpness",
+  #                                             "is_underprediction",
+  #                                             "is_overprediction"))) %>%
+  #dplyr::mutate(name = forcats::fct_rev(name)) %>%
+  ggplot2::ggplot(ggplot2::aes(x = model, y = value, group = model,
+                               fill = name)) +
+  ggplot2::geom_bar(position = "fill", stat = "identity") +
+  ggplot2::facet_wrap(~ state, nrow = 2) +
+  ggplot2::scale_fill_manual(values = man_colours,
+                             name = "Colour") +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(x = "Horizon", y = "Contribution to Weighted Interval Score") +
+  ggplot2::theme(legend.position = "bottom",
+                 panel.spacing = ggplot2::unit(4, "mm"))
+
+ggplot2::ggsave(here::here(root_folder,
+                           "wis-contributions.png"),
+                wis_contribution, width = 13, height = 6.5)
+
+
+
+
+
+
+
+
+
+
+
+# WIS contributions by states
+#
+# scores <- scoringutils::eval_forecasts(full,
+#                                        by = c("model", "state",
+#                                               "target_end_date",
+#                                               "horizon"),
+#                                        interval_score_arguments = list(weigh = TRUE),
+#                                        summarise_by = c("model", "state"))
+#
+# wis_contribution_state <- scores %>%
+#   dplyr::mutate(model = forcats::fct_relevel(model,
+#                                              settings$model_levels),
+#                 model = forcats::fct_rev(model)) %>%
+#   ggplot2::ggplot(ggplot2::aes(x = state, group = model)) +
+#   ggplot2::geom_linerange(ggplot2::aes(ymax = is_underprediction,
+#                                        ymin = 0, colour = "Underprediction"),
+#                           size = 3) +
+#   ggplot2::geom_linerange(ggplot2::aes(ymax = is_overprediction + is_underprediction,
+#                                        ymin = is_underprediction,
+#                                        colour = "Overprediction"),
+#                           size = 3)  +
+#   ggplot2::geom_linerange(ggplot2::aes(ymax = sharpness + is_overprediction + is_underprediction,
+#                                        ymin = is_overprediction + is_underprediction,
+#                                        colour = "Sharpness"),
+#                           size = 3) +
+#   ggplot2::facet_wrap(~ model, nrow = 2) +
+#   cowplot::theme_cowplot() +
+#   ggplot2::labs(x = "Horizon", y = "Contribution to Weighted Interval Score") +
+#   ggplot2::theme(legend.position = "bottom",
+#                  panel.spacing = ggplot2::unit(4, "mm"))
+#
+# ggplot2::ggsave(here::here(root_folder,
+#                            "wis-contributions.png"),
+#                 wis_contribution, width = 13, height = 6.5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -697,14 +960,74 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
+# WIS by the number of deaths in a state
 
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE))
 
-l
+df <-
+scores %>%
+  dplyr::group_by(state, model) %>%
+  dplyr::summarise(wis = median(interval_score),
+                   mean_wis = mean(interval_score),
+                   deaths = mean(true_values))
 
+wis_vs_deaths <- df %>%
+  dplyr::group_by(state) %>%
+  dplyr::mutate(median_wis = median(wis)) %>%
+  dplyr::ungroup() %>%
+  ggplot2::ggplot(ggplot2::aes(x = deaths, y = wis, colour = state)) +
+  ggplot2::geom_point() +
+  ggplot2::geom_point(ggplot2::aes(y = median_wis),
+                      colour = "black",
+                      shape = 18,
+                      size = 3) +
+  ggplot2::scale_y_log10() +
+  ggplot2::scale_x_log10() +
+  ggplot2::geom_smooth(method='lm', colour = "steelblue", alpha = 0.2) +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(x = "Average Death Number", y = "Weighted Interval Score")
+  # ggplot2::theme(legend.position = "bottom")
 
+ggplot2::ggsave(here::here(root_folder,
+                           "wis-vs-deaths.png"),
+                wis_vs_deaths,
+                width = 10, height = 4)
 
+fit <- lm(log(wis) ~ log(deaths), data = df)
+fit$coefficients
 
+difficulty_plot <- df %>%
+  dplyr::mutate(difficulty = log(wis) -
+                  (fit$coefficients[1] + log(deaths) * fit$coefficients[2])) %>%
+  dplyr::group_by(state) %>%
+  dplyr::mutate(median_difficulty = median(difficulty),
+                mean_difficulty = mean(difficulty)) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(state = factor(state),
+                state = forcats::fct_reorder(state,
+                                             median_difficulty,
+                                             .fun='median')) %>%
+  ggplot2::ggplot(ggplot2::aes(x = state, y = difficulty, colour = state)) +
+  ggplot2::geom_point() +
+  ggplot2::geom_point(ggplot2::aes(y = median_difficulty),
+                      colour = "black",
+                      shape = 18,
+                      size = 3) +
+  ggplot2::geom_hline(yintercept = 0, colour = "grey", linetype = "dashed") +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(x = "State", y = "Difficulty") +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1),
+                 legend.position = "none")
 
+ggplot2::ggsave(here::here(root_folder,
+                           "difficulty-states.png"),
+                difficulty_plot,
+                width = 10, height = 4)
 
 
 
@@ -869,15 +1192,24 @@ ggplot2::ggsave(here::here(root_folder,
 # ------------------------------------------------------------------------------
 ## coverage deviation by range plot
 
-summarised_scores <- summarised_scores %>%
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "range"))
+
+
+scores <- scores %>%
   dplyr::mutate(model = forcats::fct_reorder(model,
                                              interval_score,
-                                             .fun='mean')) %>%
+                                             .fun='mean'),
+                penalty = is_overprediction + is_underprediction) %>%
   dplyr::arrange(model)
 
-coverage_deviation_by_range <- summarised_scores %>%
+penalty_by_range <- scores %>%
   ggplot2::ggplot(ggplot2::aes(x = model,
-                               y = coverage_deviation,
+                               y = penalty,
                                colour = range)) +
   ggplot2::geom_hline(yintercept = 0,
                       linetype = "dashed",
@@ -893,12 +1225,12 @@ coverage_deviation_by_range <- summarised_scores %>%
                  text = ggplot2::element_text(family = "Sans Serif"),
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
-  ggplot2::labs(y = "Coverage deviation",
+  ggplot2::labs(y = "Penalty",
                 x = "Model")
 
 ggplot2::ggsave(here::here(root_folder,
-                           "coverage-deviation-by-range.png"),
-                coverage_deviation_by_range, width = 10, height = 5)
+                           "penalty-by-range.png"),
+                penalty_by_range, width = 10, height = 5)
 
 
 
