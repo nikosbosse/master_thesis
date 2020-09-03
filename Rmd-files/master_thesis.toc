@@ -24,21 +24,19 @@
 \contentsline {section}{\numberline {5.1}Introduction to the COVID-19 Forecast Hub and overview of the data}{27}{section.5.1}%
 \contentsline {section}{\numberline {5.2}An overview the different forecast models}{28}{section.5.2}%
 \contentsline {chapter}{\numberline {6}Results - evaluation and aggregation of Covid-19 death forecasts}{33}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Forecast visualisation}{33}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Summarised scores}{35}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Correlation between metrics}{35}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Scores by subgroups}{38}{subsection.6.2.2}%
-\contentsline {section}{\numberline {6.3}Assessing Calibration}{40}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Bias}{40}{subsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.1.1}Bias by subgroups}{40}{subsubsection.6.3.1.1}%
-\contentsline {subsection}{\numberline {6.3.2}Coverage}{40}{subsection.6.3.2}%
-\contentsline {subsubsection}{\numberline {6.3.2.1}Coverage by subgroups}{43}{subsubsection.6.3.2.1}%
-\contentsline {subsection}{\numberline {6.3.3}PIT histograms}{45}{subsection.6.3.3}%
-\contentsline {section}{\numberline {6.4}Assessing sharpness}{45}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Model evaluation in a regression framework}{49}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Assessing ensemble performance}{52}{section.6.6}%
+\contentsline {section}{\numberline {6.1}Forecast visualisation}{34}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Summarised scores and overall performance}{35}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Understanding the relationship between indivudal metrics}{37}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Composition of the Weighted Interval Score}{39}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}External drivers of WIS}{39}{subsection.6.4.1}%
+\contentsline {section}{\numberline {6.5}Understanding the individual models}{43}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Looking closer at bias}{45}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Looking closer at coverage}{45}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}Looking closer at PIT histograms}{49}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Looking at sharpness}{49}{subsection.6.5.4}%
+\contentsline {section}{\numberline {6.6}Assessing ensemble performance}{51}{section.6.6}%
 \contentsline {subsection}{\numberline {6.6.1}Model weights over time}{52}{subsection.6.6.1}%
-\contentsline {section}{\numberline {6.7}Other ensemble variants}{52}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Sensitivity analysis}{54}{section.6.8}%
+\contentsline {section}{\numberline {6.7}Other ensemble variants}{54}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Sensitivity analysis}{55}{section.6.8}%
 \contentsline {section}{\numberline {6.9}Discussion / chapter summary}{56}{section.6.9}%
 \contentsline {chapter}{\numberline {7}Discussion}{57}{chapter.7}%

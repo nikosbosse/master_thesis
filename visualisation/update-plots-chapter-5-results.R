@@ -158,6 +158,23 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
+
+US_forecast_one_four_weeks <- plot_forecasts(states = settings$states_included,
+                                             models = "COVIDhub-baseline",
+                                             facet_formula =  ~ state,
+                                             ncol_facet = 4,
+                                             horizons = c(1),
+                                             obs_weeks = 16) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1))
+
+
+
+
+
+
+
+
 # ==============================================================================
 # Look at summarised scores
 # ==============================================================================
@@ -278,7 +295,7 @@ scores <- scoringutils::eval_forecasts(full,
                                               "horizon"),
                                        interval_score_arguments = list(weigh = TRUE),
                                        summarise_by = c("model", "state",
-                                                        "forecast_date", "horizon"))
+                                                        "horizon"))
 
 get_upper_tri <- function(cormat){
   cormat[lower.tri(cormat)]<- NA
@@ -291,7 +308,7 @@ correlation_map <- scores %>%
                 log_interval_score = log(interval_score),
                 log_sharpness = log(sharpness)) %>%
   dplyr::filter(is.finite(log_interval_score)) %>%
-  dplyr::select(-model, -state, -horizon, -bias, -forecast_date, -calibration) %>%
+  dplyr::select(-model, -state, -horizon, -bias, -calibration, -log_sharpness) %>%
   cor() %>%
   round(2) %>%
   get_upper_tri() %>%
@@ -304,24 +321,23 @@ correlation_map <- scores %>%
                                 high = "salmon",
                                 name = "Correlation",
                                 breaks = c(-1, -0.5, 0, 0.5, 1)) +
+  cowplot::theme_cowplot() +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
-  cowplot::theme_cowplot() +
   ggplot2::labs(x = "", y = "") +
   ggplot2::coord_cartesian(expand = FALSE)
 
 ggplot2::ggsave(here::here(root_folder,
                            "correlation-map.png"),
-                correlation_map, width = 13, height = 8)
+                correlation_map, width = 10, height = 4.5)
 
 
 corr_plot <- scores %>%
   dplyr::mutate(penalty = is_underprediction + is_overprediction,
                 "absolute bias" = abs(bias),
-                log_interval_score = log(interval_score),
-                log_sharpness = log(sharpness)) %>%
+                log_interval_score = log(interval_score)) %>%
   dplyr::filter(is.finite(log_interval_score)) %>%
-  dplyr::select(-model, -state, -horizon, -bias, -forecast_date, -calibration) %>%
+  dplyr::select(-model, -state, -horizon, -bias, -calibration) %>%
   GGally::ggpairs() +
   cowplot::theme_cowplot() +
   ggplot2::theme(panel.spacing = ggplot2::unit(3, "mm"),
@@ -329,7 +345,7 @@ corr_plot <- scores %>%
 
 ggplot2::ggsave(here::here(root_folder,
                            "corr-plot.png"),
-                corr_plot, width = 16, height = 18)
+                corr_plot, width = 19, height = 18)
 
 
 
@@ -669,7 +685,8 @@ scores <- scoringutils::eval_forecasts(full,
 scores <- scores %>%
   dplyr::arrange(state, model, interval_score) %>%
   dplyr::group_by(state) %>%
-  dplyr::mutate(rank = rank(interval_score, ties.method = "average")) %>%
+  dplyr::mutate(rank = rank(interval_score, ties.method = "average"),
+                multiple = pmin(interval_score / min(interval_score), 5) -1) %>%
   dplyr::ungroup() %>%
   dplyr::mutate(model = forcats::fct_reorder(model,
                                              interval_score,
@@ -680,16 +697,16 @@ scores <- scores %>%
                                              .fun='mean',
                                              .desc = TRUE))
 
-heatmap_plot <- ggplot2::ggplot(scores, ggplot2::aes(y = model, x = state, fill = rank)) +
+heatmap_plot <- ggplot2::ggplot(scores, ggplot2::aes(y = model, x = state, fill = multiple)) +
   ggplot2::geom_tile(colour = "white", size = 0.3) +
   ggplot2::geom_text(ggplot2::aes(label = round(interval_score, 1)),
                      family = "Sans Serif") +
   ggplot2::scale_fill_gradient2(low = "skyblue", high = "red",
-                                name = "Model rank per state",
-                                breaks = seq(1,11,2)) +
+                                name = "",
+                                breaks = seq(1, 15, 3)) +
   cowplot::theme_cowplot() +
   ggplot2::labs(y = "") +
-  ggplot2::theme(legend.position = "bottom",
+  ggplot2::theme(legend.position = "none",
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
   ggplot2::coord_cartesian(expand = FALSE)
@@ -979,6 +996,9 @@ wis_vs_deaths <- df %>%
   dplyr::group_by(state) %>%
   dplyr::mutate(median_wis = median(wis)) %>%
   dplyr::ungroup() %>%
+  dplyr::mutate(state = forcats::fct_reorder(state,
+                                             deaths,
+                                             "mean")) %>%
   ggplot2::ggplot(ggplot2::aes(x = deaths, y = wis, colour = state)) +
   ggplot2::geom_point() +
   ggplot2::geom_point(ggplot2::aes(y = median_wis),
@@ -998,7 +1018,14 @@ ggplot2::ggsave(here::here(root_folder,
                 width = 10, height = 4)
 
 fit <- lm(log(wis) ~ log(deaths), data = df)
-fit$coefficients
+summary(fit)
+
+fit_without_baseline <- lm(log(wis) ~ log(deaths),
+                           data = df %>%
+                             dplyr::filter(model != "COVIDhub-baseline"))
+summary(fit_without_baseline)
+
+
 
 difficulty_plot <- df %>%
   dplyr::mutate(difficulty = log(wis) -
@@ -1028,6 +1055,92 @@ ggplot2::ggsave(here::here(root_folder,
                            "difficulty-states.png"),
                 difficulty_plot,
                 width = 10, height = 4)
+
+
+#
+# df %>%
+#   dplyr::mutate(difficulty = log(wis) -
+#                   (fit$coefficients[1] + log(deaths) * fit$coefficients[2])) %>%
+#   dplyr::group_by(state) %>%
+#   dplyr::mutate(median_difficulty = median(difficulty),
+#                 mean_difficulty = mean(difficulty)) %>%
+#   dplyr::summarise(diff = unique(median_difficulty)) %>%
+#   dplyr::arrange(diff)
+
+difficulty_states_heatmap <- df %>%
+  dplyr::mutate(difficulty = log(wis) -
+                  (fit$coefficients[1] + log(deaths) * fit$coefficients[2])) %>%
+  dplyr::group_by(state) %>%
+  dplyr::mutate(median_difficulty = median(difficulty),
+                mean_difficulty = mean(difficulty),
+                diff_scaled = difficulty / sd(difficulty)) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(state = factor(state),
+                state = forcats::fct_reorder(state,
+                                             median_difficulty,
+                                             .fun='median'),
+                model = forcats::fct_relevel(model,
+                                             settings$model_levels)) %>%
+  ggplot2::ggplot(ggplot2::aes(y = model,
+                               x = state,
+                               fill = difficulty)) +
+  ggplot2::geom_tile() +
+  ggplot2::geom_text(ggplot2::aes(label = round(difficulty, 2)),
+                     family = "Sans Serif") +
+  ggplot2::scale_fill_gradient2(low = "skyblue", high = "red") +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(y = "", x = "Location") +
+  ggplot2::theme(legend.position = "none",
+                 axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1)) +
+  ggplot2::coord_cartesian(expand = FALSE)
+
+
+ggplot2::ggsave(here::here(root_folder,
+                           "difficulty-states-heatmap.png"),
+                difficulty_states_heatmap,
+                width = 10, height = 4.5)
+
+
+
+
+
+
+
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE))
+
+
+
+df <-
+  scores %>%
+  dplyr::mutate(state = as.factor(state),
+                state = relevel(state, ref = "US")) %>%
+  dplyr::group_by(state, model, horizon) %>%
+  dplyr::summarise(wis = median(interval_score),
+                   mean_wis = mean(interval_score),
+                   deaths = mean(true_values))
+
+
+
+
+fit <- lm(log(wis) ~ log(deaths) + state + horizon, data = df)
+summary(fit)
+fit$coefficients
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1092,6 +1205,97 @@ ggplot2::ggsave(here::here(root_folder,
                            "quantile-coverage-all.png"),
                 quantile_coverage_plot_all,
                 width = 10, height = 7)
+
+
+
+
+
+
+
+
+# combined interval and quantile coverage
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "range"))
+
+
+combined <- combine_with_deaths(forecasts)
+
+m <- settings$model_names_eval[1]
+
+plot_list <- list()
+
+models <- as.character(settings$model_levels)[11:1]
+i <- 1
+for (m in models) {
+
+  df <- scores %>%
+    dplyr::filter(model %in% m)
+
+  man_col <- settings$manual_colours[m == settings$model_names_eval]
+
+  ## overall model calibration - empirical interval coverage
+  p1 <- ggplot2::ggplot(df, ggplot2::aes(x = range, colour = model)) +
+    ggplot2::geom_line(ggplot2::aes(y = range), colour = "grey",
+                       linetype = "dashed") +
+    ggplot2::geom_line(ggplot2::aes(y = calibration * 100)) +
+    cowplot::theme_cowplot() +
+    ggplot2::scale_color_manual(values = man_col) +
+    ggplot2::facet_wrap(~ model, ncol = 3) +
+    ggplot2::theme(legend.position = "none",
+                   panel.spacing = unit(5, "mm"),
+                   plot.margin = ggplot2::margin(t = 6, r = 3,
+                                                 b = 6, l = 4, unit = "mm")) +
+    ggplot2::ylab("% Obs inside interval") +
+    ggplot2::xlab("Interval range")
+
+
+  df2 <- combined%>%
+    dplyr::filter(model %in% m)
+
+  p2 <- df2  %>%
+    dplyr::group_by(model, quantile) %>%
+    dplyr::summarise(coverage = mean(deaths <= value)) %>%
+    ggplot2::ggplot(ggplot2::aes(x = quantile, colour = model)) +
+    ggplot2::geom_line(ggplot2::aes(y = quantile), colour = "grey",
+                       linetype = "dashed") +
+    ggplot2::geom_line(ggplot2::aes(y = coverage)) +
+    cowplot::theme_cowplot() +
+    ggplot2::scale_color_manual(values = man_col) +
+    ggplot2::facet_wrap(~ model, ncol = 3) +
+    ggplot2::theme(panel.spacing = unit(5, "mm"),
+                   legend.position = "none",
+                   plot.margin = ggplot2::margin(t = 6, r = 9,
+                                                 b = 6, l = -2, unit = "mm")) +
+    ggplot2::xlab("Quantile") +
+    #ggplot2::scale_y_continuous(breaks=c(0,0.25,0.5,0.75, 1)) +
+    ggplot2::ylab("% obs below quantile")
+  cowplot::plot_grid(p1, p2,
+                     ncol = 2)
+
+  plot_list[[i]] <- cowplot::plot_grid(p1, p2,
+                                       ncol = 2)
+  i <- i + 1
+}
+
+coverage_plots <- cowplot::plot_grid(plotlist = plot_list,
+                                     ncol = 2)
+
+ggplot2::ggsave(here::here(root_folder,
+                           "coverage-plots.png"),
+                coverage_plots,
+                width = 10, height = 18)
+
+
+
+
+
+
+
+
 
 
 
@@ -1324,6 +1528,55 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
+
+
+
+
+
+
+
+
+# heatmap model bias per state
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "state"))
+
+scores <- scores %>%
+  dplyr::arrange(state, model, interval_score) %>%
+  dplyr::group_by(state) %>%
+  dplyr::mutate(bias_scaled = (bias) / sd(bias)) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(model = forcats::fct_reorder(model,
+                                             interval_score,
+                                             .fun='mean',
+                                             .desc = TRUE),
+                state = forcats::fct_reorder(state,
+                                             bias,
+                                             .fun='mean',
+                                             .desc = TRUE))
+
+heatmap_plot_bias <- ggplot2::ggplot(scores,
+                                         ggplot2::aes(y = model,
+                                                      x = state,
+                                                      fill = bias_scaled)) +
+  ggplot2::geom_tile() +
+  ggplot2::geom_text(ggplot2::aes(label = round(bias, 2)),
+                     family = "Sans Serif") +
+  ggplot2::scale_fill_gradient2(low = "skyblue", high = "red") +
+  cowplot::theme_cowplot() +
+  ggplot2::labs(y = "", x = "Location") +
+  ggplot2::theme(legend.position = "none",
+                 axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1)) +
+  ggplot2::coord_cartesian(expand = FALSE)
+
+ggplot2::ggsave(here::here(root_folder,
+                           "heatmap-model-bias.png"),
+                heatmap_plot_bias, width = 10, height = 4.8)
 
 
 

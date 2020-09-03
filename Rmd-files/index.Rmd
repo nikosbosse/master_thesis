@@ -68,3 +68,15 @@ knitr::write_bib(c(.packages(),
 
 - Add a note that the regression framework was proposed by the Forecast Hub. 
 
+- Read again and correct present / past tense and present / future tense (will)
+
+- talk somewhere about the distinction between bias the concept and bias the metric
+
+- make separation between prediction penalty and bias clearer
+
+- Do we want the plot with coverage deviation by range included? Do we want to weigh coverage deviation by range?
+
+- Explain again that the WIS by range also implies that penalties are weighted down. 
+
+- Figure for sharpness of ranges
+
