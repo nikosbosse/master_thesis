@@ -90,3 +90,5 @@ knitr::write_bib(c(.packages(),
 
 - make all plot model colours consistent
 
+- pit plots quantile scoringutils
+

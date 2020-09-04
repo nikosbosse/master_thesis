@@ -59,7 +59,8 @@ plot_forecasts <- function(forecasts = NULL,
 
   plot_fc <- forecasts_wide %>%
     dplyr::filter(state %in% states,
-                  horizon %in% horizons)
+                  horizon %in% horizons,
+                  model %in% models)
 
   plot_deaths <- deaths %>%
     dplyr::filter(epiweek >= (max(epiweek) - obs_weeks)) %>%
@@ -94,7 +95,6 @@ plot_forecasts <- function(forecasts = NULL,
          col = "Model", fill = "Model") +
     cowplot::theme_cowplot() +
     ggplot2::theme(legend.position = "bottom",
-                   text = ggplot2::element_text(family = "Sans Serif"),
                    panel.background = element_rect(fill = "aliceblue")
                    )
 
@@ -140,8 +140,7 @@ plot_true_data <- function(states = "US",
                   caption = NULL,
                   col = "Model", fill = "Model") +
     cowplot::theme_cowplot() +
-    ggplot2::theme(legend.position = "bottom",
-                   text = ggplot2::element_text(family = "Sans Serif"))
+    ggplot2::theme(legend.position = "bottom")
 
   return(plot)
 

@@ -12,8 +12,8 @@ model_names <- c("COVIDhub-baseline",
 
 horizons <- 1:4
 
-model_names_eval <- c(model_names,
-                      "crps-ensemble", "mean-ensemble", "qra-ensemble")
+model_names_eval <- sort(c(model_names,
+                      "crps-ensemble", "mean-ensemble", "qra-ensemble"))
 
 ensemble_names_all <- c("crps-ensemble-1-1",
                         "crps-ensemble-2-1",
@@ -73,8 +73,12 @@ evaluation_dates <- submission_dates[submission_dates >= as.Date("2020-06-29")]
 
 
 manual_colours <- c(RColorBrewer::brewer.pal(8, name = "Set2")[-6],
-                    RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7)],
+                    RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7, 5)],
                     RColorBrewer::brewer.pal(8, name = "Dark2")[c(1, 4, 8)])
+
+colour_df <- data.frame(model_names = c(model_names_eval, rep(NA, 4)),
+                        colours = manual_colours,
+                        ensemble_names = c(ensemble_names_all))
 
 settings <- list(submission_dates = submission_dates,
                  forecast_date = forecast_date,
@@ -91,4 +95,5 @@ settings <- list(submission_dates = submission_dates,
                  manual_colours = manual_colours,
                  ensemble_past_included = ensemble_past_included,
                  crps_optimisation_horizon = crps_optimisation_horizon,
-                 ensemble_names_all = ensemble_names_all)
+                 ensemble_names_all = ensemble_names_all,
+                 colour_df = colour_df)

@@ -177,14 +177,14 @@ knitr::include_graphics("../visualisation/chapter-5-results/coverage-deviation-b
 ```
 
 
-### External drivers of differences WIS
+## Identifying external drivers of differences WIS
 
 So far we have mostly analysed the behaviours of the different evaluation metrics and asked what are the most important contributors to the scores. In this section and the following one we want to examine what drives *differences* in WIS. This section identifies determinants other than the models themselves, while the next one examines individual model characteristics more closely. 
 
 As a starting point, we can look again at the mixed-effects regression shown in Table \@ref(fig:REGRESSION). From the fixed effects estimates, we already know that the forecast horizon made a large difference in average scores. We can now go one step further and also analyse the estimated random effects from the regression. This is shown in Figure \@ref(fig:random-effects). We can see that forecast dates don't have a very strong effect, but that states do. This difference could be completely driven by differences in death numbers (remember the WIS is an absolute metric) or it could be due to variation in 'difficulty' in different states. The remainder of this section examines this more closely. 
 
 ``` {r random-effects, echo = FALSE, out.width = "100%", fig.cap = "Random effects of the different locations (left) and forecast dates (right"}
-knitr::include_graphics("../visualisation/chapter-5-results/random-effects.png")
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/random-effects.png")
 
 ```
 
@@ -221,7 +221,12 @@ knitr::include_graphics("../visualisation/chapter-5-results/heatmap-model-covera
 
 ```
 
-APPENDIX: BIAS by STATE, PENALTY by STATE
+To complete the picture, Figure \@ref(bias-states) also shows 'bias' for the different states. We see that a substantial part of what makes states hard to predict is associated by a tendency among all models to over- or underpredict. 
+``` {r bias-states, echo = FALSE, out.width = "100%", fig.cap = "Coverage deviation for different ranges"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/heatmap-model-bias.png")
+
+```
 
 To understand what is going on and what drives the dynamic it makes sense to look again at a plot of predictions vs. true values. This is unfortunately unfeasible to do for all states, but Figure \@ref(fig:pred-texas) exemplifies this by showing the one-week-ahead predictions and observed values in Texas. There, we can observe a rapidly changing trend that all models are unable to keep up with. 
 
@@ -274,7 +279,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/bias_ensemble.png")
 
 ### Looking closer at coverage
 
-We next turn to examine coverage. Figure \@ref(fig:coverage-all) shows the empirical interval and quantile coverage for all eleven models. The green shading indicates the areas of the plot that correspond to over-coverage. The interval coverage plots are especially good at giving us a first impression of overall model calibration.  In this regard, the COVIDhub-baseline model is an interesting example. While the aggregated coverage deviation score in Figure \@ref(fig:coloured-summarised-scores) looked very good, we can now immediately conclude that the COVIDhub-baseline model was not well calibrated. Interval coverage plots can, however, not tell us where a lack of coverage comes from exactly. The quantile coverage plots convey more information and can show us whether the issue is located in the lower or upper tails of the predictive distributions. If we look at the crps-ensemble for example, we see that it is consistently covering too much by its prediction intervals. The quantile coverage plot allows us to be more precise and say that the issue comes from the lower tails of the predictive distributions that tend to be too wide. 
+We next turn to examine coverage. Figure \@ref(fig:coverage-all) shows the empirical interval and quantile coverage for all eleven models. The green shading indicates the areas of the plot that correspond to predictions which are further away from the median than they should, which mostly results in excessive coverage of the affected interval range. The interval coverage plots are especially good at giving us a first impression of overall model calibration.  In this regard, the COVIDhub-baseline model is an interesting example. While the aggregated coverage deviation score in Figure \@ref(fig:coloured-summarised-scores) looked very good, we can now immediately conclude that the COVIDhub-baseline model was not well calibrated. Interval coverage plots can, however, not tell us where a lack of coverage comes from exactly. The quantile coverage plots convey more information and can show us whether the issue is located in the lower or upper tails of the predictive distributions. If we look at the crps-ensemble for example, we see that it is consistently covering too much by its prediction intervals. The quantile coverage plot allows us to be more precise and say that the issue comes from the lower tails of the predictive distributions that tend to be too wide. 
 
 The quantile coverage plots also allow us to reexamine the bias component of calibration again. We can for example see that the UT-Mobility and qra-ensemble, which exhibit an upward bias (compare \@ref(fig:coloured-summarised-scores)), are moved to the left of the diagonal, while e.g. the YYG-ParamSearch or the LANL-GrowthRate model, which are downward biased, are moved to the right. The COVIDhub-baseline model is again an interesting example, as it had a downward bias tendency, even though its median predictions were spot on. The line in the quantile coverage plot exactly crosses (0.5, 0.5), but Figure \@ref(fig:bias-all) shows that the model is still biased downwards on average and incurs more under- than overprediction penalties. 
 
@@ -294,9 +299,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/coverage_ensemble.pn
 
 ```
 
-In some cases it can be interesting to also visualise calibration over states or the evolution of coverage over horizons. This can, for example, be an indicator of how far ahead into the future we can forecast. As these plots tend to be somewhat hard to interpret, we have omitted this analysis here, but included a plot of coverage over different horizosn in the Appendix. 
-APPENDIX: Coverage by horizon (sort plot by model achievement)
-<!-- We can again look at coverage in different subgroups to get a better understanding for how the models and the metrics behave. We might for example want to ask how coverage changes over different prediction horizons, as this could give an indication of how well we far into the future we can confidently make predictions. Figures \@ref(fig:interval-coverage-horizon) and \@ref(fig:quantile-coverage-horizon) show the interval and quantile coverage over different prediction horizons. We can generally see that coverage generally tends to deteriorate at least slightly with increasing forecast horizons for many models. WORK ON THIS INTERPRETATION OR MAYBE JUST MOVE THE PLOTS TO THE APPENDIX.   -->
+In some cases it can be interesting to also visualise calibration over states or the evolution of coverage over horizons. This can, for example, be an indicator of how far ahead into the future we can forecast. As these plots tend to be somewhat hard to interpret, we have omitted this analysis here, but included a plot of coverage over different horizons in the Appendix in Figure \@ref(fig:coverage-horizons).
 
 ### Looking closer at PIT histograms
 
@@ -412,50 +415,14 @@ knitr::include_graphics("../visualisation/chapter-5-results/ensembles/scenario-3
 
 ## Evaluation summary and limitiations
 
+This chapter has presented a comprehensive model evaluation that was able to highlight a lot of important differences between models and problem with individual models. We found that ensemble models tended to perform very well and also found to of the three SEIR models among the top performers. Given the small number of models and observations, this should, however, be considered limited evidence. We found that better models were better calibrated and tended to be sharper and that these metrics were able to distinguish good from less ideal models. Some aspects, however, still remain unclear just from examining the metrics. This is partly owed to the fact that this chapter evaluated thirteen models at once, which makes it impossible to show all visualisations for all models in all different locations at different times. Depending on the aim of the evaluation, one could break the analysis down further and go into much more detail. Nevertheless, we may not be able to capture all nuances by only focussing on metrics and diagnostic plots. This seemed to be particularly true for the epiforecasts-ensemble1 model. 
+
+If we look back at the summarised scores in Figure \@ref(fig:coloured-summarised-scores), we see a model that performs badly in terms of the interval score and its components, but rather well in terms of the other metrics. Apart from its penalty score, it looks roughly comparable with the UMass-MechBayes model. In Figure \@ref(fig:bias-all) it doesn't look particularly biased and in Figure \@ref(fig:coverage-all) it looks like it did well in terms of calibration. The model is not very sharp, but given the high penalties it already incurs it doesn't seem like increasing its sharpness would help to increase its performance. The high over- and underprediction penalties tell us that something is wrong, but unfortunately not what. This highlights again the importance of looking at plots of forecasts and observed values. Figure \@ref(fig:epiforecasts-enmsemble1) visualises one-week-ahead predictions in all thirteen locations. We see that the model tends to overpredict whenever death numbers are falling and underpredict whenever they are rising. We also see that the model tends to sometimes be wrong in a very unpredictable way. Especially forecasts for July 27th seem affected, where predictions as well as the uncertainty make a sudden unpredictable jump in many locations. This also underlines the importance of breaking down the evaluation in smaller subcategories as well as looking on the aggregate level. Had we plotted coverage of the epiforecasts-ensemble1 model in the individual states, we would have been able to diagnose some of these problems. 
+
+``` {r epiforecasts-ensemble1, echo = FALSE, fig.show = "hold", out.width = "50%", fig.cap = "One-week ahead forecasts for the epiforecasts-ensemble1 model"}
+
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-epiforecasts-ensemble1-forecasts.png")
+```
 
 
-
-also: General characteristics for well performing models
-- ensemble
-- SEIR model
-but: hard to tell from the limited amount of models. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- old parts -->
-
-
-
-
-
-<!-- In Figure \@fig(fig:coloured-summarised-scores) we could see that the qra-ensemble performs best by quite a margin. Figure \@ref(fig:heatmap-performance)  -->
-
-
-<!-- shows that this the case because the qra-ensemble seems to perform well in the three most important locations (as judged by average WIS), while it doesn't excel in Pennsylvania, Massachusetts and Maryland.  -->
-
-
-<!-- We see that the ensemble models do well which is of course expected (or at least hoped). Especially the qra-ensemble that learns weights from past observations performs well.  -->
-
-<!-- The crps-ensemble does worse, but that as well is at least not unexpected. The crps ensemble implementation in this thesis entails fitting a gamma distribution to the set of predictive quantiles which is bound to lose a lot of precision. It is nevertheless a bit surprising just from this overview that the crps-ensemble does substantially worse regarding the WIS, even though it is only slightly less sharp but a lot less biased.  -->
-
-<!-- We can clearly see that models seem to perform well or badly for different reasons. The COVIDhub-baseline model for example stands out for its lack of sharpness. The UT-mobility model predictions are very sharp, but they exhibit quite significant bias and a quite substantial fraction of true values falls out of the prediction its prediction intervals. Its good overall performance as judged by the weighted interval score (WIS) seems a bit puzzling at first glance, and we cannot yet tell what might serve to explain this.  -->
 
