@@ -1,5 +1,12 @@
 # (APPENDIX) Appendix {-}
 
+
+
+- Plot with forecasts for all states from all models
+
+APPENDIX: BIAS by STATE, PENALTY by STATE
+
+
 df
 ``` {r models-all, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for the US from all models. Models are sorted alphabetically."}
 

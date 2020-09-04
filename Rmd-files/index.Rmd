@@ -80,3 +80,13 @@ knitr::write_bib(c(.packages(),
 
 - Figure for sharpness of ranges
 
+- ask Seb again for past tense. Example: "We start our formal model evaluation by assessing overall model performance. To that end, we first look at aggregated scores from the different metrics. Subsequently, we use a regression framework to determine differences between models."
+
+- Check how the different models perform if we ignore New Jersey
+
+- ALSO NEEDED: FIGURE WITH OVER- AND UNDERPREDICTION BY MODEL. 
+
+- Alle Figure captions durchgehen. Auch gucken: sind punkte mean und diameanten median? 
+
+- make all plot model colours consistent
+

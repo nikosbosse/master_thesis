@@ -139,18 +139,19 @@ ggplot2::ggsave(here::here(root_folder,
 #                 several_states_one_week, width = 18, height = 25)
 #
 
-
 #
-# test <- plot_forecasts(states = settings$states_included,
-#                        forecasts = forecasts,
-#                        facet_formula = state ~ model,
-#                        ncol_facet = 4,
-#                        horizons = c(1),
-#                        obs_weeks = 7)
 #
-# ggplot2::ggsave(here::here("visualisation", "chapter-5-results",
+# all_states_one_week <- plot_forecasts(states = settings$states_included,
+#                                       forecasts = forecasts,
+#                                       facet_formula = state ~ model,
+#                                       ncol_facet = 4,
+#                                       horizons = c(1),
+#                                       obs_weeks = 7)
+#
+# ggplot2::ggsave(here::here(root_folder,
 #                            "all-states-one-week.png"),
-#                 several_states_one_week, width = 18, height = 25)
+#                 all_states_one_week, width = 18, height = 65,
+#                 limitsize = FALSE)
 #
 # ggplot2::ggsave("~/Deskstop/test.png", test,
 #                 width = 10, height = 20)
@@ -161,6 +162,18 @@ ggplot2::ggsave(here::here(root_folder,
 
 US_forecast_one_four_weeks <- plot_forecasts(states = settings$states_included,
                                              models = "COVIDhub-baseline",
+                                             facet_formula =  ~ state,
+                                             ncol_facet = 4,
+                                             horizons = c(1),
+                                             obs_weeks = 16) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1))
+
+
+
+
+epiforecasts_vis <- plot_forecasts(states = settings$states_included,
+                                             models = "epiforecasts-ensemble1",
                                              facet_formula =  ~ state,
                                              ncol_facet = 4,
                                              horizons = c(1),
@@ -366,21 +379,30 @@ unsum_scores <- scoringutils::eval_forecasts(full,
                                                     "horizon"),
                                              interval_score_arguments = list(weigh = TRUE),
                                              summarise_by = c("model", "state",
-                                                              "forecast_date", "horizon"))
+                                                              "horizon"))
 
 saveRDS(unsum_scores, paste0(root_folder,"/unsummarised_scores.rds"))
 
 unsum_scores <- readRDS(paste0(root_folder, "/unsummarised_scores.rds")) %>%
-  dplyr::mutate(log_scores = log(interval_score),
+  dplyr::mutate(penalty = is_overprediction + is_underprediction,
+                log_scores = log(interval_score),
                 abs_bias_std = (abs(bias) - mean(abs(bias))) / sd(abs(bias)),
                 coverage_deviation_std = (coverage_deviation -
                                             mean(coverage_deviation)) /sd(coverage_deviation),
-                sharpness_std = (sharpness - mean(sharpness))/sd(sharpness)) %>%
+                sharpness_std = (sharpness - mean(sharpness))/sd(sharpness),
+                penalty_std = (penalty - mean(penalty)) / sd(penalty)) %>%
   dplyr::filter(is.finite(log_scores))
 
 
-lm(log_scores ~ abs_bias_std + coverage_deviation_std + sharpness_std, data = unsum_scores) %>%
-  summary()
+fit <- lm(log_scores ~ abs_bias_std + coverage_deviation_std + sharpness_std + penalty_std,
+   data = unsum_scores)
+
+saveRDS(fit, here::here(root_folder, "regression-wis.rds"))
+
+
+
+# why does abs(bias) have a negative effect?
+fit1 <- lm(log(interval_score) ~ horizon + sharpness + abs(bias) + coverage_deviation + penalty, data = scores)
 
 
 
@@ -849,7 +871,7 @@ bias_horizons <- scores %>%
                           position = ggplot2::position_dodge2(width = 0.5,
                                                               padding = 0)) +
   ggplot2::geom_linerange(ggplot2::aes(ymin = bias_0.25, ymax = bias_0.75),
-                          size = 2,
+                          size = 1,
                           alpha = 0.4,
                           position = ggplot2::position_dodge2(width = 0.5,
                                                               padding = 0)) +
@@ -859,8 +881,16 @@ bias_horizons <- scores %>%
                           position = ggplot2::position_dodge2(width = 0.5,
                                                               padding = 0)) +
   ggplot2::scale_color_manual(values = settings$manual_colours) +
-  ggplot2::geom_point(ggplot2::aes(y = bias_0.5),
+  ggplot2::geom_point(ggplot2::aes(y = bias),
                       size = 2,
+                      colour = "black",
+                      fill = "white",
+                      position = ggplot2::position_dodge2(width = 0.5,
+                                                          padding = 0)) +
+  ggplot2::geom_point(ggplot2::aes(y = bias_0.5),
+                      size = 2.2,
+                      shape = 23,
+                      fill = "white",
                       colour = "black",
                       position = ggplot2::position_dodge2(width = 0.5,
                                                           padding = 0)) +
@@ -883,6 +913,59 @@ ggplot2::ggsave(here::here(root_folder,
                            "bias-horizons.png"),
                 bias_horizons,
                 width = 10, height = 5)
+
+
+
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+# Looking at over- and underprediction
+
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "horizon"),
+                                       quantiles = c(0.05, 0.15, 0.25, 0.4, 0.5,
+                                                     0.6, 0.75, 0.85, 0.95))
+
+
+prediction_penalties <- scores %>%
+  dplyr::mutate(model = forcats::fct_reorder(model,
+                                             interval_score,
+                                             .fun='mean'),
+                horizon = as.factor(horizon)) %>%
+  ggplot2::ggplot(ggplot2::aes(x = model,
+                               colour = model)) +
+  ggplot2::geom_linerange(ggplot2::aes(ymin = 0, ymax = (is_overprediction)),
+                          position = ggplot2::position_dodge2(width = 0.5,
+                                                          padding = 0),
+                          colour = "salmon") +
+  ggplot2::geom_linerange(ggplot2::aes(ymin = 0, ymax = -(is_underprediction)),
+                          position = ggplot2::position_dodge2(width = 0.5,
+                                                              padding = 0),
+                          colour = "steelblue") +
+  ggplot2::coord_cartesian(ylim = c(-200, 200)) +
+  ggplot2::labs(x = "", y = "Over-/underprediction penalties") +
+  cowplot::theme_cowplot() +
+  # ggplot2::scale_y_log10() +
+  ggplot2::theme(legend.position = "none",
+                 #panel.background = ggplot2::element_rect(fill = "aliceblue"),
+                 text = ggplot2::element_text(family = "Sans Serif"),
+                 axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1))
+
+ggplot2::ggsave(here::here(root_folder,
+                           "prediction-penalties.png"),
+                prediction_penalties,
+                width = 10, height = 5)
+
+
 
 
 
@@ -1239,6 +1322,14 @@ for (m in models) {
 
   ## overall model calibration - empirical interval coverage
   p1 <- ggplot2::ggplot(df, ggplot2::aes(x = range, colour = model)) +
+    ggplot2::geom_polygon(data = data.frame(x = c(0, 0, 100),
+                                            y = c(0, 100, 100),
+                                            g = c("o", "o", "o")),
+                          ggplot2::aes(x = x, y = y, group = g,
+                                       fill = g),
+                          alpha = 0.05,
+                          colour = "white",
+                          fill = "olivedrab3") +
     ggplot2::geom_line(ggplot2::aes(y = range), colour = "grey",
                        linetype = "dashed") +
     ggplot2::geom_line(ggplot2::aes(y = calibration * 100)) +
@@ -1250,31 +1341,51 @@ for (m in models) {
                    plot.margin = ggplot2::margin(t = 6, r = 3,
                                                  b = 6, l = 4, unit = "mm")) +
     ggplot2::ylab("% Obs inside interval") +
-    ggplot2::xlab("Interval range")
+    ggplot2::xlab("Interval range") +
+    ggplot2::coord_cartesian(expand = FALSE)
 
 
-  df2 <- combined%>%
+  df2 <- combined %>%
     dplyr::filter(model %in% m)
 
   p2 <- df2  %>%
     dplyr::group_by(model, quantile) %>%
     dplyr::summarise(coverage = mean(deaths <= value)) %>%
     ggplot2::ggplot(ggplot2::aes(x = quantile, colour = model)) +
+    # ggplot2::geom_polygon(data = data.frame(x = c(0.5, 1, 1,
+    #                                               0, 0, 0.5),
+    #                                         y = c(0.5, 0.5, 1,
+    #                                               0, 0.5, 0.5),
+    #                                         g = c("u", "u", "u",
+    #                                               "u", "u", "u")),
+    #                       ggplot2::aes(x = x, y = y, group = g,
+    #                                    fill = g),
+    #                       alpha = 0.15,
+    #                       colour = "white",
+    #                       fill = "steelblue") +
+    ggplot2::geom_polygon(data = data.frame(x = c(0, 0.5, 0.5,
+                                                  0.5, 0.5, 1),
+                                            y = c(0, 0, 0.5,
+                                                  0.5, 1, 1),
+                                            g = c("o", "o", "o")),
+                          ggplot2::aes(x = x, y = y, group = g,
+                                       fill = g),
+                          alpha = 0.05,
+                          colour = "white",
+                          fill = "olivedrab3") +
     ggplot2::geom_line(ggplot2::aes(y = quantile), colour = "grey",
                        linetype = "dashed") +
     ggplot2::geom_line(ggplot2::aes(y = coverage)) +
-    cowplot::theme_cowplot() +
-    ggplot2::scale_color_manual(values = man_col) +
+    ggplot2::scale_color_discrete(man_col) +
     ggplot2::facet_wrap(~ model, ncol = 3) +
+    cowplot::theme_cowplot() +
     ggplot2::theme(panel.spacing = unit(5, "mm"),
                    legend.position = "none",
                    plot.margin = ggplot2::margin(t = 6, r = 9,
                                                  b = 6, l = -2, unit = "mm")) +
     ggplot2::xlab("Quantile") +
-    #ggplot2::scale_y_continuous(breaks=c(0,0.25,0.5,0.75, 1)) +
-    ggplot2::ylab("% obs below quantile")
-  cowplot::plot_grid(p1, p2,
-                     ncol = 2)
+    ggplot2::ylab("% obs below quantile") +
+    ggplot2::coord_cartesian(expand = FALSE)
 
   plot_list[[i]] <- cowplot::plot_grid(p1, p2,
                                        ncol = 2)
@@ -1649,7 +1760,7 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
-
+SECTION SUMMARY?
 
 
 
@@ -1692,12 +1803,15 @@ scores_ensemble <- scoringutils::eval_forecasts(full_ensemble,
 high_wis_states <- c("US", "Texas", "Florida", "California", "New Jersey", "Arizona",
             "Georgia", "Illinois")
 
+man_col <- settings$manual_colours[settings$model_names_eval == "crps-ensemble"]
+
 plot_ensemble <- plot_forecasts(forecasts = forecasts_ensemble,
                                    states = high_wis_states[1:8],
                                    models = c("crps-ensemble"),
                                    obs_weeks = 13,
                                 facet_formula = ~ state,
-                                ncol_facet = 4) +
+                                ncol_facet = 4,
+                                manual_colours = man_col) +
   ggplot2::theme(legend.position = "none",
                  axis.title.y = ggplot2::element_text(margin = margin(t = 0,
                                                                       r = 20,
@@ -1781,6 +1895,8 @@ sharpness_horizons <- scores %>%
                                                               padding = 0)) +
   ggplot2::geom_point(ggplot2::aes(y = sharpness_0.5),
                       size = 2,
+                      shape = 23,
+                      fill = "white",
                       colour = "black",
                       position = ggplot2::position_dodge2(width = 0.5,
                                                           padding = 0)) +
@@ -1791,7 +1907,7 @@ sharpness_horizons <- scores %>%
                       position = ggplot2::position_dodge2(width = 0.5,
                                                           padding = 0)) +
   ggplot2::facet_grid(NULL) +
-  ggplot2::coord_cartesian(ylim = c(0, 55)) +
+  ggplot2::coord_cartesian(ylim = c(0, 100)) +
   ggplot2::scale_color_manual(values = settings$manual_colours) +
   # ggplot2::scale_y_continuous(trans = scales::log10_trans()) +
   ggplot2::labs(x = "", y = "Sharpness") +
@@ -2406,11 +2522,12 @@ qra_score <- weights_and_scores %>%
                                                      hjust=1))
 
 wis_score1 <- weights_and_scores %>%
-  dplyr::filter(horizon == 1) %>%
+  dplyr::filter(horizon == 1,
+                method == "crps") %>%
   dplyr::group_by(forecast_date) %>%
   dplyr::mutate(rank = rank(interval_score, ties.method = "first")) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(method == "crps") %>%
+
   ggplot2::ggplot(ggplot2::aes(x = forecast_date, y = interval_score,
                                group = model)) +
   ggplot2::geom_point(ggplot2::aes(colour = rank),
@@ -2428,11 +2545,11 @@ wis_score1 <- weights_and_scores %>%
 
 
 wis_score2 <- weights_and_scores %>%
-  dplyr::filter(horizon == 2) %>%
+  dplyr::filter(horizon == 2,
+                method == "crps") %>%
   dplyr::group_by(forecast_date) %>%
   dplyr::mutate(rank = rank(interval_score, ties.method = "first")) %>%
   dplyr::ungroup() %>%
-  dplyr::filter(method == "crps") %>%
   ggplot2::ggplot(ggplot2::aes(x = forecast_date, y = interval_score,
                                group = model)) +
   ggplot2::geom_point(ggplot2::aes(colour = rank),

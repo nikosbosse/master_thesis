@@ -21,6 +21,7 @@ plot_forecasts <- function(forecasts = NULL,
                           models = settings$model_names,
                           obs_weeks = 12,
                           horizons = 1,
+                          manual_colours = NULL,
                           ncol_facet = NULL,
                           exclude_new_epiweek = TRUE,
                           observations_only = FALSE) {
@@ -65,9 +66,9 @@ plot_forecasts <- function(forecasts = NULL,
     dplyr::select(-epiweek, c0.5 = deaths) %>%
       dplyr::filter(state %in% states)
 
-
-  manual_colours <- c(RColorBrewer::brewer.pal(8, name = "Set2")[-6],
-                      RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7)])
+  if(is.null(manual_colours)) {
+    manual_colours <- settings$manual_colours
+  }
 
   plot <- plot_fc %>%
     ggplot2::ggplot(ggplot2::aes(x = target_end_date)) +
