@@ -1,59 +1,9 @@
 # Results - evaluation and aggregation of Covid-19 death forecasts {#results}
 
-After chapters \@ref(evaluation) and \@ref(model-aggregation) have introduced the necessary tools for model evaluation and model aggregation, it is now time to apply these tools to the data introduced in Chapter Chapter \@ref(background-data). 
+Chapters \@ref(evaluation) and \@ref(model-aggregation) have laid out the tools necessary for model evaluation and model aggregation. Chapter \@ref(background-data) has introduced the data and the models. This chapter finally applies the tools to the data and analyses the performance of the Forecast Hub models as well as the ensembles in detail to find out which models perform well and why. 
 
-The overall goal of the model evaluation is to understand which models perform well and why. 
+The structure of this Chapter largely follows the general structure proposed in Chapter \@ref(evaluation), at times digressing a bit to discuss additional aspects of interest. The starting point of the analysis forms the visualisation of the forecasts and observed values. We then assess overall model performance to determine which models perform well and which less so. To that end we examine summarised scores and take a look at scores in terms of a mixed effects regression. This first analysis tells us which models perform well, but not why. In order to obtain an explanation, we subsequently analyse how the different metrics relate, what contributes to the performance measures and what drives differences in performance. We first examine correlations between the individual metrics. While this is not strictly necessary for the model evaluation, it provides us with a better understanding of the metrics we use. We then look at how different aspects of the predictive distribution contribute to different scores. This analysis focuses mainly on the weighted interval score (WIS) and breaks it down into its components, but we also look at how different ranges of the predictive distributions contribute to our measures of sharpness, calibration and overall performance. This again gives us a deeper understanding of the metrics, but is also a first step towards finding out what drives overall performance. We then look at the main external factors and especially the characteristics of the different locations that drive performance differences. After having analysed the properties of the metrics and external factors that drive differences in scores, we then look at the innate model properties that explain performance differences. We look at different aspects of calibration and sharpness in detail that help us to explain performance differences as well as hint to ways in which the models could be improved. The evaluation is followed by a more detailed look at the ensemble models where we discuss some aspects specific to the ensembles in more detail. These include a look at ensemble weights over time as well as analysis of different ensemble alternatives. Finally we conduct a small sensitivity analysis that serves to check the plausibility of the inferences made throughout the chapter. Finally, a short summary and discussion of limitations concludes this lenghty chapter. 
 
-The structure of this Chapter largely follows the general structure proposed in Chapter \@ref(evaluation). 
-At some times we digress to discuss additional aspects of interest. Examples: understanding the metrics better, looking at the ensemble models
-
-The starting point of the analysis forms the visualisation of the forecasts and observed values. We then assess overall model performance to determine which models perform well and which less so. To that end we examine summarised scores and take a look at scores in terms of a mixed effects regression. This first analysis tells us which models perform well, but not why. In order to obtain an explanation, we subsequently analyse how the different metrics relate, what contributes to the performance measures and what drives differences in performance. We first examine correlations between the individual metrics. While this is not strictly necessary for the model evaluation, it provides us with a better understanding of the metrics we use. We then look at how different aspects of the predictive distribution contribute to different scores. This analysis focuses mainly on the weighted interval score (WIS) and breaks it down into its components, but we also look at how different ranges of the predictive distributions contribute to our measures of sharpness, calibration and overall performance. This again gives us a deeper understanding of the metrics, but is also a first step towards finding out what drives overall performance. We then look at the main external factors and especially the characteristics of the different locations that drive performance differences. After having analysed the properties of the metrics and external factors that drive differences in scores, we then look at the innate model properties that explain performance differences. We look at different aspects of calibration and sharpness in detail that help us to explain performance differences as well as hint to ways in which the models could be improved. 
-
-The evaluation is followed by a more detailed look at the ensemble models that will discuss some specific aspects in more detail. These include a look at ensemble weights over time as well as analysis of different ensemble alternatives. REPHRASE THIS. 
-
-The chapter will conclude with a brief sensitivity analysis that serves as a quick check of the plausibility of the inferences made throughout the chapter. 
-
-
-Procedure: 
-
-1) get a feeling for the data --> visualisation
-2) get a ranking, e.g. if we wanted to make a quick decision
-    --> summarised score
-    --> regression
-    
-3) understand the metrics and what really drives them
-    --> look at correlation between scores
-    --> look at contributions from missing / too little sharpness
-    --> look at contribution from individual ranges
-    --> correlation between WIS and case numbers / WIS and horizons?
-    --> contributions from states / 
-    
-4) understand what drives differences in performance 
-    --> different states: which were the ones that models did badly in? 
-    --> different horizons? when? interaction with states? 
-    
-5) understand individual models and how to improve them
-    --> calibration
-    --> sharpness
-
-summary: do I find characteristics of well / badly performing models? 
-
-
-
-
-Interesting questions
-- how do different ranges contribute to scoes
---> if a score is not good, what do we look for? 
-which states were hard to forecast and why? 
-do models do consistently well or badly? 
-What do models get right? 
-	- trend changes
-	- changes in uncertainty? 
-Drivers of the WIS
-	correlation metrics
-	scores at different ranges
-	scores at different locations
-	
 
 ## Forecast visualisation {#visualisation}
 
@@ -143,7 +93,7 @@ fit <- lm(log_scores ~ abs_bias_std + coverage_deviation_std + sharpness_std + p
 ```
 
 
-``` {r regression-wis-metrics, eval = FALSE}
+``` {r regression-wis-metrics, echo = FALSE}
 fit <- readRDS("../visualisation/chapter-5-results/scenario-baseline/regression-wis.rds")
 
 fit %>% 
@@ -169,10 +119,7 @@ To understand the the observed scores better we also looked at the contributions
 
 ``` {r scores-ranges, echo = FALSE, fig.show = "hold", out.width = "100%", fig.cap = "Story here: outer interval ranges are more wrong, but get weighted down"}
 
-knitr::include_graphics("../visualisation/chapter-5-results/scores-by-range.png")
-knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/penalty-by-range.png")
-knitr::include_graphics("../visualisation/chapter-5-results/sharpness-by-range.png")
-knitr::include_graphics("../visualisation/chapter-5-results/coverage-deviation-by-range.png")
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/all-range-plots.png")
 
 ```
 
@@ -359,9 +306,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/weights-vs-wis.png")
 
 So far we have looked at only one particular version of the crps- and the qra-ensemble with very specific parameter choices. For the purpose of a fair evaluation it makes sense to choose a sensible default instead of optimising the parameter settings in order to avoid overfitting. It is nevertheless interesting to see how other ensemble variants would have performed. This section therefore explores different ensembles with different parameters. 
 
-For this analysis we ran the qra ensembles with one to four weeks of past forecasts. We call the models qra-ensemble-1 to qra-ensemble-4, where qra-ensemble-2 is equal to the default qra-ensemble used throughout this chapter. 
-
-For the crps-ensemble, we also chose a forecast horizon to optimise for as `stackr` currently does not support multiple horizons. The second number in the crps-ensemble name therefore indicates the horizon for which the crps was optimised. The default model corresponds to crps-ensemble-2-2. Results slightly differ from the ones shown in Figure \@ref(fig:coloured-summarised-scores) as the model changes every run due to random sampling. Figure \@ref(fig:ensemble-comparison) shows aggregate model performance for the different ensemble variants. No obvious picture emerges regarding the superiority of either qra or crps ensembles. There is, however, a couple of interesting patterns to observe. Firstly, crps-ensembles optimised only on one-week-ahead forecast horizon tended to do worst, while those optimised on three and especially two weeks did best. For the crps ensemble it seems that the forecast horizon mattered more than the number of past forecasts included in the weighting. This is somewhat surprising given that qra-ensemble-1 (implying optimisation on one week ahead forecasts) is among the top performers. We would therefore expect the qra-ensemble-1 to perform similarly to crps-ensemble-1-1. We can also see that the qra-ensemble-4 and qra-ensemble-1 are top performers, while qra-ensemble-3 and qra-ensemble-2 are not. This casts doubt whether there is a clear best choice of the number of past observations to include.
+For this analysis we ran the qra ensembles with one to four weeks of past forecasts. We call the models qra-ensemble-1 to qra-ensemble-4, where qra-ensemble-2 is equal to the default qra-ensemble used throughout this chapter. For the crps-ensemble, we also chose a forecast horizon to optimise for as `stackr` currently does not support multiple horizons. The second number in the crps-ensemble name therefore indicates the horizon for which the crps was optimised. The default model corresponds to crps-ensemble-2-2. Results slightly differ from the ones shown in Figure \@ref(fig:coloured-summarised-scores) as the model changes every run due to random sampling. Figure \@ref(fig:ensemble-comparison) shows aggregate model performance for the different ensemble variants. No obvious picture emerges regarding the superiority of either qra or crps ensembles. There is, however, a couple of interesting patterns to observe. Firstly, crps-ensembles optimised only on one-week-ahead forecast horizon tended to do worst, while those optimised on three and especially two weeks did best. For the crps ensemble it seems that the forecast horizon mattered more than the number of past forecasts included in the weighting. This is somewhat surprising given that qra-ensemble-1 (implying optimisation on one week ahead forecasts) is among the top performers. We would therefore expect the qra-ensemble-1 to perform similarly to crps-ensemble-1-1. We can also see that the qra-ensemble-4 and qra-ensemble-1 are top performers, while qra-ensemble-3 and qra-ensemble-2 are not. This casts doubt whether there is a clear best choice of the number of past observations to include. 
 
 ``` {r ensemble-comparison, echo = FALSE, out.width = "100%", fig.cap = "Weights given to the different models in the ensemble over time"}
 
@@ -369,28 +314,26 @@ knitr::include_graphics("../visualisation/chapter-5-results/ensembles/scenario-b
 
 ```
 
+Table \@ref(tab:regression-ensemble) shows again a regression of the WIS on the different ensemble variants with the COVIDhub-ensemble model as the baseline. The regression results that we can indeed not distinguish the top performing qra-ensembles as well as the crps-ensembles optimised for two-week-ahead predictions from the COVIDhub-ensemble model. But again, we also see that none of the models is able to beat the COVIDhub-ensemble model. 
+
+
 ``` {r regression-ensemble, echo = FALSE}
 fit <- readRDS("../visualisation/chapter-5-results/ensembles/scenario-baseline/random-effects-model-ensemble.RDS")
 fit %>%
   summary() %>%
   coef() %>% 
   as.data.frame() %>%
-    dplyr::arrange(-Estimate) %>%
   knitr::kable(caption = 'Mixed model regression of the log weighted interval score on model (fixed), state, and forecast date (both random)',
                format = "latex", 
                booktabs = TRUE) %>%
-  kable_styling(latex_options="scale_down")
+  kableExtra::kable_styling(latex_options="scale_down")
 
 ```
 
 
-INTERESTING: WEIGHTS OVER TIME
-
 ## Sensitivity analysis
 
-In order to test the validity and robustness of the results obtained, this section presents a small validity analysis. This analysis could of course be expanded greatly. 
-
-Instead of looking at the whole time window, the three latest dates were successively removed. Figure \@ref(fig:senitivity) shows the summarised scores for all models in the four different scenarios. We can see XXX. 
+In order to test the validity and robustness of the results obtained, this section presents a small sensitivity analysis. We looked at three different alternative scenarios. Scenario 1 simply removed the last time point from the evaluation. Scenario 2 removed the state New Jersey that has known data issues. Scenario 3 removed the last two evaluation time points as well as the US and New Jersey. Figure \@ref(fig:sensitivity) shows the summarised scores for the baseline as well as the other three scenarios. We can see that model rankings remained relatively stable across the different scenarios, which should increase the confidence in our findings. 
 
 ``` {r senitivity, echo = FALSE, fig.show = "hold", out.width = "50%", fig.cap = "Weights given to the different models in the ensemble over time"}
 
@@ -400,8 +343,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/scenario-2/coloured-
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-3/coloured-summarised-scores.png")
 ```
 
-The same analysis is of course also interesting for the ensemble variants. Figure \@ref(fig:senitivity) therefore shows aggregated scores for all ensemble variants for the four different scenarios. REWORK INTERPRETATION. qra-ensemble-4 stays at the top consistently, it seems like qra is slightly outperforming crps. It still seems like crps-ensemble horizon 2 is best. 
-
+We also conducted a sensitivity analysis for the ensemble variants. Figure \@ref(fig:senitivity-esenmbles) shows aggregated scores for all ensemble variants for the four different scenarios. We can see that the qra-ensemble-4 stayed at the top consistently. At least in scenario for QRA outperformed the CRPS model aggregation approach, but the pattern overall is rather inconclusive. The comparison is also not fair insofar as the CRPS model aggregation approach also involved a loss of precision due to random sampling. 
 
 ``` {r senitivity-ensembles, echo = FALSE, fig.show = "hold", out.width = "50%", fig.cap = "Weights given to the different models in the ensemble over time"}
 
@@ -410,8 +352,6 @@ knitr::include_graphics("../visualisation/chapter-5-results/ensembles/scenario-1
 knitr::include_graphics("../visualisation/chapter-5-results/ensembles/scenario-2/coloured-summarised-scores.png")
 knitr::include_graphics("../visualisation/chapter-5-results/ensembles/scenario-3/coloured-summarised-scores.png")
 ```
-
-
 
 ## Evaluation summary and limitiations
 

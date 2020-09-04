@@ -15,6 +15,10 @@ The ground truth data is provided by the Center for Systems Science and Engineer
 knitr::include_graphics("../visualisation/chapter-2-background-data/plot-observations.png")
 
 ```
+The ground truth data, however, is not copletely free of data issues. On June 25th, New Jersey started counting probable deaths as well and increased their death count by 1 854 probable cases. These cases were apparently later redistributed to previous days.
+
+
+
 
 ## An overview the different forecast models
 

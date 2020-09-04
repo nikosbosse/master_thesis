@@ -54,17 +54,9 @@ knitr::write_bib(c(.packages(),
 
 - Use present tense or future tense consistently in the Chapter introduction paragraphs
 
-- WIS in Chapter 3: PART THAT WIS FOR ALPHA = 0 IS PROPORTIONAL TO THE MAE
-
-- Maybe add example plots to `scoringutils`
-
 - Maybe add a part for Point Forecast Scores in Evaluation Chapter. The Part about when to use MAE and MSE. Also maybe add those to scoringutils
 
-- Chapter 5 results: Report mean as well as Median for scores (in the plots)
-
-- Make a plot with quantile deviation by range --> visualisation of bias. 
-
-- Explain more how I got to the set of scores I summarise over, and how the ensemble models are formed
+- Explain more how I got to the set of scores I summarise over
 
 - Add a note that the regression framework was proposed by the Forecast Hub. 
 
@@ -84,11 +76,13 @@ knitr::write_bib(c(.packages(),
 
 - Check how the different models perform if we ignore New Jersey
 
-- ALSO NEEDED: FIGURE WITH OVER- AND UNDERPREDICTION BY MODEL. 
-
 - Alle Figure captions durchgehen. Auch gucken: sind punkte mean und diameanten median? 
 
 - make all plot model colours consistent
 
 - pit plots quantile scoringutils
+
+
+
+
 

@@ -47,8 +47,7 @@ plot_scores <- function(scores,
     ggplot2::facet_grid(facet_formula, scales = "free",
                         labeller = "label_both") +
     cowplot::theme_cowplot() +
-    ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                   legend.position = "bottom") +
+    ggplot2::theme(legend.position = "bottom") +
     ggplot2::labs(colour = colour) +
     ggplot2::ylab(y) +
     ggplot2::xlab("Log Interval Score")
@@ -76,8 +75,7 @@ plot_scores <- function(scores,
     ggplot2::facet_grid(facet_formula, scales = "free",
                         labeller = "label_both") +
     cowplot::theme_cowplot() +
-    ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                   legend.position = "bottom") +
+    ggplot2::theme(legend.position = "bottom") +
     ggplot2::labs(colour = colour) +
     ggplot2::ylab(y) +
     ggplot2::xlab("Calibration")
@@ -105,8 +103,7 @@ plot_scores <- function(scores,
                         labeller = "label_both") +
     ggplot2::geom_vline(ggplot2::aes(xintercept = 0), colour = "grey") +
     cowplot::theme_cowplot() +
-    ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                   legend.position = "bottom") +
+    ggplot2::theme(legend.position = "bottom") +
     ggplot2::labs(colour = colour) +
     ggplot2::ylab(y) +
     ggplot2::xlab("Bias")
@@ -131,8 +128,7 @@ plot_scores <- function(scores,
                         position = ggplot2::position_dodge2(width = dodge_width,
                                                             padding = 0)) +
     cowplot::theme_cowplot() +
-    ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
-                   legend.position = "bottom") +
+    ggplot2::theme(legend.position = "bottom") +
       ggplot2::labs(colour = colour) +
       ggplot2::ylab(y) +
       ggplot2::xlab("Sharpness")
@@ -172,9 +168,8 @@ score_overview_plot <- function(summarised_scores) {
     #                    position = ggplot2::position_nudge(x = 0.2),
     #                    colour = "black") +
     cowplot::theme_cowplot() +
-    #ggplot2::scale_color_continuous(low = "steelblue", high = "salmon") +
+    ggplot2::scale_color_continuous(low = "steelblue", high = "salmon") +
     ggplot2::theme(legend.position = "right",
-                   text = ggplot2::element_text(family = "Sans Serif"),
                    axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                        hjust=1)) +
     ggplot2::labs(y = "Interval Score",

@@ -53,7 +53,7 @@ plot_forecasts <- function(forecasts = NULL,
     tidyr::pivot_wider(names_from = quantile, values_from = value) %>%
     dplyr::ungroup()
 
-  if(is.null(states) | states == "all") {
+  if(is.null(states) | states[1] == "all") {
     states <- unique(deaths$state)
   }
 

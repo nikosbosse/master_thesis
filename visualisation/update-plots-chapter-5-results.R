@@ -33,13 +33,15 @@ if(evaluation_scenario == 1) {
 }
 
 if(evaluation_scenario == 2) {
-  settings$evaluation_dates <-
-    settings$evaluation_dates[settings$evaluation_dates <= as.Date("2020-07-20")]
+  settings$states_included <- settings$states_included[!(settings$states_included %in% "New Jersey")]
 }
 
 if(evaluation_scenario == 3) {
   settings$evaluation_dates <-
-    settings$evaluation_dates[settings$evaluation_dates <= as.Date("2020-07-13")]
+    settings$evaluation_dates[settings$evaluation_dates <= as.Date("2020-07-20")]
+
+  settings$states_included <-
+    settings$states_included[!(settings$states_included %in% c("New Jersey", "US"))]
 }
 
 # source function for visualisation
@@ -200,7 +202,7 @@ scores <- scoringutils::eval_forecasts(full,
                                               "horizon"),
                                        interval_score_arguments = list(weigh = TRUE),
                                        summarise_by = c("model",
-                                                        "state"))
+                                                        "state", "horizon", "forecast_date"))
 
 models <- scores %>%
   dplyr::mutate(model = forcats::fct_reorder(model,
@@ -771,7 +773,6 @@ penalty_by_range <- scores %>%
   cowplot::theme_cowplot() +
   ggplot2::scale_color_continuous(low = "steelblue", high = "salmon") +
   ggplot2::theme(legend.position = "right",
-                 text = ggplot2::element_text(family = "Sans Serif"),
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
   ggplot2::labs(y = "Penalty",
@@ -802,7 +803,6 @@ coverage_deviation_by_range <- scores %>%
   cowplot::theme_cowplot() +
   ggplot2::scale_color_continuous(low = "steelblue", high = "salmon") +
   ggplot2::theme(legend.position = "right",
-                 text = ggplot2::element_text(family = "Sans Serif"),
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
   ggplot2::labs(y = "Coverage Deviation",
@@ -847,8 +847,25 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
+# combine to one range plot
+
+range_plot <- cowplot::plot_grid(wis_overview_plot +
+                                   ggplot2::theme(axis.text.x = ggplot2::element_blank()) +
+                                   ggplot2::labs(x = ""),
+                                 penalty_by_range +
+                                   ggplot2::theme(axis.text.x = ggplot2::element_blank()) +
+                                   ggplot2::labs(x = ""),
+                                 sharpness_by_range +
+                                   ggplot2::theme(axis.text.x = ggplot2::element_blank()) +
+                                   ggplot2::labs(x = ""),
+                                 coverage_deviation_by_range,
+                                 ncol = 1,
+                                 rel_heights = c(1, 1, 1, 1.8))
 
 
+ggplot2::ggsave(here::here(root_folder,
+                           "all-range-plots.png"),
+                range_plot, width = 10, height = 15)
 
 
 
@@ -1539,7 +1556,12 @@ ggplot2::ggsave(here::here(root_folder,
 
 # ------------------------------------------------------------------------------
 # interval coverage and quantile coverage over horizons
-
+scores <- scoringutils::eval_forecasts(full,
+                                       by = c("forecast_date",
+                                              "target_end_date",
+                                              "model", "state", "horizon"),
+                                       interval_score_arguments = list(weigh = TRUE),
+                                       summarise_by = c("model", "horizon", "range"))
 
 plot_list <- list()
 
@@ -2030,7 +2052,6 @@ wis_score2 <- weights_and_scores %>%
   ggplot2::labs(x = "", y = "WIS 2 weeks ahead") +
   ggplot2::theme(axis.text.x = ggplot2::element_blank(),
                  legend.position = "none")
-
 
 weights_vs_scores <- cowplot::plot_grid(wis_score1, wis_score2,
                                         crps_score, qra_score,

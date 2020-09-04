@@ -16,3 +16,49 @@
 - connect bias / coverage deviation more with actually looking at the plots --> when are states hard and easy to forecast? 
 - More connection between results and model types: which models perform well / badly?
 
+
+
+
+
+
+
+<!-- Procedure:  -->
+
+<!-- 1) get a feeling for the data --> visualisation -->
+<!-- 2) get a ranking, e.g. if we wanted to make a quick decision -->
+<!--     --> summarised score -->
+<!--     --> regression -->
+
+<!-- 3) understand the metrics and what really drives them -->
+<!--     --> look at correlation between scores -->
+<!--     --> look at contributions from missing / too little sharpness -->
+<!--     --> look at contribution from individual ranges -->
+<!--     --> correlation between WIS and case numbers / WIS and horizons? -->
+<!--     --> contributions from states /  -->
+
+<!-- 4) understand what drives differences in performance  -->
+<!--     --> different states: which were the ones that models did badly in?  -->
+<!--     --> different horizons? when? interaction with states?  -->
+
+<!-- 5) understand individual models and how to improve them -->
+<!--     --> calibration -->
+<!--     --> sharpness -->
+
+<!-- summary: do I find characteristics of well / badly performing models?  -->
+
+
+
+
+<!-- Interesting questions -->
+<!-- - how do different ranges contribute to scoes -->
+<!-- --> if a score is not good, what do we look for?  -->
+<!-- which states were hard to forecast and why?  -->
+<!-- do models do consistently well or badly?  -->
+<!-- What do models get right?  -->
+<!-- 	- trend changes -->
+<!-- 	- changes in uncertainty?  -->
+<!-- Drivers of the WIS -->
+<!-- 	correlation metrics -->
+<!-- 	scores at different ranges -->
+<!-- 	scores at different locations -->
+
