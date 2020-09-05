@@ -1,0 +1,27 @@
+# Abbreviations {-}
+
+``` {r}
+
+abb <- data.frame(Abbreviation = c("LSHTM", 
+                                   "QRA", 
+                                   "WIS", 
+                                   "CRPS", 
+                                   "CDF", 
+                                   "MCMC", 
+                                   "MAE", 
+                                   "CDC"), 
+                  Meaning = c("London School of Hygiene and Tropical Medicine", 
+                              "Quantile Regression Average", 
+                              "Weighted Interval Score", 
+                              "Continuous Ranked Probability Score", 
+                              "Cumulative Distribution Function", 
+                              "Markov Chain Monte Carlo", 
+                              "Mean Absolute Error", 
+                              "Centers for Disease Control and Prevention"))
+
+library(magrittr)
+
+abb %>%
+  dplyr::arrange(Abbreviation)
+
+```

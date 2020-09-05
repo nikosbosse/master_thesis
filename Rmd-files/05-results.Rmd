@@ -46,7 +46,8 @@ fit %>%
   summary() %>%
   coef() %>% 
   as.data.frame() %>%
-  knitr::kable(caption = 'Mixed model regression of the log weighted interval score on model, horizon (both fixed), state, and forecast date (both random)')
+  knitr::kable(caption = 'Mixed model regression of the log weighted interval score on model, horizon (both fixed), state, and forecast date (both random)', 
+               booktabs = TRUE)
 # ,
 #                format = "latex", 
 #                booktabs = TRUE) %>%

@@ -32,6 +32,79 @@ full <- prepare_for_scoring(forecasts)
 
 
 
+
+
+
+# illustration of calibration and sharpness
+
+
+# introduction to forecasting paradigm plot
+
+p1 <- ggplot2::ggplot(data.frame(x = seq(-4, 6.5, 0.01)),
+                      ggplot2::aes(x = x)) +
+  ggplot2::geom_vline(xintercept = 0, colour = "red") +
+  ggplot2::geom_function(fun = dnorm, colour = "black",
+                         args = list(mean = 1.2, sd = 2.7)) +
+  ggplot2::ggtitle("Neither sharp nor calibrated") +
+  cowplot::theme_cowplot()
+
+p2 <- ggplot2::ggplot(data.frame(x = seq(-4, 4, 0.01)),
+                      ggplot2::aes(x = x)) +
+  ggplot2::geom_vline(xintercept = 0, colour = "red") +
+  ggplot2::geom_function(fun = dnorm, colour = "black",
+                         args = list(mean = 2.6, sd = 0.2)) +
+  ggplot2::ggtitle("Sharp, but not well calibrated") +
+  cowplot::theme_cowplot()
+
+
+p3 <- ggplot2::ggplot(data.frame(x = seq(-8, 8, 0.01)),
+                      ggplot2::aes(x = x)) +
+  ggplot2::geom_vline(xintercept = 0, colour = "red") +
+  ggplot2::geom_function(fun = dnorm, colour = "black",
+                         args = list(sd = 5)) +
+  ggplot2::ggtitle("Well calibrated, but not sharp") +
+  cowplot::theme_cowplot()
+
+
+p4 <- ggplot2::ggplot(data.frame(x = seq(-4, 4, 0.01)),
+                      ggplot2::aes(x = x)) +
+  ggplot2::geom_vline(xintercept = 0, colour = "red") +
+  ggplot2::geom_function(fun = dnorm, colour = "black",
+                         args = list(sd = 0.4)) +
+  ggplot2::ggtitle("Well calibrated and sharp") +
+  cowplot::theme_cowplot()
+
+
+calibration_sharpness <- cowplot::plot_grid(p1, p2, p3, p4,
+                                            ncol = 2)
+
+ggplot2::ggsave("visualisation/chapter-3-evaluation/forecast-paradigm.png",
+                calibration_sharpness,
+                width = 10, height = 4)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ------------------------------------------------------------------------------
 # BIAS
 # ------------------------------------------------------------------------------
@@ -299,7 +372,7 @@ calibration_examples <- cowplot::plot_grid(calibration_examples1,
 ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "calibration-examples.png"),
                 calibration_examples,
-                height = 7, width = 10)
+                height = 8, width = 10)
 
 
 
@@ -399,13 +472,12 @@ pit_plot <- scoringutils::eval_forecasts(df,
 
 plot <- pit_plot$overall_pit +
   cowplot::theme_cowplot() +
-  ggplot2::theme(legend.position = "bottom",
-                 text = ggplot2::element_text(family = "Sans Serif"))
+  ggplot2::theme(legend.position = "bottom")
 
 ggplot2::ggsave(here::here("visualisation","chapter-3-evaluation",
                            "pit-baseline-model.png"),
                 plot,
-                width = 10, height = 4)
+                width = 10, height = 3.3)
 
 
 

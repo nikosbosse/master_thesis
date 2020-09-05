@@ -4,46 +4,47 @@ The top-level auxiliary file: master_thesis.aux
 The style file: apalike.bst
 Database file #1: bib/masterthesis.bib
 Database file #2: bib/packages.bib
+Warning--empty publisher in hyndmanrobjForecastingPrinciplesPractice2019
 Warning--empty journal in shannonMathematicalTheoryCommunication1948
-You've used 38 entries,
+You've used 43 entries,
             1935 wiz_defined-function locations,
-            740 strings with 12425 characters,
-and the built_in function-call counts, 15227 in all, are:
-= -- 1501
-> -- 662
-< -- 22
-+ -- 238
-- -- 223
-* -- 1321
-:= -- 2684
-add.period$ -- 128
-call.type$ -- 38
-change.case$ -- 292
-chr.to.int$ -- 35
-cite$ -- 39
-duplicate$ -- 535
-empty$ -- 1014
-format.name$ -- 273
-if$ -- 2908
+            771 strings with 13317 characters,
+and the built_in function-call counts, 16922 in all, are:
+= -- 1671
+> -- 703
+< -- 27
++ -- 252
+- -- 235
+* -- 1459
+:= -- 2978
+add.period$ -- 143
+call.type$ -- 43
+change.case$ -- 321
+chr.to.int$ -- 40
+cite$ -- 45
+duplicate$ -- 604
+empty$ -- 1149
+format.name$ -- 292
+if$ -- 3236
 int.to.chr$ -- 4
 int.to.str$ -- 0
-missing$ -- 26
-newline$ -- 206
-num.names$ -- 116
-pop$ -- 224
+missing$ -- 31
+newline$ -- 231
+num.names$ -- 131
+pop$ -- 247
 preamble$ -- 1
-purify$ -- 300
+purify$ -- 331
 quote$ -- 0
-skip$ -- 416
+skip$ -- 470
 stack$ -- 0
-substring$ -- 1088
-swap$ -- 64
+substring$ -- 1231
+swap$ -- 70
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 228
-warning$ -- 1
-while$ -- 125
+type$ -- 256
+warning$ -- 2
+while$ -- 141
 width$ -- 0
-write$ -- 512
-(There was 1 warning)
+write$ -- 575
+(There were 2 warnings)

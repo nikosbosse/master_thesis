@@ -35,6 +35,12 @@ Brauer, F. (2008).
   Mathematical {Epidemiology}}, Lecture {Notes} in {Mathematics}, pages 19--79.
   Springer, Berlin, Heidelberg.
 
+\bibitem[Br{\"o}cker, 2009]{brockerReliabilitySufficiencyDecomposition2009a}
+Br{\"o}cker, J. (2009).
+\newblock {Reliability, sufficiency, and the decomposition of proper scores}.
+\newblock {\em Quarterly Journal of the Royal Meteorological Society},
+  135(643):1512--1519.
+
 \bibitem[Cori et~al., 2013]{coriNewFrameworkSoftware2013}
 Cori, A., Ferguson, N.~M., Fraser, C., and Cauchemez, S. (2013).
 \newblock A {New} {Framework} and {Software} to {Estimate} {Time}-{Varying}
@@ -124,10 +130,27 @@ Hamill, T.~M. (2001).
 \newblock {\em Monthly Weather Review}, 129(3):550--560.
 \newblock Publisher: American Meteorological Society.
 
+\bibitem[Hersbach, 2000]{hersbachDecompositionContinuousRanked2000}
+Hersbach, H. (2000).
+\newblock Decomposition of the {Continuous} {Ranked} {Probability} {Score} for
+  {Ensemble} {Prediction} {Systems}.
+\newblock {\em Weather and Forecasting}, 15(5):559--570.
+\newblock Publisher: American Meteorological Society.
+
 \bibitem[Hoeting et~al., 1999]{hoetingBayesianModelAveraging1999}
 Hoeting, J.~A., Madigan, D., Raftery, A.~E., and Volinsky, C.~T. (1999).
 \newblock Bayesian {{Model Averaging}}: {{A Tutorial}}.
 \newblock {\em Statistical Science}, 14(4):382--401.
+
+\bibitem[{Hyndman, Rob J and Athanasopoulos, George},
+  2019]{hyndmanrobjForecastingPrinciplesPractice2019}
+{Hyndman, Rob J and Athanasopoulos, George} (2019).
+\newblock {\em Forecasting: {{Principles}} and {{Practice}}}.
+
+\bibitem[Keelin, 2016]{keelinMetalogDistributions2016}
+Keelin, T.~W. (2016).
+\newblock The {Metalog} {Distributions}.
+\newblock {\em Decision Analysis}, 13(4):243--277.
 
 \bibitem[Matheson and Winkler, 1976]{mathesonScoringRulesContinuous1976}
 Matheson, J.~E. and Winkler, R.~L. (1976).
@@ -230,5 +253,10 @@ Yao, Y., Vehtari, A., Simpson, D., and Gelman, A. (2018).
 \newblock Using stacking to average {Bayesian} predictive distributions.
 \newblock {\em Bayesian Analysis}, 13(3):917--1007.
 \newblock arXiv: 1704.02030.
+
+\bibitem[Ypma and Johnson, 2020]{R-nloptr}
+Ypma, J. and Johnson, S.~G. (2020).
+\newblock {\em nloptr: R Interface to NLopt}.
+\newblock R package version 1.2.2.2.
 
 \end{thebibliography}
