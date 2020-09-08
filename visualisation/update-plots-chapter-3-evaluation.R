@@ -201,7 +201,7 @@ ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "interval-coverage.png"),
                 interval_coverage,
                 width = 10,
-                height = 4.5)
+                height = 5.5)
 
 
 
@@ -250,7 +250,7 @@ ggplot2::ggsave(here::here("visualisation", "chapter-3-evaluation",
                            "quantile-coverage.png"),
                 quantile_coverage_plot,
                 width = 10,
-                height = 4.5)
+                height = 5.5)
 
 
 
@@ -558,7 +558,7 @@ crps_mae <- df3 %>%
   ggplot2::geom_hline(yintercept = 0, colour = "dark grey",
                       linetype = "dashed") +
   cowplot::theme_cowplot() +
-  ggplot2::labs(x = "Cumulative distribution",
+  ggplot2::labs(x = "F(x)",
                 y = "Value") +
   ggplot2::coord_flip() +
   ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
@@ -583,7 +583,7 @@ point_cdf <- df4 %>%
                       linetype = "dashed") +
   cowplot::theme_cowplot() +
   #ggplot2::expand_limits(x = c(0,1)) +
-  ggplot2::labs(y = "Cumulative distribution",
+  ggplot2::labs(y = "F(x)",
                 x = "") +
   ggplot2::theme(text = ggplot2::element_text(family = "Sans Serif"),
                  legend.position = "bottom")

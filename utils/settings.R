@@ -29,7 +29,8 @@ ensemble_names_all <- c("crps-ensemble-1-1",
                         "qra-ensemble-2",
                         "qra-ensemble-3",
                         "qra-ensemble-4",
-                        "COVIDhub-ensemble")
+                        "COVIDhub-ensemble",
+                        "crps-ensemble-metalog-2-2")
 
 submission_dates <- lubridate::ymd("2020-08-03") - seq(0, 6 * 7, 7)
 #submission_dates <- submission_dates[1:7]
@@ -74,9 +75,9 @@ evaluation_dates <- submission_dates[submission_dates >= as.Date("2020-06-29")]
 
 manual_colours <- c(RColorBrewer::brewer.pal(8, name = "Set2")[-6],
                     RColorBrewer::brewer.pal(7, name = "Set1")[c(1, 2, 4, 7, 5)],
-                    RColorBrewer::brewer.pal(8, name = "Dark2")[c(1, 4, 8)])
+                    RColorBrewer::brewer.pal(8, name = "Dark2")[c(1, 4, 8, 6)])
 
-colour_df <- data.frame(model_names = c(model_names_eval, rep(NA, 4)),
+colour_df <- data.frame(model_names = c(model_names_eval, rep(NA, 5)),
                         colours = manual_colours,
                         ensemble_names = c(ensemble_names_all))
 

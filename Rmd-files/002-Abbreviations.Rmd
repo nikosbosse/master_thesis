@@ -1,6 +1,6 @@
 # Abbreviations {-}
 
-``` {r}
+``` {r abbreviations, echo = FALSE}
 
 abb <- data.frame(Abbreviation = c("LSHTM", 
                                    "QRA", 
@@ -9,7 +9,8 @@ abb <- data.frame(Abbreviation = c("LSHTM",
                                    "CDF", 
                                    "MCMC", 
                                    "MAE", 
-                                   "CDC"), 
+                                   "CDC", 
+                                   "AD test"), 
                   Meaning = c("London School of Hygiene and Tropical Medicine", 
                               "Quantile Regression Average", 
                               "Weighted Interval Score", 
@@ -17,11 +18,20 @@ abb <- data.frame(Abbreviation = c("LSHTM",
                               "Cumulative Distribution Function", 
                               "Markov Chain Monte Carlo", 
                               "Mean Absolute Error", 
-                              "Centers for Disease Control and Prevention"))
+                              "Centers for Disease Control and Prevention", 
+                              "Anderson-Darling test for uniformity"))
 
 library(magrittr)
 
 abb %>%
-  dplyr::arrange(Abbreviation)
+  dplyr::arrange(Abbreviation) %>%
+  knitr::kable(format = 'latex', 
+               booktabs = TRUE, 
+               linesep = "\\addlinespace", 
+               bottomrule = "", 
+               toprule = "") %>%
+  # kableExtra::kable_styling(full_width = T) %>%
+  kableExtra::column_spec(1, width = "6cm") %>%
+  kableExtra::row_spec(row = 0, bold = TRUE)
 
 ```

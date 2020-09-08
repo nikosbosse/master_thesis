@@ -53,8 +53,8 @@ source(here::here("utils", "load-data-functions.R"))
 deaths <- get_us_deaths(data = "weekly") %>%
   dplyr::filter(epiweek < max(epiweek))
 
-forecasts <- load_submission_files(dates = settings$evaluation_dates,
-                                   models = settings$model_names_eval)
+forecasts <- load_submission_files(dates = c(settings$evaluation_dates),
+                                   models = c(settings$model_names_eval))
 
 forecasts <- filter_forecasts(forecasts,
                               locations = settings$locations_included,
@@ -80,17 +80,18 @@ models <- scores %>%
   dplyr::pull(model) %>%
   unique()
 model_levels <- levels(models)
+settings$model_levels <- model_levels
 
 ordered_manual_colours <- settings$colour_df[match(model_levels,
-                                            settings$colour_df$model_names[1:11]), ] %>%
+                                            settings$colour_df$model_names[11:1]), ] %>%
   pull(colours)
 
 
 
 
-
-
-
+## note: if you run this for ensembles, you need to change the
+# ordered_manual_colours back to settings$manual_colours
+# ordered_manual_colours <- settings$manual_colours
 
 
 
@@ -115,7 +116,8 @@ US_forecast_one_four_weeks <- plot_forecasts(states = "US",
                                          manual_colours = settings$manual_colours) +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                       hjust=1),
-                 legend.position = "none")
+                 legend.position = "none")  +
+  ggplot2::labs(x = "")
 
 ggplot2::ggsave(here::here(root_folder,
                            "US-forecast-1-4-wk-ahead.png"),
@@ -288,7 +290,7 @@ coloured_table <- df %>%
                  legend.position = "none",
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
-  ggplot2::labs(x = "Metric", y = "Model") +
+  ggplot2::labs(x = "", y = "") +
   ggplot2::coord_cartesian(expand=FALSE)
 
 
@@ -482,7 +484,7 @@ unsum_scores <- scoringutils::eval_forecasts(full,
 saveRDS(unsum_scores, paste0(root_folder,"/unsummarised_scores.rds"))
 
 unsum_scores <- readRDS(paste0(root_folder, "/unsummarised_scores.rds")) %>%
-  dplyr::mutate(penalty = is_overprediction + is_underprediction,
+  dplyr::mutate(penalty = is_overprediction + is_underpredictio8n,
                 log_scores = log(interval_score),
                 abs_bias_std = (abs(bias) - mean(abs(bias))) / sd(abs(bias)),
                 coverage_deviation_std = (coverage_deviation -
@@ -806,7 +808,7 @@ coverage_deviation_by_range <- scores %>%
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
   ggplot2::labs(y = "Coverage Deviation",
-                x = "Model")
+                x = "")
 
 ggplot2::ggsave(here::here(root_folder,
                            "coverage-deviation-by-range.png"),
@@ -837,7 +839,7 @@ sharpness_by_range <- summarised_scores %>%
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
   ggplot2::labs(y = "Sharpness",
-                x = "Model")
+                x = "")
 
 ggplot2::ggsave(here::here(root_folder,
                            "sharpness-by-range.png"),
@@ -865,7 +867,7 @@ range_plot <- cowplot::plot_grid(wis_overview_plot +
 
 ggplot2::ggsave(here::here(root_folder,
                            "all-range-plots.png"),
-                range_plot, width = 10, height = 15)
+                range_plot, width = 10, height = 14)
 
 
 
@@ -980,7 +982,7 @@ difficulty_states_heatmap <- df %>%
                      family = "Sans Serif") +
   ggplot2::scale_fill_gradient2(low = "skyblue", high = "red") +
   cowplot::theme_cowplot() +
-  ggplot2::labs(y = "", x = "Location") +
+  ggplot2::labs(y = "", x = "") +
   ggplot2::theme(legend.position = "none",
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
@@ -990,7 +992,7 @@ difficulty_states_heatmap <- df %>%
 ggplot2::ggsave(here::here(root_folder,
                            "difficulty-states-heatmap.png"),
                 difficulty_states_heatmap,
-                width = 10, height = 4.5)
+                width = 10, height = 4.8)
 
 
 # # Examining difficulty in a regression framework - failed
@@ -1048,7 +1050,7 @@ heatmap_plot_coverage <- ggplot2::ggplot(scores,
                      family = "Sans Serif") +
   ggplot2::scale_fill_gradient2(low = "skyblue", high = "red") +
   cowplot::theme_cowplot() +
-  ggplot2::labs(y = "", x = "Location") +
+  ggplot2::labs(y = "", x = "") +
   ggplot2::theme(legend.position = "none",
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
@@ -1060,21 +1062,22 @@ ggplot2::ggsave(here::here(root_folder,
 
 
 
-#
-#
-# Texas_forecast_one_weeks <- plot_forecasts(states = "Texas",
-#                                            forecasts = forecasts,
-#                                            facet_formula = model ~ horizon,
-#                                            ncol_facet = 4,
-#                                            horizons = c(1),
-#                                            obs_weeks = 13) +
-#   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
-#                                                      hjust=1),
-#                  legend.position = "none")
-#
-# ggplot2::ggsave(here::here(root_folder,
-#                            "Texas-one-week.png"),
-#                 Texas_forecast_one_weeks, width = 10, height = 4.8)
+
+
+Texas_forecast_one_weeks <- plot_forecasts(states = "Texas",
+                                           forecasts = forecasts,
+                                           facet_formula = model ~ horizon,
+                                           ncol_facet = 4,
+                                           horizons = c(1),
+                                           obs_weeks = 13) +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
+                                                     hjust=1),
+                 legend.position = "none") +
+  ggplot2::labs(x = "")
+
+ggplot2::ggsave(here::here(root_folder,
+                           "Texas-one-week.png"),
+                Texas_forecast_one_weeks, width = 11, height = 4.8)
 #
 #
 # NY_forecast_one_weeks <- plot_forecasts(states = "New York",
@@ -1127,7 +1130,7 @@ heatmap_plot_bias <- ggplot2::ggplot(scores,
                      family = "Sans Serif") +
   ggplot2::scale_fill_gradient2(low = "skyblue", high = "red") +
   cowplot::theme_cowplot() +
-  ggplot2::labs(y = "", x = "Location") +
+  ggplot2::labs(y = "", x = "") +
   ggplot2::theme(legend.position = "none",
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
@@ -1237,7 +1240,7 @@ heatmap_plot <- ggplot2::ggplot(scores, ggplot2::aes(y = model, x = state, fill 
                                 name = "",
                                 breaks = seq(1, 15, 3)) +
   cowplot::theme_cowplot() +
-  ggplot2::labs(y = "") +
+  ggplot2::labs(y = "", x = "") +
   ggplot2::theme(legend.position = "none",
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1)) +
@@ -1245,7 +1248,7 @@ heatmap_plot <- ggplot2::ggplot(scores, ggplot2::aes(y = model, x = state, fill 
 
 ggplot2::ggsave(here::here(root_folder,
                            "heatmap-model-scores.png"),
-                heatmap_plot, width = 10, height = 5.5)
+                heatmap_plot, width = 10, height = 5)
 
 
 
@@ -1266,9 +1269,8 @@ scores <- scoringutils::eval_forecasts(full,
                                                      0.6, 0.75, 0.85, 0.95))
 
 bias_horizons <- scores %>%
-  dplyr::mutate(model = forcats::fct_reorder(model,
-                                             interval_score,
-                                             .fun='mean'),
+  dplyr::mutate(model = forcats::fct_relevel(model,
+                                             settings$model_levels[11:1]),
                 horizon = as.factor(horizon)) %>%
   ggplot2::ggplot(ggplot2::aes(x = model,
                                colour = model)) +
@@ -1287,7 +1289,7 @@ bias_horizons <- scores %>%
                           alpha = 1,
                           position = ggplot2::position_dodge2(width = 0.5,
                                                               padding = 0)) +
-  ggplot2::scale_color_manual(values = settings$manual_colours) +
+  ggplot2::scale_color_manual(values = ordered_manual_colours) +
   ggplot2::geom_point(ggplot2::aes(y = bias),
                       size = 2,
                       colour = "black",
@@ -1309,16 +1311,12 @@ bias_horizons <- scores %>%
   cowplot::theme_cowplot() +
   ggplot2::theme(legend.position = "none",
                  panel.background = element_rect(fill = "aliceblue"),
-                 text = ggplot2::element_text(family = "Sans Serif"),
-                 axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
-                                                     hjust=1))
+                 axis.text.x = ggplot2::element_blank())
 
 ggplot2::ggsave(here::here(root_folder,
                            "bias-horizons.png"),
                 bias_horizons,
-                width = 10, height = 5)
-
-
+                width = 10, height = 3.5)
 
 
 
@@ -1355,7 +1353,6 @@ prediction_penalties <- scores %>%
   ggplot2::labs(x = "", y = "Over-/underprediction penalties") +
   cowplot::theme_cowplot() +
   ggplot2::theme(legend.position = "none",
-                 text = ggplot2::element_text(family = "Sans Serif"),
                  axis.text.x = ggplot2::element_text(angle = 45, vjust = 1,
                                                      hjust=1))
 
@@ -1365,9 +1362,15 @@ ggplot2::ggsave(here::here(root_folder,
                 width = 10, height = 5)
 
 
+bias_together <- cowplot::plot_grid(bias_horizons,
+                                    prediction_penalties,
+                                    ncol = 1,
+                                    rel_heights = c(1, 1.5))
 
-
-
+ggplot2::ggsave(here::here(root_folder,
+                           "prediction-penalties-and-bias.png"),
+                bias_together,
+                width = 10, height = 6)
 
 # ------------------------------------------------------------------------------
 # Bias example for the ensemble
@@ -1404,7 +1407,8 @@ plot_ensemble <- plot_forecasts(forecasts = forecasts_ensemble,
                                 models = c("COVIDhub-ensemble", "crps-ensemble",
                                            "mean-ensemble", "qra-ensemble"),
                                 ncol_facet = 4,
-                                facet_formula = ~ state + model,
+                                grid = TRUE,
+                                facet_formula = state ~ model,
                                 obs_weeks = 13) +
   ggplot2::theme(legend.position = "none",
                  axis.title.y = ggplot2::element_text(margin = margin(t = 0,
@@ -1421,14 +1425,14 @@ bias_ensemble <- ggplot2::ggplot() +
                       colour = "black") +
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey") +
   ggplot2::expand_limits(y = 0) +
-  ggplot2::labs(x = "Week", y = "Bias",
+  ggplot2::labs(x = "", y = "Bias",
                 #caption = paste0("Mean bias is ", round(mean(scores$bias), 3)),
                 col = "Model", fill = "Model") +
-  ggplot2::facet_wrap(state ~ model,
-                      ncol = 4) +
+  ggplot2::facet_grid(state ~ model) +
   ggplot2::expand_limits(x = c(as.Date("2020-05-23"), as.Date("2020-08-22"))) +
   cowplot::theme_cowplot() +
-  ggplot2::theme(legend.position = "bottom",,
+  ggplot2::theme(legend.position = "bottom",
+                 panel.background = ggplot2::element_rect(fill = "aliceblue"),
                  axis.title.y = ggplot2::element_text(margin = margin(t = 0,
                                                                       r = 20,
                                                                       b = 0,
@@ -1436,14 +1440,14 @@ bias_ensemble <- ggplot2::ggplot() +
 
 bias_plot_combined_ensemble <- cowplot::plot_grid(plot_ensemble,
                                                   bias_ensemble, ncol = 1,
-                                                  rel_heights = c(2, 1.5),
+                                                  rel_heights = c(2, 1.7),
                                                   scale = c(1, 1),
                                                   align = 'v')
 
 ggplot2::ggsave(here::here(root_folder,
                            "bias_ensemble.png"),
                 bias_plot_combined_ensemble,
-                width = 10, height = 16)
+                width = 10, height = 14)
 
 
 
@@ -1465,11 +1469,11 @@ scores <- scoringutils::eval_forecasts(full,
 
 combined <- combine_with_deaths(forecasts)
 
-m <- settings$model_names_eval[1]
 
-plot_list <- list()
 
 models <- as.character(settings$model_levels)[11:1]
+
+plot_list <- list()
 i <- 1
 for (m in models) {
 
@@ -1496,7 +1500,7 @@ for (m in models) {
     ggplot2::facet_wrap(~ model, ncol = 3) +
     ggplot2::theme(legend.position = "none",
                    panel.spacing = unit(5, "mm"),
-                   plot.margin = ggplot2::margin(t = 6, r = 3,
+                   plot.margin = ggplot2::margin(t = 6, r = 5,
                                                  b = 6, l = 4, unit = "mm")) +
     ggplot2::ylab("% Obs inside interval") +
     ggplot2::xlab("Interval range") +
@@ -1529,7 +1533,7 @@ for (m in models) {
     ggplot2::theme(panel.spacing = unit(5, "mm"),
                    legend.position = "none",
                    plot.margin = ggplot2::margin(t = 6, r = 9,
-                                                 b = 6, l = -2, unit = "mm")) +
+                                                 b = 6, l = 0, unit = "mm")) +
     ggplot2::xlab("Quantile") +
     ggplot2::ylab("% obs below quantile") +
     ggplot2::coord_cartesian(expand = FALSE)
@@ -1545,7 +1549,7 @@ coverage_plots <- cowplot::plot_grid(plotlist = plot_list,
 ggplot2::ggsave(here::here(root_folder,
                            "coverage-plots.png"),
                 coverage_plots,
-                width = 10, height = 18)
+                width = 10, height = 15)
 
 
 
@@ -1592,10 +1596,10 @@ for (m in models) {
     cowplot::theme_cowplot() +
     ggplot2::facet_wrap(~ model, ncol = 3) +
     ggplot2::theme(legend.position = "none",
-                   plot.margin = ggplot2::margin(t = 6, r = 3,
-                                                 b = 6, l = 4, unit = "mm")) +
-    ggplot2::xlab("Forecast horizon in weeks") +
-    ggplot2::ylab("Empirical interval coverage")
+                   plot.margin = ggplot2::margin(t = 4, r = 5,
+                                                 b = 4, l = 4, unit = "mm")) +
+    ggplot2::xlab("Forecast horizon") +
+    ggplot2::ylab("Interval coverage")
 
 
   df2 <- combined %>%
@@ -1622,10 +1626,10 @@ for (m in models) {
     cowplot::theme_cowplot() +
     ggplot2::facet_wrap(~ model, ncol = 3) +
     ggplot2::theme(legend.position = "none",
-                   plot.margin = ggplot2::margin(t = 6, r = 9,
-                                                 b = 6, l = -2, unit = "mm")) +
-    ggplot2::xlab("Forecast horizon in weeks") +
-    ggplot2::ylab("Empirical quantile coverage")
+                   plot.margin = ggplot2::margin(t = 4, r = 9,
+                                                 b = 4, l = 0, unit = "mm")) +
+    ggplot2::xlab("Forecast horizon") +
+    ggplot2::ylab("Quantle coverage")
 
   plot_list[[i]] <- cowplot::plot_grid(p1, p2,
                                        ncol = 2)
@@ -1638,13 +1642,16 @@ coverage_plots_horizon <- cowplot::plot_grid(plotlist = plot_list,
 ggplot2::ggsave(here::here(root_folder,
                            "APPENDIX-coverage-plots-horizons.png"),
                 coverage_plots_horizon,
-                width = 10, height = 18)
+                width = 14.5, height = 17.5)
 
 
 
 
 # ------------------------------------------------------------------------------
 # Ensemble - Coverage example
+
+man_col <- settings$manual_colours[settings$model_names_eval %in% c("COVIDhub-ensemble", "crps-ensemble",
+                                                                    "mean-ensemble", "qra-ensemble")]
 
 full_ensemble <- full %>%
   dplyr::filter(model %in% c("COVIDhub-ensemble", "crps-ensemble",
@@ -1666,7 +1673,7 @@ interval_coverage_ensemble <- ggplot2::ggplot(scores_ensemble,
                      linetype = "dashed") +
   ggplot2::geom_line(ggplot2::aes(y = calibration * 100)) +
   cowplot::theme_cowplot() +
-  ggplot2::scale_color_manual(values = settings$manual_colours) +
+  ggplot2::scale_color_manual(values = man_col) +
   # ggplot2::facet_wrap(~ model, ncol = 3) +
   ggplot2::theme(legend.position = "none") +
   ggplot2::ylab("Percent observations inside interval range") +
@@ -1697,7 +1704,7 @@ quantile_coverage_plot_ensemble <- combined_ensemble  %>%
                      linetype = "dashed") +
   ggplot2::geom_line(ggplot2::aes(y = coverage)) +
   cowplot::theme_cowplot() +
-  ggplot2::scale_color_manual(values = settings$manual_colours) +
+  ggplot2::scale_color_manual(values = man_col) +
   #ggplot2::facet_wrap(~ model, ncol = 3) +
   ggplot2::theme(legend.position = "right") +
   ggplot2::xlab("Quantile") +
@@ -1787,9 +1794,8 @@ scores <- scoringutils::eval_forecasts(full,
                                        summarise_by = c("model", "horizon"))
 
 sharpness_horizons <- scores %>%
-  dplyr::mutate(model = forcats::fct_reorder(model,
-                                             interval_score,
-                                             .fun='mean')) %>%
+  dplyr::mutate(model = forcats::fct_relevel(model,
+                                             settings$model_levels[11:1])) %>%
   ggplot2::ggplot(ggplot2::aes(x = model,
                                colour = model)) +
   ggplot2::geom_linerange(ggplot2::aes(ymin = sharpness_0.05,
@@ -1825,7 +1831,7 @@ sharpness_horizons <- scores %>%
                                                           padding = 0)) +
   ggplot2::facet_grid(NULL) +
   ggplot2::coord_cartesian(ylim = c(0, 100)) +
-  ggplot2::scale_color_manual(values = settings$manual_colours) +
+  ggplot2::scale_color_manual(values = ordered_manual_colours) +
   # ggplot2::scale_y_continuous(trans = scales::log10_trans()) +
   ggplot2::labs(x = "", y = "Sharpness") +
   cowplot::theme_cowplot() +
@@ -1895,7 +1901,7 @@ sharpness_ensemble_plot <- ggplot2::ggplot() +
                       colour = "black") +
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", colour = "grey") +
   ggplot2::expand_limits(y = 0) +
-  ggplot2::labs(x = "Week", y = "Sharpness",
+  ggplot2::labs(x = "", y = "Sharpness",
                 col = "Model", fill = "Model") +
   ggplot2::facet_wrap(~ state,
                       ncol = 4,
@@ -2128,4 +2134,22 @@ if (sensitivity_ensembles) {
   saveRDS(ensemble_fit, paste0(root_folder, "/random-effects-model-ensemble.RDS"))
 
 
-  }
+}
+
+
+
+
+## ensemble table
+model_names <- settings$ensemble_names_all[settings$ensemble_names_all != "COVIDhub-ensemble"]
+
+d <- tibble::tibble("Model name" = model_names,
+                    "Type" = c("CRPS", "CRPS", "CRPS", "CRPS", "CRPS",
+                               "CRPS", "CRPS", "CRPS", "CRPS", "CRPS",
+                               "QRA", "QRA", "QRA", "QRA",
+                               "CRPS / metalog"),
+                    "Weeks of past data included" = c(1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 1, 2, 3, 4, 2),
+                    "Horizon that was optimised for" = c(1, 1, 2, 1, 2, 3, 1, 2, 3, 4, NA, NA, NA, NA, 2)) %>%
+  dplyr::arrange(`Model name`)
+
+
+saveRDS(d, paste0(root_folder, "/ensemble-variants-table.RDS"))

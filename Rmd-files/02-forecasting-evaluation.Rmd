@@ -11,10 +11,10 @@ These forecasts can also be reported in different formats that all require sligh
 ## The forecasting paradigm
 
 Any forecaster should aim to minimise the difference between the predictive distribution and the unknown true data-generating distribution [@gneitingProbabilisticForecastsCalibration2007]. For an ideal forecast, we therefore have 
-$$ P_t = F_t $$
+$$ P_t = F_t, $$
 where $P_t$ is the the cumulative density function (CDF) of the predictive distribution at time $t$ and $F_t$ is the CDF of the true, unknown data-generating distribution. As we don't know the true data-generating distribution, we cannot assess the difference between the two distributions directly. @gneitingCalibratedProbabilisticForecasting2005 and @gneitingProbabilisticForecastsCalibration2007 instead suggest to focus on two central aspects of the predictive distribution, *calibration* and *sharpness*. Calibration refers to the statistical consistency between the predictive distribution and the observations. There are different possible ways in which a model can be (mis-)calibrated [@gneitingProbabilisticForecastsCalibration2007], but for the remainder of this thesis it suffices to say that a well calibrated forecast does not systematically deviate from the observed values. Sharpness is a feature of the forecast only and describes how concentrated the predictive distribution is, i.e. how precise the forecasts are. The general forecasting paradigm states that we should *maximise sharpness of the predictive distribution subject to calibration*. Take for example the task of predicting rainfall in a city like London. A model that made very precise forecasts would not be useful if the forecasts were wrong most of the time. On the other hand, a model that predicts the same rainfall probability for every day can be correct on average^[To be precise, this model would be marginally calibrated according to @gneitingProbabilisticForecastsCalibration2007], but is also less useful than a model that were able to accurately predict the weather every single day. Figure \@ref(fig:forecast-paradigm) illustrates the concepts of calibration and sharpness once again. 
 
-``` {r forecast-paradigm, echo = FALSE, out.width = "100%", fig.cap = "Illustration of the forecast paradigm that states we should maximise sharpness subject to calibration. Shown are different predictive distributions that predict the true value at x = 0."}
+``` {r forecast-paradigm, echo = FALSE, out.width = "100%", fig.cap = "Illustration of the forecasting paradigm that states we should maximise sharpness subject to calibration. Shown are different predictive distributions that predict the true value at x = 0."}
 
 knitr::include_graphics("../visualisation/chapter-3-evaluation/forecast-paradigm.png")
 
@@ -25,7 +25,7 @@ knitr::include_graphics("../visualisation/chapter-3-evaluation/forecast-paradigm
 The following sections look at calibration and sharpness in more detail. We first discuss different ways to assess these two properties independently. This can give the forecaster a better understanding of how their forecasts could be improved. Then, we introduce proper scoring rules that allow us to represent the quality of a forecast in one numeric value. 
 
 
-## Assesssing calibration 
+## Assessing calibration 
 
 In absence of knowledge of the true data-generating distribution we can never prove calibration, but only look for absence of miscalibration. Several strategies have been proposed to detect systematic deviations of the predictive distributions from the observations (see e.g. @funkAssessingPerformanceRealtime2019; @gneitingProbabilisticForecastsCalibration2007; @gneitingStrictlyProperScoring2007). In order to get a clearer picture of the different ways in which a model can be miscalibrated, it makes sense to look at calibration from more than one angle. In the following we explore three different ways to approach calibration. The first one is bias, i.e. systematic over- or underprediction. The second one is empirical coverage. Coverage measures what proportion of the observed values is covered by different parts of the predictive distribution. The third is the probability integral transform (PIT), a transformation of the original observed values that allows us to assess calibration more easily. 
 
@@ -48,7 +48,7 @@ For quantile forecasts, we propose the following metric to assess bias:
 \end{align*}
 where $Q_t$ is the set of quantiles that form the predictive distribution at time $t$. They represent our belief about what the true value $x_t$ will be. For consistency, we define $Q_t$ such that it always includes the element $q_{t, 0} = - \infty$ and $q_{t,1} = \infty$. $\mathbb{1}()$ is the indicator function that is $1$ if the condition is satisfied and $0$ otherwise. In clearer terms, $B_t$ is defined as the maximum percentile rank for which the corresponding quantile is still below the true value, if the true value is smaller than the median of the predictive distribution. If the true value is above the median of the predictive distribution, then $B_t$ is the minimum percentile rank for which the corresponding quantile is still larger than the true value. If the true value is exactly the median, both terms cancel out and $B_t$ is zero. For a large enough number of quantiles, the percentile rank will equal the proportion of predictive samples below the observed true value, and this metric coincides with the one for continuous forecasts. Figure \ref{fig:bias-example} exemplifies a possible visualisation of bias for one-week-ahead predictions made by the COVIDhub-baseline model. 
 
-``` {r bias-example, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts from the COVIDhub-baseline model for the US (top) and corresponding bias values (bottom). Observations are shown in black, median predictions ar marked by white points, ribbons show the 50 percent and 90 percent prediction intervals"}
+``` {r bias-example, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts from the COVIDhub-baseline model for the US (top) and corresponding bias values (bottom). Observations are shown in black, median predictions ar marked by white points, ribbons show the 50 percent and 90 percent prediction intervals."}
 
 knitr::include_graphics("../visualisation/chapter-3-evaluation/bias_example.png")
 
@@ -60,7 +60,7 @@ Another way to look at calibration^[precisely: probabilistic calibration in @gne
 
 To assess empirical coverage at a certain interval range, we simply measure the proportion of true observed values that fall into corresponding range of the predictive distribution. If the 0.05, 0.25, 0.75, and 0.95 quantiles are given, then 50% of the true values should fall between the 0.25 and 0.75 quantiles and 90% should fall between the 0.05 and 0.95 quantiles. We can calculate and plot these values to inspect how well different parts of the forecast distribution are calibrated. This is illustrated in the left plot in Figure \@ref(fig:coverage) where the empirical coverage of the US forecasts of the COVIDhub-baseline model is shown. We can seen that the interval coverage for the outer prediction intervals looks reasonable, but inner prediction intervals seem to miss too many observations. 
 
-``` {r coverage, echo = FALSE, out.width = "50%", fig.show = "hold", fig.cap = "Empirical coverage of prediction intervals (left) quantiles of the predictive distribution (right) for one week ahead forecasts from the COVIDhub-baseline model."}
+``` {r coverage, echo = FALSE, out.width = "50%", fig.show = "hold", fig.cap = "Empirical coverage of prediction intervals (left) and coverage of quantiles of the predictive distribution (right) for one week ahead forecasts from the COVIDhub-baseline model."}
 
 knitr::include_graphics("../visualisation/chapter-3-evaluation/interval-coverage.png")
 knitr::include_graphics("../visualisation/chapter-3-evaluation/quantile-coverage.png")
@@ -73,7 +73,7 @@ To get an even more precise picture, we can also look at the percentage of true 
 
 As explained earlier, the CDF of predictice distribution $P_t$ should ideally be equal to the CDF of the true unknown distribution $F_t$ that generated the observed value $x_t$. In order to assess whether there are substantial deviations between the two, @dawidPresentPositionPotential1984 suggested to transform the observed values using the probability integral transform (PIT). Agreement between the forecasts and the observed values can then be examined by observing whether or not the transformed values follow a uniform distribution. The PIT is given by 
 $$u_t = P_t (x_t)$$
-where $u_t$ is the transformed variable and $P_t(x_t)$ is the predictive distribution evaluated at the true observed value $x_t$. If $P_t = F_t$ at all times $t$, then $u_t, t = 1 \dots T$ will follow a uniform distribution (for a proof see e.g. @angusProbabilityIntegralTransform1994). 
+where $u_t$ is the transformed variable and $P_t(x_t)$ is the predictive distribution evaluated at the true observed value $x_t$. If $P_t = F_t$ at all times $t$, then $u_t, t = 1 \dots T$ follows a uniform distribution (for a proof see e.g. @angusProbabilityIntegralTransform1994). 
 
 In the case of discrete outcomes, the PIT is no longer uniform even when forecasts are ideal. As @funkAssessingPerformanceRealtime2019 suggest, we use a randomised PIT instead by redefining 
 $$u_t = P_t(x_t) + v \cdot (P_t(x_t) - P_t(x_t - 1) )$$
@@ -115,16 +115,15 @@ Weighting the width of different intervals with $\frac{\alpha}{2}$ ensures that 
 
 ## Proper scoring rules
 
-Instead of assessing calibration and sharpness independently, we can make use of proper scoring rules to express the quality of our forecast in a single number. Propriety is a feature of a score that guarantees that the ideal forecast will always receive the lowest score [@gneitingStrictlyProperScoring2007]. A forecaster judged by a proper scoring rule is therefore always incentivised to make forecasts as close to the true data-generating distribution as possible. Proper scoring rules are closely related to the forecasting paradigm, as any proper scoring rule for finite-valued targets can be decomposed into a component that evaluates sharpness and one that scores calibration [@brockerReliabilitySufficiencyDecomposition2009a; @hersbachDecompositionContinuousRanked2000]. Different scoring rules, however, may weigh sharpness and calibration differently and therefore yield different results. The following sections present three different proper scoring rules: the Log Score, the (Continuous) Ranked Probability Score and the (Weighted) Interval Score. 
+Instead of assessing calibration and sharpness independently, we can make use of proper scoring rules to express the quality of our forecast in a single number. Propriety is a feature of a score that guarantees that the ideal forecast will always on average receive the lowest score [@gneitingStrictlyProperScoring2007]. A forecaster judged by a proper scoring rule is therefore always incentivised to make forecasts as close to the true data-generating distribution as possible. Proper scoring rules are closely related to the forecasting paradigm, as any proper scoring rule for finite-valued targets can be decomposed into a component that evaluates sharpness and one that scores calibration [@brockerReliabilitySufficiencyDecomposition2009a; @hersbachDecompositionContinuousRanked2000]. Different scoring rules, however, may weigh sharpness and calibration differently and therefore yield different results. The following sections present three different proper scoring rules: the Log Score, the (Continuous) Ranked Probability Score and the (Weighted) Interval Score. 
 
 ### Log Score
 
 The Log Score is one of the oldest proper scoring rules and can be traced back to @shannonMathematicalTheoryCommunication1948 and his work on communication and information theory and to @goodRationalDecisions1952 who first proposed a log score for binary predictions. The Log Score is now widely used in all sorts of fields, especially in Bayesian inference [@gelmanUnderstandingPredictiveInformation2014]. The log score is simply the log density of the predictive distribution at time $t$ evaluated at the true observed value, i.e. 
-
 $$ \text{log score}_t = \log p_t(x_t)$$
 where $p_t$ is the predictive density function at time $t$. This is illustrated in Figure \ref{fig:log-score}. One problem with the log score is that it becomes numerically unstable for values of $p_t(x_t)$ close to zero. The log score will therefore not play a large role in this thesis, but is mentioned for completeness sake as it of great importance to many applications. It also quite nicely illustrates the concept of looking at observations in terms of the predictive distribution that we already saw in the PIT. 
 
-``` {r log-score, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "Illustration of the Log score as the log predictive density evaluated at the true observed value"}
+``` {r log-score, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "Illustration of the Log score as the log predictive density evaluated at the true observed value."}
 
 knitr::include_graphics("../visualisation/chapter-3-evaluation/log-score-example.png")
 
@@ -145,9 +144,7 @@ $$ \text{CRPS}(P_t, x_t) = \frac{1}{2} \mathbb{E}_{P_t} |X - X'| - \mathbb{E}_P 
 where $X$ and $X'$ are independent realisations from the predictive distributions $P_t$ with finite first moment (@gneitingStrictlyProperScoring2007). This formulation is convenient as we can simply replace $X$ and $X'$ with predictive samples and sum over all possible combinations to obtain the desired sample CRPS. 
 
 For integer counts, we can use the Ranked Probability Score (RPS) as proposed by @epsteinScoringSystemProbability1969 and  @murphyRankedProbabilityScore1969, and discussed e.g. by @czadoPredictiveModelAssessment2009. The RPS is defined as 
-
 $$ \text{RPS}(P_t, x_t) = \sum_{y = 0}^\infty (P_t(y) - \mathbb{1} (y \geq x_t))^2 $$
-
 Figure \@ref(fig:crps-explanation) gives an intuitive illustration of the CRPS. For the case of a point prediction, as shown in the top half, the CRPS is equal to the Mean Absolute Error (MAE) of the point forecast. In this case the predictive distribution degenerates to a distribution with its entire mass on the single predicted point and the CDF of the predictive distribution becomes a step function. The CRPS then equals the area between the true observed value and the predicted value (as $1^2 = 1$ and the height of the rectangle is again 1). For other distributions, as shown in the bottom half, this does not hold exactly, as $P_t()$ is squared in Equation \@ref(eq:crps). Intuitively, we can nevertheless understand the CRPS as a measure related to the vertical distance between the predictive CDF and the true data-generating distribution.  
 
 (ref:crps) \@ref(eq:crps)
@@ -161,18 +158,14 @@ knitr::include_graphics("../visualisation/chapter-3-evaluation/crps-explanation.
 ### Interval score
 
 The Interval Score is a proper scoring rule to evaluate predictions in a quantile format [@bracherEvaluatingEpidemicForecasts2020; @gneitingStrictlyProperScoring2007]. Let us consider a pair of predictive quantiles $q_{\frac{\alpha}{2}}, q_{1-\frac{\alpha}{2}}$ that form a $(1 - \alpha) * 100$ prediction interval. Let us denote $q_{\frac{\alpha}{2}}$, the lower bound, as $l$, and $q_{1-\frac{\alpha}{2}}$, the upper bound, as $u$. Then the Interval score is given as 
-
 $$\text{IS}_{\alpha} = (u - l) + \frac{2}{\alpha} \cdot (l - x) \cdot \mathbb{1}(x \leq l) 
 + \frac{2}{\alpha} \cdot (x - u) \cdot \mathbb{1}(x \geq u)$$
-
 This score can be separated into three parts: $(u - l)$ measures the sharpness of the predictive distribution. $\frac{2}{\alpha} \cdot (l - x) \cdot \mathbb{1}(x \leq l)$ and $\frac{2}{\alpha} \cdot (x - u) \cdot \mathbb{1}(x \geq u)$ are penalties that occur if the observed value falls below the lower or above the upper end of the interval range. These over- and underprediction penalties give us a second way to characterise the bias of a forecast. Whereas the bias metric presented previously looked for the innermost quantile that included the observation, the interval score captures the actual difference between the forecast and the observed value whenever a forecast falls outside the prediction interval. 
 
-For the median prediction^[To simplify the notation, we treat the the median as a 0% interval range represented by the pair of quantiles $(q_\frac{1}{2}, q_\frac{1}{2})$.], forecast has a sharpness of zero and the WIS is proportional to the MAE. 
+For the median prediction^[To simplify notation, we treat the the median as a 0% interval range represented by the pair of quantiles $(q_\frac{1}{2}, q_\frac{1}{2})$.], forecast has a sharpness of zero and the WIS is proportional to the MAE. 
 
 Usually, more than one predictive interval is reported at once. For a set of $K$ quantile pairs, we can obtain the overall interval score as a (weighted) average of individual interval score contributions:
-
 $$ \text{IS} = \frac{1}{K} \sum_\alpha w_\alpha \cdot \text{IS}_\alpha$$. 
-
 This interval score is proper for any non-negative choice of $w_\alpha$. For $w_\alpha = \frac{\alpha}{2}$, one can show that the interval score converges to the CRPS for an increasing set of equally spaced prediction intervals [@bracherEvaluatingEpidemicForecasts2020]. It is this particular version of the interval score with $w_\alpha = \frac{\alpha}{2}$ that we refer to when we mention the 'weighted interval score' (WIS) or simply 'interval score' throughout the remainder of this thesis. 
 
 <!-- ### Scoring point forecasts -->
@@ -186,7 +179,7 @@ This interval score is proper for any non-negative choice of $w_\alpha$. For $w_
 The previous sections have introduced a variety of different metrics that can help to highlight different important aspects of model performance. Based on these individual building blocks we propose the following structured approach to model evaluation: 
 
 1. Visualise the observed data as well as the predictions to get a feeling for how individual models perform. Revisit these plots at each step of the evaluation process. 
-2. Obtain an overall model ranking and a first indication of where potential problems with individual models lie. To that end, look at summarised scores for all metrics and proper scoring rules. Apply a mixed-effefts regression with the interval scores as dependent variable and with models and other appropriate variables as predictors. To our knowledge Jacob Bien and Evan Ray were the first to propose this framework in an informal setting as part of their work for the Forecast Hub. The regression can be very helpful in terms of model selection and differntiation, but also as a first step to identify the main drivers of performance differences, e.g. between different locations. 
+2. Obtain an overall model ranking and a first indication of where potential problems with individual models lie. To that end, look at summarised scores for all metrics and proper scoring rules. Apply a mixed-effefts regression with the interval scores as dependent variable and with models and other appropriate variables as predictors. To our knowledge, Jacob Bien and Evan Ray were the first to propose this framework in an informal setting as part of their work for the Forecast Hub. The regression can be very helpful in terms of model selection and differntiation, but also as a first step to identify the main drivers of performance differences, e.g. between different locations. 
 3. Analyse the main contributors and factors that drive differences in scores. It makes sense to divide this analysis into external drivers, like different locations or time points that cause difficulties to all models, and innate properties of the models themselves. 
     a) Look at external drivers by identifying settings (e.g. locations, forecast dates) that induce models to be more or less calibrated or seem to be harder to forecast.
     b) Identify model characteristics that lead to better or worse performance. To that end, examine plots for bias, coverage, and sharpness as well as PIT histograms in detail. This analysis can provide important feedback for model improvement. 
@@ -219,6 +212,8 @@ eval <- scoringutils::eval_forecasts(quantile_example,
                                      summarise_by = c("model", "range"))
 print(eval)
 ```
+
+$~$
 
 The example data has forecasts from two different models for two different forecast horizons and thirty days (denoted by the column 'id') as well as the corresponding observed values. The unit of a single observation is therefore `c("model", "id", "horizon")`. With the `summarise_by` argument we can specify that we want to average over horizons and time points and have one average score per model, separated for the different interval ranges. In addition to the mean score, we could have obtained arbitrary quantiles and the standard deviation using the `quantile` arguemnt or the `sd` argument. 
 

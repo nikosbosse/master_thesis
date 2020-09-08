@@ -1,14 +1,10 @@
 # (APPENDIX) Appendix {-}
 
-
-
-
-## Chapter \@ref(results)
-
-### One week ahead forecasts for all models
+# Appendix
 
 ``` {r predictions-baseline, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the COVIDhub-baseline model."}
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-COVIDhub-baseline-forecasts.png")
+
 ```
 
 ``` {r predictions-covid-ensembe, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the COVIDhub-ensemble model."}
@@ -19,10 +15,43 @@ knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/AP
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-crps-ensemble-forecasts.png")
 ```
 
+``` {r predictions-cu-select, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the CU-select model."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-CU-select-forecasts.png")
+```
 
 
-### Coverage over horizons
+``` {r predictions-epiforecasts, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the epiforecasts-ensemble1 model."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-epiforecasts-ensemble1-forecasts.png")
+```
 
-``` {r coverage-horizons, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the crps-ensemble model."}
+
+``` {r predictions-lanl-growthrate, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the LANL-GrowthRate model."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-LANL-GrowthRate-forecasts.png")
+```
+
+
+``` {r predictions-mean-ensemble, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the mean-ensemble model."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-mean-ensemble-forecasts.png")
+```
+
+
+``` {r predictions-umass-mechbayes, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the UMass-MechBayes-ensemble model."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-UMass-MechBayes-forecasts.png")
+```
+
+
+``` {r predictions-ut-mobility, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the UT-mobility model."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-UT-Mobility-forecasts.png")
+```
+
+
+``` {r predictions-yyg-paramsearch, echo = FALSE, out.width = "100%", fig.cap = "One week ahead forecasts for all locations for the YYG-ParamSearch  model."}
+knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-YYG-ParamSearch-forecasts.png")
+```
+
+
+
+
+``` {r coverage-horizons, echo = FALSE, out.width = "100%", fig.cap = "Evolution of interval and quantile coverage over multiple horizons.."}
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-coverage-plots-horizons.png")
 ```

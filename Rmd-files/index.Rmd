@@ -9,12 +9,14 @@ output:
     fig_caption: yes
     toc_depth: 3
     latex_engine: pdflatex
+    toc: False
 documentclass: book
 bibliography: [bib/masterthesis.bib, bib/packages.bib]
 biblio-style: apalike
 link-citations: yes
 header-includes:
   - \usepackage{amssymb}
+  - \usepackage{tabu}
 github-repo: nikosbosse/master_thesis
 description: "This thesis, titled 'Evaluation and Aggregation of Covid-19 death forecasts in the United States' was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020."
 ---
@@ -38,7 +40,27 @@ knitr::write_bib(c(.packages(),
 ```
 
 
-# Todo
+# Todo {-}
+- bring Appendix in order
+
+- make all plot model colours consistent
+
+- maybe use explicit numbering for the individual sections in the chapter introductions
+
+- figure average wis vs. state: add median with white diamond and mean
+
+- Do I want all equations numbered?
+
+
+
+## Half-solved todos or probably not going to be solved todos
+- Explain more how I got to the set of scores I summarise over
+
+- pit plots quantile scoringutils
+
+- Work through all the citations and adapt the author names in the bib file so they get shown consistently
+
+## To dos for some happy day in the future {-}
 
 - Maybe add the different possible calibration types to the evaluation chapter
 
@@ -48,39 +70,5 @@ knitr::write_bib(c(.packages(),
 
 - Maybe implement an equally weighted mixture ensemble
 
-- consistent writing of Chapter / chapter
-
-- Work through all the citations and adapt the author names in the bib file so they get shown consistently
-
-- Use present tense or future tense consistently in the Chapter introduction paragraphs
-
 - Maybe add a part for Point Forecast Scores in Evaluation Chapter. The Part about when to use MAE and MSE. Also maybe add those to scoringutils
-
-- Explain more how I got to the set of scores I summarise over
-
-- Add a note that the regression framework was proposed by the Forecast Hub. 
-
-- Read again and correct present / past tense and present / future tense (will)
-
-- talk somewhere about the distinction between bias the concept and bias the metric
-
-- make separation between prediction penalty and bias clearer
-
-- ask Seb again for past tense. Example: "We start our formal model evaluation by assessing overall model performance. To that end, we first look at aggregated scores from the different metrics. Subsequently, we use a regression framework to determine differences between models."
-
-- Check how the different models perform if we ignore New Jersey
-
-- Alle Figure captions durchgehen. Auch gucken: sind punkte mean und diameanten median? 
-
-- make all plot model colours consistent
-
-- pit plots quantile scoringutils
-
-- try metalog distribution
-
-- correct CRPS instead of crps everywhere
-
-
-
-
 

@@ -18,7 +18,8 @@ shift_legend3 <- function(p) {
 plot_forecasts <- function(forecasts = NULL,
                           states = "US",
                           facet_formula = model ~ state,
-                          models = settings$model_names,
+                          models = settings$model_names_eval,
+                          grid = FALSE,
                           obs_weeks = 12,
                           horizons = 1,
                           manual_colours = NULL,
@@ -87,8 +88,6 @@ plot_forecasts <- function(forecasts = NULL,
                         shape = 21) +
     ggplot2::scale_fill_manual(values = manual_colours) +
     ggplot2::scale_color_manual(values = manual_colours,) +
-    ggplot2::facet_wrap(facet_formula, scales = "free_y",
-                        ncol = ncol_facet) +
     ggplot2::expand_limits(y = 0) +
     ggplot2::labs(x = "Week", y = "Weekly incident deaths",
                   caption = NULL,
@@ -97,6 +96,17 @@ plot_forecasts <- function(forecasts = NULL,
     ggplot2::theme(legend.position = "bottom",
                    panel.background = element_rect(fill = "aliceblue")
                    )
+
+
+  if (grid) {
+    plot <- plot +
+      ggplot2::facet_grid(facet_formula,
+                          scales = "free_y")
+  } else {
+    plot <- plot +
+      ggplot2::facet_wrap(facet_formula, scales = "free_y",
+                          ncol = ncol_facet)
+  }
 
   return(plot)
 }
