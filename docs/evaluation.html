@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Forecasting and evaluation | index.split</title>
+  <meta name="description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Forecasting and evaluation | index.split" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="logo_university.png" />
+  <meta property="og:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="github-repo" content="nikosbosse/master_thesis" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Forecasting and evaluation | index.split" />
+  
+  <meta name="twitter:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="twitter:image" content="logo_university.png" />
+
+<meta name="author" content="Nikos Bosse" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="model-aggregation.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="ackowldedgements.html"><a href="ackowldedgements.html"><i class="fa fa-check"></i>Ackowldedgements</a></li>
+<li class="chapter" data-level="" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i>Abbreviations</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="evaluation.html"><a href="evaluation.html"><i class="fa fa-check"></i><b>2</b> Forecasting and evaluation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="evaluation.html"><a href="evaluation.html#forecast-types"><i class="fa fa-check"></i><b>2.1</b> An overview of differenct forecast types</a></li>
+<li class="chapter" data-level="2.2" data-path="evaluation.html"><a href="evaluation.html#the-forecasting-paradigm"><i class="fa fa-check"></i><b>2.2</b> The forecasting paradigm</a></li>
+<li class="chapter" data-level="2.3" data-path="evaluation.html"><a href="evaluation.html#assessing-calibration"><i class="fa fa-check"></i><b>2.3</b> Assessing calibration</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="evaluation.html"><a href="evaluation.html#calibration-and-bias"><i class="fa fa-check"></i><b>2.3.1</b> Calibration and bias</a></li>
+<li class="chapter" data-level="2.3.2" data-path="evaluation.html"><a href="evaluation.html#calibration-and-empirical-coverage"><i class="fa fa-check"></i><b>2.3.2</b> Calibration and empirical coverage</a></li>
+<li class="chapter" data-level="2.3.3" data-path="evaluation.html"><a href="evaluation.html#calibration-and-the-probability-integral-transform"><i class="fa fa-check"></i><b>2.3.3</b> Calibration and the probability integral transform</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="evaluation.html"><a href="evaluation.html#assessing-sharpness"><i class="fa fa-check"></i><b>2.4</b> Assessing sharpness</a></li>
+<li class="chapter" data-level="2.5" data-path="evaluation.html"><a href="evaluation.html#proper-scoring-rules"><i class="fa fa-check"></i><b>2.5</b> Proper scoring rules</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="evaluation.html"><a href="evaluation.html#log-score"><i class="fa fa-check"></i><b>2.5.1</b> Log Score</a></li>
+<li class="chapter" data-level="2.5.2" data-path="evaluation.html"><a href="evaluation.html#continuous-ranked-probability-score"><i class="fa fa-check"></i><b>2.5.2</b> (Continuous) Ranked Probability Score</a></li>
+<li class="chapter" data-level="2.5.3" data-path="evaluation.html"><a href="evaluation.html#interval-score"><i class="fa fa-check"></i><b>2.5.3</b> Interval score</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="evaluation.html"><a href="evaluation.html#a-proposed-evaluation-framework"><i class="fa fa-check"></i><b>2.6</b> A proposed evaluation framework</a></li>
+<li class="chapter" data-level="2.7" data-path="evaluation.html"><a href="evaluation.html#the-scoringutils-package"><i class="fa fa-check"></i><b>2.7</b> The scoringutils package</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-aggregation.html"><a href="model-aggregation.html"><i class="fa fa-check"></i><b>3</b> Model aggregation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-idea"><i class="fa fa-check"></i><b>3.1</b> Theoretical idea</a></li>
+<li class="chapter" data-level="3.2" data-path="model-aggregation.html"><a href="model-aggregation.html#the-quantile-regression-average-ensemble"><i class="fa fa-check"></i><b>3.2</b> The Quantile Regression Average ensemble</a></li>
+<li class="chapter" data-level="3.3" data-path="model-aggregation.html"><a href="model-aggregation.html#the-crps-ensemble"><i class="fa fa-check"></i><b>3.3</b> The CRPS ensemble</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="background-data.html"><a href="background-data.html"><i class="fa fa-check"></i><b>4</b> Data and forecasting models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="background-data.html"><a href="background-data.html#introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Introduction to the COVID-19 Forecast Hub and overview of the data</a></li>
+<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview the different forecast models</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results - evaluation and aggregation of Covid-19 death forecasts</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#visualisation"><i class="fa fa-check"></i><b>5.1</b> Forecast visualisation</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#summarised-scores"><i class="fa fa-check"></i><b>5.2</b> Summarised scores and overall performance</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#relationship"><i class="fa fa-check"></i><b>5.3</b> Examining the relationship between individual metrics</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#contributors"><i class="fa fa-check"></i><b>5.4</b> Identifying main contributors to the WIS</a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#external-drivers"><i class="fa fa-check"></i><b>5.5</b> Identifying external drivers of differences WIS</a></li>
+<li class="chapter" data-level="5.6" data-path="results.html"><a href="results.html#model-characteristics"><i class="fa fa-check"></i><b>5.6</b> Understanding model characteristics that drive differences in WIS</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="results.html"><a href="results.html#bias"><i class="fa fa-check"></i><b>5.6.1</b> Bias</a></li>
+<li class="chapter" data-level="5.6.2" data-path="results.html"><a href="results.html#coverage"><i class="fa fa-check"></i><b>5.6.2</b> Coverage</a></li>
+<li class="chapter" data-level="5.6.3" data-path="results.html"><a href="results.html#pit-histograms"><i class="fa fa-check"></i><b>5.6.3</b> PIT histograms</a></li>
+<li class="chapter" data-level="5.6.4" data-path="results.html"><a href="results.html#sharpness"><i class="fa fa-check"></i><b>5.6.4</b> Sharpness</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="results.html"><a href="results.html#ensemble-models"><i class="fa fa-check"></i><b>5.7</b> Specific analysis of ensemble models</a></li>
+<li class="chapter" data-level="5.8" data-path="results.html"><a href="results.html#sensitivity"><i class="fa fa-check"></i><b>5.8</b> Sensitivity analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Summary and discussion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>A</b> Appendix</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nikosbosse/master_thesis" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><p><img src="logo_university.png" style="width:5in" /></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><strong>Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</strong></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="evaluation" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Forecasting and evaluation</h1>
+<p>Model evaluation is an integral of the forecasting process that can provide us with valuable insights. It can help us to choose between different models, but also give us a better understanding of how a model works and how it can be improved. The evaluation metrics discussed here also form the basis to combine models into an ensemble that works better than all individual models. This chapter therefore provides the theoretical foundation for the discussion of model aggregation in Chapter <a href="model-aggregation.html#model-aggregation">3</a> and for the analysis presented in Chapter <a href="results.html#results">5</a>. It first gives a brief overview of different types of forecasts to provide a background for the remainder of this chapter. It then reviews the forecasting paradigm as formulated by <span class="citation">Gneiting et al. (<a href="#ref-gneitingCalibratedProbabilisticForecasting2005" role="doc-biblioref">2005</a>)</span> and <span class="citation">Gneiting, Balabdaoui, and Raftery (<a href="#ref-gneitingProbabilisticForecastsCalibration2007" role="doc-biblioref">2007</a>)</span> that is at the core of forecast evaluation. The forecast paradigm states that a forecaster should aim to maximise the <em>sharpness</em> of their forecast subject to <em>calibration</em>. We therefore present different ways to assess these two properties, followed by a discussion of proper scoring rules that allow us to summarise the quality of a forecast in a single number. Finally, we propose a structured evaluation framework based on the notions discussed in this chapter and present the <code>scoringuitls</code> package in more detail that facilitates the evaluation process. We illustrate the concepts discussed throughout this chapter using examples from the COVIDhub-baseline model, one of the Forecast Hub models. The examples use data from a longer time frame than the one analysed in Chapter <a href="results.html#results">5</a> and serve illustrative purposes only.</p>
+<div id="forecast-types" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> An overview of differenct forecast types</h2>
+<p>A forecast is the forecaster’s stated belief about the future. In terms of quantitative forecasts we can distinguish point forecasts from probabilistic forecasts. A point forecast states a single number and is the simplest form of a forecast. It can, in essence, be understood as an estimate for the mean of the unknown true data-generating distribution. A point forecast is limited in its usefulness, as it does not state any uncertainty around the mean forecast. A very certain forecasts may warrant a very different course of actions than does a very uncertain ones. Providing uncertainty around a forecast therefore increases its usefulness. Ideally, however, predictions should be stated in terms of the entire predictive distributions <span class="citation">(Gneiting and Raftery <a href="#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>. Such a forecast is then called a probabilistic forecast. Providing the entire predictive distribution allows the forecaster to express their belief about all aspects of the underlying data-generating distribution (including e.g. skewness or the width of its tails).</p>
+<p>These forecasts can also be reported in different formats that all require slightly different evaluation approaches. The predictive distribution can be expressed analytically, is oftentimes represented by a set of predictive samples from that distribution. This is especially useful as the forecaster can use methods like Markov Chain Monte Carlo (MCMC) algorithms to generate predictions if no analytical expression of the predictive distribution is available. The downside is that predictive samples take a lot of storage space. They also come with a loss of precision that is especially pronounced in the tails of the predictive distribution, where we need quite a lot of samples to characterise the distribution accurately. To circumvent these problems, often quantiles of the predictive distribution are reported instead. Quantile forecasts can easily be obtained from the explicit analytical form of a probalistic forecasts as well as from predictive samples. A forecaster could also in principle state their forecasts in a binary way by defining an outcome and assigning a probability that the outcome will come true. This type of forecasting is common in many classification problems, but will not be discussed further here as it is not the focus in infectious disease modeling. If we think of the outcome of some number being larger or smaller than a certain value, however, we can see that binary predictions are naturally related to the concept of a cumulative distribution function (CDF).</p>
+</div>
+<div id="the-forecasting-paradigm" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> The forecasting paradigm</h2>
+<p>Any forecaster should aim to minimise the difference between the predictive distribution and the unknown true data-generating distribution <span class="citation">(Gneiting, Balabdaoui, and Raftery <a href="#ref-gneitingProbabilisticForecastsCalibration2007" role="doc-biblioref">2007</a>)</span>. For an ideal forecast, we therefore have
+<span class="math display">\[ P_t = F_t, \]</span>
+where <span class="math inline">\(P_t\)</span> is the the cumulative density function (CDF) of the predictive distribution at time <span class="math inline">\(t\)</span> and <span class="math inline">\(F_t\)</span> is the CDF of the true, unknown data-generating distribution. As we don’t know the true data-generating distribution, we cannot assess the difference between the two distributions directly. <span class="citation">Gneiting et al. (<a href="#ref-gneitingCalibratedProbabilisticForecasting2005" role="doc-biblioref">2005</a>)</span> and <span class="citation">Gneiting, Balabdaoui, and Raftery (<a href="#ref-gneitingProbabilisticForecastsCalibration2007" role="doc-biblioref">2007</a>)</span> instead suggest to focus on two central aspects of the predictive distribution, <em>calibration</em> and <em>sharpness</em>. Calibration refers to the statistical consistency between the predictive distribution and the observations. There are different possible ways in which a model can be (mis-)calibrated <span class="citation">(Gneiting, Balabdaoui, and Raftery <a href="#ref-gneitingProbabilisticForecastsCalibration2007" role="doc-biblioref">2007</a>)</span>, but for the remainder of this thesis it suffices to say that a well calibrated forecast does not systematically deviate from the observed values. Sharpness is a feature of the forecast only and describes how concentrated the predictive distribution is, i.e. how precise the forecasts are. The general forecasting paradigm states that we should <em>maximise sharpness of the predictive distribution subject to calibration</em>. Take for example the task of predicting rainfall in a city like London. A model that made very precise forecasts would not be useful if the forecasts were wrong most of the time. On the other hand, a model that predicts the same rainfall probability for every day can be correct on average<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>, but is also less useful than a model that were able to accurately predict the weather every single day. Figure <a href="evaluation.html#fig:forecast-paradigm">2.1</a> illustrates the concepts of calibration and sharpness once again.</p>
+<div class="figure"><span id="fig:forecast-paradigm"></span>
+<img src="../visualisation/chapter-3-evaluation/forecast-paradigm.png" alt="Illustration of the forecasting paradigm that states we should maximise sharpness subject to calibration. Shown are different predictive distributions that predict the true value at x = 0." width="100%" />
+<p class="caption">
+Figure 2.1: Illustration of the forecasting paradigm that states we should maximise sharpness subject to calibration. Shown are different predictive distributions that predict the true value at x = 0.
+</p>
+</div>
+<p>The following sections look at calibration and sharpness in more detail. We first discuss different ways to assess these two properties independently. Then, we introduce proper scoring rules that allow us to represent the quality of a forecast in one numeric value.</p>
+</div>
+<div id="assessing-calibration" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Assessing calibration</h2>
+<p>In absence of knowledge of the true data-generating distribution we can never prove calibration, but only look for absence of miscalibration. Several strategies have been proposed to detect systematic deviations of the predictive distributions from the observations (see e.g. <span class="citation">Funk et al. (<a href="#ref-funkAssessingPerformanceRealtime2019" role="doc-biblioref">2019</a>)</span>; <span class="citation">Gneiting, Balabdaoui, and Raftery (<a href="#ref-gneitingProbabilisticForecastsCalibration2007" role="doc-biblioref">2007</a>)</span>; <span class="citation">Gneiting and Raftery (<a href="#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). In order to get a clearer picture of the different ways in which a model can be miscalibrated, it makes sense to look at calibration from more than one angle. In the following we explore three different ways to approach calibration. The first one is bias, i.e. systematic over- or underprediction. The second one is empirical coverage. Coverage measures what proportion of the observed values is covered by different parts of the predictive distribution. The third is the probability integral transform (PIT), a transformation of the original observed values that allows us to assess calibration more easily.</p>
+<div id="calibration-and-bias" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Calibration and bias</h3>
+<p>Systematic over- or underprediction is a very common form of miscalibration. It therefore makes sense to dedicate separate attention to the detection of systematic biases. We present three different bias metrics, each slightly adapted for continuous, integer and quantile forecasts.</p>
+<p>For continuous forecasts, assessing whether a predictive distribution has a tendency to over- or underpredict can be very easily achieved by simply evaluating the predictive distribution at the true observed value. This metric is a generalisation of the integer-valued one <span class="citation">Funk et al. (<a href="#ref-funkAssessingPerformanceRealtime2019" role="doc-biblioref">2019</a>)</span> have proposed. It is also closely related to the probability integral transform (PIT) discussed later in this chapter. To improve the interpretability of the score we can transform it to a value between -1 (under-prediction) and 1 (over-prediction). Consequently, we measure bias as
+<span class="math display">\[B_t (P_t, x_t) = 1 - 2 \cdot (P_t (x_t)),\]</span>
+where <span class="math inline">\(P_t\)</span> is the cumulative distribution function of the predictive distribution for the true value <span class="math inline">\(x_t\)</span>. When using predictive samples, <span class="math inline">\(P_t (x_t)\)</span> is simply the fraction of predictive samples for <span class="math inline">\(x_t\)</span> that are smaller than the true observed <span class="math inline">\(x_t\)</span>.</p>
+<p>For integer valued forecasts, we use the metric proposed by <span class="citation">Funk et al. (<a href="#ref-funkAssessingPerformanceRealtime2019" role="doc-biblioref">2019</a>)</span>:
+<span class="math display">\[B_t (P_t, x_t) = 1 - (P_t (x_t) + P_t (x_t + 1)).\]</span>
+Bias can again assume values between -1 (under-prediction) and 1 (over-prediction) and is 0 ideally.</p>
+<p>For quantile forecasts, we propose the following metric to assess bias:
+<span class="math display">\[\begin{align*}
+  B_t &amp;= (1 - 2 \cdot \max \{i | q_{t,i} \in Q_t \land q_{t,i} \leq x_t\}) \mathbb{1}( x_t \leq q_{t, 0.5}) \\
+  &amp;+ (1 - 2 \cdot \min \{i | q_{t,i} \in Q_t \land q_{t,i} \geq x_t\}) \mathbb{1}( x_t \geq q_{t, 0.5}),
+\end{align*}\]</span>
+where <span class="math inline">\(Q_t\)</span> is the set of quantiles that form the predictive distribution at time <span class="math inline">\(t\)</span>. They represent our belief about what the true value <span class="math inline">\(x_t\)</span> will be. For consistency, we define <span class="math inline">\(Q_t\)</span> such that it always includes the element <span class="math inline">\(q_{t, 0} = - \infty\)</span> and <span class="math inline">\(q_{t,1} = \infty\)</span>. <span class="math inline">\(\mathbb{1}()\)</span> is the indicator function that is <span class="math inline">\(1\)</span> if the condition is satisfied and <span class="math inline">\(0\)</span> otherwise. In clearer terms, <span class="math inline">\(B_t\)</span> is defined as the maximum percentile rank for which the corresponding quantile is still below the true value, if the true value is smaller than the median of the predictive distribution. If the true value is above the median of the predictive distribution, then <span class="math inline">\(B_t\)</span> is the minimum percentile rank for which the corresponding quantile is still larger than the true value. If the true value is exactly the median, both terms cancel out and <span class="math inline">\(B_t\)</span> is zero. For a large enough number of quantiles, the percentile rank will equal the proportion of predictive samples below the observed true value, and this metric coincides with the one for continuous forecasts. Figure  exemplifies a possible visualisation of bias for one-week-ahead predictions made by the COVIDhub-baseline model.</p>
+<div class="figure"><span id="fig:bias-example"></span>
+<img src="../visualisation/chapter-3-evaluation/bias_example.png" alt="One week ahead forecasts from the COVIDhub-baseline model for the US (top) and corresponding bias values (bottom). Observations are shown in black, median predictions ar marked by white points, ribbons show the 50 percent and 90 percent prediction intervals." width="100%" />
+<p class="caption">
+Figure 2.2: One week ahead forecasts from the COVIDhub-baseline model for the US (top) and corresponding bias values (bottom). Observations are shown in black, median predictions ar marked by white points, ribbons show the 50 percent and 90 percent prediction intervals.
+</p>
+</div>
+</div>
+<div id="calibration-and-empirical-coverage" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Calibration and empirical coverage</h3>
+<p>Another way to look at calibration<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> is to compare the proportion of observed values covered by different parts of the predictive distribution with the nominal coverage implied by the CDF of the distribution. This is most easily understood in the context of quantile forecasts, but can in principle be transferred to continuous and integer forecasts as well.</p>
+<p>To assess empirical coverage at a certain interval range, we simply measure the proportion of true observed values that fall into corresponding range of the predictive distribution. If the 0.05, 0.25, 0.75, and 0.95 quantiles are given, then 50% of the true values should fall between the 0.25 and 0.75 quantiles and 90% should fall between the 0.05 and 0.95 quantiles. We can calculate and plot these values to inspect how well different parts of the forecast distribution are calibrated. This is illustrated in the left plot in Figure <a href="evaluation.html#fig:coverage">2.3</a> where the empirical coverage of the US forecasts of the COVIDhub-baseline model is shown. We can seen that the interval coverage for the outer prediction intervals looks reasonable, but inner prediction intervals seem to miss too many observations.</p>
+<div class="figure"><span id="fig:coverage"></span>
+<img src="../visualisation/chapter-3-evaluation/interval-coverage.png" alt="Empirical coverage of prediction intervals (left) and coverage of quantiles of the predictive distribution (right) for one week ahead forecasts from the COVIDhub-baseline model." width="50%" /><img src="../visualisation/chapter-3-evaluation/quantile-coverage.png" alt="Empirical coverage of prediction intervals (left) and coverage of quantiles of the predictive distribution (right) for one week ahead forecasts from the COVIDhub-baseline model." width="50%" />
+<p class="caption">
+Figure 2.3: Empirical coverage of prediction intervals (left) and coverage of quantiles of the predictive distribution (right) for one week ahead forecasts from the COVIDhub-baseline model.
+</p>
+</div>
+<p>To get an even more precise picture, we can also look at the percentage of true values below every single quantile of the predictive distribution. This type of visualisation allows us to diagnose problematic aspects more accurately, as is illustrated on the right in Figure <a href="evaluation.html#fig:coverage">2.3</a>. This plot allows us to describe the problem more precisely as an upward bias of large parts of the predictive distribution, but not the lower tails.</p>
+</div>
+<div id="calibration-and-the-probability-integral-transform" class="section level3" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> Calibration and the probability integral transform</h3>
+<p>As explained previously, the CDF of predictice distribution <span class="math inline">\(P_t\)</span> should ideally be equal to the CDF of the true unknown distribution <span class="math inline">\(F_t\)</span> that generated the observed value <span class="math inline">\(x_t\)</span>. In order to assess whether there are substantial deviations between the two, <span class="citation">Dawid (<a href="#ref-dawidPresentPositionPotential1984" role="doc-biblioref">1984</a>)</span> suggested to transform the observed values using the probability integral transform (PIT). Agreement between the forecasts and the observed values can then be examined by observing whether or not the transformed values follow a uniform distribution. The PIT is given by
+<span class="math display">\[u_t = P_t (x_t),\]</span>
+where <span class="math inline">\(u_t\)</span> is the transformed variable and <span class="math inline">\(P_t(x_t)\)</span> is the predictive distribution evaluated at the true observed value <span class="math inline">\(x_t\)</span>. If <span class="math inline">\(P_t = F_t\)</span> at all times <span class="math inline">\(t\)</span>, then <span class="math inline">\(u_t, t = 1 \dots T\)</span> follows a uniform distribution (for a proof see e.g. <span class="citation">Angus (<a href="#ref-angusProbabilityIntegralTransform1994" role="doc-biblioref">1994</a>)</span>).</p>
+<p>In the case of discrete outcomes, the PIT is no longer uniform even when forecasts are ideal. As <span class="citation">Funk et al. (<a href="#ref-funkAssessingPerformanceRealtime2019" role="doc-biblioref">2019</a>)</span> suggest, we use a randomised PIT instead by redefining
+<span class="math display">\[u_t = P_t(x_t) + vt \cdot (P_t(x_t) - P_t(x_t - 1) ),\]</span>
+where <span class="math inline">\(x_t\)</span> is again the observed value at time <span class="math inline">\(t\)</span>, <span class="math inline">\(P_t()\)</span> is the CDF of the predictive distribution function, <span class="math inline">\(P_t (-1) = 0\)</span> by definition, and <span class="math inline">\(v_t\)</span> is a standard uniform variable independent of <span class="math inline">\(x_t\)</span>. If <span class="math inline">\(P_t\)</span> is equal to the true data-generating distribution function, then <span class="math inline">\(u_t\)</span> is standard uniform. <span class="citation">Czado, Gneiting, and Held (<a href="#ref-czadoPredictiveModelAssessment2009" role="doc-biblioref">2009</a>)</span> also propose a non-randomised version of the PIT for count data that could be used alternatively.</p>
+One can then plot a histogram of <span class="math inline">\(u_t\)</span> values to look for deviations from uniformity. U-shaped histograms often result from predictions that are too narrow, while hump-shaped histograms indicate that predictions may be too wide. Biased predictions will usually result in a triangle-shaped histogram. Figure <a href="evaluation.html#fig:pit-examples">2.4</a> shows four different simulated example PIT histograms that illustrate these characteristics.
+<div class="figure" style="text-align: center"><span id="fig:pit-examples"></span>
+<img src="../visualisation/chapter-3-evaluation/calibration-examples.png" alt="Four examples of different predictive distributions and the correspoding PIT histograms below. The data always follows the same Normal(0,1) distribution. Preditive distributions are indicated by the title of the subplot." width="100%" />
+<p class="caption">
+Figure 2.4: Four examples of different predictive distributions and the correspoding PIT histograms below. The data always follows the same Normal(0,1) distribution. Preditive distributions are indicated by the title of the subplot.
+</p>
+</div>
+<p>In addition to the visual inspection, <span class="citation">Funk et al. (<a href="#ref-funkAssessingPerformanceRealtime2019" role="doc-biblioref">2019</a>)</span> suggest to apply an Anderson-Darling <span class="citation">(Anderson and Darling <a href="#ref-andersonAsymptoticTheoryCertain1952" role="doc-biblioref">1952</a>)</span> test for uniformity to the transformed values. The test cannot prove uniformity, but only assess whether there is evidence against it. As a rule of thumb, Funk et al. suggest there is no evidence to call a forecasting model miscalibrated if the p-value found was greater than a threshold of <span class="math inline">\(p \geq 0.1\)</span>, some evidence that it is miscalibrated if <span class="math inline">\(0.01 &lt; p &lt; 0.1\)</span>, and good evidence that it is miscalibrated if <span class="math inline">\(p \leq 0.01\)</span>. This approach, however, may be overly conservative<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> and should not be used as the sole criterion to judge calibration of a forecast.</p>
+<p><span class="citation">Hamill (<a href="#ref-hamillInterpretationRankHistograms2001" role="doc-biblioref">2001</a>)</span> discusses in length that uniformity of the PIT histogram is a necessary, but not a sufficient condition for calibration. Nevertheless, the PIT histogram can give us a good impression of the reliability of our forecasts. Figure <a href="evaluation.html#fig:pit-baseline-model">2.5</a> shows the pit histogram for one-week-ahead predictions made by the COVIDhub-baseline model across different states. We can see that the PIT histogram presents a pattern that suggests under-dispersion may be present, i.e. at least some of the confidence intervals may be too narrow. This corresponds well to the observation made in the coverage plot in Figure <a href="evaluation.html#fig:coverage">2.3</a>.</p>
+
+<div class="figure"><span id="fig:pit-baseline-model"></span>
+<img src="../visualisation/chapter-3-evaluation/pit-baseline-model.png" alt="PIT histogram for one-week-ahead forecasts from the COVIDhub-baseline model. In order to obtain samples from the quantiles provided, a separate gamma distribution was first fit to every set of quantiles provided to the Forecast Hub using the nloptr package (Ypma and Johnson 2020). Samples were then drawn from these distributions. We can see a pattern commonly found in underdispersed predictions." width="100%" />
+<p class="caption">
+Figure 2.5: PIT histogram for one-week-ahead forecasts from the COVIDhub-baseline model. In order to obtain samples from the quantiles provided, a separate gamma distribution was first fit to every set of quantiles provided to the Forecast Hub using the <code>nloptr</code> package <span class="citation">(Ypma and Johnson <a href="#ref-R-nloptr" role="doc-biblioref">2020</a>)</span>. Samples were then drawn from these distributions. We can see a pattern commonly found in underdispersed predictions.
+</p>
+</div>
+</div>
+</div>
+<div id="assessing-sharpness" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Assessing sharpness</h2>
+<p>Sharpness is the second property central to model evaluation. The ability to produce narrow forecasts is a quality of the forecasts only and does not depend on the observations. Sharpness is therefore only of interest conditional on calibration: a very precise forecast is not useful if it is clearly wrong. Again we need to take slightly different approaches for continuous, integer and quantile forecasts. For continuous and integer forecasts we follow the suggestion from <span class="citation">Funk et al. (<a href="#ref-funkAssessingPerformanceRealtime2019" role="doc-biblioref">2019</a>)</span>. For quantile forecasts we propose a novel metric.</p>
+<p>For continuous and integer forecasts, <span class="citation">Funk et al. (<a href="#ref-funkAssessingPerformanceRealtime2019" role="doc-biblioref">2019</a>)</span> suggest to measure sharpness as the normalised median absolute deviation about the median (MADN), i.e. 
+<span class="math display">\[ S_t(P_t) = \frac{1}{0.675} \cdot \text{median}(|y - \text{median(y)}|), \]</span>
+where <span class="math inline">\(y\)</span> is the vector of all predictive samples and <span class="math inline">\(\frac{1}{0.675}\)</span> is a normalising constant that ensures that sharpness will equal the standard deviation of the predictive distribution if <span class="math inline">\(P_t\)</span> is the CDF of a normal distribution.</p>
+<p>For quantile forecasts, we propose to measure sharpness as a weighted mean of the width of the interval ranges. Let <span class="math inline">\(Q_t\)</span> be a set of predicted quantiles for a true <span class="math inline">\(x_t\)</span> at time <span class="math inline">\(t\)</span>. This set of quantiles is assumed to be symmetric, such that there exist <span class="math inline">\(K\)</span> corresponding pairs of elements <span class="math inline">\(q_{t, \frac{\alpha}{2}}\)</span> and <span class="math inline">\(q_{t, 1-\frac{\alpha}{2}}\)</span>. These <span class="math inline">\(K\)</span> corresponding pairs of quantiles cover a <span class="math inline">\((1 - \alpha) \cdot 100\)</span> prediction interval. We can, accordingly, also denote <span class="math inline">\(q_{t, \frac{\alpha}{2}}\)</span> as <span class="math inline">\(l_t\)</span> the lower bound of the prediction interval at time <span class="math inline">\(t\)</span> and <span class="math inline">\(q_{t, 1-\frac{\alpha}{2}}\)</span> as <span class="math inline">\(u_t\)</span>, the upper bound. We measure the sharpness of a quantile forecast at time <span class="math inline">\(t\)</span> as
+<span class="math display">\[\begin{align*}
+\text{sharpness}_t &amp;= \frac{1}{K} \sum_{\alpha} \frac{\alpha}{2} (q_{t, 1 - \frac{\alpha}{2}} - q_{t, \frac{\alpha}{2}}) \\
+                   &amp;= \frac{1}{K} \sum_{\alpha} \frac{\alpha}{2} (u_t - l_t).
+\end{align*}\]</span>
+Weighting the width of different intervals with <span class="math inline">\(\frac{\alpha}{2}\)</span> ensures that the score does not grow indefinitely for very large prediction intervals, and correspondingly, very small <span class="math inline">\(\alpha\)</span>. We also argue that this sharpness metric for quantile forecasts is a natural choice for quantile forecasts as it corresponds to the sharpness component of the Weighted Interval Score described in the following section.</p>
+</div>
+<div id="proper-scoring-rules" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Proper scoring rules</h2>
+<p>Instead of assessing calibration and sharpness independently, we can make use of proper scoring rules to express the quality of our forecast in a single number. Propriety is a feature of a score that guarantees that the ideal forecast will always on average receive the lowest score <span class="citation">(Gneiting and Raftery <a href="#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>. A forecaster judged by a proper scoring rule is therefore always incentivised to make forecasts as close to the true data-generating distribution as possible. Proper scoring rules are closely related to the forecasting paradigm, as any proper scoring rule for finite-valued targets can be decomposed into a component that evaluates sharpness and one that scores calibration <span class="citation">(Bröcker <a href="#ref-brockerReliabilitySufficiencyDecomposition2009a" role="doc-biblioref">2009</a>; Hersbach <a href="#ref-hersbachDecompositionContinuousRanked2000" role="doc-biblioref">2000</a>)</span>. Different scoring rules, however, may weigh sharpness and calibration differently and therefore yield different results. The following sections present three different proper scoring rules: the Log Score, the (Continuous) Ranked Probability Score and the (Weighted) Interval Score.</p>
+<div id="log-score" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Log Score</h3>
+<p>The Log Score is one of the oldest proper scoring rules and can be traced back to <span class="citation">Shannon (<a href="#ref-shannonMathematicalTheoryCommunication1948" role="doc-biblioref">1948</a>)</span> and his work on communication and information theory and to <span class="citation">Good (<a href="#ref-goodRationalDecisions1952" role="doc-biblioref">1952</a>)</span> who first proposed a log score for binary predictions. The Log Score is now widely used in many fields, especially in Bayesian inference <span class="citation">(Gelman, Hwang, and Vehtari <a href="#ref-gelmanUnderstandingPredictiveInformation2014" role="doc-biblioref">2014</a>)</span>. The log score is simply the log density of the predictive distribution at time <span class="math inline">\(t\)</span> evaluated at the true observed value:
+<span class="math display">\[ \text{log score}_t = \log p_t(x_t),\]</span>
+where <span class="math inline">\(p_t\)</span> is the predictive density function at time <span class="math inline">\(t\)</span>. This is illustrated in Figure . One problem with the log score is that it becomes numerically unstable for values of <span class="math inline">\(p_t(x_t)\)</span> close to zero. The log score will therefore not play a large role in this thesis, but is mentioned for completeness sake as it of great importance to many applications. It also quite nicely illustrates the concept of looking at observations in terms of the predictive distribution that we already saw in the PIT.</p>
+<div class="figure" style="text-align: center"><span id="fig:log-score"></span>
+<img src="../visualisation/chapter-3-evaluation/log-score-example.png" alt="Illustration of the Log score as the log predictive density evaluated at the true observed value." width="100%" />
+<p class="caption">
+Figure 2.6: Illustration of the Log score as the log predictive density evaluated at the true observed value.
+</p>
+</div>
+</div>
+<div id="continuous-ranked-probability-score" class="section level3" number="2.5.2">
+<h3><span class="header-section-number">2.5.2</span> (Continuous) Ranked Probability Score</h3>
+<p>The Continuous Ranked Probability Score (CRPS) <span class="citation">(Matheson and Winkler <a href="#ref-mathesonScoringRulesContinuous1976" role="doc-biblioref">1976</a>; Gneiting and Raftery <a href="#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span> is a proper scoring rule that is considered more stable and therefore better suited for our purposes. Intuitively, we can think of the CRPS as a measure of the distance between the CDFs of the predictive distribution and the data-generating distribution. Smaller values are therfore preferable. The CRPS is defined as
+<span class="math display" id="eq:crps">\[\begin{equation}
+\tag{2.1}
+\text{CRPS}(P_t, x_t) = \int_{-\infty}^\infty \left( P(y) - \mathbb{1}(y \geq x_t) \right)^2 dy,
+\end{equation}\]</span>
+where <span class="math inline">\(P_t\)</span> is again the CDF of the predictive distribution and <span class="math inline">\(x_t\)</span> is the true observed value.</p>
+<p>The CRPS can also be expressed as
+<span class="math display">\[ \text{CRPS}(P_t, x_t) = \frac{1}{2} \mathbb{E}_{P_t} |X - X&#39;| - \mathbb{E}_P |X - x_t|, \]</span>
+where <span class="math inline">\(X\)</span> and <span class="math inline">\(X&#39;\)</span> are independent realisations from the predictive distributions <span class="math inline">\(P_t\)</span> with finite first moment (<span class="citation">Gneiting and Raftery (<a href="#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>). This formulation is convenient as we can simply replace <span class="math inline">\(X\)</span> and <span class="math inline">\(X&#39;\)</span> with predictive samples and sum over all possible combinations to obtain the desired sample CRPS.</p>
+<p>For integer counts, we can use the Ranked Probability Score (RPS) as proposed by <span class="citation">Epstein (<a href="#ref-epsteinScoringSystemProbability1969" role="doc-biblioref">1969</a>)</span> and <span class="citation">Murphy (<a href="#ref-murphyRankedProbabilityScore1969" role="doc-biblioref">1969</a>)</span>, and discussed e.g. by <span class="citation">Czado, Gneiting, and Held (<a href="#ref-czadoPredictiveModelAssessment2009" role="doc-biblioref">2009</a>)</span>. The RPS is defined as
+<span class="math display">\[ \text{RPS}(P_t, x_t) = \sum_{y = 0}^\infty (P_t(y) - \mathbb{1} (y \geq x_t))^2. \]</span>
+Figure <a href="evaluation.html#fig:crps-explanation">2.7</a> gives an intuitive illustration of the CRPS. For the case of a point prediction, as shown in the top half, the CRPS is equal to the Mean Absolute Error (MAE) of the point forecast. In this case the predictive distribution degenerates to a distribution with its entire mass on the single predicted point and the CDF of the predictive distribution becomes a step function. The CRPS then equals the area between the true observed value and the predicted value (as <span class="math inline">\(1^2 = 1\)</span> and the height of the rectangle is again 1). For other distributions, as shown in the bottom half, this does not hold exactly, as <span class="math inline">\(P_t()\)</span> is squared in Equation <a href="evaluation.html#eq:crps">(2.1)</a>. Intuitively, we can nevertheless understand the CRPS as a measure related to the vertical distance between the predictive CDF and the true data-generating distribution.</p>
+
+<div class="figure"><span id="fig:crps-explanation"></span>
+<img src="../visualisation/chapter-3-evaluation/crps-explanation.png" alt="Illustration of the CRPS. Top: CRPS for a predictive distribution with its entire mass on the predicted value, $1$. The CRPS corresponds to the mean absolute error of the point prediction. This is the absolute difference between the predicted value, 1, and the true observed value, 0, as the height of the shaded square is one. Bottom: llustration that gives an intuition of the CRPS as a measure related to the vertical distance between the CDF and the true value. Note that the CRPS does not in fact equal the shaded area, as the term in Equation (2.1) is squared." width="100%" />
+<p class="caption">
+Figure 2.7: Illustration of the CRPS. Top: CRPS for a predictive distribution with its entire mass on the predicted value, <span class="math inline">\(1\)</span>. The CRPS corresponds to the mean absolute error of the point prediction. This is the absolute difference between the predicted value, 1, and the true observed value, 0, as the height of the shaded square is one. Bottom: llustration that gives an intuition of the CRPS as a measure related to the vertical distance between the CDF and the true value. Note that the CRPS does not in fact equal the shaded area, as the term in Equation <a href="evaluation.html#eq:crps">(2.1)</a> is squared.
+</p>
+</div>
+</div>
+<div id="interval-score" class="section level3" number="2.5.3">
+<h3><span class="header-section-number">2.5.3</span> Interval score</h3>
+<p>The Interval Score is a proper scoring rule to evaluate predictions in a quantile format <span class="citation">(Bracher et al. <a href="#ref-bracherEvaluatingEpidemicForecasts2020" role="doc-biblioref">2020</a>; Gneiting and Raftery <a href="#ref-gneitingStrictlyProperScoring2007" role="doc-biblioref">2007</a>)</span>. Let us consider a pair of predictive quantiles <span class="math inline">\(q_{\frac{\alpha}{2}}, q_{1-\frac{\alpha}{2}}\)</span> that form a <span class="math inline">\((1 - \alpha) * 100\)</span> prediction interval. Let us denote <span class="math inline">\(q_{\frac{\alpha}{2}}\)</span>, the lower bound, as <span class="math inline">\(l\)</span>, and <span class="math inline">\(q_{1-\frac{\alpha}{2}}\)</span>, the upper bound, as <span class="math inline">\(u\)</span>. Then the Interval score is given as
+<span class="math display">\[\text{IS}_{\alpha} = (u - l) + \frac{2}{\alpha} \cdot (l - x) \cdot \mathbb{1}(x \leq l) 
++ \frac{2}{\alpha} \cdot (x - u) \cdot \mathbb{1}(x \geq u).\]</span>
+This score can be separated into three parts: <span class="math inline">\((u - l)\)</span> measures the sharpness of the predictive distribution. <span class="math inline">\(\frac{2}{\alpha} \cdot (l - x) \cdot \mathbb{1}(x \leq l)\)</span> and <span class="math inline">\(\frac{2}{\alpha} \cdot (x - u) \cdot \mathbb{1}(x \geq u)\)</span> are penalties that occur if the observed value falls below the lower or above the upper end of the interval range. These over- and underprediction penalties give us a second way to characterise the bias of a forecast. Whereas the bias metric presented previously looked for the innermost quantile that included the observation, the Interval Score captures the actual difference between the forecast and the observed value whenever a forecast falls outside the prediction interval. For the median prediction<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>, forecast has a sharpness of zero and the Interval Score is proportional to the MAE.</p>
+<p>Usually, more than one predictive interval is reported at once. For a set of <span class="math inline">\(K\)</span> quantile pairs, we can obtain the overall Interval Score as a (weighted) average of individual Interval Score contributions:
+<span class="math display">\[ \text{IS} = \frac{1}{K} \sum_\alpha w_\alpha \cdot \text{IS}_\alpha.\]</span>
+This Interval Score is proper for any non-negative choice of <span class="math inline">\(w_\alpha\)</span>. For <span class="math inline">\(w_\alpha = \frac{\alpha}{2}\)</span>, one can show that the Interval Score converges to the CRPS for an increasing set of equally spaced prediction intervals <span class="citation">(Bracher et al. <a href="#ref-bracherEvaluatingEpidemicForecasts2020" role="doc-biblioref">2020</a>)</span>. It is this particular version of the Interval Score with <span class="math inline">\(w_\alpha = \frac{\alpha}{2}\)</span> that we refer to when we mention the ‘Weighted Interval Score’ (WIS) or simply ‘Interval Score’ throughout the remainder of this thesis.</p>
+<!-- ### Scoring point forecasts -->
+<!-- All forecasts discussed in this thesis are probabilistic forecasts. Nevertheless, it may be interesting to look at some metrics for point forecasts as well (bad sentence).  -->
+<!-- Numerous different metrics are available to help evaluate the quality of point forecasts. The package `metrics` lists XXX. Most  -->
+<!-- important: Mean Squared Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE).  -->
+</div>
+</div>
+<div id="a-proposed-evaluation-framework" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> A proposed evaluation framework</h2>
+<p>The previous sections have introduced a variety of different metrics that can help to highlight different important aspects of model performance. Based on these individual building blocks we propose the following structured approach to model evaluation:</p>
+<ol style="list-style-type: decimal">
+<li>Visualise the observed data as well as the predictions to get a feeling for how individual models perform. Revisit these plots at each step of the evaluation process.</li>
+<li>Obtain an overall model ranking and a first indication of where potential problems with individual models lie. To that end, look at summarised scores for all metrics and proper scoring rules. Apply a mixed-effects regression with the Interval Score s as dependent variable and with models and other appropriate variables as predictors. To our knowledge, Jacob Bien and Evan Ray were the first to propose this framework in an informal setting as part of their work for the Forecast Hub. The regression can be very helpful in terms of model selection and differentiation, but also as a first step to identify the main drivers of performance differences, e.g. between different locations.</li>
+<li>Analyse the main contributors and factors that drive differences in scores. It makes sense to divide this analysis into external drivers, like different locations or time points that cause difficulties to all models, and innate properties of the models themselves.
+<ol style="list-style-type: lower-alpha">
+<li>Look at external drivers by identifying settings (e.g. locations, forecast dates) that induce models to be more or less calibrated or seem to be harder to forecast.</li>
+<li>Identify model characteristics that lead to better or worse performance. To that end, examine plots for bias, coverage, and sharpness as well as PIT histograms in detail. This analysis can provide important feedback for model improvement.</li>
+</ol></li>
+<li>Look again at visualisations of predictions versus observations to sense check the evaluation results and analysis aspects in detail that are left unclear.</li>
+</ol>
+<p>This structured evaluation approach will guide the evaluation of the Forecast Hub models and the ensembles in Chapter <a href="results.html#results">5</a>.</p>
+</div>
+<div id="the-scoringutils-package" class="section level2" number="2.7">
+<h2><span class="header-section-number">2.7</span> The scoringutils package</h2>
+<p>The structured model evaluation approach outlined in the last section is greatly facilitated through the <code>scoringutils</code> package <span class="citation">(Bosse, Sam Abbott, and Funk <a href="#ref-R-scoringutils" role="doc-biblioref">2020</a>)</span>. The package makes all metrics described in this chapter easily available to the user who can automatically apply the appropriate metrics to a forecast. It also allows for simple aggregation over arbitrary subgroups which makes summarising, plotting, and fitting a regression very convenient.</p>
+<p>The stable version of the package is available on CRAN, the development version can be found on github<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>. Internally, <code>scoringutils</code> uses <code>data.table</code> <span class="citation">(Dowle and Srinivasan <a href="#ref-R-data.table" role="doc-biblioref">2019</a>)</span> to allow for an efficient handling of large data.frames. The package is extensively documented, has example data, and a vignette that walks the user through all relevant steps.</p>
+<p>Evaluation metrics in the package can be accessed in two different ways. They can either be used independently from each other in a format built around vectors and matrices. Alternatively, users can decide to have forecasts automatically scored in a <code>data.frame</code> format through the function <code>eval_forecast</code>.</p>
+<p>The function <code>eval_forecast</code> takes in a <code>data.frame</code> with predictions and true observed values. Users then specify the unit of a single observation with the <code>by</code> argument that takes in a character vector with different column names. If predictions are for example made on different forecast dates by several models for several locations over different horizons, then the user should specify <code>by = c("model", "forecast_date", "location", "horizon")</code>. Scores can be aggregated over different groups using <code>summarise_by</code>. If we were only interested in the score per model, we would specify <code>summarise_by = c("model")</code>. The <code>quantiles</code> argument allows us to summarise the aggregated scores by a set of quantiles. This is especially useful for plotting.</p>
+<p>The following snippet shows an example evaluation that uses toy data from the package:</p>
+<p><span class="math inline">\(~\)</span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="evaluation.html#cb1-1" aria-hidden="true"></a>quantile_example &lt;-<span class="st"> </span>data.table<span class="op">::</span><span class="kw">setDT</span>(scoringutils<span class="op">::</span>quantile_example_data_long)</span>
+<span id="cb1-2"><a href="evaluation.html#cb1-2" aria-hidden="true"></a><span class="kw">print</span>(quantile_example, <span class="dv">3</span>, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##      true_values id  model predictions boundary range horizon
+##   1:    2.659261  1 model1  -0.6448536    lower    90       1
+##   2:    2.659261  1 model1   0.3255102    lower    50       1
+##   3:    2.659261  1 model1   1.0000000    lower     0       1
+##  ---                                                         
+## 718:   30.189608 30 model2  31.3873685    upper    90       2
+## 719:   30.189608 30 model2  30.6399809    upper    50       2
+## 720:   30.189608 30 model2  31.2576984    upper     0       2</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="evaluation.html#cb3-1" aria-hidden="true"></a>eval &lt;-<span class="st"> </span>scoringutils<span class="op">::</span><span class="kw">eval_forecasts</span>(quantile_example, </span>
+<span id="cb3-2"><a href="evaluation.html#cb3-2" aria-hidden="true"></a>                                     <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;id&quot;</span>, <span class="st">&quot;horizon&quot;</span>),</span>
+<span id="cb3-3"><a href="evaluation.html#cb3-3" aria-hidden="true"></a>                                     <span class="dt">summarise_by =</span> <span class="kw">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;range&quot;</span>))</span>
+<span id="cb3-4"><a href="evaluation.html#cb3-4" aria-hidden="true"></a><span class="kw">print</span>(eval)</span></code></pre></div>
+<pre><code>##     model range interval_score    sharpness is_underprediction
+## 1: model1     0      0.8879926  0.065132463        0.300326488
+## 2: model1    50      0.7760589  0.304421447        0.179681560
+## 3: model1    90      0.2658170  0.152391127        0.024935181
+## 4: model2     0      0.9215835 -0.003467508        0.298074288
+## 5: model2    50      0.6787509  0.356631485        0.072721303
+## 6: model2    90      0.2721723  0.160614315        0.008071852
+##    is_overprediction calibration coverage_deviation      bias
+## 1:        0.52253362  0.11666667         0.11666667 0.1912281
+## 2:        0.29195591  0.40000000        -0.10000000 0.1912281
+## 3:        0.08849074  0.81666667        -0.08333333 0.1912281
+## 4:        0.62697674  0.08333333         0.08333333 0.2771930
+## 5:        0.24939811  0.53333333         0.03333333 0.2771930
+## 6:        0.10348616  0.85000000        -0.05000000 0.2771930</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+<p>The example data has forecasts from two different models for two different forecast horizons (e.g. one and two weeks ahead into future) and thirty days (denoted by the column ‘id’) as well as the corresponding observed values. The unit of a single observation is therefore <code>c("model", "id", "horizon")</code>. With the <code>summarise_by</code> argument we can specify that we want to average over horizons and time points. We then obtain one average score per model, separated for the different interval ranges. In addition to the mean score, we could have obtained arbitrary quantiles and the standard deviation using the <code>quantile</code> argument or the <code>sd</code> argument.</p>
+<p>The following metrics are returned: ‘interval_score’ refers to the Weighted Interval Score, ‘sharpness’, ‘is_underprediction’, and ‘is_underprediction’ are its three components that together sum up to the WIS. ‘Calibration’ refers to the coverage achieved by the respective interval range. The column ‘coverage_deviation’ is calculated as empirical coverage - desired interval coverage and denotes the deviation of empirical interval coverage from the nominal interval coverage. In Chapter <a href="results.html#results">5</a> we report coverage deviation instead of empirical coverage, as it does not really make sense to average over the empirical coverage for different ranges.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-andersonAsymptoticTheoryCertain1952">
+<p>Anderson, T. W., and D. A. Darling. 1952. “Asymptotic Theory of Certain "Goodness of Fit" Criteria Based on Stochastic Processes.” <em>The Annals of Mathematical Statistics</em> 23 (2): 193–212.</p>
+</div>
+<div id="ref-angusProbabilityIntegralTransform1994">
+<p>Angus, John E. 1994. “The Probability Integral Transform and Related Results.” <em>SIAM Review</em> 36 (4): 652–54. <a href="https://doi.org/10.1137/1036146">https://doi.org/10.1137/1036146</a>.</p>
+</div>
+<div id="ref-R-scoringutils">
+<p>Bosse, Nikos, Sam Abbott, and Sebastian Funk. 2020. <em>Scoringutils: Utilities for Scoring and Assessing Predictions</em>. <a href="https://github.com/epiforecasts/scoringutils">https://github.com/epiforecasts/scoringutils</a>.</p>
+</div>
+<div id="ref-bracherEvaluatingEpidemicForecasts2020">
+<p>Bracher, Johannes, Evan L. Ray, Tilmann Gneiting, and Nicholas G. Reich. 2020. “Evaluating Epidemic Forecasts in an Interval Format.” <em>arXiv:2005.12881 [Q-Bio, Stat]</em>, May. <a href="http://arxiv.org/abs/2005.12881">http://arxiv.org/abs/2005.12881</a>.</p>
+</div>
+<div id="ref-brockerReliabilitySufficiencyDecomposition2009a">
+<p>Bröcker, Jochen. 2009. “Reliability, sufficiency, and the decomposition of proper scores.” <em>Quarterly Journal of the Royal Meteorological Society</em> 135 (643): 1512–9. <a href="https://doi.org/10.1002/qj.456">https://doi.org/10.1002/qj.456</a>.</p>
+</div>
+<div id="ref-czadoPredictiveModelAssessment2009">
+<p>Czado, Claudia, Tilmann Gneiting, and Leonhard Held. 2009. “Predictive Model Assessment for Count Data.” <em>Biometrics</em> 65 (4): 1254–61. <a href="https://doi.org/10.1111/j.1541-0420.2009.01191.x">https://doi.org/10.1111/j.1541-0420.2009.01191.x</a>.</p>
+</div>
+<div id="ref-dawidPresentPositionPotential1984">
+<p>Dawid, A. P. 1984. “Present Position and Potential Developments: Some Personal Views Statistical Theory the Prequential Approach.” <em>Journal of the Royal Statistical Society: Series A (General)</em> 147 (2): 278–90. <a href="https://doi.org/10.2307/2981683">https://doi.org/10.2307/2981683</a>.</p>
+</div>
+<div id="ref-R-data.table">
+<p>Dowle, Matt, and Arun Srinivasan. 2019. <em>Data.table: Extension of ‘Data.frame‘</em>. <a href="https://CRAN.R-project.org/package=data.table">https://CRAN.R-project.org/package=data.table</a>.</p>
+</div>
+<div id="ref-epsteinScoringSystemProbability1969">
+<p>Epstein, Edward S. 1969. “A Scoring System for Probability Forecasts of Ranked Categories.” <em>Journal of Applied Meteorology</em> 8 (6): 985–87. <a href="https://doi.org/10.1175/1520-0450(1969)008%3C0985:ASSFPF%3E2.0.CO;2">https://doi.org/10.1175/1520-0450(1969)008&lt;0985:ASSFPF&gt;2.0.CO;2</a>.</p>
+</div>
+<div id="ref-funkAssessingPerformanceRealtime2019">
+<p>Funk, Sebastian, Anton Camacho, Adam J. Kucharski, Rachel Lowe, Rosalind M. Eggo, and W. John Edmunds. 2019. “Assessing the Performance of Real-Time Epidemic Forecasts: A Case Study of Ebola in the Western Area Region of Sierra Leone, 2014-15.” <em>PLOS Computational Biology</em> 15 (2): e1006785. <a href="https://doi.org/10.1371/journal.pcbi.1006785">https://doi.org/10.1371/journal.pcbi.1006785</a>.</p>
+</div>
+<div id="ref-gelmanUnderstandingPredictiveInformation2014">
+<p>Gelman, Andrew, Jessica Hwang, and Aki Vehtari. 2014. “Understanding Predictive Information Criteria for Bayesian Models.” <em>Statistics and Computing</em> 24 (6): 997–1016. <a href="https://doi.org/10.1007/s11222-013-9416-2">https://doi.org/10.1007/s11222-013-9416-2</a>.</p>
+</div>
+<div id="ref-gneitingProbabilisticForecastsCalibration2007">
+<p>Gneiting, Tilmann, Fadoua Balabdaoui, and Adrian E. Raftery. 2007. “Probabilistic Forecasts, Calibration and Sharpness.” <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 69 (2): 243–68. <a href="https://doi.org/10.1111/j.1467-9868.2007.00587.x">https://doi.org/10.1111/j.1467-9868.2007.00587.x</a>.</p>
+</div>
+<div id="ref-gneitingStrictlyProperScoring2007">
+<p>Gneiting, Tilmann, and Adrian E Raftery. 2007. “Strictly Proper Scoring Rules, Prediction, and Estimation.” <em>Journal of the American Statistical Association</em> 102 (477): 359–78. <a href="https://doi.org/10.1198/016214506000001437">https://doi.org/10.1198/016214506000001437</a>.</p>
+</div>
+<div id="ref-gneitingCalibratedProbabilisticForecasting2005">
+<p>Gneiting, Tilmann, Adrian E. Raftery, Anton H. Westveld, and Tom Goldman. 2005. “Calibrated Probabilistic Forecasting Using Ensemble Model Output Statistics and Minimum CRPS Estimation.” <em>Monthly Weather Review</em> 133 (5): 1098–1118. <a href="https://doi.org/10.1175/MWR2904.1">https://doi.org/10.1175/MWR2904.1</a>.</p>
+</div>
+<div id="ref-goodRationalDecisions1952">
+<p>Good, I. J. 1952. “Rational Decisions.” <em>Journal of the Royal Statistical Society. Series B (Methodological)</em> 14 (1): 107–14. <a href="https://www.jstor.org/stable/2984087">https://www.jstor.org/stable/2984087</a>.</p>
+</div>
+<div id="ref-hamillInterpretationRankHistograms2001">
+<p>Hamill, Thomas M. 2001. “Interpretation of Rank Histograms for Verifying Ensemble Forecasts.” <em>Monthly Weather Review</em> 129 (3): 550–60. <a href="https://doi.org/10.1175/1520-0493(2001)129%3C0550:IORHFV%3E2.0.CO;2">https://doi.org/10.1175/1520-0493(2001)129&lt;0550:IORHFV&gt;2.0.CO;2</a>.</p>
+</div>
+<div id="ref-hersbachDecompositionContinuousRanked2000">
+<p>Hersbach, Hans. 2000. “Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems.” <em>Weather and Forecasting</em> 15 (5): 559–70. <a href="https://doi.org/10.1175/1520-0434(2000)015%3C0559:DOTCRP%3E2.0.CO;2">https://doi.org/10.1175/1520-0434(2000)015&lt;0559:DOTCRP&gt;2.0.CO;2</a>.</p>
+</div>
+<div id="ref-mathesonScoringRulesContinuous1976">
+<p>Matheson, James E., and Robert L. Winkler. 1976. “Scoring Rules for Continuous Probability Distributions.” <em>Management Science</em> 22 (10): 1087–96. <a href="https://doi.org/10.1287/mnsc.22.10.1087">https://doi.org/10.1287/mnsc.22.10.1087</a>.</p>
+</div>
+<div id="ref-murphyRankedProbabilityScore1969">
+<p>Murphy, Allan H. 1969. “On the ‘Ranked Probability Score’.” <em>Journal of Applied Meteorology</em> 8 (6): 988–89. <a href="https://doi.org/10.1175/1520-0450(1969)008%3C0988:OTPS%3E2.0.CO;2">https://doi.org/10.1175/1520-0450(1969)008&lt;0988:OTPS&gt;2.0.CO;2</a>.</p>
+</div>
+<div id="ref-shannonMathematicalTheoryCommunication1948">
+<p>Shannon, C E. 1948. “A Mathematical Theory of Communication,” 55.</p>
+</div>
+<div id="ref-R-nloptr">
+<p>Ypma, Jelmer, and Steven G. Johnson. 2020. <em>Nloptr: R Interface to Nlopt</em>. <a href="https://CRAN.R-project.org/package=nloptr">https://CRAN.R-project.org/package=nloptr</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="5">
+<li id="fn5"><p>To be precise, this model would be marginally calibrated according to <span class="citation">Gneiting, Balabdaoui, and Raftery (<a href="#ref-gneitingProbabilisticForecastsCalibration2007" role="doc-biblioref">2007</a>)</span><a href="evaluation.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>precisely: probabilistic calibration in <span class="citation">Gneiting, Balabdaoui, and Raftery (<a href="#ref-gneitingProbabilisticForecastsCalibration2007" role="doc-biblioref">2007</a>)</span><a href="evaluation.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>To test this, we ran a small simulation study with i = 1 000 iterations. For every iteration, n = 1 000 true values were simulated from a standard normal distribution. Each of these true values was then ‘predicted’ using s = 10 000 samples from the same standard normal distribution. For every iteration i we therefore obtained 1 000 true values and 1 000 predictive distributions (with 10 000 samples each). These 1 000 true values very transformed using the probability integral transform, which again yielded 1 000 transformed values for every iteration. On these values, we then applied the Anderson-Darling test for uniformity and recorded the p-value. Out of 1000 iterations, there were 165 p-values <span class="math inline">\(\leq 0.01\)</span>, 88 p-values <span class="math inline">\(0.01 &lt; p &lt; 0.1\)</span> and 747 p-values <span class="math inline">\(\leq 0.01\)</span>. Note that 1000 true values is quite high for many applied settings. For n = 100 true_values and s = 2000 samples, the result was 108, 87 and 805. Based on this limited evidence can we can conclude that there is at least a chance that the AD test may be prone to reject a meaningful fraction of well calibrated predictions.<a href="evaluation.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>To simplify notation, we treat the the median as a 0% interval range represented by the pair of quantiles <span class="math inline">\((q_\frac{1}{2}, q_\frac{1}{2})\)</span>.<a href="evaluation.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p><a href="https://github.com/epiforecasts/scoringutils">github.com/epiforecasts/scoringutils</a><a href="evaluation.html#fnref9" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="model-aggregation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nikosbosse/master_thesis/02-forecasting-evaluation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["master_thesis.pdf", "master_thesis.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

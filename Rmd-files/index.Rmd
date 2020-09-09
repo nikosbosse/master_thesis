@@ -28,6 +28,7 @@ output:
     latex_engine: pdflatex
     toc: False
 documentclass: book
+output_dir: "../docs"
 bibliography: [bib/masterthesis.bib, bib/packages.bib]
 biblio-style: apalike
 link-citations: yes

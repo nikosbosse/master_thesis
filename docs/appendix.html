@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>A Appendix | index.split</title>
+  <meta name="description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="A Appendix | index.split" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="logo_university.png" />
+  <meta property="og:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="github-repo" content="nikosbosse/master_thesis" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="A Appendix | index.split" />
+  
+  <meta name="twitter:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="twitter:image" content="logo_university.png" />
+
+<meta name="author" content="Nikos Bosse" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="discussion.html"/>
+
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="ackowldedgements.html"><a href="ackowldedgements.html"><i class="fa fa-check"></i>Ackowldedgements</a></li>
+<li class="chapter" data-level="" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i>Abbreviations</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="evaluation.html"><a href="evaluation.html"><i class="fa fa-check"></i><b>2</b> Forecasting and evaluation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="evaluation.html"><a href="evaluation.html#forecast-types"><i class="fa fa-check"></i><b>2.1</b> An overview of differenct forecast types</a></li>
+<li class="chapter" data-level="2.2" data-path="evaluation.html"><a href="evaluation.html#the-forecasting-paradigm"><i class="fa fa-check"></i><b>2.2</b> The forecasting paradigm</a></li>
+<li class="chapter" data-level="2.3" data-path="evaluation.html"><a href="evaluation.html#assessing-calibration"><i class="fa fa-check"></i><b>2.3</b> Assessing calibration</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="evaluation.html"><a href="evaluation.html#calibration-and-bias"><i class="fa fa-check"></i><b>2.3.1</b> Calibration and bias</a></li>
+<li class="chapter" data-level="2.3.2" data-path="evaluation.html"><a href="evaluation.html#calibration-and-empirical-coverage"><i class="fa fa-check"></i><b>2.3.2</b> Calibration and empirical coverage</a></li>
+<li class="chapter" data-level="2.3.3" data-path="evaluation.html"><a href="evaluation.html#calibration-and-the-probability-integral-transform"><i class="fa fa-check"></i><b>2.3.3</b> Calibration and the probability integral transform</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="evaluation.html"><a href="evaluation.html#assessing-sharpness"><i class="fa fa-check"></i><b>2.4</b> Assessing sharpness</a></li>
+<li class="chapter" data-level="2.5" data-path="evaluation.html"><a href="evaluation.html#proper-scoring-rules"><i class="fa fa-check"></i><b>2.5</b> Proper scoring rules</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="evaluation.html"><a href="evaluation.html#log-score"><i class="fa fa-check"></i><b>2.5.1</b> Log Score</a></li>
+<li class="chapter" data-level="2.5.2" data-path="evaluation.html"><a href="evaluation.html#continuous-ranked-probability-score"><i class="fa fa-check"></i><b>2.5.2</b> (Continuous) Ranked Probability Score</a></li>
+<li class="chapter" data-level="2.5.3" data-path="evaluation.html"><a href="evaluation.html#interval-score"><i class="fa fa-check"></i><b>2.5.3</b> Interval score</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="evaluation.html"><a href="evaluation.html#a-proposed-evaluation-framework"><i class="fa fa-check"></i><b>2.6</b> A proposed evaluation framework</a></li>
+<li class="chapter" data-level="2.7" data-path="evaluation.html"><a href="evaluation.html#the-scoringutils-package"><i class="fa fa-check"></i><b>2.7</b> The scoringutils package</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-aggregation.html"><a href="model-aggregation.html"><i class="fa fa-check"></i><b>3</b> Model aggregation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-idea"><i class="fa fa-check"></i><b>3.1</b> Theoretical idea</a></li>
+<li class="chapter" data-level="3.2" data-path="model-aggregation.html"><a href="model-aggregation.html#the-quantile-regression-average-ensemble"><i class="fa fa-check"></i><b>3.2</b> The Quantile Regression Average ensemble</a></li>
+<li class="chapter" data-level="3.3" data-path="model-aggregation.html"><a href="model-aggregation.html#the-crps-ensemble"><i class="fa fa-check"></i><b>3.3</b> The CRPS ensemble</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="background-data.html"><a href="background-data.html"><i class="fa fa-check"></i><b>4</b> Data and forecasting models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="background-data.html"><a href="background-data.html#introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Introduction to the COVID-19 Forecast Hub and overview of the data</a></li>
+<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview the different forecast models</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results - evaluation and aggregation of Covid-19 death forecasts</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#visualisation"><i class="fa fa-check"></i><b>5.1</b> Forecast visualisation</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#summarised-scores"><i class="fa fa-check"></i><b>5.2</b> Summarised scores and overall performance</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#relationship"><i class="fa fa-check"></i><b>5.3</b> Examining the relationship between individual metrics</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#contributors"><i class="fa fa-check"></i><b>5.4</b> Identifying main contributors to the WIS</a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#external-drivers"><i class="fa fa-check"></i><b>5.5</b> Identifying external drivers of differences WIS</a></li>
+<li class="chapter" data-level="5.6" data-path="results.html"><a href="results.html#model-characteristics"><i class="fa fa-check"></i><b>5.6</b> Understanding model characteristics that drive differences in WIS</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="results.html"><a href="results.html#bias"><i class="fa fa-check"></i><b>5.6.1</b> Bias</a></li>
+<li class="chapter" data-level="5.6.2" data-path="results.html"><a href="results.html#coverage"><i class="fa fa-check"></i><b>5.6.2</b> Coverage</a></li>
+<li class="chapter" data-level="5.6.3" data-path="results.html"><a href="results.html#pit-histograms"><i class="fa fa-check"></i><b>5.6.3</b> PIT histograms</a></li>
+<li class="chapter" data-level="5.6.4" data-path="results.html"><a href="results.html#sharpness"><i class="fa fa-check"></i><b>5.6.4</b> Sharpness</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="results.html"><a href="results.html#ensemble-models"><i class="fa fa-check"></i><b>5.7</b> Specific analysis of ensemble models</a></li>
+<li class="chapter" data-level="5.8" data-path="results.html"><a href="results.html#sensitivity"><i class="fa fa-check"></i><b>5.8</b> Sensitivity analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Summary and discussion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>A</b> Appendix</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nikosbosse/master_thesis" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><p><img src="logo_university.png" style="width:5in" /></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><strong>Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</strong></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendix" class="section level1" number="7">
+<h1><span class="header-section-number">A</span> Appendix</h1>
+<div class="figure"><span id="fig:predictions-baseline"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-COVIDhub-baseline-forecasts.png" alt="One week ahead forecasts for all locations for the COVIDhub-baseline model." width="100%" />
+<p class="caption">
+Figure A.1: One week ahead forecasts for all locations for the COVIDhub-baseline model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-covid-ensembe"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-COVIDhub-ensemble-forecasts.png" alt="One week ahead forecasts for all locations for the COVIDhub-ensemble model." width="100%" />
+<p class="caption">
+Figure A.2: One week ahead forecasts for all locations for the COVIDhub-ensemble model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-crps"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-crps-ensemble-forecasts.png" alt="One week ahead forecasts for all locations for the crps-ensemble model." width="100%" />
+<p class="caption">
+Figure A.3: One week ahead forecasts for all locations for the crps-ensemble model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-cu-select"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-CU-select-forecasts.png" alt="One week ahead forecasts for all locations for the CU-select model." width="100%" />
+<p class="caption">
+Figure A.4: One week ahead forecasts for all locations for the CU-select model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-epiforecasts"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-epiforecasts-ensemble1-forecasts.png" alt="One week ahead forecasts for all locations for the epiforecasts-ensemble1 model." width="100%" />
+<p class="caption">
+Figure A.5: One week ahead forecasts for all locations for the epiforecasts-ensemble1 model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-lanl-growthrate"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-LANL-GrowthRate-forecasts.png" alt="One week ahead forecasts for all locations for the LANL-GrowthRate model." width="100%" />
+<p class="caption">
+Figure A.6: One week ahead forecasts for all locations for the LANL-GrowthRate model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-mean-ensemble"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-mean-ensemble-forecasts.png" alt="One week ahead forecasts for all locations for the mean-ensemble model." width="100%" />
+<p class="caption">
+Figure A.7: One week ahead forecasts for all locations for the mean-ensemble model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-umass-mechbayes"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-UMass-MechBayes-forecasts.png" alt="One week ahead forecasts for all locations for the UMass-MechBayes-ensemble model." width="100%" />
+<p class="caption">
+Figure A.8: One week ahead forecasts for all locations for the UMass-MechBayes-ensemble model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-ut-mobility"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-UT-Mobility-forecasts.png" alt="One week ahead forecasts for all locations for the UT-mobility model." width="100%" />
+<p class="caption">
+Figure A.9: One week ahead forecasts for all locations for the UT-mobility model.
+</p>
+</div>
+<div class="figure"><span id="fig:predictions-yyg-paramsearch"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-YYG-ParamSearch-forecasts.png" alt="One week ahead forecasts for all locations for the YYG-ParamSearch  model." width="100%" />
+<p class="caption">
+Figure A.10: One week ahead forecasts for all locations for the YYG-ParamSearch model.
+</p>
+</div>
+<div class="figure"><span id="fig:coverage-horizons"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-coverage-plots-horizons.png" alt="Evolution of interval and quantile coverage over multiple horizons.." width="100%" />
+<p class="caption">
+Figure A.11: Evolution of interval and quantile coverage over multiple horizons..
+</p>
+</div>
+
+
+<div id="refs" class="references hanging-indent">
+<div>
+<p>Anderson, T. W., and D. A. Darling. 1952. “Asymptotic Theory of Certain "Goodness of Fit" Criteria Based on Stochastic Processes.” <em>The Annals of Mathematical Statistics</em> 23 (2): 193–212.</p>
+</div>
+<div>
+<p>Angus, John E. 1994. “The Probability Integral Transform and Related Results.” <em>SIAM Review</em> 36 (4): 652–54. <a href="https://doi.org/10.1137/1036146">https://doi.org/10.1137/1036146</a>.</p>
+</div>
+<div>
+<p>Bosse, Nikos, Sam Abbott, and Sebastian Funk. 2020. <em>Scoringutils: Utilities for Scoring and Assessing Predictions</em>. <a href="https://github.com/epiforecasts/scoringutils">https://github.com/epiforecasts/scoringutils</a>.</p>
+</div>
+<div>
+<p>Bosse, Nikos, Yuling Yao, Sam Abbott, and Sebastian Funk. 2020. <em>Stackr: Create Mixture Models from Predictive Samples</em>.</p>
+</div>
+<div>
+<p>Bracher, Johannes, Evan L. Ray, Tilmann Gneiting, and Nicholas G. Reich. 2020. “Evaluating Epidemic Forecasts in an Interval Format.” <em>arXiv:2005.12881 [Q-Bio, Stat]</em>, May. <a href="http://arxiv.org/abs/2005.12881">http://arxiv.org/abs/2005.12881</a>.</p>
+</div>
+<div>
+<p>Brauer, Fred. 2008. “Compartmental Models in Epidemiology.” In <em>Mathematical Epidemiology</em>, edited by Fred Brauer, Pauline van den Driessche, and Jianhong Wu, 19–79. Lecture Notes in Mathematics. Berlin, Heidelberg: Springer. <a href="https://doi.org/10.1007/978-3-540-78911-6_2">https://doi.org/10.1007/978-3-540-78911-6_2</a>.</p>
+</div>
+<div>
+<p>Bröcker, Jochen. 2009. “Reliability, sufficiency, and the decomposition of proper scores.” <em>Quarterly Journal of the Royal Meteorological Society</em> 135 (643): 1512–9. <a href="https://doi.org/10.1002/qj.456">https://doi.org/10.1002/qj.456</a>.</p>
+</div>
+<div>
+<p>Cori, Anne, Neil M. Ferguson, Christophe Fraser, and Simon Cauchemez. 2013. “A New Framework and Software to Estimate Time-Varying Reproduction Numbers During Epidemics.” <em>American Journal of Epidemiology</em> 178 (9): 1505–12. <a href="https://doi.org/10.1093/aje/kwt133">https://doi.org/10.1093/aje/kwt133</a>.</p>
+</div>
+<div>
+<p>Czado, Claudia, Tilmann Gneiting, and Leonhard Held. 2009. “Predictive Model Assessment for Count Data.” <em>Biometrics</em> 65 (4): 1254–61. <a href="https://doi.org/10.1111/j.1541-0420.2009.01191.x">https://doi.org/10.1111/j.1541-0420.2009.01191.x</a>.</p>
+</div>
+<div>
+<p>Dawid, A. P. 1984. “Present Position and Potential Developments: Some Personal Views Statistical Theory the Prequential Approach.” <em>Journal of the Royal Statistical Society: Series A (General)</em> 147 (2): 278–90. <a href="https://doi.org/10.2307/2981683">https://doi.org/10.2307/2981683</a>.</p>
+</div>
+<div>
+<p>Dong, Ensheng, Hongru Du, and Lauren Gardner. 2020. “An Interactive Web-Based Dashboard to Track COVID-19 in Real Time.” <em>The Lancet Infectious Diseases</em> 20 (5): 533–34. <a href="https://doi.org/10.1016/S1473-3099(20)30120-1">https://doi.org/10.1016/S1473-3099(20)30120-1</a>.</p>
+</div>
+<div>
+<p>Dowle, Matt, and Arun Srinivasan. 2019. <em>Data.table: Extension of ‘Data.frame‘</em>. <a href="https://CRAN.R-project.org/package=data.table">https://CRAN.R-project.org/package=data.table</a>.</p>
+</div>
+<div>
+<p>Epstein, Edward S. 1969. “A Scoring System for Probability Forecasts of Ranked Categories.” <em>Journal of Applied Meteorology</em> 8 (6): 985–87. <a href="https://doi.org/10.1175/1520-0450(1969)008%3C0985:ASSFPF%3E2.0.CO;2">https://doi.org/10.1175/1520-0450(1969)008&lt;0985:ASSFPF&gt;2.0.CO;2</a>.</p>
+</div>
+<div>
+<p>Funk, Sebastian, Anton Camacho, Adam J. Kucharski, Rachel Lowe, Rosalind M. Eggo, and W. John Edmunds. 2019. “Assessing the Performance of Real-Time Epidemic Forecasts: A Case Study of Ebola in the Western Area Region of Sierra Leone, 2014-15.” <em>PLOS Computational Biology</em> 15 (2): e1006785. <a href="https://doi.org/10.1371/journal.pcbi.1006785">https://doi.org/10.1371/journal.pcbi.1006785</a>.</p>
+</div>
+<div>
+<p>Gelman, Andrew, Jessica Hwang, and Aki Vehtari. 2014. “Understanding Predictive Information Criteria for Bayesian Models.” <em>Statistics and Computing</em> 24 (6): 997–1016. <a href="https://doi.org/10.1007/s11222-013-9416-2">https://doi.org/10.1007/s11222-013-9416-2</a>.</p>
+</div>
+<div>
+<p>Gneiting, Tilmann. 2010. “Making and Evaluating Point Forecasts.” <em>arXiv:0912.0902 [Math, Stat]</em>, March. <a href="http://arxiv.org/abs/0912.0902">http://arxiv.org/abs/0912.0902</a>.</p>
+</div>
+<div>
+<p>Gneiting, Tilmann, Fadoua Balabdaoui, and Adrian E. Raftery. 2007. “Probabilistic Forecasts, Calibration and Sharpness.” <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 69 (2): 243–68. <a href="https://doi.org/10.1111/j.1467-9868.2007.00587.x">https://doi.org/10.1111/j.1467-9868.2007.00587.x</a>.</p>
+</div>
+<div>
+<p>Gneiting, Tilmann, and Adrian E Raftery. 2007. “Strictly Proper Scoring Rules, Prediction, and Estimation.” <em>Journal of the American Statistical Association</em> 102 (477): 359–78. <a href="https://doi.org/10.1198/016214506000001437">https://doi.org/10.1198/016214506000001437</a>.</p>
+</div>
+<div>
+<p>Gneiting, Tilmann, Adrian E. Raftery, Anton H. Westveld, and Tom Goldman. 2005. “Calibrated Probabilistic Forecasting Using Ensemble Model Output Statistics and Minimum CRPS Estimation.” <em>Monthly Weather Review</em> 133 (5): 1098–1118. <a href="https://doi.org/10.1175/MWR2904.1">https://doi.org/10.1175/MWR2904.1</a>.</p>
+</div>
+<div>
+<p>Good, I. J. 1952. “Rational Decisions.” <em>Journal of the Royal Statistical Society. Series B (Methodological)</em> 14 (1): 107–14. <a href="https://www.jstor.org/stable/2984087">https://www.jstor.org/stable/2984087</a>.</p>
+</div>
+<div>
+<p>Guo, Jiqiang, Jonah Gabry, and Ben Goodrich. 2020. <em>Rstan: R Interface to Stan</em>. <a href="https://CRAN.R-project.org/package=rstan">https://CRAN.R-project.org/package=rstan</a>.</p>
+</div>
+<div>
+<p>Hamill, Thomas M. 2001. “Interpretation of Rank Histograms for Verifying Ensemble Forecasts.” <em>Monthly Weather Review</em> 129 (3): 550–60. <a href="https://doi.org/10.1175/1520-0493(2001)129%3C0550:IORHFV%3E2.0.CO;2">https://doi.org/10.1175/1520-0493(2001)129&lt;0550:IORHFV&gt;2.0.CO;2</a>.</p>
+</div>
+<div>
+<p>Hersbach, Hans. 2000. “Decomposition of the Continuous Ranked Probability Score for Ensemble Prediction Systems.” <em>Weather and Forecasting</em> 15 (5): 559–70. <a href="https://doi.org/10.1175/1520-0434(2000)015%3C0559:DOTCRP%3E2.0.CO;2">https://doi.org/10.1175/1520-0434(2000)015&lt;0559:DOTCRP&gt;2.0.CO;2</a>.</p>
+</div>
+<div>
+<p>Hoeting, Jennifer A., David Madigan, Adrian E. Raftery, and Chris T. Volinsky. 1999. “Bayesian Model Averaging: A Tutorial.” <em>Statistical Science</em> 14 (4): 382–401.</p>
+</div>
+<div>
+<p>Hyndman, Rob J and Athanasopoulos, George. 2019. <em>Forecasting: Principles and Practice</em>.</p>
+</div>
+<div>
+<p>Keelin, Thomas W. 2016. “The Metalog Distributions.” <em>Decision Analysis</em> 13 (4): 243–77. <a href="https://doi.org/10.1287/deca.2016.0338">https://doi.org/10.1287/deca.2016.0338</a>.</p>
+</div>
+<div>
+<p>Matheson, James E., and Robert L. Winkler. 1976. “Scoring Rules for Continuous Probability Distributions.” <em>Management Science</em> 22 (10): 1087–96. <a href="https://doi.org/10.1287/mnsc.22.10.1087">https://doi.org/10.1287/mnsc.22.10.1087</a>.</p>
+</div>
+<div>
+<p>Murphy, Allan H. 1969. “On the ‘Ranked Probability Score’.” <em>Journal of Applied Meteorology</em> 8 (6): 988–89. <a href="https://doi.org/10.1175/1520-0450(1969)008%3C0988:OTPS%3E2.0.CO;2">https://doi.org/10.1175/1520-0450(1969)008&lt;0988:OTPS&gt;2.0.CO;2</a>.</p>
+</div>
+<div>
+<p>Nishiura, Hiroshi, and Gerardo Chowell. 2009. “The Effective Reproduction Number as a Prelude to Statistical Estimation of Time-Dependent Epidemic Trends.” <em>Mathematical and Statistical Estimation Approaches in Epidemiology</em>, 103–21. <a href="https://doi.org/10.1007/978-90-481-2313-1_5">https://doi.org/10.1007/978-90-481-2313-1_5</a>.</p>
+</div>
+<div>
+<p>Nowotarski, Jakub, and Rafał Weron. 2015. “Computing Electricity Spot Price Prediction Intervals Using Quantile Regression and Forecast Averaging.” <em>Computational Statistics</em> 30 (3): 791–803. <a href="https://doi.org/10.1007/s00180-014-0523-0">https://doi.org/10.1007/s00180-014-0523-0</a>.</p>
+</div>
+<div>
+<p>Raftery, Adrian E., Tilmann Gneiting, Fadoua Balabdaoui, and Michael Polakowski. 2005. “Using Bayesian Model Averaging to Calibrate Forecast Ensembles.” <em>Monthly Weather Review</em> 133 (5): 1155–74. <a href="https://doi.org/10.1175/MWR2906.1">https://doi.org/10.1175/MWR2906.1</a>.</p>
+</div>
+<div>
+<p>Raftery, Adrian E., David Madigan, and Jennifer A. Hoeting. 1997. “Bayesian Model Averaging for Linear Regression Models.” <em>Journal of the American Statistical Association</em> 92 (437): 179–91. <a href="https://doi.org/10.1080/01621459.1997.10473615">https://doi.org/10.1080/01621459.1997.10473615</a>.</p>
+</div>
+<div>
+<p>R Core Team. 2020. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
+</div>
+<div>
+<p>Ryan Tibshirani. 2020. “Quantile Stacking.” https://ryantibs.github.io/quantgen/stacking_example.html.</p>
+</div>
+<div>
+<p>Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, et al. 2020. <em>EpiSoon: Forecast Cases Using Reproduction Numbers</em>.</p>
+</div>
+<div>
+<p>Sam Abbott, Joel Hellewell, James Munday, Robin Thompson, and Sebastian Funk. 2020a. <em>EpiNow2: Estimate Realtime Case Counts and Time-Varying Epidemiological Parameters</em>.</p>
+</div>
+<div>
+<p>———. 2020b. <em>EpiNow: Estimate Realtime Case Counts and Time-Varying Epidemiological Parameters</em>.</p>
+</div>
+<div>
+<p>Shannon, C E. 1948. “A Mathematical Theory of Communication,” 55.</p>
+</div>
+<div>
+<p>Shaub, David, and Peter Ellis. 2020. <em>ForecastHybrid: Convenient Functions for Ensemble Time Series Forecasts</em>. <a href="https://CRAN.R-project.org/package=forecastHybrid">https://CRAN.R-project.org/package=forecastHybrid</a>.</p>
+</div>
+<div>
+<p>Tibshirani, Ryan. 2020. <em>Quantgen: Tools for Generalized Quantile Modeling</em>.</p>
+</div>
+<div>
+<p>UMass-Amherst Influenza Forecasting Center of Excellence. 2020. “Covid19forecasthub.Org.” <em>Https://Github.com/Reichlab/Covid19-Forecast-Hub</em>. https://covid19forecasthub.org/.</p>
+</div>
+<div>
+<p>Woody, Spencer, Mauricio Garcia Tec, Maytal Dahan, Kelly Gaither, Michael Lachmann, Spencer Fox, Lauren Ancel Meyers, and James G Scott. 2020. “Projections for First-Wave COVID-19 Deaths Across the US Using Social-Distancing Measures Derived from Mobile Phones.” Preprint. Infectious Diseases (except HIV/AIDS). <a href="https://doi.org/10.1101/2020.04.16.20068163">https://doi.org/10.1101/2020.04.16.20068163</a>.</p>
+</div>
+<div>
+<p>Yao, Yuling, Aki Vehtari, Daniel Simpson, and Andrew Gelman. 2018. “Using Stacking to Average Bayesian Predictive Distributions.” <em>Bayesian Analysis</em> 13 (3): 917–1007. <a href="https://doi.org/10.1214/17-BA1091">https://doi.org/10.1214/17-BA1091</a>.</p>
+</div>
+<div>
+<p>Ypma, Jelmer, and Steven G. Johnson. 2020. <em>Nloptr: R Interface to Nlopt</em>. <a href="https://CRAN.R-project.org/package=nloptr">https://CRAN.R-project.org/package=nloptr</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="discussion.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nikosbosse/master_thesis/09-Appendix.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["master_thesis.pdf", "master_thesis.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

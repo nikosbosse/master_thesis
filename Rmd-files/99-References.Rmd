@@ -1,2 +1,1 @@
-\chaptermark{}
 \addcontentsline{toc}{chapter}{Bibliography}

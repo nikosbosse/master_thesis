@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Summary and discussion | index.split</title>
+  <meta name="description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Summary and discussion | index.split" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="logo_university.png" />
+  <meta property="og:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="github-repo" content="nikosbosse/master_thesis" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Summary and discussion | index.split" />
+  
+  <meta name="twitter:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="twitter:image" content="logo_university.png" />
+
+<meta name="author" content="Nikos Bosse" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="results.html"/>
+<link rel="next" href="appendix.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="ackowldedgements.html"><a href="ackowldedgements.html"><i class="fa fa-check"></i>Ackowldedgements</a></li>
+<li class="chapter" data-level="" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i>Abbreviations</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="evaluation.html"><a href="evaluation.html"><i class="fa fa-check"></i><b>2</b> Forecasting and evaluation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="evaluation.html"><a href="evaluation.html#forecast-types"><i class="fa fa-check"></i><b>2.1</b> An overview of differenct forecast types</a></li>
+<li class="chapter" data-level="2.2" data-path="evaluation.html"><a href="evaluation.html#the-forecasting-paradigm"><i class="fa fa-check"></i><b>2.2</b> The forecasting paradigm</a></li>
+<li class="chapter" data-level="2.3" data-path="evaluation.html"><a href="evaluation.html#assessing-calibration"><i class="fa fa-check"></i><b>2.3</b> Assessing calibration</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="evaluation.html"><a href="evaluation.html#calibration-and-bias"><i class="fa fa-check"></i><b>2.3.1</b> Calibration and bias</a></li>
+<li class="chapter" data-level="2.3.2" data-path="evaluation.html"><a href="evaluation.html#calibration-and-empirical-coverage"><i class="fa fa-check"></i><b>2.3.2</b> Calibration and empirical coverage</a></li>
+<li class="chapter" data-level="2.3.3" data-path="evaluation.html"><a href="evaluation.html#calibration-and-the-probability-integral-transform"><i class="fa fa-check"></i><b>2.3.3</b> Calibration and the probability integral transform</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="evaluation.html"><a href="evaluation.html#assessing-sharpness"><i class="fa fa-check"></i><b>2.4</b> Assessing sharpness</a></li>
+<li class="chapter" data-level="2.5" data-path="evaluation.html"><a href="evaluation.html#proper-scoring-rules"><i class="fa fa-check"></i><b>2.5</b> Proper scoring rules</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="evaluation.html"><a href="evaluation.html#log-score"><i class="fa fa-check"></i><b>2.5.1</b> Log Score</a></li>
+<li class="chapter" data-level="2.5.2" data-path="evaluation.html"><a href="evaluation.html#continuous-ranked-probability-score"><i class="fa fa-check"></i><b>2.5.2</b> (Continuous) Ranked Probability Score</a></li>
+<li class="chapter" data-level="2.5.3" data-path="evaluation.html"><a href="evaluation.html#interval-score"><i class="fa fa-check"></i><b>2.5.3</b> Interval score</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="evaluation.html"><a href="evaluation.html#a-proposed-evaluation-framework"><i class="fa fa-check"></i><b>2.6</b> A proposed evaluation framework</a></li>
+<li class="chapter" data-level="2.7" data-path="evaluation.html"><a href="evaluation.html#the-scoringutils-package"><i class="fa fa-check"></i><b>2.7</b> The scoringutils package</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-aggregation.html"><a href="model-aggregation.html"><i class="fa fa-check"></i><b>3</b> Model aggregation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-idea"><i class="fa fa-check"></i><b>3.1</b> Theoretical idea</a></li>
+<li class="chapter" data-level="3.2" data-path="model-aggregation.html"><a href="model-aggregation.html#the-quantile-regression-average-ensemble"><i class="fa fa-check"></i><b>3.2</b> The Quantile Regression Average ensemble</a></li>
+<li class="chapter" data-level="3.3" data-path="model-aggregation.html"><a href="model-aggregation.html#the-crps-ensemble"><i class="fa fa-check"></i><b>3.3</b> The CRPS ensemble</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="background-data.html"><a href="background-data.html"><i class="fa fa-check"></i><b>4</b> Data and forecasting models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="background-data.html"><a href="background-data.html#introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Introduction to the COVID-19 Forecast Hub and overview of the data</a></li>
+<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview the different forecast models</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results - evaluation and aggregation of Covid-19 death forecasts</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#visualisation"><i class="fa fa-check"></i><b>5.1</b> Forecast visualisation</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#summarised-scores"><i class="fa fa-check"></i><b>5.2</b> Summarised scores and overall performance</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#relationship"><i class="fa fa-check"></i><b>5.3</b> Examining the relationship between individual metrics</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#contributors"><i class="fa fa-check"></i><b>5.4</b> Identifying main contributors to the WIS</a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#external-drivers"><i class="fa fa-check"></i><b>5.5</b> Identifying external drivers of differences WIS</a></li>
+<li class="chapter" data-level="5.6" data-path="results.html"><a href="results.html#model-characteristics"><i class="fa fa-check"></i><b>5.6</b> Understanding model characteristics that drive differences in WIS</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="results.html"><a href="results.html#bias"><i class="fa fa-check"></i><b>5.6.1</b> Bias</a></li>
+<li class="chapter" data-level="5.6.2" data-path="results.html"><a href="results.html#coverage"><i class="fa fa-check"></i><b>5.6.2</b> Coverage</a></li>
+<li class="chapter" data-level="5.6.3" data-path="results.html"><a href="results.html#pit-histograms"><i class="fa fa-check"></i><b>5.6.3</b> PIT histograms</a></li>
+<li class="chapter" data-level="5.6.4" data-path="results.html"><a href="results.html#sharpness"><i class="fa fa-check"></i><b>5.6.4</b> Sharpness</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="results.html"><a href="results.html#ensemble-models"><i class="fa fa-check"></i><b>5.7</b> Specific analysis of ensemble models</a></li>
+<li class="chapter" data-level="5.8" data-path="results.html"><a href="results.html#sensitivity"><i class="fa fa-check"></i><b>5.8</b> Sensitivity analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Summary and discussion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>A</b> Appendix</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nikosbosse/master_thesis" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><p><img src="logo_university.png" style="width:5in" /></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><strong>Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</strong></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="discussion" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Summary and discussion</h1>
+<div id="thesis-summary" class="section level4 unnumbered">
+<h4>Thesis summary</h4>
+<p>In this thesis we have given an extensive overview of different theoretical aspects of model evaluation and model aggregation and have applied this theory to the case study of eight models from the US Forecast Hub. We have discussed the forecasting paradigm and the notions of calibration and sharpness, and have presented several well-studied evaluation metrics as well as some previously unpublished. Based on these theoretical considerations we proposed a structured evaluation approach that was subsequently applied to data from the Forecast Hub. We also presented the <code>scoringutils</code> package that facilitates the evaluation process. Building on the discussion of proper scoring rules, we introduced two different model aggregation techniques. One of them constructs a quantile average ensemble to minimise the weighted interval score, while the other forms a mixture distribution based on the Continuous Ranked Probability Score. In order to implement the CRPS ensemble approach, we have introduced the <code>stackr</code> package. After the theoretical discussion of model evaluation and model aggregation, we provided background on the Forecast Hub and presented the data and models analysed in the ensuing case study. Applying the tools presented previously, we evaluated the performance of the eight Forecast Hub models and the three ensembles in detail. To examine the robustness of our results, we presented a small sensitivity analysis with varying ensemble parameters and different evaluation scenarios.</p>
+<p>This thesis had three main objectives: To obtain a deeper understanding of model evaluation,
+to explore ways to aggregate models to ensembles, and to facilitate model evaluation and model
+aggregation by creating appropriate tools. The following paragraphs address these objectives in reversed order, followed by a discussion of limitations and suggestions for future research.</p>
+</div>
+<div id="results-summary" class="section level4 unnumbered">
+<h4>Results summary</h4>
+<p>In order to facilitate model evaluation and model aggregation, we have successfully created the <code>scoringutils</code> and <code>stackr</code> packages and demonstrated their value throughout this thesis. Both packages are still under active development and their functions will be extended in the future. We plan to add the plots presented throughout this thesis to the <code>scoringutils</code> package and intend to increase flexibility in the <code>stackr</code> package by allowing for multiple forecast horizons at a time. We therefore hope to use them in future applications beyond this thesis.</p>
+<p>We explored the QRA and CRPS ensembles in this thesis alongside the mean-ensemble and the COVIDhub-ensemble that served as control and benchmark. We found that all ensemble models tended to perform very well, but could not clearly identify one ensemble that was superior to the others. For the qra-ensemble, taking four weeks of past observations into account was optimal consistently. We also observed that the qra-ensemble with only one week of past data performed almost equally well, while the ones with two and three weeks did not. This finding should therefore be treated with caution. For the crps-ensemble, we found that optimising for two-weeks-ahead forecasts consistently led to the best performance. This should again be regarded as limited evidence, given the small numbers of models, time points and locations analysed here. The crps-ensemble was able perform similarly well as the qra-ensemble, even though the model aggregation process involved fitting a distribution to quantiles. For most crps-ensemble variants we used a gamma distribution, but also fitted a metalog-distribution to examine the sensitivity of the results. We found that this did not improve performance significantly. This suggests that the inaccuracies introduced by fitting a gamma distribution did not have a large effect, as they mostly affected the tails which only had a small weight in terms of overall WIS. We did, however, not thoroughly test the metalog-distribution ensemble and more research is needed to come to more definitive conclusions. We observed a tendency for the qra-ensemble to overpredict, while the crps-ensemble exhibited a slight downwards bias. We were, however, not able to provide an explanation for this result. When examining ensemble weights we observed that even models not among the top performers contributed to both ensembles. This suggests that including a greater number of diverse models in the ensemble may help improve performance.</p>
+<p>By conducting a detailed evaluation of the Forecast Hub models and the ensembles, we obtained a deeper understanding of the models analysed as well of the evaluation process itself and the metrics involved. The structured evaluation approach proposed in Chapter <a href="evaluation.html#evaluation">2</a> provided a useful guideline and framework for this evaluation process. We found that the metrics discussed measured different aspects of performance, but all had a significant influence on the Weighted Interval Score. This suggests that they were all able to contribute something useful in terms of model evaluation and therefore merit their own attention. The examination of relationships between the metrics should be interpreted in view of trends in the actual data. While we would have expected a negative correlation between sharpness and penalties for over- and underprediction, we saw the opposite. This suggests that although we should see a trade-off, better performing models tended to do better on both accounts. We also observed that in the data positive coverage deviation was associated with smaller WIS. While unnecessarily high interval coverage should increase Interval Scores, the affected models still performed better on average than models with lower interval coverage.
+For better performing models, the sharpness component of the WIS played a larger relative role for overall scores than for models that struggled with calibration. For those, WIS performance was dominated by the penalties for over- and underprediction. This finding is plausible in light of our goal to maximisie sharpness subject to calibration. Overall Interval Scores were dominated by predictions around the median of the predictive distributions, while tails mattered less. We attribute this to the construction of the WIS that gives less weights to outer prediction intervals, as well as to the fact that outer prediction intervals better avoid penalties. Ranges around the 50% prediction interval contributed most to sharpness.
+We explored two slightly different ways of assessing systematic over- or underprediction. We saw that the bias metric presented in Chapter <a href="evaluation.html#evaluation">2</a> was more reflective of the general tendency of a model to over- or underpredict. The misprediction penalty component of the WIS was more heavily influenced by extreme values. Unfortunately, we were not able to offer guidance on which of these two measures should take precedence in evaluation or model improvement.
+We observed that better performing models were also noticeably better calibrated. We were mostly able to diagnose and locate calibration issues very precisely using coverage plots and PIT histograms. However, we also saw that the aggregate picture may be misleading or at least incomplete. This became most apparent with the epiforecasts-ensemble1 model that showed good calibration on the aggregate level, but sometimes exhibited miscalibration in individual locations.
+The models analysed showed a lot of variation in terms of sharpness. Comparing sharpness between models therefore only made sense after splitting the models in two groups of about equal performance. Within these groups, we could observe a tendency for better models to also be sharper. We could, however, not see models consistently increase or decrease their sharpness in response to past performance.</p>
+</div>
+<div id="limitations" class="section level4 unnumbered">
+<h4>Limitations</h4>
+<p>Limited knowledge of the model details made it hard to point to specific model characteristics that could explain better or worse performance and as well to make suggestions for improvement. We found that two out of three SEIR models were among the top performers, but this should not be considered as strong evidence in favour of SEIR models given the small number of models and observations. Models tended to perform consistently well or badly and we therefore could not unambiguously identify relative model advantages in specific situations. Relative advantages between models were dwarfed by general performance differences.
+As we were not able to adequately handle missing predictions, the choice to include the epiforecasts-ensemble1 model made it necessary to restrict the set of locations and forecast dates to a very limited set. This makes it hard to generalise patterns observed throughout the model evaluation process. All results should therefore be treated with caution. On the other hand, including even more locations and models would have made it even harder to devote appropriate attention to individual models. Evaluating eleven models at the same time already meant that the majority of the analysis was conducted on an aggregate level. Important aspects may therefore have been missed.
+The analysis was also limited by the the need to develop appropriate software. We were, for example, not able incorporate more than one forecast horizon in the CRPS ensemble or could not create PIT histograms without fitting samples to the quantiles first. Not having predictice samples available also limited comparability between the CRPS and QRA ensemble models.</p>
+</div>
+<div id="outlook-and-future-research" class="section level4 unnumbered">
+<h4>Outlook and future research</h4>
+<p>A variety of interesting research questions warrant further investigation. The evaluation process demonstrated here could be expanded to all models and observations from the Forecast Hub. While the evaluation results obtained here are only of limited value due to the small number of models and observations included, a full evaluation would be of great interest to researchers and policy makers. The evaluation approach chosen here could be compared with other analyses that are currently being conducted.
+A lot more research could be done with regards to the ensemble models. Especially, we would like to know whether the CRPS and QRA ensembles could have beaten the COVIDhub-ensemble had they had access to the identical candidate models to inform their ensemble distributions. More generally, one could also investigate whether, irrespective of the optimisation strategy, one of the ways to combine predictive distributions is superior to the other. To that end, one could create the equivalent of the COVIDhub-ensemble, an equally weighted mixture distribution instead of an equally weighted quantile average. Research could also be done with regards to improving the model aggregation techniques. CRPS ensembles could potentially be improved by allowing for more than one forecast horizon to inform weights. Also the metalog distribution approach should be studied more thoroughly to benchmark overall performance and determine optimal parameters. As we observed that QRA ensembles had a general tendency to overpredict, it would be interesting to investigate whether this is a consistent property of the QRA that could be leveraged to further improve the model aggregation approach. In addition, weights for both models could be varied by state instead of having one weight per location. This would make it possible for the ensemble to leverage relative advantages that models may enjoy in specific locations or circumstances. Ideally, one would probably like to approach this in a hierarchical framework, where weights would be shared across locations unless there is strong evidence that weights should be different in a specific location. Analogously, different ranges can be weighted differently for QRA ensembles, but we do not currently have good knowledge of situations in which this might be advantageous. In terms of overall model development, one could explore in more depth how models could be adapted to adjust sharpness responsively. Arguably, performance could be improved if models were able to consistently increase uncertainty in their forecasts whenever past predictions have not matched the data and to reduce it if they have. To make results from the evaluation process more useful, one could explore whether one should, in case they disagree, rather follow the bias metric or the misprediction penalties when trying to improve a model.</p>
+<!-- LIMITATIONS -->
+<!-- - hard to translate this into concrete improvements -->
+<!-- - not everything can be seen on an aggregate level -->
+<!-- - need much more for enesmebles: e.g. weights by state -->
+<!-- - One could argue that the comparison of the ensembles is not entirely fair as the COVIDhub-ensemble model is a much larger ensemble with more components. On the other hand we can require that other ensembles at least not perform worse.  -->
+<!-- - connect bias / coverage deviation more with actually looking at the plots -> when are states hard and easy to forecast?  -->
+<!-- - More connection between results and model types: which models perform well / badly? -->
+<!-- Procedure:  -->
+<!-- 1) get a feeling for the data -> visualisation -->
+<!-- 2) get a ranking, e.g. if we wanted to make a quick decision -->
+<!--     -> summarised score -->
+<!--     -> regression -->
+<!-- 3) understand the metrics and what really drives them -->
+<!--     -> look at correlation between scores -->
+<!--     -> look at contributions from missing / too little sharpness -->
+<!--     -> look at contribution from individual ranges -->
+<!--     -> correlation between WIS and case numbers / WIS and horizons? -->
+<!--     -> contributions from states /  -->
+<!-- 4) understand what drives differences in performance  -->
+<!--     -> different states: which were the ones that models did badly in?  -->
+<!--     -> different horizons? when? interaction with states?  -->
+<!-- 5) understand individual models and how to improve them -->
+<!--     -> calibration -->
+<!--     -> sharpness -->
+<!-- summary: do I find characteristics of well / badly performing models?  -->
+<!-- Interesting questions -->
+<!-- - how do different ranges contribute to scoes -->
+<!-- -> if a score is not good, what do we look for?  -->
+<!-- which states were hard to forecast and why?  -->
+<!-- do models do consistently well or badly?  -->
+<!-- What do models get right?  -->
+<!-- 	- trend changes -->
+<!-- 	- changes in uncertainty?  -->
+<!-- Drivers of the WIS -->
+<!-- 	correlation metrics -->
+<!-- 	scores at different ranges -->
+<!-- 	scores at different locations -->
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="results.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nikosbosse/master_thesis/06-Discussion.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["master_thesis.pdf", "master_thesis.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

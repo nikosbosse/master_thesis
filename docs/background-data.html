@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Data and forecasting models | index.split</title>
+  <meta name="description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Data and forecasting models | index.split" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="logo_university.png" />
+  <meta property="og:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="github-repo" content="nikosbosse/master_thesis" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Data and forecasting models | index.split" />
+  
+  <meta name="twitter:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="twitter:image" content="logo_university.png" />
+
+<meta name="author" content="Nikos Bosse" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="model-aggregation.html"/>
+<link rel="next" href="results.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="ackowldedgements.html"><a href="ackowldedgements.html"><i class="fa fa-check"></i>Ackowldedgements</a></li>
+<li class="chapter" data-level="" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i>Abbreviations</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="evaluation.html"><a href="evaluation.html"><i class="fa fa-check"></i><b>2</b> Forecasting and evaluation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="evaluation.html"><a href="evaluation.html#forecast-types"><i class="fa fa-check"></i><b>2.1</b> An overview of differenct forecast types</a></li>
+<li class="chapter" data-level="2.2" data-path="evaluation.html"><a href="evaluation.html#the-forecasting-paradigm"><i class="fa fa-check"></i><b>2.2</b> The forecasting paradigm</a></li>
+<li class="chapter" data-level="2.3" data-path="evaluation.html"><a href="evaluation.html#assessing-calibration"><i class="fa fa-check"></i><b>2.3</b> Assessing calibration</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="evaluation.html"><a href="evaluation.html#calibration-and-bias"><i class="fa fa-check"></i><b>2.3.1</b> Calibration and bias</a></li>
+<li class="chapter" data-level="2.3.2" data-path="evaluation.html"><a href="evaluation.html#calibration-and-empirical-coverage"><i class="fa fa-check"></i><b>2.3.2</b> Calibration and empirical coverage</a></li>
+<li class="chapter" data-level="2.3.3" data-path="evaluation.html"><a href="evaluation.html#calibration-and-the-probability-integral-transform"><i class="fa fa-check"></i><b>2.3.3</b> Calibration and the probability integral transform</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="evaluation.html"><a href="evaluation.html#assessing-sharpness"><i class="fa fa-check"></i><b>2.4</b> Assessing sharpness</a></li>
+<li class="chapter" data-level="2.5" data-path="evaluation.html"><a href="evaluation.html#proper-scoring-rules"><i class="fa fa-check"></i><b>2.5</b> Proper scoring rules</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="evaluation.html"><a href="evaluation.html#log-score"><i class="fa fa-check"></i><b>2.5.1</b> Log Score</a></li>
+<li class="chapter" data-level="2.5.2" data-path="evaluation.html"><a href="evaluation.html#continuous-ranked-probability-score"><i class="fa fa-check"></i><b>2.5.2</b> (Continuous) Ranked Probability Score</a></li>
+<li class="chapter" data-level="2.5.3" data-path="evaluation.html"><a href="evaluation.html#interval-score"><i class="fa fa-check"></i><b>2.5.3</b> Interval score</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="evaluation.html"><a href="evaluation.html#a-proposed-evaluation-framework"><i class="fa fa-check"></i><b>2.6</b> A proposed evaluation framework</a></li>
+<li class="chapter" data-level="2.7" data-path="evaluation.html"><a href="evaluation.html#the-scoringutils-package"><i class="fa fa-check"></i><b>2.7</b> The scoringutils package</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-aggregation.html"><a href="model-aggregation.html"><i class="fa fa-check"></i><b>3</b> Model aggregation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-idea"><i class="fa fa-check"></i><b>3.1</b> Theoretical idea</a></li>
+<li class="chapter" data-level="3.2" data-path="model-aggregation.html"><a href="model-aggregation.html#the-quantile-regression-average-ensemble"><i class="fa fa-check"></i><b>3.2</b> The Quantile Regression Average ensemble</a></li>
+<li class="chapter" data-level="3.3" data-path="model-aggregation.html"><a href="model-aggregation.html#the-crps-ensemble"><i class="fa fa-check"></i><b>3.3</b> The CRPS ensemble</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="background-data.html"><a href="background-data.html"><i class="fa fa-check"></i><b>4</b> Data and forecasting models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="background-data.html"><a href="background-data.html#introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Introduction to the COVID-19 Forecast Hub and overview of the data</a></li>
+<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview the different forecast models</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results - evaluation and aggregation of Covid-19 death forecasts</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#visualisation"><i class="fa fa-check"></i><b>5.1</b> Forecast visualisation</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#summarised-scores"><i class="fa fa-check"></i><b>5.2</b> Summarised scores and overall performance</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#relationship"><i class="fa fa-check"></i><b>5.3</b> Examining the relationship between individual metrics</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#contributors"><i class="fa fa-check"></i><b>5.4</b> Identifying main contributors to the WIS</a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#external-drivers"><i class="fa fa-check"></i><b>5.5</b> Identifying external drivers of differences WIS</a></li>
+<li class="chapter" data-level="5.6" data-path="results.html"><a href="results.html#model-characteristics"><i class="fa fa-check"></i><b>5.6</b> Understanding model characteristics that drive differences in WIS</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="results.html"><a href="results.html#bias"><i class="fa fa-check"></i><b>5.6.1</b> Bias</a></li>
+<li class="chapter" data-level="5.6.2" data-path="results.html"><a href="results.html#coverage"><i class="fa fa-check"></i><b>5.6.2</b> Coverage</a></li>
+<li class="chapter" data-level="5.6.3" data-path="results.html"><a href="results.html#pit-histograms"><i class="fa fa-check"></i><b>5.6.3</b> PIT histograms</a></li>
+<li class="chapter" data-level="5.6.4" data-path="results.html"><a href="results.html#sharpness"><i class="fa fa-check"></i><b>5.6.4</b> Sharpness</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="results.html"><a href="results.html#ensemble-models"><i class="fa fa-check"></i><b>5.7</b> Specific analysis of ensemble models</a></li>
+<li class="chapter" data-level="5.8" data-path="results.html"><a href="results.html#sensitivity"><i class="fa fa-check"></i><b>5.8</b> Sensitivity analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Summary and discussion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>A</b> Appendix</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nikosbosse/master_thesis" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><p><img src="logo_university.png" style="width:5in" /></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><strong>Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</strong></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="background-data" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Data and forecasting models</h1>
+<p>After Chapters <a href="evaluation.html#evaluation">2</a> and <a href="model-aggregation.html#model-aggregation">3</a> have described the theoretical foundations of model evaluation and model aggregation, this chapter provides some context and background for the model evaluation in Chapter <a href="results.html#results">5</a>. We first describe the Forecasting Hub in more detail and offer a first look at the data. We then give a brief overview of the different forecasting models.</p>
+<div id="introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introduction to the COVID-19 Forecast Hub and overview of the data</h2>
+<p>The COVID-19 Forecast Hub <span class="citation">(UMass-Amherst Influenza Forecasting Center of Excellence <a href="#ref-umass-amherstinfluenzaforecastingcenterofexcellenceCovid19forecasthubOrg2020" role="doc-biblioref">2020</a>)</span> is a collaboration between the U.S. Centers for Disease Control and Prevention (CDC), academic research groups led by Professor Nicholas Reich at the University of Massachussets Amherst, and different industry partners. Starting on April 13, the consortium collected weekly forecasts for all US states and territories from research teams around the world. Forecasts were submitted every Monday in a probabilistic format. The predictive distribution was represented by the median and eleven prediction intervals ranging from a 10% prediction interval to a 98% prediction interval<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>. Forecasts were made for one to (at least) four week ahead horizons of targets like daily or weekly deaths and case numbers. Out of these targets, we focus only on weekly death incidences.</p>
+<p>Eight models were chosen from all Forecast Hub models in a way that attempts to reflect the variety of models submitted to the Hub. Among these models also was the ‘epiforecasts-ensemble1’ model that was submitted by the working group at the London School of Hygiene and Tropical Medicine that co-supervised this work. The forecasts we analysed were made between June 22nd 2020 and August 3rd 2020 in twelve different US states as well as nationwide. As the ensemble models need at least one week of past data to estimate weights, only forecasts between June 29th and August 3rd were evaluated. Dates and locations were chosen to obtain a complete set of predictions with no missing forecasts for any location or time point. While this isn’t strictly necessary, it avoids downstream complications with model aggregation and evaluation that are beyond the scope of this thesis.
+The ground truth data is provided by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University <span class="citation">(Dong, Du, and Gardner <a href="#ref-dongInteractiveWebbasedDashboard2020" role="doc-biblioref">2020</a>)</span>. Table <a href="#tab:overview"><strong>??</strong></a> at the end of this chapter gives an overview of the dates, locations and models included. Figure <a href="background-data.html#fig:us-data">4.1</a> shows observed deaths in all thirteen locations. The time period analysed is highlighted in green. We can see that the evolution of deaths exhibits quite different dynamics across different locations. In states like Illinois, Maryland or Massachusetts, deaths were mostly constant or falling. In others, like Arizona, Florida or Texas, deaths showed a strong upwards trend. Data issues have been corrected for the state of New Jersey. On June 25th, New Jersey started counting probable deaths as well and increased their death count by 1 854 probable cases. These cases were apparently later redistributed to previous days. We can see the effects of this reporting issue in the forecasts of the COVIDhub-baseline model, where we observe spikes in the forecasts for New Jersey and the US nationwide in Figures <a href="appendix.html#fig:predictions-baseline">A.1</a> in the Appendix.</p>
+<div class="figure"><span id="fig:us-data"></span>
+<img src="../visualisation/chapter-2-background-data/plot-observations.png" alt="Observed deaths in all thirteen locations. Weeks for which predictions were evaluated are highlighted in green." width="95%" />
+<p class="caption">
+Figure 4.1: Observed deaths in all thirteen locations. Weeks for which predictions were evaluated are highlighted in green.
+</p>
+</div>
+</div>
+<div id="an-overview-the-different-forecast-models" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> An overview the different forecast models</h2>
+<p>The models analysed in-depth in the next chapter vary substantially in the way they generate predictions. This section therefore gives a quick overview of the different model types. This overview should not be thought of as an exhaustive discussion, but is merely intended as a short primer that allows us to mentally place the COVID-19 Forecast Hub models in broad categories. The information used to inform this overview is taken from the descriptions provided by the research teams themselves<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>.</p>
+<p>Among the most widely used models in epidemiology are so-called compartmental models<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>. These divide the overall population into different compartments and model the flow between them. The basic compartments are <em>Susceptible</em> (S), <em>Infectious</em> (I) and <em>Recovered</em> (R), giving these models the name SIR models. The flow from one compartment to the other is usually modeled using a set of differential equations. Compartmental models help to model specific characterisitcs of people in different compartments. For example, People in the <em>Susceptible</em> compartment can be infected, while those who are in the <em>Recovered</em> compartment are assumed to be immune against further infection. Compartmental models are therefore able to model the depletion of susceptibles as the epidemic progresses. Usually, a compartment called <em>Exposed but not infectious</em> (E) is added to model incubation periods, giving these models the name SEIR models. Additional compartments can be included ad libitum to model other aspects of the disease dynamic.</p>
+<p>Most models submitted to the Forecast Hub were SEIR compartmental models. Three models analysed here belong to that category: UMass-MechBayes, YYG-ParamSearch and CU-select. UMass-MechBayes<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> is a Bayesian model build from a classical SEIR compartmental model. The model is fit independently to each state and allows its parameters to vary over time. The YYGParamSearch model<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> adds an additional machine learning layer to a classical SEIR model to learn optimal hyperparameters for the model. Some of the parameters like the infectious period are shared across locations, but most parameters like the mortality from Covid-19 or the effective reproduction number <span class="math inline">\(R_t\)</span> are determined per state. The effective reproduction number <span class="math inline">\(R_t\)</span> is a common parameter in epidemiological models and denotes the average number of people each infected person will infect in turn<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>. This parameter varies over time, for example depending on changes in behaviour or official counter measures put in place. The CU-select model<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> is a SEIR model that is augmented by human insight. The Columbia University regularly submits a range of projections under different scenarios. For the CU-select model they always hand-pick the one they believe is most plausible.</p>
+<p>Another common approach is to model the evolution of the pandemic using a time-varying growth rate. Based on the assumption that the spread of a disease is exponential in nature it is intuitive to estimate future case numbers by modeling the growth rate. The LANL-GrowthRate model, and to a certain extent the epiforecasts-ensemble1, follow this approach. The LANL-GrowthRate model is a two component model. The first component models the number of infections using a time-varying growth parameter that connects present (or future) infections to earlier infections and the number of susceptibles. In a second step, this infections get mapped to reported deaths by assuming a fraction of infections likely to die. The epiforecasts-ensemble combines the growth rate approach with classical time series modeling<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a>. It consists of three submodels that were aggregated using first an equally weighted quantile average and later a quantile regression average. The three submodels were two time series models and an <span class="math inline">\(R_t\)</span>-based prediction model. The two times eries models were generated using the forecastHybrid package <span class="citation">(Shaub and Ellis <a href="#ref-R-forecastHybrid" role="doc-biblioref">2020</a>)</span>. The package automatically selects an Autoregressive Integrated Moving Average (ARIMA) model or a State Space model with appropriate error, trend and seasonality (ETS model). One of the epiforecasts-ensemble1 time series models included current cases as a lagged predictor, while the other was based on deaths only. The third model was generated using the R packages <code>EpiSoon</code> <span class="citation">(Sam Abbott, Bosse, et al. <a href="#ref-R-EpiSoon" role="doc-biblioref">2020</a>)</span>, <code>EpiNow</code> <span class="citation">(Sam Abbott, Hellewell, et al. <a href="#ref-R-EpiNow" role="doc-biblioref">2020</a><a href="#ref-R-EpiNow" role="doc-biblioref">b</a>)</span>, and later <code>EpiNow2</code> <span class="citation">(Sam Abbott, Hellewell, et al. <a href="#ref-R-EpiNow2" role="doc-biblioref">2020</a><a href="#ref-R-EpiNow2" role="doc-biblioref">a</a>)</span>. <code>EpiSoon</code> takes in reported cases to estimate the trajectory of <span class="math inline">\(R_t\)</span>. This trajectory is then forecasted into the future using <code>forecastHybrid</code> and transformed back to incidences using the renewal equation <span class="citation">Cori et al. (<a href="#ref-coriNewFrameworkSoftware2013" role="doc-biblioref">2013</a>)</span> that models futures cases as a weighted sum of past cases times <span class="math inline">\(R_t\)</span>. These three models are fit independently to each location.</p>
+<p>A third possibility is to model deaths more directly in terms of a regression framework. This the approach chosen by the UT-Mobliity model <span class="citation">(Woody et al. <a href="#ref-woodyProjectionsFirstwaveCOVID192020" role="doc-biblioref">2020</a>)</span>) that employs a Bayesian negative binomial regression model. One of the major predictors used is GPS mobility data provided by a company called SafeGraph. This data is used to compute measures of social distancing that are ultimately fed into the regression model.</p>
+<p>In order to provide a sensible baseline to compare models against, the Forecast Hub created the COVIDhub-baseline model. This model basically assumes that incidences will be the same as in the past and models the uncertainty around this estimate according to the distribution of past changes in incidences. More precisely, forecasts for incidences are generated in the following way: The time series of all past incidences is taken and first differences are formed. These first differences, as well as the negative of these incidences are then used further along. From this vector of past changes, samples are drawn to get a predictive distribution of future changes. A predictive distribution for future incidences is then obtained by adding these samples to the last observed incidence. The predictive distribution is then shifted to enforce that the mean of the distribution equals the last observed value. Incidences below zero are truncated, and quantiles are obtained from the samples.</p>
+<p>In addition to the models described above, four model ensembles were analysed. One of these ensembles, the COVIDhub-ensemble was an ensemble created by the Forecast Hub itself using a quantile average approach. This ensemble was formed by taking the arithmetic mean of the corresponding quantiles from all eligible models. Models were deemed eligible if they passed some general sense checks, for example that cumulative forecasts were not decreasing over time. The number of models included varies from state to state as not all teams submitted forecasts for all locations. The other three ensembles were formed from the above described eight original models.</p>
+<p>The mean-ensemble is a simple equally weighted quantile average of all original models. All models included in the mean-ensemble are therefore also included in the COVIDhub-ensemble. The mean-ensemble therefore serves as an important control. Any performance difference between the two ensembles can be attributed to the effect of the selection of models included for the analysis.</p>
+<p>The qra-ensemble is formed based on the two last weeks of data using the methodology outlined in Chapter <a href="model-aggregation.html#model-aggregation">3</a>. The qra-ensemble takes all past forecasts for which we have observations into account. It is therefore created using one and two-week-ahead forecasts. For the first evaluation date, June 29th, only one week of past data was used to inform the ensemble weights. Two weeks of past data were chosen as a sensible default to avoid overfitting. Chapter <a href="results.html#results">5</a>, however, also provides a sensitivity analysis that explores other choices.</p>
+<p>The crps-ensemble was also formed using two weeks of past data. But in order to make model aggregation possible, forecasts had to be transformed first. While the CRPSensemble approach described in Chapter <a href="model-aggregation.html#model-aggregation">3</a> is based on predictive samples, the Forecast Hub only stores predictive distributions in a quantile forecast. We therefore fit a separate gamma distribution to every set of predictive quantiles. The gamma distribution was chosen for its simplicity and reasonably good fit. The family of Metalog distributions described by <span class="citation">Keelin (<a href="#ref-keelinMetalogDistributions2016" role="doc-biblioref">2016</a>)</span> where tested as an alternative in the context of a sensitivity analysis described in Chapter <a href="results.html#results">5</a>. The fitted distributions were subsequently used to obtain 1 000 predictive samples per forecast. We then estimated weights based on the predictive samples and created a mixture distribution by random sampling from the individual model samples with probability equal to the estimated weights. The samples drawn for the mixture model were then again used to create quantiles. This approach is not ideal as it is bound to lose information, but overall showed acceptable results. Figure <a href="background-data.html#fig:difference-true-sampled">4.2</a> shows the difference between quantiles from the actual predictive distributions submitted to the Forecast Hub and sample quantiles obtained by random sampling from a gamma distribution fitted to the same forecasts. This figure includes all forecasts for all locations, forecast dates and quantiles at once. It therefore does not show the full picture, but suggests that the approach works reasonably for most quantiles of the predictive distribution. Only for higher quantiles can we see substantial deviations. As we argue in Chapter <a href="results.html#results">5</a>, these outer quantiles exert only a minor influence on overall performance as measured by the Weighted Interval Score. As <code>stackr</code> currently does not support multiple forecast horizons, we chose a two week forecast horizon to optimise for. This effectively meant that the crps-ensemble could not use as much data as the qra-ensemble, since forecasts from the previous week did not yet have matching observations and therefore only the two-week-ahead forecasts from two weeks ago could be used. Again, other possible choices for these parameters are explored in Chapter <a href="results.html#results">5</a>.</p>
+<div class="figure"><span id="fig:difference-true-sampled"></span>
+<img src="../visualisation/chapter-4-ensemble/difference-true-sampled.png" alt="Comparison of actual quantiles and the quantiles that were recovered by first fitting a gamma distribution to the quantiles and obtaining samples from that distribution." width="95%" />
+<p class="caption">
+Figure 4.2: Comparison of actual quantiles and the quantiles that were recovered by first fitting a gamma distribution to the quantiles and obtaining samples from that distribution.
+</p>
+</div>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-coriNewFrameworkSoftware2013">
+<p>Cori, Anne, Neil M. Ferguson, Christophe Fraser, and Simon Cauchemez. 2013. “A New Framework and Software to Estimate Time-Varying Reproduction Numbers During Epidemics.” <em>American Journal of Epidemiology</em> 178 (9): 1505–12. <a href="https://doi.org/10.1093/aje/kwt133">https://doi.org/10.1093/aje/kwt133</a>.</p>
+</div>
+<div id="ref-dongInteractiveWebbasedDashboard2020">
+<p>Dong, Ensheng, Hongru Du, and Lauren Gardner. 2020. “An Interactive Web-Based Dashboard to Track COVID-19 in Real Time.” <em>The Lancet Infectious Diseases</em> 20 (5): 533–34. <a href="https://doi.org/10.1016/S1473-3099(20)30120-1">https://doi.org/10.1016/S1473-3099(20)30120-1</a>.</p>
+</div>
+<div id="ref-keelinMetalogDistributions2016">
+<p>Keelin, Thomas W. 2016. “The Metalog Distributions.” <em>Decision Analysis</em> 13 (4): 243–77. <a href="https://doi.org/10.1287/deca.2016.0338">https://doi.org/10.1287/deca.2016.0338</a>.</p>
+</div>
+<div id="ref-R-EpiSoon">
+<p>Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, et al. 2020. <em>EpiSoon: Forecast Cases Using Reproduction Numbers</em>.</p>
+</div>
+<div id="ref-R-EpiNow2">
+<p>Sam Abbott, Joel Hellewell, James Munday, Robin Thompson, and Sebastian Funk. 2020a. <em>EpiNow2: Estimate Realtime Case Counts and Time-Varying Epidemiological Parameters</em>.</p>
+</div>
+<div id="ref-R-EpiNow">
+<p>Sam Abbott, Joel Hellewell, James Munday, Robin Thompson, and Sebastian Funk. 2020b. <em>EpiNow: Estimate Realtime Case Counts and Time-Varying Epidemiological Parameters</em>.</p>
+</div>
+<div id="ref-R-forecastHybrid">
+<p>Shaub, David, and Peter Ellis. 2020. <em>ForecastHybrid: Convenient Functions for Ensemble Time Series Forecasts</em>. <a href="https://CRAN.R-project.org/package=forecastHybrid">https://CRAN.R-project.org/package=forecastHybrid</a>.</p>
+</div>
+<div id="ref-umass-amherstinfluenzaforecastingcenterofexcellenceCovid19forecasthubOrg2020">
+<p>UMass-Amherst Influenza Forecasting Center of Excellence. 2020. “Covid19forecasthub.Org.” <em>Https://Github.com/Reichlab/Covid19-Forecast-Hub</em>. https://covid19forecasthub.org/.</p>
+</div>
+<div id="ref-woodyProjectionsFirstwaveCOVID192020">
+<p>Woody, Spencer, Mauricio Garcia Tec, Maytal Dahan, Kelly Gaither, Michael Lachmann, Spencer Fox, Lauren Ancel Meyers, and James G Scott. 2020. “Projections for First-Wave COVID-19 Deaths Across the US Using Social-Distancing Measures Derived from Mobile Phones.” Preprint. Infectious Diseases (except HIV/AIDS). <a href="https://doi.org/10.1101/2020.04.16.20068163">https://doi.org/10.1101/2020.04.16.20068163</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="10">
+<li id="fn10"><p>The following 23 quantiles were recorded: <code>c(0.01, 0.025, seq(0.05, 0.95, by = 0.05), 0.975, 0.99)</code>.<a href="background-data.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>Model descriptions were uploaded by the teams on <a href="https://github.com/reichlab/covid19-forecast-hub/tree/master/data-processed">github.com/reichlab/covid19-forecast-hub/tree/master/data-processed</a>. The descriptions were accessed on July 8th 2020. As descriptions on github were updated whenever the model changes, this overview may therefore not be entirely accurate for all models over the entire history of past submissions included in the analysis.<a href="background-data.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>See e.g. <span class="citation">Brauer (<a href="#ref-brauerCompartmentalModelsEpidemiology2008" role="doc-biblioref">2008</a>)</span> for an extensive overview.<a href="background-data.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>See <a href="https://github.com/dsheldon/covid">github.com/dsheldon/covid</a>.<a href="background-data.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>See <a href="https://covid19-projections.com">covid19-projections.com</a> and <a href="https://github.com/youyanggu/covid19_projections">github.com/youyanggu/covid19_projections</a>.<a href="background-data.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>See e.g. <span class="citation">Nishiura and Chowell (<a href="#ref-nishiuraEffectiveReproductionNumber2009" role="doc-biblioref">2009</a>)</span> or <span class="citation">Cori et al. (<a href="#ref-coriNewFrameworkSoftware2013" role="doc-biblioref">2013</a>)</span> for an in-depth discussion<a href="background-data.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>See <a href="https://blogs.cuit.columbia.edu/jls106/publications/covid-19-findings-simulations/">blogs.cuit.columbia.edu/jls106/publications/covid-19-findings-simulations/</a>.<a href="background-data.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<li id="fn17"><p>See for example <span class="citation">Hyndman, Rob J and Athanasopoulos, George (<a href="#ref-hyndmanrobjForecastingPrinciplesPractice2019" role="doc-biblioref">2019</a>)</span> for an in-depth overview of different models and approaches.<a href="background-data.html#fnref17" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="model-aggregation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="results.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nikosbosse/master_thesis/04-data-models.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["master_thesis.pdf", "master_thesis.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

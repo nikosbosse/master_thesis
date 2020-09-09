@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Results - evaluation and aggregation of Covid-19 death forecasts | index.split</title>
+  <meta name="description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Results - evaluation and aggregation of Covid-19 death forecasts | index.split" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="logo_university.png" />
+  <meta property="og:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="github-repo" content="nikosbosse/master_thesis" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Results - evaluation and aggregation of Covid-19 death forecasts | index.split" />
+  
+  <meta name="twitter:description" content="This thesis, titled ‘Evaluation and Aggregation of Covid-19 death forecasts in the United States’ was submitted as a master thesis in Applied Statistics at the Universität Göttingen in September 2020." />
+  <meta name="twitter:image" content="logo_university.png" />
+
+<meta name="author" content="Nikos Bosse" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="background-data.html"/>
+<link rel="next" href="discussion.html"/>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="ackowldedgements.html"><a href="ackowldedgements.html"><i class="fa fa-check"></i>Ackowldedgements</a></li>
+<li class="chapter" data-level="" data-path="abbreviations.html"><a href="abbreviations.html"><i class="fa fa-check"></i>Abbreviations</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="evaluation.html"><a href="evaluation.html"><i class="fa fa-check"></i><b>2</b> Forecasting and evaluation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="evaluation.html"><a href="evaluation.html#forecast-types"><i class="fa fa-check"></i><b>2.1</b> An overview of differenct forecast types</a></li>
+<li class="chapter" data-level="2.2" data-path="evaluation.html"><a href="evaluation.html#the-forecasting-paradigm"><i class="fa fa-check"></i><b>2.2</b> The forecasting paradigm</a></li>
+<li class="chapter" data-level="2.3" data-path="evaluation.html"><a href="evaluation.html#assessing-calibration"><i class="fa fa-check"></i><b>2.3</b> Assessing calibration</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="evaluation.html"><a href="evaluation.html#calibration-and-bias"><i class="fa fa-check"></i><b>2.3.1</b> Calibration and bias</a></li>
+<li class="chapter" data-level="2.3.2" data-path="evaluation.html"><a href="evaluation.html#calibration-and-empirical-coverage"><i class="fa fa-check"></i><b>2.3.2</b> Calibration and empirical coverage</a></li>
+<li class="chapter" data-level="2.3.3" data-path="evaluation.html"><a href="evaluation.html#calibration-and-the-probability-integral-transform"><i class="fa fa-check"></i><b>2.3.3</b> Calibration and the probability integral transform</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="evaluation.html"><a href="evaluation.html#assessing-sharpness"><i class="fa fa-check"></i><b>2.4</b> Assessing sharpness</a></li>
+<li class="chapter" data-level="2.5" data-path="evaluation.html"><a href="evaluation.html#proper-scoring-rules"><i class="fa fa-check"></i><b>2.5</b> Proper scoring rules</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="evaluation.html"><a href="evaluation.html#log-score"><i class="fa fa-check"></i><b>2.5.1</b> Log Score</a></li>
+<li class="chapter" data-level="2.5.2" data-path="evaluation.html"><a href="evaluation.html#continuous-ranked-probability-score"><i class="fa fa-check"></i><b>2.5.2</b> (Continuous) Ranked Probability Score</a></li>
+<li class="chapter" data-level="2.5.3" data-path="evaluation.html"><a href="evaluation.html#interval-score"><i class="fa fa-check"></i><b>2.5.3</b> Interval score</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="evaluation.html"><a href="evaluation.html#a-proposed-evaluation-framework"><i class="fa fa-check"></i><b>2.6</b> A proposed evaluation framework</a></li>
+<li class="chapter" data-level="2.7" data-path="evaluation.html"><a href="evaluation.html#the-scoringutils-package"><i class="fa fa-check"></i><b>2.7</b> The scoringutils package</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="model-aggregation.html"><a href="model-aggregation.html"><i class="fa fa-check"></i><b>3</b> Model aggregation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-idea"><i class="fa fa-check"></i><b>3.1</b> Theoretical idea</a></li>
+<li class="chapter" data-level="3.2" data-path="model-aggregation.html"><a href="model-aggregation.html#the-quantile-regression-average-ensemble"><i class="fa fa-check"></i><b>3.2</b> The Quantile Regression Average ensemble</a></li>
+<li class="chapter" data-level="3.3" data-path="model-aggregation.html"><a href="model-aggregation.html#the-crps-ensemble"><i class="fa fa-check"></i><b>3.3</b> The CRPS ensemble</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="background-data.html"><a href="background-data.html"><i class="fa fa-check"></i><b>4</b> Data and forecasting models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="background-data.html"><a href="background-data.html#introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Introduction to the COVID-19 Forecast Hub and overview of the data</a></li>
+<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview the different forecast models</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results - evaluation and aggregation of Covid-19 death forecasts</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#visualisation"><i class="fa fa-check"></i><b>5.1</b> Forecast visualisation</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#summarised-scores"><i class="fa fa-check"></i><b>5.2</b> Summarised scores and overall performance</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#relationship"><i class="fa fa-check"></i><b>5.3</b> Examining the relationship between individual metrics</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#contributors"><i class="fa fa-check"></i><b>5.4</b> Identifying main contributors to the WIS</a></li>
+<li class="chapter" data-level="5.5" data-path="results.html"><a href="results.html#external-drivers"><i class="fa fa-check"></i><b>5.5</b> Identifying external drivers of differences WIS</a></li>
+<li class="chapter" data-level="5.6" data-path="results.html"><a href="results.html#model-characteristics"><i class="fa fa-check"></i><b>5.6</b> Understanding model characteristics that drive differences in WIS</a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="results.html"><a href="results.html#bias"><i class="fa fa-check"></i><b>5.6.1</b> Bias</a></li>
+<li class="chapter" data-level="5.6.2" data-path="results.html"><a href="results.html#coverage"><i class="fa fa-check"></i><b>5.6.2</b> Coverage</a></li>
+<li class="chapter" data-level="5.6.3" data-path="results.html"><a href="results.html#pit-histograms"><i class="fa fa-check"></i><b>5.6.3</b> PIT histograms</a></li>
+<li class="chapter" data-level="5.6.4" data-path="results.html"><a href="results.html#sharpness"><i class="fa fa-check"></i><b>5.6.4</b> Sharpness</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="results.html"><a href="results.html#ensemble-models"><i class="fa fa-check"></i><b>5.7</b> Specific analysis of ensemble models</a></li>
+<li class="chapter" data-level="5.8" data-path="results.html"><a href="results.html#sensitivity"><i class="fa fa-check"></i><b>5.8</b> Sensitivity analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Summary and discussion</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>A</b> Appendix</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nikosbosse/master_thesis" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"><p><img src="logo_university.png" style="width:5in" /></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><strong>Evaluation and Aggregation of Covid-19 Death Forecasts in the United States</strong></p>
+<p><span class="math inline">\(~~~~~\)</span></p>
+<p><span class="math inline">\(~~~~~\)</span></p></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="results" class="section level1" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Results - evaluation and aggregation of Covid-19 death forecasts</h1>
+<p>This chapter applies the tools presented in Chapters <a href="evaluation.html#evaluation">2</a> and <a href="model-aggregation.html#model-aggregation">3</a> to the data introduced in Chapter <a href="background-data.html#background-data">4</a>. We analyse the performance of the Forecast Hub models as well as the ensembles in detail to find out which models perform well and why. The structure of this chapter largely follows the general structure of the evaluation process proposed in Chapter <a href="evaluation.html#evaluation">2</a>, at times digressing a bit further to discuss additional aspects of interest. The starting point of the analysis forms the visualisation of the forecasts in Section <a href="results.html#visualisation">5.1</a>. In Section <a href="results.html#summarised-scores">5.2</a> we then assess overall model performance to determine which models perform well and which do not. To that end we examine summarised scores, as well as take a look at scores in terms of a mixed effects regression. We subsequently analyse how the metrics relate to each other, what contributes to the performance measures and what drives differences in performance. We first examine correlations between the individual metrics in Section <a href="results.html#relationship">5.3</a>. While this is not strictly necessary for the model evaluation, it provides us with a better understanding of the metrics themselves. Afterwards, in Section <a href="results.html#contributors">5.4</a>, we explore the main contributors to the various scores. This analysis focuses mainly on the Weighted Interval Score (WIS) and its components, but we also look at how different ranges of the predictive distributions contribute to our measures of sharpness, calibration and overall performance. In Section <a href="results.html#external-drivers">5.5</a> we then look at the main external factors and especially characteristics of the locations that drive performance differences. After having analysed the properties of the metrics and external factors that drive divergences in scores, we examine the models themselves more closely. In Section <a href="results.html#model-characteristics">5.6</a> we look at various aspects of calibration and sharpness in detail that help us to explain performance differences as well as hint to ways in which the models could be improved. The evaluation is followed by a discussion of the ensemble models in Section <a href="results.html#ensemble-models">5.7</a> where we discuss some aspects specific to the ensembles in more detail. These include a look at ensemble weights over time as well as analysis of different ensemble alternatives. Finally, we present a small sensitivity analysis in Section <a href="results.html#sensitivity">5.8</a> that serves to check the plausibility of the inferences made throughout the chapter.</p>
+<!-- One final note on notation: Sometimes throughout this chapter it becomes necessary to distinguish abstract concepts like bias or sharpness from the actual metrics, also named *bias* or *sharpness*, that we use to measure these properties. We will therefore denote the metric in italic, and speak more broadly of the concept if we use terms like bias and sharpness.  -->
+<div id="visualisation" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Forecast visualisation</h2>
+<p>A natural first starting point for the evaluation process is to visualise the forecasts and the observations to get a sense of the data. Figure <a href="results.html#fig:models-us">5.1</a> shows one and four-week-ahead forecasts for the United States as a whole<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a>. From a brief, look we can see that most models generally predicted death numbers adequately in the short term. For four-week-ahead predictions, performance seems to have deteriorated significantly. We can already identify differences between the candidates. The mean-ensemble, crps-ensemble and UMass-MechBayes model for example made consistently good forecasts at one and four week ahead predictions. The UT-Mobility model looks good for one week ahead (except for the last time point), but performed poorly with regards to longer-term forecasts. Predictions from the LANL-GrowthRate model seem rather off regardless of the horizon.</p>
+<div class="figure"><span id="fig:models-us"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/US-forecast-1-4-wk-ahead.png" alt="One week ahead forecasts for the US from all models. Observations are shown in black, median predictions ar marked by white points, ribbons show the 50 percent and 90 percent prediction intervals." width="100%" />
+<p class="caption">
+Figure 5.1: One week ahead forecasts for the US from all models. Observations are shown in black, median predictions ar marked by white points, ribbons show the 50 percent and 90 percent prediction intervals.
+</p>
+</div>
+</div>
+<div id="summarised-scores" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Summarised scores and overall performance</h2>
+<p>We start our formal model evaluation by assessing overall model performance. To that end, we first look at aggregated scores from the different metrics that help us to summarise all the complexity and nuances in a few numbers. Afterwards, we present the results of mixed-effects regression used to determine differences between models.</p>
+<p>Figure <a href="results.html#fig:coloured-summarised-scores">5.2</a> shows the summarised scores for all eleven models from the metrics presented in Chapter <a href="evaluation.html#evaluation">2</a>. Models are ordered according to the Weighted Interval Score (WIS). Note that the model ranking was slightly different for log transformed values of the WIS. This suggests that the average Weighted Interval Score was substantially influenced by extreme values. This overview gives us a very concise summary of overall model performance. We can see a rather clear divide between two groups in terms of performance: the four ensembles, UMass-MechBayes and YYG-ParamSeach performed similarly well, whereas the second group was less favourably ranked. This largely confirms the first visual impression obtained from Figure <a href="results.html#fig:models-us">5.1</a>. We also see already that worse performing models tended to be more biased and to be either less calibrated or less sharp.</p>
+<div class="figure"><span id="fig:coloured-summarised-scores"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/coloured-summarised-scores.png" alt="Colour coded summary of scores. Neutral / optimal values are shown in white, too low values in blue and too high values in red. Overprediction and underprediction refer to the over- and underprediction penalty parts of the WIS. Summed together, they form the column 'penalty' which again together with the 'sharpness' column sums up to the WIS. The absolute bias was included as well, as the original bias included both positive and negative values and the average can therefore be misleading." width="100%" />
+<p class="caption">
+Figure 5.2: Colour coded summary of scores. Neutral / optimal values are shown in white, too low values in blue and too high values in red. Overprediction and underprediction refer to the over- and underprediction penalty parts of the WIS. Summed together, they form the column ‘penalty’ which again together with the ‘sharpness’ column sums up to the WIS. The absolute bias was included as well, as the original bias included both positive and negative values and the average can therefore be misleading.
+</p>
+</div>
+<p>To examine whether models were actually really significantly different in their performance, we employed a mixed-effects model with fixed effects for models and horizons and random effects for states and forecast dates. The model formula looks as follows:</p>
+<p><code>lmer(log_scores ~ model + horizon + (1|state) + (1|forecast_date)</code>.</p>
+<p>Log Weighted Interval scores were used instead of the WIS to mitigate issues with heavy tails of the original distribution. As a baseline we took the COVIDhub-ensemble model (the top performer). This helped us to discern whether models at the top could actually be distinguished and show significant performance differences.</p>
+<p>Table <a href="#tab:random-effects-model"><strong>??</strong></a> shows the results from that regression. We can see that the regression confirms general tendencies observed before. The overall ranking of model effects corresponds to the model ranking by log Interval Score presented in <a href="results.html#fig:coloured-summarised-scores">5.2</a>. The regression output suggests again a clear split between two groups of models in terms of performance. Models in the top group were roughly comparable and not significantly different from the COVIDhub-ensemble model, except for the mean ensemble and maybe the qra-ensemble which fared a bit worse. As expected, the horizon had a highly significant effect on the Weighted Interval Score.</p>
+<p>This regression framework is not only helpful in terms of model selection, but also provides a starting point to determine the key factors that drive differences in overall model scores. This will be discussed later, when we examine the random effects from the regression output more closely. In applications beyond this thesis, the regression framework is also very helpful in case of an incomplete set of predictions. If a certain research group for example misses a submission or does not submit forecasts in all states, then we can better mitigate this in a regression framework than by merely averaging over all available data. The specific regression we used can of course be adapted. We could for example include an interaction between model and horizon to control for the fact that some models cope better or worse with increasing uncertainty. One could also model horizon as a factor instead of a metric variable. If we were, for example, especially interested in performance over a four-week-ahead horizon, we could then estimate a separate effect for every model at horizon four by looking at the combination of the model effect and the interaction.</p>
+</div>
+<div id="relationship" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Examining the relationship between individual metrics</h2>
+<p>Before we analyse the performance differences that became evident in the previous section, we take a closer look at how the various evaluation metrics relate. Figure <a href="results.html#fig:correlation-map">5.3</a> shows the correlation between all metrics. We can see that, as expected, the penalty and sharpness terms correlated very strongly with the Weighted Interval Score. Penalty and WIS have the strongest correlation, and the overall penalty was again most strongly correlated with overprediction. Interestingly, penalty and sharpness were also positvely correlated. We should expect an increase in sharpness to lead to a decrease in penalties (as penalties only apply whenever an observation is outside the prediction interval). The fact that we see instead a positive correlation highlights that this analysis does not control for the performance level. Worse performing models evidently were less sharpn (i.e. had higher sharpness values) and also incurred more penalties at the same time. Bias and coverage deviation, as measured by the metrics described in Chapter <a href="evaluation.html#evaluation">2</a>, had a weaker correlation with the Interval Score. This is an indication that coverage deviation and bias measure aspects that the WIS does not capture directly. Even though we do rely heavily on the WIS to measure performance, it is important to remind ourselves that the WIS does not in fact equal predictive performance, but is instead only one of many possible ways to measure it. As long as we follow the forecasting paradigm of maximising sharpness subject to calibration it does make sense to also take other measures into account. It is also interesting to see that absolute bias and coverage deviation were more strongly correlated with the log Interval Score than the original WIS. This makes sense if we think of the log WIS as less influenced by outliers, since coverage deviation and our bias metric also tend to be rather robust. Even if none of the prediction intervals covers the true value, coverage deviation and bias scores are bounded. The WIS, on the other hand, can take infinitely large values depending on how much the predicitve intervals have missed.</p>
+<!-- Bias, for example, broadly measures a similar thing like the over- and underprediction penalties do. It may, however, give you a clearer sense in terms of model improvement, as the percentage of values below or above the true value is not conflated with the actual width of the predictive intervals. Two models may have similar bias, but incur very different penalties, because one model is less sharp and even farther away from the observations. THINK ABOUT THIS AGAIN.  
+It is therefore be useful to look at both aspects separately, but to understand how they interact. Note also that these correlations are influenced by the specific weighting, $\frac{\alpha}{2}$ chosen for the WIS and that other weights may yield different results. -->
+<!-- We can also see that bias and coverage deviation correlate strongly, which makes intuitive sense. A large absolute bias will lead to a lower empirical coverage which in turn results in a negative value for coverage deviation since coverage deviation is calculated as the difference between empirical coverage and desired nominal coverage.  -->
+<div class="figure" style="text-align: center"><span id="fig:correlation-map"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/correlation-map.png" alt="Correlation between the different metrics " width="100%" />
+<p class="caption">
+Figure 5.3: Correlation between the different metrics
+</p>
+</div>
+<p>Figure <a href="results.html#fig:correlation-plot">5.4</a> goes into even more detail and shows a full correlation plot with all univariate and bivariate distributions. We can clearly see on the diagonal that the distributions of the WIS, as well as its components, had heavy tails. We can also make another interesting observations: A positive coverage deviation (i.e. covering too much by stating too wide prediction intervals) was still associated with a lower WIS in the models analysed, even though a positive coverage deviation is in principle also a form of miscalibration. This suggests that better models also tended to exhibit positive coverage deviation. It also implies that these could have presumably performed even better had they had slightly narrower prediction intervals.</p>
+<!-- We also see that while absolute bias and coverage deviation correlate with WIS, the variance is still immense.  -->
+<div class="figure" style="text-align: center"><span id="fig:correlation-plot"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/corr-plot.png" alt="Correlation plot that shows bivariate scatter plots for all evaluation metrics." width="100%" />
+<p class="caption">
+Figure 5.4: Correlation plot that shows bivariate scatter plots for all evaluation metrics.
+</p>
+</div>
+<p>To examine the main determinants of the Weighted Interval Score, we ran a regression of the log Weighted Interval Score on absolute bias, coverage deviation and sharpness and the penalty term:</p>
+<p><code>lm(log_scores ~ abs(bias) + coverage_deviation + sharpness + penalty)</code>.</p>
+<p>The result can be seen in Table <a href="#tab:regression-wis-metrics"><strong>??</strong></a>. All regressors have been standardised, estimates should therefore be interpreted in terms of standard deviations away from the average values. We can see that all metrics had a strong and significant influence on the log WIS. This supports the idea to take multiple different metrics into account. The independent effects of ‘sharpness’ and ‘coverage deviation’ seem to have been especially pronounced. This makes sense in the context of the forecasting paradigm, but may as well just reflect the specific data set analysed here.</p>
+</div>
+<div id="contributors" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Identifying main contributors to the WIS</h2>
+<p>The last section has given us a better sense of how different metrics relate and has offered a first look at what aspects of the predictive distribution most strongly determine the Interval Scores. This section continues the analysis into the main contributors of the various scores. We first split the WIS into its components: sharpness and the penalties for over- and underprediction. Afterwards, we look into how different ranges of the predictive distributions contribute to the different metrics and the WIS in particular.</p>
+<p>Figure <a href="results.html#fig:wis-contributions">5.5</a> shows the WIS for all eleven models over different horizons, separated into its components sharpness, overprediction and underprediction. We immediately see that forecasts further ahead into the future received the largest WIS and therefore also had the largest impact on average WIS. We can also see that, especially for worse performing models, over- and underprediction penalties constituted a bigger share of the overall WIS than the sharpness component. For better performing models, the share of the sharpness component relative to the overall WIS increased. This makes sense in the context of the forecasting paradigm, where sharpness should become increasingly important once calibration is satisfied. We can also observe that most models incurred the majority of their penalties from underprediction. This is even true for models that according to Figure <a href="results.html#fig:coloured-summarised-scores">5.2</a> exhibited no bias or even a slight upward bias, like the mean-ensemble. This underlines again that the bias metric behaves slightly different from the under- and overprediction component of the WIS. The former measures the innermost quantile that covered the true value. The latter measures the actual difference between predictions and observations and is therefore more sensitive to extreme values. It is therefore possible that inaccuracies in one direction get more severely punished than inaccuracies in the other, even if both types of inaccuracies appear equally often.</p>
+<div class="figure" style="text-align: center"><span id="fig:wis-contributions"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/wis-contributions.png" alt="Contributions to the Weighted Interval Score from its underprediction (blue), overprediction (red) and sharpness (green) components." width="100%" />
+<p class="caption">
+Figure 5.5: Contributions to the Weighted Interval Score from its underprediction (blue), overprediction (red) and sharpness (green) components.
+</p>
+</div>
+<p>To understand the the observed scores better we also looked at the contributions from different interval ranges to the various metrics. Figure <a href="results.html#fig:scores-ranges">5.6</a> shows these contributions to WIS, sharpness, penalty, and coverage deviation. We can observe that inner prediction intervals had the strongest influence on the WIS, while outer intervals mattered less important. This can be explained by the weighting scheme of the Interval Score, as well as the fact that outer prediction intervals naturally incur less penalties from over- or underprediction. In terms of sharpness it seems that intervals around the 50% interval range have the strongest impact. Outer prediction intervals get weighted down, while inner intervals are too narrow to have a strong influence. If we look at coverage deviation, however, we see that problems in forecasts tend to be even more pronounced in the tails of the distribution. These tails, however, matter less for the WIS as they receive only a small weight.</p>
+<div class="figure"><span id="fig:scores-ranges"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/all-range-plots.png" alt="Weighted Interval Score (top), added penalties from over- and underprediction (second from top), sharpness component of WIS (third from top) and coverage deviatin (bottom) for all eleven models and different interval ranges. We can see that overall outer intervals contributed less to the total WIS." width="100%" />
+<p class="caption">
+Figure 5.6: Weighted Interval Score (top), added penalties from over- and underprediction (second from top), sharpness component of WIS (third from top) and coverage deviatin (bottom) for all eleven models and different interval ranges. We can see that overall outer intervals contributed less to the total WIS.
+</p>
+</div>
+</div>
+<div id="external-drivers" class="section level2" number="5.5">
+<h2><span class="header-section-number">5.5</span> Identifying external drivers of differences WIS</h2>
+<p>So far we have analysed the behaviours of the evaluation metrics and looked at the most important contributors to the scores. In this section and the following one we want to examine what drives differences in WIS. This section identifies determining factors other than the models themselves, while the next section examines individual model characteristics more closely.</p>
+<p>As a starting point, we look again at the mixed-effects regression shown in Table <a href="#tab:random-effects-model"><strong>??</strong></a>. From the fixed effects estimates, we already know that the forecast horizon made a large difference in average scores. We can now go one step further and also analyse the estimated random effects from the same regression model. These are shown in Figure <a href="results.html#fig:random-effects">5.7</a>. We can see that forecast dates did not have a very strong effect, but that states did. This difference between the states could have been completely driven by differences in death numbers or it could be due to variation in how difficult it was to forecast certain states. The remainder of this section examines this more closely.</p>
+<div class="figure"><span id="fig:random-effects"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/random-effects.png" alt="Random effect estimates for the different locations (left) and forecast dates (right)" width="100%" />
+<p class="caption">
+Figure 5.7: Random effect estimates for the different locations (left) and forecast dates (right)
+</p>
+</div>
+<p>Figure <a href="results.html#fig:wis-deaths">5.8</a> shows deaths on the x-axis versus Weighted Interval Scores per model on the y-axis. The plot shows substantial variation in scores, but overall a very strong relationship between average WIS and the number of deaths is visible<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>. It therefore seems that most of the variation in observed Interval Scores between states can be explained by the overall level of death numbers. We nevertheless continued and tried to identify states that were particularly hard to forecast.</p>
+<div class="figure"><span id="fig:wis-deaths"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/wis-vs-deaths.png" alt="Plot of the Weighted Interval Score achieved by the models per location versus the average death number in that location. The black diamonds mark the median WIS for that location." width="100%" />
+<p class="caption">
+Figure 5.8: Plot of the Weighted Interval Score achieved by the models per location versus the average death number in that location. The black diamonds mark the median WIS for that location.
+</p>
+</div>
+<p>One natural way to estimate state difficulty is to measure it as the difference between the Interval Scores actually observed in a state and the ones that would be expected from this relationship. To that end we fit the following regression to the log Interval Scores:</p>
+<pre><code>
+lm(log(wis) ~ log(deaths)).
+</code></pre>
+<p>Difficulty was then estimated as
+<span class="math display">\[\text{difficulty}_{\text{location}} = \log(\text{WIS}) - (\beta_0 + \beta_1 \cdot \log(\text{deaths}_{\text{location}}).\]</span>
+The results are shown in Figure <a href="results.html#fig:dfficulty-states">5.9</a>. We can see that indeed models consistently struggled with some states, whereas others seem to have been easier to predict than expected by the number of their deaths. Comparing this to the visualisation of the observations from all locations in Figure <a href="background-data.html#fig:us-data">4.1</a>, however, we do not immediately see a clear picture emerge from this analysis. At least visually, for example, California looks harder to forecast than New Jersey<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>, New York or Pennsylvania. States with the hardest difficulty estimates still include states with very diverse patterns and trends. Some experienced falling death numbers (New Jersey, Pennsylvania) or very little change at all (New York<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a>), while others saw their death numbers rapidly increase (Texas).</p>
+<div class="figure"><span id="fig:dfficulty-states"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/difficulty-states-heatmap.png" alt="Estimated difficulty per state. Difficulty was estimated as the difference between actual log WIS and log WIS expected based on the relationship between log WIS and the log of the average death number." width="100%" />
+<p class="caption">
+Figure 5.9: Estimated difficulty per state. Difficulty was estimated as the difference between actual log WIS and log WIS expected based on the relationship between log WIS and the log of the average death number.
+</p>
+</div>
+<p>We also looked at coverage deviation as well as bias by state to get a feeling for how much models were off in terms of calibration across states. Figure <a href="results.html#fig:coverage-deviation-states">5.10</a> shows coverage deviation and Figure <a href="results.html#fig:bias-states">5.11</a> shows ‘bias’ for all models and locations. These analyses corresponded a bit better to our intuition of how hard it is to forecast states. Most of the states on the left in Figure <a href="results.html#fig:coverage-deviation-states">5.10</a> were states with slightly falling death numbers and relatively smooth curves. If we compare this to Figure <a href="results.html#fig:bias-states">5.11</a>, we see that a substantial part of what made states hard to predict was associated by a tendency among all models to over- or underpredict.</p>
+<div class="figure"><span id="fig:coverage-deviation-states"></span>
+<img src="../visualisation/chapter-5-results/heatmap-model-coverage.png" alt="Average coverage deviation for all models and all thirteen locations." width="100%" />
+<p class="caption">
+Figure 5.10: Average coverage deviation for all models and all thirteen locations.
+</p>
+</div>
+<div class="figure"><span id="fig:bias-states"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/heatmap-model-bias.png" alt="Average bias for all models and all thirteen locations." width="100%" />
+<p class="caption">
+Figure 5.11: Average bias for all models and all thirteen locations.
+</p>
+</div>
+<p>To understand what drives the dynamic it makes sense to look again at the visualisation of observed deaths in Figure <a href="background-data.html#fig:us-data">4.1</a>. We see that models exhibited the strongest downward bias in the locations that saw their numbers increase (Texas, Georgia, California, US, Florida, Ohio, Arizona) and the strongest upward bias in the states with falling death numbers (New Jersey, Maryland, New York, Pennsylvania). While this is unfeasible for all states, Figure <a href="results.html#fig:pred-texas">5.12</a> shows the one-week-ahead predictions and observed values in Texas as a case study. We can observe that Texas experienced a rapidly changing trend that all models were unable to keep up with. One particular feature that might have made Texas even harder to forecast than for example Georgia, California or Ohio, is that death numbers were very stable in the weeks following the stark increase. On the other hand, a similar observation could be made for death numbers in Florida, but bias was less pronounced there than in Texas. One could also argue that we should have expected bias to be even higher in states like Ohio, Georgia or California where deaths were falling before the change in trend. While we can make plausible hypotheses, we ultimately have to acknowledge that is hard to draw definitive conclusions with limited knowledge of how predictions were generated.</p>
+<div class="figure"><span id="fig:pred-texas"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/Texas-one-week.png" alt="One week ahead predictions and observed values in Texas" width="100%" />
+<p class="caption">
+Figure 5.12: One week ahead predictions and observed values in Texas
+</p>
+</div>
+</div>
+<div id="model-characteristics" class="section level2" number="5.6">
+<h2><span class="header-section-number">5.6</span> Understanding model characteristics that drive differences in WIS</h2>
+<p>In the last section we have looked into the main external drivers of variation in WIS. This section analyses characteristics inherent to the models themselves that explain divergences in performance. As a starting point we examine whether models performed substantially different across locations, or whether models tended to perform conistently well or badly. We then look in detail at patterns in Bias, Coverage, PIT histograms, Sharpness that serve to explain performance differences.</p>
+<p>Figure <a href="results.html#fig:heatmap-performance-states">5.13</a> shows the WIS of all eleven models in all thirteen locations. The shading indicates how much larger a score is than the lowest score achieved in that state. We see that models tended to perform rather consistently across locations. This may be an indicator that models tended to fail in very similar ways. At least, we can conclude that any relative strengths that models may have had were dwarfed by divergences in overall performance. The qra-ensemble, for example, with its tendency to overpredict did well in states like Texas or California that most models underpredicted. On the other hand, it did not perform exceptionally well in the US and in Florida, two locations which were also prone to underprediction. The YYG-ParamSearch model, which is downwards bias on average, does very well in some states with falling death numbers (New York, New Jersey, Illinois), but mediocre in others (Massachusetts, maybe Maryland). It also is the best performing model in Georgia, one of the states that showed consistent underprediction by all models. We can hypothesise that models like the qra-ensemble or the YYG-ParamSearch might have had a relative advantage in locations with certain characteristics, but it is hard to identify general patterns, as overall performance clearly dominates the picture. To investigate further, the following subsections look more closely into differences in calibration and sharpness between the mdoels.</p>
+<div class="figure"><span id="fig:heatmap-performance-states"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/heatmap-model-scores.png" alt="Average Weighted Interval Score for all eleven models and all thirteen locations. The colouring indicates how much larger a score is than the lowest score achieved in that state." width="100%" />
+<p class="caption">
+Figure 5.13: Average Weighted Interval Score for all eleven models and all thirteen locations. The colouring indicates how much larger a score is than the lowest score achieved in that state.
+</p>
+</div>
+<div id="bias" class="section level3" number="5.6.1">
+<h3><span class="header-section-number">5.6.1</span> Bias</h3>
+<p>Just as we did in Chapter <a href="evaluation.html#evaluation">2</a>, we started our analysis of model calibration by examining systematic over- or underprediciton. Where we previously looked at bias with the goal to explain variation across states, this section investigates bias in order to explore differences in the models.</p>
+<p>Figure <a href="results.html#fig:bias-all">5.14</a> shows our bias metric as well as penalties from over- and underprediction for all models. Looking at the bias metric in the top panel of the figure, we see that models with lower overall WIS were also rather less biased. We also see a slight increase in bias for increasing foreacast horizons. If we also look at bias in terms of the over- and underprediction penalties incurred by the individual models, we clearly see that better models tended to avoid large penalties. In comparison with summarised scores and the contributions to overall WIS showin with Figures <a href="results.html#fig:coloured-summarised-scores">5.2</a> and <a href="results.html#fig:wis-contributions">5.5</a> we can clearly see the connection and trade-off between sharpness and misprediction penalties among the top performers. The UMass-MechBayes model, for example, largely avoided these penalties, but was also not very sharp. This trade-off between sharpness and prediction penalties is a general challenge forecasters face. The COVIDhub-ensemble was much sharper, but also suffered more misprediction penalties. We also see a bit of a tension between both ways to measure bias. From the first plot, we would for example conclude that the COVIDhub-ensemble did very well in terms of ‘bias’. From the second, we might draw that the model suffered from underprediction and that we could try and improve it by skewing it a bit upwards.</p>
+<div class="figure"><span id="fig:bias-all"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/prediction-penalties-and-bias.png" alt="Top: Bias for all models and different horizons. The black dot denotes the median bias, the black square the mean bias and different colour shadings show the 20, 40, and 90 percent intervals of all observed quantile values. Models are again ordered according to their overall performance by WIS. Bottom: Over- and underprediction penalties incurred by the different models. Underprediction penalties were shown as negative to make the illustration more intuitive." width="100%" />
+<p class="caption">
+Figure 5.14: Top: Bias for all models and different horizons. The black dot denotes the median bias, the black square the mean bias and different colour shadings show the 20, 40, and 90 percent intervals of all observed quantile values. Models are again ordered according to their overall performance by WIS. Bottom: Over- and underprediction penalties incurred by the different models. Underprediction penalties were shown as negative to make the illustration more intuitive.
+</p>
+</div>
+<p>For the purpose of individual model improvement it seems most useful to compare the evolution of bias over time with the actual predictions and observations. With the help of this comparison we can obtain insights regarding the particular situations that cause models to be biased or not. While this is of course unfeasible to do for all eleven models, Figure <a href="results.html#fig:bias-ensemble">5.15</a> shows one-week-ahead predictions and bias for the three ensemble models in the six locations with the highest average WIS. We see that all models made rather similar predictions. Even though differences were small, the qra-ensemble model looks slightly ahead in many (Arizona, California, maybe Texas) of the locations displayed with an upwards trend, but not all. Since these locations saw severe underprediction across all models, this might point towards a small relative advantage that the qra-ensemble enjoys in such locations. All models seem to have had similar difficulties with picking up rapid changes in trends. This was especially pronounced in Texas, as was discussed previously, but is also true for the other locations. We can also again see that models tended to overpredict when deaths were increasing (Arizona, Texas) and tended to underpredict when cases were decreasing (New Jersey, last two weeks in Arizona).</p>
+<div class="figure"><span id="fig:bias-ensemble"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/bias_ensemble.png" alt="Observations and predictions (top) as well as bias (bottom) for the four ensemble models in the six states that exhibited the largest absolute bias." width="100%" />
+<p class="caption">
+Figure 5.15: Observations and predictions (top) as well as bias (bottom) for the four ensemble models in the six states that exhibited the largest absolute bias.
+</p>
+</div>
+</div>
+<div id="coverage" class="section level3" number="5.6.2">
+<h3><span class="header-section-number">5.6.2</span> Coverage</h3>
+<p>We next turn to examine coverage. Figure <a href="results.html#fig:coverage-all">5.16</a> shows the empirical interval and quantile coverage for all eleven models. The green shading indicates the areas of the plot that correspond to excessive coverage, or correspondingly in the case of the quantile coverage to predictive quantiles which tend to be more extreme than they should. The interval coverage plots are especially good at giving us a quick impression of overall model calibration. In this regard, the COVIDhub-baseline model is an interesting example. While the aggregated coverage deviation score in Figure <a href="results.html#fig:coloured-summarised-scores">5.2</a> looked very good, we can now immediately conclude that the COVIDhub-baseline model was not well calibrated. Interval coverage provide a very good first impression, but cannot tell us where a lack of coverage comes from exactly. Quantile coverage plots are a bit harder to interpret, but they convey more information and can show us whether an issue is located in the lower or upper tails of the predictive distributions. With regards to the crps-ensemble for example, we see from the interval coverage plot that it was consistently covering too much by its prediction intervals. The quantile coverage plot allows us to be more precise and say that the issue arose from the lower tails of the predictive distributions that tended to be too wide.</p>
+<div class="figure"><span id="fig:coverage-all"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/coverage-plots.png" alt="Interval and quantile coverage for all models  across all locations and forecast dates" width="100%" />
+<p class="caption">
+Figure 5.16: Interval and quantile coverage for all models across all locations and forecast dates
+</p>
+</div>
+<p>The quantile coverage plots also allow us to reexamine the bias component of calibration again. We can for example see that the UT-Mobility and qra-ensemble, which exhibited an upward bias (compare again the summarised scores in Figure <a href="results.html#fig:coloured-summarised-scores">5.2</a>), are moved to the left of the diagonal, while e.g. the YYG-ParamSearch or the LANL-GrowthRate model, which were downward biased, are moved to the right. The COVIDhub-baseline model is again an interesting example, as it had a downward bias tendency, even though its median predictions were on average spot on<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>. The line in the quantile coverage plot almost exactly crosses (0.5, 0.5), but Figure <a href="results.html#fig:bias-all">5.14</a> shows that the model was nevertheless biased downwards on average and incurred more under- than overprediction penalties.</p>
+<p>We can, unsurprisingly, observe a general tendency that better performing models also showed better results in terms of interval and quantile coverage. Especially the COVIDhub-ensemble and the UMass-MechBayes models stand out in Figure <a href="results.html#fig:coverage-all">5.16</a>, while models in the lower performance bracket look much less favourably. The only real exception to that pattern is the epiforecasts-ensemble1. It does look much better in terms of coverage than other models that performed similarly well. To investigate further, one could examine calibration plots for the epiforecasts-ensemble1 model for every single location, but we omit this additional analysis here and instead show a plot of predictions versus observations in Figure <a href="results.html#fig:epiforecasts-ensemble1">5.17</a>. In the plot, we see that the model also exhibits a pattern of overprediction whenever death numbers were falling and underprediction whenever they were rising that results in the impression of a well calibrated model on an aggregate level. We also see that the model tended to sometimes be wrong in a very unpredictable way. Especially forecasts for July 27th seem affected, where predictions as well as the uncertainty made a sudden unpredictable jump in many locations. This again underlines the importance of breaking down the evaluation in smaller subcategories as well as looking on the aggregate level.</p>
+<div class="figure"><span id="fig:epiforecasts-ensemble1"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-epiforecasts-ensemble1-forecasts.png" alt="One-week ahead forecasts for the epiforecasts-ensemble1 model." width="100%" />
+<p class="caption">
+Figure 5.17: One-week ahead forecasts for the epiforecasts-ensemble1 model.
+</p>
+</div>
+<p>One major advantage this type of visualisation has over PIT histograms is that we can easily compare different models in a single plot. Figure <a href="results.html#fig:coverage-ensemble">5.18</a> exemplifies this for the ensemble models. In terms of interval coverage (left in the plot), the COVIDhub-ensemble and the qra-ensemble did best, while the crps-ensemble and the mean-ensemble had a slightly too high interval coverage. These observations are in line with the summarised scores displayed in Figure <a href="results.html#fig:coloured-summarised-scores">5.2</a>. Looking on the right, we can clearly see the COVIDhub-ensemble also did best in terms of quantile coverage. Given its good interval coverage, it may be surprising to see that the qra-ensemble model was the most biased of all ensemble models. We can explain this discrepancy by taking sharpness into account: In Figures <a href="results.html#fig:coloured-summarised-scores">5.2</a> and <a href="results.html#fig:wis-contributions">5.5</a> we could see that the COVIDhub-ensemble was much sharper than the other three ensembles which were about equally sharp. For the mean-ensemble and the crps-ensemble the increased width of the prediction intervals translated into a positive coverage deviation, while for the qra-ensemble it only mitigated the effect the increased bias would have had on interval coverage. This slight discrepancy between quantile and interval coverage, highlights again that interval coverage only shows one kind of calibration. Good interval coverage is a necessary condition, but not sufficient to prove good calibration.</p>
+<div class="figure"><span id="fig:coverage-ensemble"></span>
+<img src="../visualisation/chapter-5-results/coverage_ensemble.png" alt="Aggregated interval coverage (left) and quantile coverage (right) for all four ensemble models." width="100%" />
+<p class="caption">
+Figure 5.18: Aggregated interval coverage (left) and quantile coverage (right) for all four ensemble models.
+</p>
+</div>
+<p>In some cases it can be interesting to also visualise calibration over states or the evolution of coverage over horizons. This can, for example, be an indicator of how far ahead into the future we can forecast. As these plots tend to be somewhat hard to interpret, we have omitted this analysis here, but included a plot of coverage over different horizons in the Appendix in Figure <a href="appendix.html#fig:coverage-horizons">A.11</a>.</p>
+</div>
+<div id="pit-histograms" class="section level3" number="5.6.3">
+<h3><span class="header-section-number">5.6.3</span> PIT histograms</h3>
+<p>In addition to looking at coverage plots, we can also approach calibration through PIT histograms. Figure <a href="results.html#fig:all-pit-plots">5.19</a> shows the PIT histograms for all eleven models. These were created by first fitting a metalog distribution to predictive quantiles in order to obtain samples. The metalog distribution was chosen here to retain the information from the quantiles as accurately as possible. Instead, one could have created PIT histograms with exactly 23 bars directly from the quantiles submitted to the Forecast Hub. This, unfortunately is not yet implemented in the <code>scoringutils</code> package. Fitting samples also allows us to make use of the Anderson-Darling test for uniformity. We can see that the AD test is rejected for all models. This suggests that all models were miscalibrated, but we cannot rule out effects from fitting a distribution to the samples. As discussed in Chapter <a href="evaluation.html#evaluation">2</a>, the AD test may also sometimes be overly conservative. For many of the models we indeed saw signs of severe miscalibration in the coverage plots in Figure <a href="results.html#fig:coverage-all">5.16</a>. For others, like the COVIDhub-ensemble model, we may not want to reject calibration outright. Just on the basis of the AD test we can also not quantify miscalibration here. As all p-values are indistinguishably close to zero, the AD test is only of limited value here for the purpose of comparing models and differentiating betwen them.</p>
+<p>PIT histograms provide a very good way to succinctly summarise different aspects of calibration in one plot. The information they provide is very similar to the one included in quantile coverage plots. For forecasts in a continuous or integer forecast, PIT histograms can convey more information than coverage plots, if we choose an appropriately large bin size. For forecasts in a quantile format, we only have enough resolution to inform as many bins as we have available quantiles anyway. In our case, preferring PIT histograms or coverage plots is therefore purely a matter of taste. PIT histograms do have the advantage to combine the information included in interval coverage as well as quantile coverage plots. For example, they make it easy to visually diagnose over- or underdispersion in the forecasts by simply identifying a U-shape or hump-shape. We can see this hump-shape in the crps-ensemble or the mean-ensemble, and can observe a U-shape in the PIT histogram for the UT-Mobility model. We can also see again how upward and downward bias, respectively, are visible in the histograms for the qra-ensemble and the YYG-ParamSearch model. But as with coverage plots, we only see an aggregate picture and should also examine PIT histograms for individual locations or forecast dates.</p>
+<div class="figure"><span id="fig:all-pit-plots"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/all-pit-plots.png" alt="PIT histograms for all models. Samples were obtained by first fitting a metalog distribution to the set of quantiles. Note that the PIT plots shown here don't have the same scale on the y-axis, which make them easier to read on their own, but a bit harder to compare. " width="100%" />
+<p class="caption">
+Figure 5.19: PIT histograms for all models. Samples were obtained by first fitting a metalog distribution to the set of quantiles. Note that the PIT plots shown here don’t have the same scale on the y-axis, which make them easier to read on their own, but a bit harder to compare.
+</p>
+</div>
+</div>
+<div id="sharpness" class="section level3" number="5.6.4">
+<h3><span class="header-section-number">5.6.4</span> Sharpness</h3>
+<p>We already discussed sharpness briefly when we looked at the overall composition of the WIS. We concluded that sharpness plays an increasing role in differentiating top performing models, while it is only a small part of overall WIS for those models that struggle with calibration. We now look at sharpness again more closely, both in terms of model comparison as well as in terms of model improvement.</p>
+<p>Figure <a href="results.html#fig:sharpness-horizons">5.20</a> shows sharpness over different horizons for all eleven models. As expected and intended, prediction intervals tended to grow with increasing forecast horizons, and therefore accounted for increasing uncertainty. Only CU-select and LANL-GrowthRate slightly failed this basic sanity check as their median sharpness did not increase over all horizons. For the better performing models we mostly observe a moderate increase<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>, while worse performing models tend to see slightly sharper increases or more erratic behaviour. Given that we should maximise sharpness subject to calibration, it makes more sense to split the eleven models in two groups in order to compare sharpness between models that do equally well. One group comprises the four ensemble models as well as the UMAss-MechBayes and the YYG-ParamSearch, the other group includes the rest of the models.
+Within each group we indeed see a tendency that better performing models also were less sharp. We should, however, be careful not to interpret these findings causally. Given the high correlation between sharpness and penalty observed in the correlation map in Figure <a href="results.html#fig:correlation-map">5.3</a>, this may just reflect that better performing models also may have been sharper for unrelated reasons.</p>
+<div class="figure"><span id="fig:sharpness-horizons"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/sharpness-horizons.png" alt="Sharpness for all models over different horizons. The black dot denotes the median sharpness, the black square the mean sharpness and different colour shadings show the 20, 40, and 90 percent intervals of all observed quantile values. Models are again ordered according to their overall performance by WIS. Values were capped at 110 to make models comparable." width="100%" />
+<p class="caption">
+Figure 5.20: Sharpness for all models over different horizons. The black dot denotes the median sharpness, the black square the mean sharpness and different colour shadings show the 20, 40, and 90 percent intervals of all observed quantile values. Models are again ordered according to their overall performance by WIS. Values were capped at 110 to make models comparable.
+</p>
+</div>
+<p>In order to understand and improve the individual model, it is again most helpful to plot sharpness next to predictions. Figure <a href="results.html#fig:sharpness-crps-ensemble">5.21</a> shows this for the crps-ensemble model for one-week-ahead predictions. We can see that sharpness of the crps-ensemble model does not really follow a clearly identifiable pattern. As expected, it was much larger in locations like the US that saw more deaths on average. What we cannot see is the ensemble model consistently adapting in reaction to past mistakes. Ideally, we would want a model to make wider predictions whenever predictions and observations have not matched previously (for example, when the trend changes) and narrower ones when past predictions and observations have matched. Unfortunately, none of the original models really seems to have exhibited that kind of behaviour (compare the visualisations for one-week-ahead forecasts of all models in the Appendix) and the ensemble was not able to mitigate this shortcoming. Instead we see rather random looking changes in sharpness, e.g. in Arizona or in the national forecasts for the US that do not seem to be informed by past errors.</p>
+<div class="figure"><span id="fig:sharpness-crps-ensemble"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/sharpness-predictions-ensemble.png" alt="Predictions (top) and sharpness (bottom) of the crps-ensemble model in different locations." width="100%" />
+<p class="caption">
+Figure 5.21: Predictions (top) and sharpness (bottom) of the crps-ensemble model in different locations.
+</p>
+</div>
+</div>
+</div>
+<div id="ensemble-models" class="section level2" number="5.7">
+<h2><span class="header-section-number">5.7</span> Specific analysis of ensemble models</h2>
+<p>The past sections have provided a comprehensive evaluation of all eleven models, but have not devoted special attention to the analysis of the ensemble models. This section explores aspects specific to the ensembles. It focuses on the QRA and the CRPS ensemble, as these are the ones of greatest interest for the purpose of this thesis. The first part examines how ensemble member weights evolve over time for the two model aggregation approaches. The second part then looks at different variants of the QRA and CRPS ensemble varying the number of past observations to take into account or the horizon to optimise for. A regression framework is used again to determine differences between the different ensemble variants.</p>
+<p>The COVIDhub-ensemble and the mean-ensemble serve as a benchmark and a control for this analysis. The mean-ensemble is a control in the sense that all models in the mean-ensemble are also included in the COVIDhub-ensemble. If the mean-esemble had performed better than the COVIDhub-ensemble, then this would have indiciated that we had selected models that performed better than the average model submitted to the Forecast Hub. In this case, the crps- and qra-ensemble could have beaten the COVIDhub-ensemble by pure chance, by just randomly selecting models that performed better than the COVIDhub-ensemble. We should, on the other hand, hope for any ensemble not to perform significantly worse than the COVIDhub-ensemble, as it could always have improved its performance by giving a weight of one to the COVIDhub-ensemble.</p>
+Looking at the how ensemble weights evolved over time can give us insights about how the ensembles work. Figure <a href="results.html#fig:weights-time">5.22</a> visualises this evolution. We can see that both model aggregation approaches chose similar models for their ensembles and that QRA weights seem to have stayed slightly more stable over time. It is interesting to see that both aggregation techniques included models like CU-select and UT-Mobility in the ensemble, even though those were not among the top performers.Instead, it seems they were able to add something of value to the ensembles even in spite of their problems.
+<div class="figure"><span id="fig:weights-time"></span>
+<img src="../visualisation/chapter-5-results/weights-time.png" alt="Weights given to the different models in the two ensembles over time" width="100%" />
+<p class="caption">
+Figure 5.22: Weights given to the different models in the two ensembles over time
+</p>
+</div>
+<p>Figure <a href="results.html#fig:weights-vs-scores">5.23</a> allows us to examine this in more detail and shows the weights over time against the WIS of the models. Performance is only shown for the first two horizons as these were the only ones that influenced the ensembles. Note also that performance and weights are shown on the day of the forecast, so we should see a two-week delay between a forecast and the evaluation of the forecast for the ensemble formation. We see this delay for example on July 13th when the weight given to the UT-Mobility by the crps-ensemble suddenly jumped up two weeks after the UT-Mobility model showed good performance. We can, however, also see that the weaker models, like the CU-select model, were not only included because of evaluation delays. Rather, Figure <a href="results.html#fig:weights-vs-scores">5.23</a> seems to confirm that even suboptimal models can play an important role in an ensemble. This strengthens the case for including diverse models into an overall ensemble.</p>
+<div class="figure"><span id="fig:weights-vs-scores"></span>
+<img src="../visualisation/chapter-5-results/weights-vs-wis.png" alt="Performance (top) and weights in the two ensembles (bottom) of the eight orginal models over time. Colouring and the numbers in the top represent the model rank in terms of WIS among all the predictions from the original models made at that forecast date." width="100%" />
+<p class="caption">
+Figure 5.23: Performance (top) and weights in the two ensembles (bottom) of the eight orginal models over time. Colouring and the numbers in the top represent the model rank in terms of WIS among all the predictions from the original models made at that forecast date.
+</p>
+</div>
+<p>So far we have looked at only one particular version of the crps- and the qra-ensemble with very specific parameter choices. For the purpose of a fair evaluation it makes sense to choose a sensible default instead of optimising the parameter settings in order to avoid overfitting. It is nevertheless interesting to see how other ensemble variants would have performed. This section therefore explores multiple ensemble variations with different parameter settings. An overview of the different variants explored is shown in Table <a href="#tab:ensemble-variants"><strong>??</strong></a></p>
+<p>For this analysis we ran the QRA ensembles with one to four weeks of past forecasts (called qra-ensemble-1 to qra-ensemble-4). The qra-ensemble-2 corresponds to the default qra-ensemble used throughout this chapter. For the crps-ensemble we also explored variants with one to four weeeks of past data included. As <code>stackr</code> currently does not support multiple horizons, we also varied the horizon we optimised four. The second number in the crps-ensemble name therefore indicates the horizon for which the CRPS was optimised. The default model corresponds to crps-ensemble-2-2. Results slightly differed from the ones shown in Figure <a href="results.html#fig:coloured-summarised-scores">5.2</a> as the model changes every run due to random sampling. In addition to these variants, we also reran the crps-ensemble-2-2 model with a metalog distribution <span class="citation">(Keelin <a href="#ref-keelinMetalogDistributions2016" role="doc-biblioref">2016</a>)</span> fitted to samples instead of a gamma distribution. The metalog distribution should in theory be more flexible and better able fit the distribution. Figure <a href="results.html#fig:ensemble-comparison">5.24</a> shows aggregate model performance for the different ensemble variants. No obvious picture emerged regarding the superiority of either QRA or CRPS ensembles. There were, however, a couple of interesting patterns to observe. Firstly, crps-ensembles optimised only on one-week-ahead forecast horizon tended to do worst, while those optimised on three and especially two weeks did best. For the CRPS ensemble it seems that the forecast horizon mattered more than the number of past forecasts included in the weighting. This is somewhat surprising given that qra-ensemble-1 (implying optimisation on one week ahead forecasts) is among the top performers. We would therefore expect the qra-ensemble-1 to perform similarly to crps-ensemble-1-1. We can also see that the qra-ensemble-4 and qra-ensemble-1 were top performers, while qra-ensemble-3 and qra-ensemble-2 were not. This casts some doubt whether there is a clear best choice of the number of past observations to include. We can see that the metalog distribution did not perform better than the gamma distribution.</p>
+<div class="figure"><span id="fig:ensemble-comparison"></span>
+<img src="../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-summarised-scores.png" alt="Summarised scores for all ensemble variants explored." width="100%" />
+<p class="caption">
+Figure 5.24: Summarised scores for all ensemble variants explored.
+</p>
+</div>
+<p>Table <a href="#tab:regression-ensemble"><strong>??</strong></a> shows the results of a regression of the WIS on the different ensemble variants with the COVIDhub-ensemble model as the baseline. Given that estimates were not significant, we could distinguish the top performing qra-ensembles (one and four weeks of past data included) as well as the crps-ensembles optimised for two-week-ahead predictions from the COVIDhub-ensemble model. But again, we also see that none of the models was able to beat the COVIDhub-ensemble model. The qra-variants with two and three weeks of data and all other crps-ensembles did significantly worse, but we should not treat this as definitive evidence, given the limitied number of observations. Especially for the optimal amount of data to include in QRA ensembles, the observed pattern does not warrant strong conclusions.</p>
+</div>
+<div id="sensitivity" class="section level2" number="5.8">
+<h2><span class="header-section-number">5.8</span> Sensitivity analysis</h2>
+<p>In order to test the validity and robustness of the results obtained, this section presents a small sensitivity analysis. We looked at three different alternative scenarios. Scenario 1 simply removed the last time point from the evaluation. Scenario 2 removed the state New Jersey that has known data issues. Scenario 3 removed the last two evaluation time points as well as the US and New Jersey. Figure <a href="results.html#fig:sensitivity">5.25</a> shows the summarised scores for the baseline as well as the other three scenarios. We can see that model rankings remained relatively stable across the different scenarios, which should increase the confidence in our findings.</p>
+<div class="figure"><span id="fig:sensitivity"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/coloured-summarised-scores.png" alt="Summarised scores for all eleven models in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)." width="50%" /><img src="../visualisation/chapter-5-results/scenario-1/coloured-summarised-scores.png" alt="Summarised scores for all eleven models in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)." width="50%" /><img src="../visualisation/chapter-5-results/scenario-2/coloured-summarised-scores.png" alt="Summarised scores for all eleven models in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)." width="50%" /><img src="../visualisation/chapter-5-results/scenario-3/coloured-summarised-scores.png" alt="Summarised scores for all eleven models in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)." width="50%" />
+<p class="caption">
+Figure 5.25: Summarised scores for all eleven models in the four different scenarios, ‘baseline’ (top left), ‘1’ (top right), ‘2’ (bottom left) and ‘3’ (bottom right).
+</p>
+</div>
+<p>We also conducted a sensitivity analysis for the ensemble variants. Figure <a href="results.html#fig:sensitivity-ensembles">5.26</a> shows aggregated scores for all ensemble variants for the four different scenarios. Results also seem relatively stable for the ensemble models. We can see that the qra-ensemble-4 consistently stayed at the top in terms of the Weighted Interval Score. The qra-ensemble-1 fared almost equally well, while the qra-ensemble-3 and qra-ensemble-4 lagged in performance. Only in scenario 3 were all QRA ensemble at the top. We should nevertheless be careful to conclude that one approach was superior to the other, given that many of the CRPS ensembles performed almost equally well. In terms of log WIS, differences were even smaller. The results weakly suggest that the QRA ensembles tended to exhibit slightly less variance in their performance across different parameters. But since we included more CRPS ensembles we should also expect more variation in their performance. The one observation that again stands out the most is the strong difference between the qra-ensemble-1 and the crps-ensemble-1-1.</p>
+<div class="figure"><span id="fig:sensitivity-ensembles"></span>
+<img src="../visualisation/chapter-5-results/ensembles/scenario-baseline/coloured-summarised-scores.png" alt="Summarised scores for the ensemble variants in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)" width="50%" /><img src="../visualisation/chapter-5-results/ensembles/scenario-1/coloured-summarised-scores.png" alt="Summarised scores for the ensemble variants in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)" width="50%" /><img src="../visualisation/chapter-5-results/ensembles/scenario-2/coloured-summarised-scores.png" alt="Summarised scores for the ensemble variants in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)" width="50%" /><img src="../visualisation/chapter-5-results/ensembles/scenario-3/coloured-summarised-scores.png" alt="Summarised scores for the ensemble variants in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)" width="50%" />
+<p class="caption">
+Figure 5.26: Summarised scores for the ensemble variants in the four different scenarios, ‘baseline’ (top left), ‘1’ (top right), ‘2’ (bottom left) and ‘3’ (bottom right)
+</p>
+</div>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-keelinMetalogDistributions2016">
+<p>Keelin, Thomas W. 2016. “The Metalog Distributions.” <em>Decision Analysis</em> 13 (4): 243–77. <a href="https://doi.org/10.1287/deca.2016.0338">https://doi.org/10.1287/deca.2016.0338</a>.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="18">
+<li id="fn18"><p>Plots for other locations can be seen in the Appendix, where visualisations for one-week-ahead predictions of all forecasts are provided.<a href="results.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p>One could argue whether or not to include the US as a whole in this plot. On the one hand the overall US death numbers are closely related to the sum of death numbers from the twelve states analysed. On the other hand numbers were not identical as the majority of states was missing from the analysis. We could therefore also think of the US as just another very large state. We tried both options and found that the difference was very small in terms of the regression fit and the overall relationship observed.<a href="results.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>New Jersey may be a special case due to the data issues mentioned in chapter <a href="background-data.html#background-data">4</a><a href="results.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p>New York may be potentially considered an outlier as well, as overall performance in New York was strongly influenced by the high uncertainty and correspondingly high WIS of the COVIDhub-baseline model.<a href="results.html#fnref21" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p>Note again that this finding was heavily influenced by the selection of states for this analysis. Had we analysed a different set of locations, we might have come to different conclusions<a href="results.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p>For the UMass-MechBayes model we also observe substantial outliers in sharpness. Looking back at the breakdown of WIS into its components in Figure <a href="results.html#fig:wis-contributions">5.5</a>, we see that this has indeed hurt the UMass-MechBayes model in terms of overall WIS performance.<a href="results.html#fnref23" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="background-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="discussion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/nikosbosse/master_thesis/05-results.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["master_thesis.pdf", "master_thesis.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
