@@ -533,7 +533,8 @@ wis_contribution <- scores %>%
                                        ymin = is_overprediction + is_underprediction,
                                        colour = "Sharpness"),
                           size = 3) +
-  ggplot2::facet_wrap(~ model, nrow = 2) +
+  ggplot2::facet_wrap(~ model, nrow = 2,
+                      scales = "free_y") +
   cowplot::theme_cowplot() +
   ggplot2::labs(x = "Horizon", y = "Contribution to Weighted Interval Score") +
   ggplot2::theme(legend.position = "bottom",
@@ -1066,7 +1067,7 @@ ggplot2::ggsave(here::here(root_folder,
 
 Texas_forecast_one_weeks <- plot_forecasts(states = "Texas",
                                            forecasts = forecasts,
-                                           facet_formula = model ~ horizon,
+                                           facet_formula = ~ model,
                                            ncol_facet = 4,
                                            horizons = c(1),
                                            obs_weeks = 13) +
@@ -1077,7 +1078,7 @@ Texas_forecast_one_weeks <- plot_forecasts(states = "Texas",
 
 ggplot2::ggsave(here::here(root_folder,
                            "Texas-one-week.png"),
-                Texas_forecast_one_weeks, width = 11, height = 4.8)
+                Texas_forecast_one_weeks, width = 11, height = 6.8)
 #
 #
 # NY_forecast_one_weeks <- plot_forecasts(states = "New York",

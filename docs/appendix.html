@@ -157,14 +157,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="model-aggregation.html"><a href="model-aggregation.html"><i class="fa fa-check"></i><b>3</b> Model aggregation</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-idea"><i class="fa fa-check"></i><b>3.1</b> Theoretical idea</a></li>
+<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-motivation"><i class="fa fa-check"></i><b>3.1</b> Theoretical motivation</a></li>
 <li class="chapter" data-level="3.2" data-path="model-aggregation.html"><a href="model-aggregation.html#the-quantile-regression-average-ensemble"><i class="fa fa-check"></i><b>3.2</b> The Quantile Regression Average ensemble</a></li>
 <li class="chapter" data-level="3.3" data-path="model-aggregation.html"><a href="model-aggregation.html#the-crps-ensemble"><i class="fa fa-check"></i><b>3.3</b> The CRPS ensemble</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="background-data.html"><a href="background-data.html"><i class="fa fa-check"></i><b>4</b> Data and forecasting models</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="background-data.html"><a href="background-data.html#introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Introduction to the COVID-19 Forecast Hub and overview of the data</a></li>
-<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview the different forecast models</a></li>
+<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-of-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview of the different forecast models</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results - evaluation and aggregation of Covid-19 death forecasts</a>
 <ul>
@@ -273,10 +273,22 @@ Figure A.9: One week ahead forecasts for all locations for the UT-mobility model
 Figure A.10: One week ahead forecasts for all locations for the YYG-ParamSearch model.
 </p>
 </div>
+<div class="figure" style="text-align: center"><span id="fig:wis-contributions-relative"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/wis-contributions-relative.png" alt="Relative contributions to the Weighted Interval Score from its underprediction (blue), overprediction (red) and sharpness (green) components." width="100%" />
+<p class="caption">
+Figure A.11: Relative contributions to the Weighted Interval Score from its underprediction (blue), overprediction (red) and sharpness (green) components.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:wis-contributions-rel-state"></span>
+<img src="../visualisation/chapter-5-results/scenario-baseline/wis-contributions-rel-state2.png" alt="Relative contributions to the Weighted Interval Score from its underprediction (blue), overprediction (red) and sharpness (green) components in different locations." width="100%" />
+<p class="caption">
+Figure A.12: Relative contributions to the Weighted Interval Score from its underprediction (blue), overprediction (red) and sharpness (green) components in different locations.
+</p>
+</div>
 <div class="figure"><span id="fig:coverage-horizons"></span>
 <img src="../visualisation/chapter-5-results/scenario-baseline/APPENDIX-coverage-plots-horizons.png" alt="Evolution of interval and quantile coverage over multiple horizons.." width="100%" />
 <p class="caption">
-Figure A.11: Evolution of interval and quantile coverage over multiple horizons..
+Figure A.13: Evolution of interval and quantile coverage over multiple horizons..
 </p>
 </div>
 
@@ -382,9 +394,6 @@ Figure A.11: Evolution of interval and quantile coverage over multiple horizons.
 <p>R Core Team. 2020. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
 </div>
 <div>
-<p>Ryan Tibshirani. 2020. “Quantile Stacking.” https://ryantibs.github.io/quantgen/stacking_example.html.</p>
-</div>
-<div>
 <p>Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, et al. 2020. <em>EpiSoon: Forecast Cases Using Reproduction Numbers</em>.</p>
 </div>
 <div>
@@ -398,6 +407,9 @@ Figure A.11: Evolution of interval and quantile coverage over multiple horizons.
 </div>
 <div>
 <p>Shaub, David, and Peter Ellis. 2020. <em>ForecastHybrid: Convenient Functions for Ensemble Time Series Forecasts</em>. <a href="https://CRAN.R-project.org/package=forecastHybrid">https://CRAN.R-project.org/package=forecastHybrid</a>.</p>
+</div>
+<div>
+<p>Tibshirani, Ryan. 2020. “Quantile Stacking.” https://ryantibs.github.io/quantgen/stacking_example.html.</p>
 </div>
 <div>
 <p>Tibshirani, Ryan. 2020. <em>Quantgen: Tools for Generalized Quantile Modeling</em>.</p>
@@ -416,6 +428,7 @@ Figure A.11: Evolution of interval and quantile coverage over multiple horizons.
 </div>
 </div>
 </div>
+
 
 
 

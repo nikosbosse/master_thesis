@@ -157,14 +157,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="model-aggregation.html"><a href="model-aggregation.html"><i class="fa fa-check"></i><b>3</b> Model aggregation</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-idea"><i class="fa fa-check"></i><b>3.1</b> Theoretical idea</a></li>
+<li class="chapter" data-level="3.1" data-path="model-aggregation.html"><a href="model-aggregation.html#theoretical-motivation"><i class="fa fa-check"></i><b>3.1</b> Theoretical motivation</a></li>
 <li class="chapter" data-level="3.2" data-path="model-aggregation.html"><a href="model-aggregation.html#the-quantile-regression-average-ensemble"><i class="fa fa-check"></i><b>3.2</b> The Quantile Regression Average ensemble</a></li>
 <li class="chapter" data-level="3.3" data-path="model-aggregation.html"><a href="model-aggregation.html#the-crps-ensemble"><i class="fa fa-check"></i><b>3.3</b> The CRPS ensemble</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="background-data.html"><a href="background-data.html"><i class="fa fa-check"></i><b>4</b> Data and forecasting models</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="background-data.html"><a href="background-data.html#introduction-to-the-covid-19-forecast-hub-and-overview-of-the-data"><i class="fa fa-check"></i><b>4.1</b> Introduction to the COVID-19 Forecast Hub and overview of the data</a></li>
-<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview the different forecast models</a></li>
+<li class="chapter" data-level="4.2" data-path="background-data.html"><a href="background-data.html#an-overview-of-the-different-forecast-models"><i class="fa fa-check"></i><b>4.2</b> An overview of the different forecast models</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results - evaluation and aggregation of Covid-19 death forecasts</a>
 <ul>
@@ -214,8 +214,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="model-aggregation" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Model aggregation</h1>
 <p>Following the discussion of proper scoring rules in Chapter <a href="evaluation.html#evaluation">2</a> we go one step further in this chapter and explore how we can combine individual models to optimal ensembles using these proper scoring rules. This chapter presents two approaches, Quantile Regression Averaging (QRA) that builds upon the weighted interval score and a novel stacking approach that forms an ensemble that minimises the continuous ranked probability score. Prior to discussing these model aggregation approaches, this Chapter provides an intuition for why model ensembles can improve predictive performance and for how different predictive distributions can be combined.</p>
-<div id="theoretical-idea" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Theoretical idea</h2>
+<div id="theoretical-motivation" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Theoretical motivation</h2>
 <p>Oftentimes, a single forecasting model is not able to capture the nuances and full complexity of the true data-generating process. Different models have different strengths and weaknesses and often can represent some aspects well that other models may miss. This allows us to increase predictive performance by aggregating individual models.</p>
 <p>As an illustrative example, let us consider a number of models that each try to predict one single unknown true value. All models are correct on expectation (i.e. <span class="math inline">\(\mathbb{E}(\hat{y}_k) = y\)</span>), but all exhibit an independent prediction error (i.e. <span class="math inline">\(\hat{y}_k = y + \epsilon_k\)</span>). Every single model will be biased (<span class="math inline">\(\epsilon_k\)</span> has zero probability of being exactly zero, even if <span class="math inline">\(\mathbb{E}(\epsilon_k) = 0\)</span>). The average of all these model predictions, however, will converge to the true value for an increasing number of models. This is, in very simplified terms, the idea behind the mean ensemble. Note that in practice, prediction errors of different models are seldom completely independent, but are instead often correlated, which may reduce the effectiveness of model aggregation. Adding a model to the ensemble of course only makes sense if we indeed believe that its predictions do not deviate systematically from the true values. However, in many circumstances this decision will not be clear cut. Instead, we could decide to give less weight to models that have performed poorly in the past and more weight towards those that performed well. This is the idea behind weighted ensembles.</p>
 In the following, we discuss two different ways of combining predictive distributions, the quantile average and the mixture distribution. The quantile average aligns all corresponding quantiles of the predictive distributions and determines the quantiles of the ensemble distribution as a weighted average of the corresponding ensemble member quantiles. We can understand this as a horizontal combination of the cumulative distribution functions (CDF) of the individual predictive distributions. A mixture distribution, on the other hand, can be understood as a vertical combination of the CDFs of the individual ensemble member distribution. It may, however, be more intuitive to think of it as the result of random sampling from the individual ensemble member distributions. The mixture distribution can again be weighted by drawing from the individual distributions with different probabilities. These ideas are illustrated in Figure <a href="model-aggregation.html#fig:average-mixture-example">3.1</a>. In principle, the average seems more appropriate if we there is one single future scenario and we want to optimally predict it. The mixture may be better suited if we believe that our models reflect different possible future scenarios and are uncertain, which of these scenarios will occur.
@@ -232,7 +232,7 @@ Figure 3.1: Two different ways of combining two predictive distributions (based 
 <p>The Quantile Regression Average <span class="citation">(Nowotarski and Weron <a href="#ref-nowotarskiComputingElectricitySpot2015" role="doc-biblioref">2015</a>)</span> is an ensemble strategy build upon the weighted interval score presented in Chapter <a href="evaluation.html#evaluation">2</a>.
 Consider a forecast made for observation <span class="math inline">\(i, i = 1, \dots, n\)</span> by model <span class="math inline">\(k, k = 1, \dots, K\)</span> at different quantile levels <span class="math inline">\(\tau \in (0,1)\)</span>. The corresponding quantile prediction for observation <span class="math inline">\(i\)</span> from model <span class="math inline">\(k\)</span> at quantile level <span class="math inline">\(\tau\)</span> is denoted <span class="math inline">\(q_{ik\tau}\)</span>. The ensemble prediction at quantile level <span class="math inline">\(\tau\)</span>, <span class="math inline">\(q_{i, \text{ensemble},\tau}\)</span> is then a weighted average of the corresponding predictive quantiles of the individual models:
 <span class="math display">\[q_{i,\text{ensemble}, \tau} = \sum_{k = 1}^K w_k \cdot q_{ik\tau},\]</span>
-where <span class="math inline">\(w_k\)</span> is the weight given to model <span class="math inline">\(k\)</span>. The weights are usually constrained to be non-negative and to sum up to one. To get an optimal ensemble, we are looking for the combination of weights that, across all quantile levels <span class="math inline">\(\tau\)</span>, produce an ensemble which minimises the weighted interval score over past observations. The optimisation problem can be denoted as follows <span class="citation">(Ryan Tibshirani <a href="#ref-ryantibshiraniQuantileStacking2020" role="doc-biblioref">2020</a>)</span>:
+where <span class="math inline">\(w_k\)</span> is the weight given to model <span class="math inline">\(k\)</span>. The weights are usually constrained to be non-negative and to sum up to one. To get an optimal ensemble, we are looking for the combination of weights that, across all quantile levels <span class="math inline">\(\tau\)</span>, produce an ensemble which minimises the weighted interval score over past observations. The optimisation problem can be denoted as follows <span class="citation">(Tibshirani, Ryan <a href="#ref-ryantibshiraniQuantileStacking2020" role="doc-biblioref">2020</a>)</span>:
 <span class="math display">\[\mathop{\text{arg min}}_{w} \sum_{i=1}^n \sum_{\tau} \psi_{_\tau} \bigg(y_i - \sum_{k=1}^K w_k q_{ik\tau} \bigg),\]</span>
 where <span class="math inline">\(\psi_{\tau}()\)</span> denotes the so-called pinball loss at quantile level <span class="math inline">\(\tau\)</span>. The pinball loss is defined as
 <span class="math display">\[\psi_{\tau}(x) = \max(\tau \cdot x, (\tau-1)\cdot x).\]</span>
@@ -288,13 +288,13 @@ In <code>stackr</code>, this is implemented using the <code>optimizing</code> fu
 <span id="cb7-8"><a href="model-aggregation.html#cb7-8" aria-hidden="true"></a>test_mixture &lt;-<span class="st"> </span>stackr<span class="op">::</span><span class="kw">mixture_from_samples</span>(testdata, <span class="dt">weights =</span> weights)</span>
 <span id="cb7-9"><a href="model-aggregation.html#cb7-9" aria-hidden="true"></a><span class="kw">print</span>(test_mixture, <span class="dv">3</span>, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##        geography       date    y_pred sample_nr        model
-##     1:  Tatooine 2020-03-29 1.1531808         1 crps_mixture
-##     2:  Tatooine 2020-03-29 0.7162035         2 crps_mixture
-##     3:  Tatooine 2020-03-29 0.7345585         3 crps_mixture
+##     1:  Tatooine 2020-03-29 0.5327176         1 crps_mixture
+##     2:  Tatooine 2020-03-29 0.8696770         2 crps_mixture
+##     3:  Tatooine 2020-03-29 0.9779118         3 crps_mixture
 ##    ---                                                      
-## 10998: Coruscant 2020-04-08 1.1536175       498 crps_mixture
-## 10999: Coruscant 2020-04-08 0.0000000       499 crps_mixture
-## 11000: Coruscant 2020-04-08 0.9544836       500 crps_mixture</code></pre>
+## 10998: Coruscant 2020-04-08 0.9303099       498 crps_mixture
+## 10999: Coruscant 2020-04-08 0.4987309       499 crps_mixture
+## 11000: Coruscant 2020-04-08 0.6613497       500 crps_mixture</code></pre>
 
 </div>
 </div>
@@ -319,7 +319,7 @@ In <code>stackr</code>, this is implemented using the <code>optimizing</code> fu
 <p>Raftery, Adrian E., David Madigan, and Jennifer A. Hoeting. 1997. “Bayesian Model Averaging for Linear Regression Models.” <em>Journal of the American Statistical Association</em> 92 (437): 179–91. <a href="https://doi.org/10.1080/01621459.1997.10473615">https://doi.org/10.1080/01621459.1997.10473615</a>.</p>
 </div>
 <div id="ref-ryantibshiraniQuantileStacking2020">
-<p>Ryan Tibshirani. 2020. “Quantile Stacking.” https://ryantibs.github.io/quantgen/stacking_example.html.</p>
+<p>Tibshirani, Ryan. 2020. “Quantile Stacking.” https://ryantibs.github.io/quantgen/stacking_example.html.</p>
 </div>
 <div id="ref-R-quantgen">
 <p>Tibshirani, Ryan. 2020. <em>Quantgen: Tools for Generalized Quantile Modeling</em>.</p>

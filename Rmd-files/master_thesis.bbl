@@ -200,11 +200,6 @@ Raftery, A.~E., Madigan, D., and Hoeting, J.~A. (1997).
 \newblock {\em Journal of the American Statistical Association},
   92(437):179--191.
 
-\bibitem[{Ryan Tibshirani}, 2020]{ryantibshiraniQuantileStacking2020}
-{Ryan Tibshirani} (2020).
-\newblock Quantile {{Stacking}}.
-\newblock https://ryantibs.github.io/quantgen/stacking\_example.html.
-
 \bibitem[{Sam Abbott} et~al., 2020a]{R-EpiSoon}
 {Sam Abbott}, Bosse, N., Hellewell, J., Sherratt, K., Munday, J., Thompson, R.,
   Chateigner, A., Mareschal, S., Rau, A., Vialaneix, N., DeWitt, M., and Funk,
@@ -239,6 +234,11 @@ Shaub, D. and Ellis, P. (2020).
 Tibshirani, R. (2020).
 \newblock {\em quantgen: Tools for generalized quantile modeling}.
 \newblock R package version 1.0.0.
+
+\bibitem[{Tibshirani, Ryan}, 2020]{ryantibshiraniQuantileStacking2020}
+{Tibshirani, Ryan} (2020).
+\newblock Quantile {{Stacking}}.
+\newblock https://ryantibs.github.io/quantgen/stacking\_example.html.
 
 \bibitem[{UMass-Amherst Influenza Forecasting Center of Excellence},
   2020]{umass-amherstinfluenzaforecastingcenterofexcellenceCovid19forecasthubOrg2020}
