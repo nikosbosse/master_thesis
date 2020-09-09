@@ -1734,12 +1734,12 @@ ggplot2::ggsave(here::here(root_folder,
 # ------------------------------------------------------------------------------
 # PIT plots
 
-source(here::here("ensembling", "crps-ensemble", "fit-distribution-functions.R"))
+source(here::here("ensembling", "crps-ensemble-metalog", "fit-distribution-functions-metalog.R"))
 combined <- combine_with_deaths(forecasts)
 fc <- data.table::as.data.table(combined)
 n_samples = settings$n_samples
-
-samples <- fc[, .(y_pred = get_samples(value, quantile, n_samples = n_samples),
+library(rmetalog)
+samples <- fc[, .(y_pred = get_samples_metalog(value, quantile, n_samples = n_samples),
                   sample_nr = 1:n_samples,
                   state = unique(state),
                   y_obs = unique(deaths)),
@@ -1757,7 +1757,7 @@ pit_plot <- scoringutils::eval_forecasts(df,
                                          by = c("model", "state", "target", "id",
                                                 "forecast_date"),
                                          summarise_by = c("model"),
-                                         pit_arguments = list(num_bins = 30,
+                                         pit_arguments = list(num_bins = 23,
                                                               plot = TRUE),
                                          pit_plots = TRUE)$pit_plots
 
