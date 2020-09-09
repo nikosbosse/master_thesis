@@ -4,7 +4,7 @@ I would like to thank my supervisors, Sebastian Funk and Thomas Kneib for their 
 
 I am very thankful to the working group at the London School of Hygiene and Tropical Medicine, to Sam, Joel, Kath, James and Sophie for the pleasure I had and have working with them. I especially thank Sam for his support and mentoring and his help with the `scoringutils` package. 
 
-I thank Anne, as well as Malte, Felix, and Sam for reading through my work and giving me feedback. 
+I thank Malte, as well as Anne, Felix, Joel, and Sam for reading through parts of my work and giving me feedback. 
 
 Yuling Yao has contributed large and important parts to the `stackr` package. Sebastian and researchers at the Forecast Hub have inspired important aspects of the evaluation process discussed in this thesis. Thank you for that. 
 

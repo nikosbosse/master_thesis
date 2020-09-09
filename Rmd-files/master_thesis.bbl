@@ -67,6 +67,11 @@ Dong, E., Du, H., and Gardner, L. (2020).
 \newblock {\em The Lancet Infectious Diseases}, 20(5):533--534.
 \newblock Publisher: Elsevier.
 
+\bibitem[Dowle and Srinivasan, 2019]{R-data.table}
+Dowle, M. and Srinivasan, A. (2019).
+\newblock {\em data.table: Extension of `data.frame`}.
+\newblock R package version 1.12.8.
+
 \bibitem[Epstein, 1969]{epsteinScoringSystemProbability1969}
 Epstein, E.~S. (1969).
 \newblock A {Scoring} {System} for {Probability} {Forecasts} of {Ranked}

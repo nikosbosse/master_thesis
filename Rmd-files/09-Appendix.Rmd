@@ -50,8 +50,7 @@ knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/AP
 ```
 
 
-
-
 ``` {r coverage-horizons, echo = FALSE, out.width = "100%", fig.cap = "Evolution of interval and quantile coverage over multiple horizons.."}
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-coverage-plots-horizons.png")
 ```
+

@@ -29,9 +29,9 @@ knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/co
 ```
 
 To examine whether models were actually really significantly different in their performance, we employed a mixed-effects model with fixed effects for models and horizons and random effects for states and forecast dates. The model formula looks as follows: 
-```
-lmer(log_scores ~ model + horizon + (1|state) + (1|forecast_date)
-```
+
+`lmer(log_scores ~ model + horizon + (1|state) + (1|forecast_date)`.
+
 Log Weighted Interval scores were used instead of the WIS to mitigate issues with heavy tails of the original distribution. As a baseline we took the COVIDhub-ensemble model (the top performer). This helped us to discern whether models at the top could actually be distinguished and show significant performance differences. 
 
 Table \@ref(tab:random-effects-model) shows the results from that regression. We can see that the regression confirms general tendencies observed before. The overall ranking of model effects corresponds to the model ranking by log Interval Score presented in \@ref(fig:coloured-summarised-scores). The regression output suggests again a clear split between two groups of models in terms of performance. Models in the top group were roughly comparable and not significantly different from the COVIDhub-ensemble model, except for the mean ensemble and maybe the qra-ensemble which fared a bit worse. As expected, the horizon had a highly significant effect on the Weighted Interval Score. 
@@ -83,11 +83,10 @@ knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/co
 
 ```
 
-To examine the main determinants of the Weighted Interval Score, we ran a regression of the log Weighted Interval Score on absolute bias, coverage deviation and sharpness and the penalty term. 
-``` 
-lm(log_scores ~ abs(bias) + coverage_deviation + sharpness + penalty).
+To examine the main determinants of the Weighted Interval Score, we ran a regression of the log Weighted Interval Score on absolute bias, coverage deviation and sharpness and the penalty term: 
 
-```
+`lm(log_scores ~ abs(bias) + coverage_deviation + sharpness + penalty)`.
+
 The result can be seen in Table \@ref(tab:regression-wis-metrics). All regressors have been standardised, estimates should therefore be interpreted in terms of standard deviations away from the average values. We can see that all metrics had a strong and significant influence on the log WIS. This supports the idea to take multiple different metrics into account. The independent effects of 'sharpness' and 'coverage deviation' seem to have been especially pronounced. This makes sense in the context of the forecasting paradigm, but may as well just reflect the specific data set analysed here. 
 
 ``` {r regression-wis-metrics, echo = FALSE}
@@ -108,7 +107,7 @@ The last section has given us a better sense of how different metrics relate and
 
 Figure \@ref(fig:wis-contributions) shows the WIS for all eleven models over different horizons, separated into its components sharpness, overprediction and underprediction. We immediately see that forecasts further ahead into the future received the largest WIS and therefore also had the largest impact on average WIS. We can also see that, especially for worse performing models, over- and underprediction penalties constituted a bigger share of the overall WIS than the sharpness component. For better performing models, the share of the sharpness component relative to the overall WIS increased. This makes sense in the context of the forecasting paradigm, where sharpness should become increasingly important once calibration is satisfied. We can also observe that most models incurred the majority of their penalties from underprediction. This is even true for models that according to Figure \@ref(fig:coloured-summarised-scores) exhibited no bias or even a slight upward bias, like the mean-ensemble. This underlines again that the bias metric behaves slightly different from the under- and overprediction component of the WIS. The former measures the innermost quantile that covered the true value. The latter measures the actual difference between predictions and observations and is therefore more sensitive to extreme values. It is therefore possible that inaccuracies in one direction get more severely punished than inaccuracies in the other, even if both types of inaccuracies appear equally often. 
 
-``` {r wis-contributions, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Contributions to the Weighted Interval Score from its underpredictin (blue), overprediction (red) and sharpness (green) components."}
+``` {r wis-contributions, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Contributions to the Weighted Interval Score from its underprediction (blue), overprediction (red) and sharpness (green) components."}
 
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/wis-contributions.png")
 
@@ -149,8 +148,8 @@ lm(log(wis) ~ log(deaths)).
 
 ```
 Difficulty was then estimated as 
-$$\text{difficulty}_{\text{location}} = \log(\text{WIS}) - (\beta_0 + \beta_1 \cdot \log(\text{deaths}_{\text{location}})$$
-The results are shown in Figure \@ref(fig:dfficulty-states). We can see that indeed models consistently struggled with some states, whereas others seem to have been easier to predict than expected by the number of their deaths. Comparing this to the visualisation of the observations from all locations in Figure \@ref(fig:us-data), however, we do not immediately see a clear picture emerge from this analysis. At least visually, for example, California looks harder to forecast than New Jersey^[New Jersey may be a special case due to the data issues mentioned in chapter \@ref(background-data)], New York or Pennsylvania. States with the hardest difficulty estimates still include states with very diverse patterns and trends. Some experienced falling death numbers (New Jersey, Pennsylvania) or very change at all (New York^[New York may be potentially considered an outlier as well, as overall performance in New York was strongly influenced by the high uncertainty and correspondingly high WIS of the COVIDhub-baseline model.]), while others saw their death numbers rapidly increase (Texas). 
+$$\text{difficulty}_{\text{location}} = \log(\text{WIS}) - (\beta_0 + \beta_1 \cdot \log(\text{deaths}_{\text{location}}).$$
+The results are shown in Figure \@ref(fig:dfficulty-states). We can see that indeed models consistently struggled with some states, whereas others seem to have been easier to predict than expected by the number of their deaths. Comparing this to the visualisation of the observations from all locations in Figure \@ref(fig:us-data), however, we do not immediately see a clear picture emerge from this analysis. At least visually, for example, California looks harder to forecast than New Jersey^[New Jersey may be a special case due to the data issues mentioned in chapter \@ref(background-data)], New York or Pennsylvania. States with the hardest difficulty estimates still include states with very diverse patterns and trends. Some experienced falling death numbers (New Jersey, Pennsylvania) or very little change at all (New York^[New York may be potentially considered an outlier as well, as overall performance in New York was strongly influenced by the high uncertainty and correspondingly high WIS of the COVIDhub-baseline model.]), while others saw their death numbers rapidly increase (Texas). 
 
 
 
@@ -229,7 +228,7 @@ The quantile coverage plots also allow us to reexamine the bias component of cal
 
 We can, unsurprisingly, observe a general tendency that better performing models also showed better results in terms of interval and quantile coverage. Especially the COVIDhub-ensemble and the UMass-MechBayes models stand out in Figure \@ref(fig:coverage-all), while models in the lower performance bracket look much less favourably. The only real exception to that pattern is the epiforecasts-ensemble1. It does look much better in terms of coverage than other models that performed similarly well. To investigate further, one could examine calibration plots for the epiforecasts-ensemble1 model for every single location, but we omit this additional analysis here and instead show a plot of predictions versus observations in Figure \@ref(fig:epiforecasts-ensemble1). In the plot, we see that the model also exhibits a pattern of overprediction whenever death numbers were falling and underprediction whenever they were rising that results in the impression of a well calibrated model on an aggregate level. We also see that the model tended to sometimes be wrong in a very unpredictable way. Especially forecasts for July 27th seem affected, where predictions as well as the uncertainty made a sudden unpredictable jump in many locations. This again underlines the importance of breaking down the evaluation in smaller subcategories as well as looking on the aggregate level. 
 
-``` {r epiforecasts-ensemble1, echo = FALSE, out.width = "100%", fig.cap = "One-week ahead forecasts for the epiforecasts-ensemble1 model"}
+``` {r epiforecasts-ensemble1, echo = FALSE, out.width = "100%", fig.cap = "One-week ahead forecasts for the epiforecasts-ensemble1 model."}
 
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/APPENDIX-epiforecasts-ensemble1-forecasts.png")
 ```
@@ -348,7 +347,7 @@ fit %>%
 
 In order to test the validity and robustness of the results obtained, this section presents a small sensitivity analysis. We looked at three different alternative scenarios. Scenario 1 simply removed the last time point from the evaluation. Scenario 2 removed the state New Jersey that has known data issues. Scenario 3 removed the last two evaluation time points as well as the US and New Jersey. Figure \@ref(fig:sensitivity) shows the summarised scores for the baseline as well as the other three scenarios. We can see that model rankings remained relatively stable across the different scenarios, which should increase the confidence in our findings. 
 
-``` {r sensitivity, echo = FALSE, fig.show = "hold", out.width = "50%", fig.cap = "Summarised scores for all eleven models in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)"}
+``` {r sensitivity, echo = FALSE, fig.show = "hold", out.width = "50%", fig.cap = "Summarised scores for all eleven models in the four different scenarios, 'baseline' (top left), '1' (top right), '2' (bottom left) and '3' (bottom right)."}
 
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-baseline/coloured-summarised-scores.png")
 knitr::include_graphics("../visualisation/chapter-5-results/scenario-1/coloured-summarised-scores.png")
