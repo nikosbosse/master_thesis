@@ -1,4 +1,4 @@
-## Evaluation and Aggregation of Covid-19 Death Forecasts in the United States
+# Evaluation and Aggregation of Covid-19 Death Forecasts in the United States
 
 **A master thesis in Applied Statistics**
 
