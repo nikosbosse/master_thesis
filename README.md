@@ -12,7 +12,7 @@ Submitted to the Faculty of Business and Economic Sciences at Göttingen Univers
 The PDF version of this thesis can be found in `/docs/Master-thesis-Nikos-Bosse.pdf`
 
 ## Data
-Raw data can be found in `/data`. Processed data as well as forecasts from the ensemble models can be foud in `/data/processed-data`
+Raw data can be found in `/data`. Processed data as well as forecasts from the ensemble models can be found in `/data/processed-data` (or just click [here](https://github.com/nikosbosse/master_thesis/blob/master/docs/Master-thesis-Nikos-Bosse.pdf))
 
 ## Code
 Utility functions (processing and loading of data, settings) can be found in `/utils`. Code to generate the ensemble models can be found in `/ensembling`. All other analyses can be found in `/visualisation`. Code will be tidied up in the future, so folder names may change. 
