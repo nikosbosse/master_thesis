@@ -1311,7 +1311,7 @@ bias_horizons <- scores %>%
   ggplot2::labs(x = "", y = "Bias") +
   cowplot::theme_cowplot() +
   ggplot2::theme(legend.position = "none",
-                 panel.background = element_rect(fill = "aliceblue"),
+                 panel.background = ggplot2::element_rect(fill = "aliceblue"),
                  axis.text.x = ggplot2::element_blank())
 
 ggplot2::ggsave(here::here(root_folder,

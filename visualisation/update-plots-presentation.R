@@ -139,3 +139,35 @@ ggplot2::ggsave("visualisation/thesis-presentation/coverage-YYG.png",
                 coverage_ensemble,
                 width = 10, height = 5)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ggplot2::ggplot(data.frame(x = seq(-4, 4, 0.01)),
+                      ggplot2::aes(x = x)) +
+  ggplot2::geom_vline(xintercept = 1, colour = "red") +
+  ggplot2::geom_function(fun = dnorm, colour = "black") +
+  ggplot2::scale_x_continuous(name = "quantiles", breaks = c(-4, -2, 0, 1, 2, 4),
+                            labels = c("0.05", "0.25", "0.5", "0.65", "0.75", "0.95")) +
+  ggplot2::labs(y = "",
+                caption = "Bias = 1 - 2 * 0.65 = -0.3") +
+  ggplot2::coord_flip() +
+  cowplot::theme_cowplot()
+
+
+
+
+
+
