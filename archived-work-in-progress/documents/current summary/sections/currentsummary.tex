@@ -1,0 +1,128 @@
+%!TEX root = ../master.tex
+
+\chapter{Evaluation}
+\begin{itemize}
+\item focus on CRPS
+\item look at IQR or other ranges --> see whether 50 percent of the observations fall inside the IQR
+\item compare to 1 day-ahead-forecasts (i.e. multiples of 1 day ahead forecasts. Mail to Fabian Krüger to ask wether ratios or differences of crps are in any way meaningful)
+\item Diebold-Mariano-Tests (basically t-Tests for scores to see whether they are significantly different, see e.g. Gneiting and Katzfuss, Annual Review of Statistics and Its Application, 2014).
+\item would be good to also have something more interpretable like MSE or absolute error for intuition. 
+\item I would like to see a plot where we forecast like 200 days into the future, just to get a feeling what the forecast looks like asymptotically. 
+\end{itemize}
+
+\chapter{Models and Estimation}
+\begin{itemize}
+\item AutoAR
+	\begin{itemize}
+	\item how many data points do we actually want to include? All past data points? 
+	\item maybe have a mechanism that resets the number of past data points once predictions deteriorate? 
+	$\Rightarrow$ probably should have a look how quickly the model is able to correct for changes in trends. 
+	\item what about any kind of trend? AR assumes basically a constant mean. 
+	\item should we maybe to classical time series analysis things like (p)AC plots, differencing, stationarity checks etc.? 
+	\item do we have to pay attention to stationarity? 
+	\end{itemize}
+\item external regressors
+	\begin{itemize}
+	\item code certain shocks / interventions as 0/1?
+	\item use google searches? 
+
+	$\Rightarrow$ general idea: can we make use of the delay between infection/symptom/report and use lagged predictors? 
+	\end{itemize}
+\item think about multivariate time series? lags $\Rightarrow$ probably makes less sense now with lock downs. 
+
+\item Post-hoc correction of predictions
+	\begin{itemize}
+	\item some models seem to be consistently underestimating $R_t$-values. Can we simply multiply these with a factor to make sure bias is equal to 0.5? 
+	One way would be to use model stacking, if we e.g. took the 90\% quantile of the forecast in and treat it as a different model, that could draw all estimates upwards where needed. 
+	\item Can we correct the predictive distributions so that they are well calibrated? 
+
+	$\Rightarrow$ need to know about correlation between Bias and bias distribution over time. 
+	\end{itemize}
+
+\item Model Stacking
+	\begin{itemize}
+	\item use Regression where all parameters are constrained to sum up to one. 
+	\item literature research: find other ways to do that. 
+	\end{itemize}
+
+\item Forecast package
+	\begin{itemize}
+	\item offers state space exponential smoothing models and ARIMA models. 
+	\item Also a theta function (don't know what it does, it creates a straight line) and things like linear forecast from cubic spline. We don't want that. 
+	\item Also offers a tsdisplay function for showing ACF and PACF. That might be useful. 
+	\item has a checkresiduals function for diagnostics. Not sure we care too much about it if the predictions are fine. 
+	\item automatically chooses a model from the chosen class ETS or ARIMA. 
+	\item offers either calculated or simulated prediction intervals
+	\item offers running a fit model on new data for validation. Do we want that? 
+	\item there is also an interesting thing about grouped timeseries here: https://otexts.com/fpp3/gts.html
+	\end{itemize}
+\item fable package
+	\begin{itemize}
+	\item Like forecast, but better. Has auto ETS and auto ARIMA functions and also Auto Plots if we want them. 
+	\item current issues to resolve
+		\begin{itemize}
+		\item need to either generate predictive samples from the predictive distribution or use the logs, crps and dss_normal functions. Should be not too hard. 
+		\item how to access samples without regenerating them if the posterior distribution is not given
+		\item in theory fable fits multiple timeseries at once. That doesn't work with different date indices I think and also doesn't work well with our workflow
+		\item best model is chosen according to AIC, one day ahead error or something like that. Need to choose the best method. Maybe ask whether 7-day-ahead errors are possible?
+		\end{itemize}
+	\end{itemize}
+
+\item opera package
+	\begin{itemize}
+	\item does model stacking. Handling is a bit clunky, but it should work. Problem: what are sensible predictive intervals? 
+	\item also: what are the weights. Should we just use the latest weights and keep them constant? Should we use the average weight over the last x days? Should we follow a trend in these weights
+	\item ask whether there is any support like that in fable implemented. 
+	\end{itemize}
+\end{itemize}
+
+
+
+\chapter{Time Series Considerations}
+\begin{itemize}
+\item Forecast package offers ARIMA models and exponential smoothing state space models
+\item ARIMA models are stationary, exponential smoothing models are non-stationary and therefore maybe more applicable exponential smoothing state space models
+\item ARIMA models are stationary, exponential smoothing models are non-stationary and therefore maybe more applicable here. Especially, ARIMA models assume homoskedasticity. This might not be true as $R_t$-values wiggle around much more in the beginning. Not sure how important that is to the prediction. 
+\item ARIMA forecast from forecast package has very wide predictive intervals and forecasts basically a straight line 
+\item state space smoothing model is asymptotically a flat line, but seems more useful in short /midterm. 
+\end{itemize}
+
+
+\chapter{Literature}
+
+
+\section{A simple approach to measure transmissibility and forecast incidence}
+
+https://www.sciencedirect.com/science/article/pii/S1755436517300245
+
+\subsection{Aim} 
+Forecasting of Ebola using $R_t$
+
+\subsection{Summary}
+The study does exactly the same thing we do, albeit probably less sophisticated. They take (simulated?) cases and a linelist, use the renewal equation to compute $R_t$-values using an averaging window of 2-4 weeks, then project these cases into the future using a branching process. I am not sure whether they just assumed the $R_t$ to be constant in the future. 
+
+For evaluation, they calculated the number of true values outside the IQR (should be 50\%) and used MSE. 
+
+\subsection{Take away}
+``Our approach worked best when near-future patterns of incidence were well described by an exponential trend.'' Might be due to constant $R_t$? 
+
+I have the feeling the paper is interesting for us as a proof of concept, but ultimately pretty useless...
+
+
+
+\section{Nonmechanistic forecasts of seasonal influenza with iterative one-week-ahead distributions}
+http://www.stat.cmu.edu/~ryantibs/papers/deltadens.pdf
+
+\subsection{Aim}
+Improve Flu forecasting by using delta-densities and ensemble models. 
+
+
+\subsection{Summary}
+They use “delta densities”, which assumes an autoregressive dependency structure, but uses a kernel density estimation approach to model these dependencies rather than the common choice of linear relationships plus Gaussian noise $\rightarrow$ similar to method of analogues (haven't researched it yet), also similar to Kernel Conditional Density Estimation forecasting. Also includes a lot of references / info on model stacking / averaging. 
+
+For evaluation, they use binned log scores (not sure why binned) and absolute errors. 
+
+\subsection{Take Away}
+Very interesting, sophisticated and complicated. Might be useful to look the ensemble things more closely. Also the delta density seems very interesting. One problem with the paper for us is that for flu, past data from previous years is available. So not sure how good we can use their methods, as we don't have that. 
+
+

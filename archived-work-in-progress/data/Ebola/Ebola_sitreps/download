@@ -1,0 +1,6 @@
+set number 0
+for url in (cat ../urls)
+  set number (math $number + 1)
+  curl $url -o $number.pdf
+  sleep 1
+end

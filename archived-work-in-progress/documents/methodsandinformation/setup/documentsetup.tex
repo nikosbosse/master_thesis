@@ -1,0 +1,243 @@
+%!TEX root = ../master.tex
+
+\documentclass[11pt,oneside,a4paper,openright]{report} %was heißt openright?
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Packages laden
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\usepackage{natbib} % bib Verwaltung
+\usepackage{graphicx}
+\graphicspath{ {./figures/} }	
+\usepackage[utf8]{inputenc}
+\usepackage[german,english]{babel}
+\usepackage{enumitem}
+\setlist{nosep, topsep=2pt,itemsep=1pt,partopsep=0pt, parsep=0pt}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{bibentry}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% Zahl Hierarchien im Inhaltsverzeichnis
+\setcounter{tocdepth}{1}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Dokument aufsetzen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength\parindent{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definitionen für die Lisitngs environment (code blocks) 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{myback}{rgb}{0.95,0.95,0.92}
+
+\lstset{ 
+  backgroundcolor=\color{myback},   % background color; uses \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % automatic breaks at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  %postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space} % red arrow at line breaks
+  %captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  firstnumber=1,                % start line enumeration with line 1000
+  %frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{black},
+  stringstyle=\color{orange},      % keyword style
+  language=C,
+  morekeywords={vector,real},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  framexleftmargin=4pt, 
+  framexrightmargin=4pt, 
+  framextopmargin=4pt, 
+  framexbottommargin=4pt,
+  xleftmargin=0pt, 
+  aboveskip = -15pt,
+  belowskip = 15pt 
+}
+
+
+
+
+
+
+
+
+
+% Use the palatino font
+% \usepackage[sc]{mathpazo}
+% \linespread{1.05}         % Palatino needs more leading (space between lines)
+% Choose the font encoding
+\usepackage[T1]{fontenc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Graphics and Tables
+% http://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
+% http://en.wikibooks.org/wiki/LaTeX/Tables
+% http://en.wikibooks.org/wiki/LaTeX/Colors
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% load a colour package
+\usepackage{xcolor}
+\definecolor{aaublue}{RGB}{33,26,82}% dark blue
+% The standard graphics inclusion package
+\usepackage{graphicx}
+% Set up how figure and table captions are displayed
+\usepackage{caption}
+\captionsetup{%
+  font=footnotesize,% set font size to footnotesize
+  labelfont=bf % bold label (e.g., Figure 3.2) font
+}
+% Make the standard latex tables look so much better
+\usepackage{array,booktabs}
+% Enable the use of frames around, e.g., theorems
+% The framed package is used in the example environment
+\usepackage{framed}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mathematics
+% http://en.wikibooks.org/wiki/LaTeX/Mathematics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Defines new environments such as equation,
+% align and split 
+\usepackage{amsmath}
+% Adds new math symbols
+\usepackage{amssymb}
+% Use theorems in your document
+% The ntheorem package is also used for the example environment
+% When using thmmarks, amsmath must be an option as well. Otherwise \eqref doesn't work anymore.
+\usepackage[framed,amsmath,thmmarks]{ntheorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page Layout
+% http://en.wikibooks.org/wiki/LaTeX/Page_Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Change margins, papersize, etc of the document
+\usepackage[
+  left=25mm,% left margin on an odd page
+  right=25mm,% right margin on an odd page
+  top=25mm,
+  bottom=25mm
+  ]{geometry}
+% Modify how \chapter, \section, etc. look
+% The titlesec package is very configureable
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\ \thechapter.}{20pt}{\LARGE}
+\titleformat*{\section}{\normalfont\Large\bfseries}
+\titleformat*{\subsection}{\normalfont\large\bfseries}
+\titleformat*{\subsubsection}{\normalfont\normalsize\bfseries}
+%\titleformat*{\paragraph}{\normalfont\normalsize\bfseries}
+%\titleformat*{\subparagraph}{\normalfont\normalsize\bfseries}
+\titlespacing*{\chapter}{0pt}{*6}{*2}
+\titlespacing*{\section}{0pt}{*4}{*1}
+\titlespacing*{\subsection}{0pt}{*2}{*0}
+\titlespacing*{\subsubsection}{0pt}{*1}{*0}
+%\renewcommand{\autodot}{}
+
+% Clear empty pages between chapters
+%\let\origdoublepage\cleardoublepage
+%\newcommand{\clearemptydoublepage}{%
+%  \clearpage
+%  {\pagestyle{empty}\origdoublepage}%
+%}
+%\let\cleardoublepage\clearemptydoublepage
+
+% NO clear empty pages between chapters
+    \makeatletter
+    \renewcommand\chapter{\par%
+       \thispagestyle{plain}%
+       \global\@topnum\z@
+       \@afterindentfalse
+       \secdef\@chapter\@schapter}
+    \makeatother
+
+% Change the headers and footers
+% \usepackage{fancyhdr}
+% \pagestyle{fancy}
+% \fancyhf{} %delete everything
+% \renewcommand{\headrulewidth}{0pt} %remove the horizontal line in the header
+% \fancyhead[RO]{\small\nouppercase\rightmark} %even page - chapter title
+% %\fancyhead[LO]{\small\nouppercase\rightmark} %uneven page - section title
+% %\fancyhead[LE,RO]{\thepage} %page number on all pages
+% \cfoot{\thepage}
+% % Do not stretch the content of a page. Instead,
+% % insert white space at the bottom of the page
+% \raggedbottom
+% Enable arithmetics with length. Useful when
+% typesetting the layout.
+\usepackage{calc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+% http://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[backend=bibtex, bibencoding=utf8 ]{biblatex}
+\usepackage[round,sort,authoryear]{natbib}
+\bibliographystyle{unsrtnat}
+%\addbibresource{bib/mybib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Misc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add bibliography and index to the table of
+% contents
+\usepackage[nottoc]{tocbibind}
+% Add the command \pageref{LastPage} which refers to the
+% page number of the last page
+\usepackage{lastpage}
+% Add todo notes in the margin of the document
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperlinks
+% http://en.wikibooks.org/wiki/LaTeX/Hyperlinks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Enable hyperlinks and insert info into the pdf
+% file. Hypperref should be loaded as one of the 
+% last packages
+\usepackage{hyperref}
+\hypersetup{%
+	pdfpagelabels=true,%
+	plainpages=false,%
+	pdfauthor={Author(s)},%
+	pdftitle={Title},%
+	pdfsubject={Subject},%
+	bookmarksnumbered=true,%
+	colorlinks=false,%
+	citecolor=black,%
+	filecolor=black,%
+	linkcolor=black,% you should probably change this to black before printing
+	urlcolor=black,%
+	pdfstartview=FitH%
+}
+
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
+

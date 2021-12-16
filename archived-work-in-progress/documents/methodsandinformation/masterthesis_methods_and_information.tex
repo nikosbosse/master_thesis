@@ -1,0 +1,27 @@
+\input{setup/documentsetup.tex}
+
+\begin{document}
+
+
+\pagenumbering{roman} %use roman page numbering in the frontmatter
+\input{sections/1frontpage.tex}
+
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic} %use arabic page numbering in the mainmatter
+\input{sections/basic_model.tex}
+%\input{sections/todo.tex}
+
+
+\clearpage
+\bibliography{bib/thesis.bib}
+%\label{bib:mybiblio}
+\clearpage
+
+\appendix
+\input{sections/appendix.tex}
+
+
+
+\end{document}

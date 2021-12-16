@@ -1,0 +1,1 @@
+ Large tree depths often happen when the NUTS chains have to go far with a small stepsize. The most common cause of that is highly-correlated posteriors. So I would check to see what your tree-depth values are, and if they’re high, try looking at pairs plots of your posterior samples to identify parameters that are highly-correlated in the posterior.

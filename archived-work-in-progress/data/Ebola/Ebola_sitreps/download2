@@ -1,0 +1,7 @@
+#for i in (seq 1 2)
+for i in (seq 27 67)
+  set URL (cat ./urls_https | head -n $i | tail -n 1)
+  curl $URL -o $i.pdf
+  sleep 5
+  #echo $URL
+end

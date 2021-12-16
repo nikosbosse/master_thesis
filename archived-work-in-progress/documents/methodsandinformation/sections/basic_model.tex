@@ -1,0 +1,129 @@
+%!TEX root = ../masterthesis_methods_and_information.tex
+
+\chapter{Basic Model}
+
+\section{Basic Terms}
+
+\begin{itemize}
+\item Attack rate = $\frac{\text{affected people}}{\text{overall population}}$
+\item serial interval = some way to model time needed from infection to disease outbreak
+\item incidence = number of new cases reported
+\item Reproduction number $R_0 = $ average number of people infected by 1 person. The reproduction number is also the expected value of the 
+\item Offspring distribution = the distribution of the number of new infections from each infected person.
+\item force of infection = expected number of incidences at a certain time, i.e. how many infected people do you expect to be infected the next day. 
+\end{itemize}
+
+
+
+\section{Model from the other master thesis}
+the force of infection is modeled as
+\begin{equation}
+E(I_t) = \lambda_t =  R_t \sum_{s=1}^{t-1} I_s \cdot \omega_{t-s} 
+\end{equation}
+with 
+\begin{itemize}
+\item $I_t = $ incidence at time t
+\item $\omega_{t-s}$ weighting parameter that models the serial interval, i.e. the development of the disease in one person
+\item $R_t$ = the current Reproduction number, i.e. the number of people that are infected by one person. 
+\end{itemize}
+In summary, the current incidence is modeled as the total number of affected people in period t-1 times the Reproduction rate in period t. The number of affected people in period t-1 is computed as the sum of all past incidences multiplied by a weight that models the course / progression of the disease (i.e. if people are dead after 10 days with 50\% probability, then the 10-day lag should be weighted with 0.5). 
+
+One can then model each of the model parts with its own distribution: 
+
+\begin{itemize}
+\item the \textit{serial interval} is modeled as a gamma distribution gamma(2.706556, 0.1768991) with mean 15.3 and sd 9.3. days. This must then be discretized because we only model daily time steps. 
+\item the \textit{offspring distribution} can most easily be modeled as the Poisson distribution $P(X = k) = e^{-\lambda} \frac{\lambda ^ k}{\lambda !}$ or as the negative binomial distribution with mean $\mu$ and variance $\mu +  \frac{\mu^2}{k}$ with dispersion parameter k. A smaller k means that the disease outbreak is dominated by a few super-spreaders, while a larger k means that all people infect others similarly. 
+\end{itemize}
+
+
+\section{Estimation of the Model}
+\subsection{First Option}
+To predict the incidence $I_t$ one first needs to predict the reproduction number $R_t$. Basically they compute all parameters to get a posterior distribution of $R_{t-1}$ and then draw samples from this posterior distribution to obtain an estimated value $R_t$ (assuming the value stays on average constant). 
+
+\subsection{Second Option}
+Relaxing the assumption that the value $R_t$ stays constant from $R_{t-1}$, they apply a Bayesian structural time series model.  
+
+
+\chapter{Assessing Probabilistic Models}
+
+\section{Calibration}
+Calibration means that the forecasted distribution is equal to the actual distribution of observed values. If you predict it will rain with 60\% probability you should see rain in 60\% of cases. 
+
+\subsection{Assessing Calibration} 
+One can use a probability integral transformation (PIT). You compare a predicted CDF F with a true CDF G by computing
+\begin{equation}
+u_t = F_t(k_t) - \nu (F_t(k_t) - F_t(k_t - 1) ) 
+\end{equation}
+where $\nu$ is a uniform random variable between 0 and 1. If the prediction is ideal, the values $u_t$ will be standard uniformly distributed. $\Rightarrow$ test uniform distribution with Anderson-Darling test. 
+
+Test over- or underdispersion of estimated distribution (i.e. whether your forecast over- or underestimates variation) by looking at the histogram of PIT values. If values cluster at the centre, then the forecast is overdispersed and variance is overestimated (and vice versa for values clustering at the edges).  
+Formal measure of centrality: 
+$$centrality = \frac{\text{Number of $u_t$ values between 0.25 and 0.75}}{\text{Number of all values}} - 0.5$$
+Score $< 0$ means the forecast underestimates the true variability. Score above 0 overestimates it. 
+
+\section{Sharpness} 
+Sharpness is defined as the range of values in the forecast and measures how certain a forecast is. The Sharpness therefore does not depend on the true values, but solely considers the forecast. 
+
+\subsection{Assessing Sharpness}
+Sharpness can e.g. be assessed by looking at the normalised absolute deviation about the median of $I_t$. 
+\begin{equation}
+S(I_t) = \frac{1}{0.675} \text{median} (| 1 - \text{median}(I_t)|)
+\end{equation} 
+The normalisation factor makes sure that $S(I_t)$ corresponds to the standard deviation if $F_t$  is normal. ??
+
+\section{Bias}
+Bias can be assessed with
+\begin{equation}
+B_t(F_t,k_t) = 1 - (F_t(k_) - F_t(k_t - 1))
+\end{equation}
+
+\section{Proper Scoring Rules}
+Proper scoring rules are used to rank probabilistic forecasts. The ideal forecast minimizes the proper scoring rule. Proper scoring rules take into account calibration and sharpness. 
+
+
+
+\chapter{Encorporating Spatial Aspects}
+- gravity model? model force of infection from outside the health zone
+
+\section{Current Models}
+\subsection{BSTS with a local linear trend}
+
+The time series is modeled as 
+$$\mu_t+1 = \mu+t + \delta_t + \epsilon_t, \quad \epsilon_t \sim \mathcal{N}(0, \sigma_{\mu}), $$
+$$\delta_t = \delta_t + \eta_t, \quad \eta_t \sim \mathcal{N}(0, \sigma_{\delta}). $$
+The local linear trend model therefore assumes that both the mean of the time series as well as the slope follow random walks. 
+
+\subsection{BSTS with a local linear trend and Student's-t-distributed errors}
+The model specification is very similar to the local linear trend model. The only change is that random errors now follow a t-distribution, which implies thicker tails and therefore more room for extreme changes. 
+$$\mu_t+1 = \mu+t + \delta_t + \epsilon_t, \quad \epsilon_t \sim \mathcal{T}_{\nu_{\mu}}(0, \sigma_{\mu}), $$
+$$\delta_{t+1} = \delta_t + \eta_t, \quad \eta_t \sim \mathcal{T}_{\nu_{\delta}}(0, \sigma_{\delta}). $$
+$\nu_{\mu}$ and $\nu_{\delta}$ are parameters that determine the thickness of the tails. 
+
+\subsection{BSTS with a semi-local linear trend}
+The semi-local linear trend model assumes that the mean of the time series moves according to a random walk with slope. The slope component is an AR1 process centred on a constant trend D. For any non-zero value $\phi$, the slope will eventually become a constant number for long time horizons, resulting in a linear trend for the overall time series. Values of $\phi$ closer to one imply that the time series (or forecasts made by the model, respectively) will converge quicker to a purely linear trend. 
+The time series is modeled as
+$$\mu_t+1 = \mu+t + \delta_t + \epsilon_t, \quad \epsilon_t \sim \mathcal{N}(0, \sigma_{\mu}), $$
+$$\delta_{t+1} = D + \phi (\delta_t -D), \quad \eta_t \sim \mathcal{N}(0, \sigma_{\delta}). $$
+
+
+\subsection{BSTS with an AR1 and AR2 state component}
+The mean of the time series is modeled as an AR(1)-process (or AR(2), respectively). The AR(1) model looks like this:
+
+$$\alpha_t = \phi_1 \alpha_{t-1} + \epsilon_{t-1}, \quad \epsilon_t \sim \mathcal{N}(0, \sigma_{\delta}). $$
+The AR(2) model looks like this:
+$$\alpha_t = \phi_1 \alpha_{t-1} + \phi_2 \alpha_{t-2} + \epsilon_{t-1}, \quad \epsilon_t \sim \mathcal{N}(0, \sigma_{\delta}). $$
+***
+
+
+\section{Important Software and Packages}
+\begin{itemize}
+\item EpiEstim
+\item BSTS (Bayesian structural time series models)
+\end{itemize}
+
+\subsection*{General}
+\subsubsection*{papers to read}
+\begin{enumerate}
+	\item 
+\end{enumerate}
+

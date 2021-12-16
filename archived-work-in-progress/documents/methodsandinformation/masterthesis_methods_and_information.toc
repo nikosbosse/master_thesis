@@ -1,0 +1,21 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Basic Model}{1}{chapter.1}% 
+\contentsline {section}{\numberline {1.1}Basic Terms}{1}{section.1.1}% 
+\contentsline {section}{\numberline {1.2}Model from the other master thesis}{1}{section.1.2}% 
+\contentsline {section}{\numberline {1.3}Estimation of the Model}{1}{section.1.3}% 
+\contentsline {subsection}{\numberline {1.3.1}First Option}{1}{subsection.1.3.1}% 
+\contentsline {subsection}{\numberline {1.3.2}Second Option}{2}{subsection.1.3.2}% 
+\contentsline {chapter}{\numberline {2}Assessing Probabilistic Models}{2}{chapter.2}% 
+\contentsline {section}{\numberline {2.1}Calibration}{2}{section.2.1}% 
+\contentsline {subsection}{\numberline {2.1.1}Assessing Calibration}{2}{subsection.2.1.1}% 
+\contentsline {section}{\numberline {2.2}Sharpness}{2}{section.2.2}% 
+\contentsline {subsection}{\numberline {2.2.1}Assessing Sharpness}{2}{subsection.2.2.1}% 
+\contentsline {section}{\numberline {2.3}Bias}{2}{section.2.3}% 
+\contentsline {section}{\numberline {2.4}Proper Scoring Rules}{3}{section.2.4}% 
+\contentsline {chapter}{\numberline {3}Encorporating Spatial Aspects}{3}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Current Models}{3}{section.3.1}% 
+\contentsline {subsection}{\numberline {3.1.1}BSTS with a local linear trend}{3}{subsection.3.1.1}% 
+\contentsline {subsection}{\numberline {3.1.2}BSTS with a local linear trend and Student's-t-distributed errors}{3}{subsection.3.1.2}% 
+\contentsline {subsection}{\numberline {3.1.3}BSTS with a semi-local linear trend}{3}{subsection.3.1.3}% 
+\contentsline {subsection}{\numberline {3.1.4}BSTS with an AR1 and AR2 state component}{3}{subsection.3.1.4}% 
+\contentsline {section}{\numberline {3.2}Important Software and Packages}{4}{section.3.2}% 

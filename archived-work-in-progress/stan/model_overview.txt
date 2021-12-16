@@ -1,0 +1,17 @@
+combined_EpiEstim_bsts_only_one_sigma: 
+
+
+combined_EpiEstim_bsts_only_sigma_epsilon.stan:
+only has one noise component on sigma_epsilon. The delta is computed deterministically. This should probably not be the case, as we need to have some random variation in order for the delta to float around before reverting to a trend.  
+
+
+combined_EpiEstim_bsts_only_sigma_eta.stan:
+only has one noise component on sigma_eta. The R is computed deterministically. 
+
+combined_EpiEstim_bsts_only_sigma_eta_r_transformed.stan:
+only has one noise component on sigma_eta. The R is computed deterministically. However, there is a log transformation on R. 
+For some reason this works much quicker than just cutting the
+R off at values lower than zero. 
+for shorter timeseries the model works best with a 
+prior of phi ~ normal(0, 0.1). For higher variance 
+we get a low bfmi.  
